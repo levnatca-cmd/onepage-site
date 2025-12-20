@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Systems Engineering - Digital, Embedded, Automation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Custom digital, embedded, and automation systems engineered to scale with your product."
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Sora:wght@300;400;500;600&display=swap");
+
+      :root {
+        --ink: #1f2a24;
+        --muted: #5a6b61;
+        --accent: #e8744c;
+        --accent-dark: #c95a3c;
+        --sea: #2b8a7f;
+        --sun: #f5c16c;
+        --paper: #fffaf2;
+        --sand: #f2e8db;
+        --shadow: 0 30px 80px rgba(22, 35, 28, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Sora", "Trebuchet MS", sans-serif;
+        color: var(--ink);
+        background: radial-gradient(
+            circle at 20% 10%,
+            #fff6ea 0%,
+            #f8efe1 40%,
+            #f1e5d7 100%
+          )
+          fixed;
+        min-height: 100vh;
+      }
+
+      body::before,
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+      }
+
+      body::before {
+        background: repeating-linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.35) 0,
+          rgba(255, 255, 255, 0.35) 1px,
+          transparent 1px,
+          transparent 14px
+        );
+        opacity: 0.35;
+      }
+
+      body::after {
+        width: 520px;
+        height: 520px;
+        right: -140px;
+        top: -180px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(43, 138, 127, 0.32) 0,
+          rgba(43, 138, 127, 0) 70%
+        );
+        filter: blur(4px);
+        z-index: -1;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1120px, 92vw);
+        margin: 0 auto;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 28px 0 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px 6px 14px 6px;
+        background: linear-gradient(135deg, var(--accent), var(--sun));
+        box-shadow: 0 12px 24px rgba(232, 116, 76, 0.35);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .nav-cta {
+        padding: 12px 20px;
+        border-radius: 999px;
+        background: var(--ink);
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 46px;
+        align-items: center;
+        padding: 40px 0 90px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 16px;
+        border-radius: 999px;
+        background: rgba(31, 42, 36, 0.08);
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .hero h1 {
+        font-family: "Fraunces", "Georgia", serif;
+        font-size: clamp(40px, 4.6vw, 64px);
+        margin: 18px 0 12px;
+        line-height: 1.05;
+      }
+
+      .hero p {
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        margin: 26px 0 18px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 14px 24px;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 14px;
+        border: 1px solid transparent;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 16px 32px rgba(232, 116, 76, 0.3);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        border-color: rgba(31, 42, 36, 0.2);
+        color: var(--ink);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .hero-card {
+        background: var(--paper);
+        border-radius: 24px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-card::after {
+        content: "";
+        position: absolute;
+        right: -60px;
+        top: -80px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(245, 193, 108, 0.6) 0%,
+          rgba(245, 193, 108, 0) 70%
+        );
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 26px;
+      }
+
+      .metric {
+        padding: 16px;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 12px 24px rgba(31, 42, 36, 0.08);
+      }
+
+      .metric strong {
+        display: block;
+        font-size: 20px;
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .section h2 {
+        font-family: "Fraunces", "Georgia", serif;
+        font-size: clamp(28px, 3vw, 42px);
+        margin: 0;
+      }
+
+      .section p {
+        color: var(--muted);
+        margin: 8px 0 0;
+      }
+
+      .grid {
+        display: grid;
+        gap: 24px;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        background: var(--paper);
+        padding: 24px;
+        border-radius: 20px;
+        box-shadow: 0 18px 40px rgba(31, 42, 36, 0.08);
+        min-height: 220px;
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+
+      .card p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+
+      .card p:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .card .label {
+        display: block;
+        font-size: 12px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      .card ul {
+        margin: 0 0 12px;
+        padding-left: 18px;
+        color: var(--muted);
+        display: grid;
+        gap: 6px;
+        font-size: 14px;
+      }
+
+      .work {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: stretch;
+      }
+
+      .work-panel {
+        padding: 26px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #fff 0%, #f7eadb 100%);
+        box-shadow: var(--shadow);
+      }
+
+      .work-panel ul {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0;
+        display: grid;
+        gap: 12px;
+      }
+
+      .work-panel li {
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(31, 42, 36, 0.06);
+        font-size: 14px;
+      }
+
+      .process {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .process-step {
+        border-left: 2px solid rgba(31, 42, 36, 0.15);
+        padding-left: 18px;
+      }
+
+      .process-step span {
+        display: inline-block;
+        font-size: 12px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .pricing {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .price-card {
+        border: 1px solid rgba(31, 42, 36, 0.1);
+        background: #fff;
+        border-radius: 22px;
+        padding: 28px;
+        display: grid;
+        gap: 16px;
+      }
+
+      .price-card.highlight {
+        background: var(--ink);
+        color: #fff;
+        border-color: transparent;
+        box-shadow: 0 22px 40px rgba(31, 42, 36, 0.2);
+      }
+
+      .price-card ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .testimonials {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .quote {
+        font-size: 17px;
+        line-height: 1.7;
+      }
+
+      .contact {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px;
+        align-items: center;
+      }
+
+      .cta-actions {
+        margin-top: 20px;
+      }
+
+      .contact-card {
+        background: var(--paper);
+        padding: 28px;
+        border-radius: 22px;
+        box-shadow: var(--shadow);
+      }
+
+      .contact form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .contact input,
+      .contact textarea {
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(31, 42, 36, 0.16);
+        font-family: "Sora", "Trebuchet MS", sans-serif;
+        background: #fff;
+      }
+
+      .contact textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .footer {
+        padding: 40px 0 60px;
+        color: var(--muted);
+        font-size: 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stagger > * {
+        opacity: 0;
+        transform: translateY(18px);
+        animation: rise 0.9s ease forwards;
+      }
+
+      .stagger > *:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .stagger > *:nth-child(2) {
+        animation-delay: 0.25s;
+      }
+
+      .stagger > *:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      .stagger > *:nth-child(4) {
+        animation-delay: 0.55s;
+      }
+
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .work,
+        .contact {
+          grid-template-columns: 1fr;
+        }
+
+        .services,
+        .process,
+        .pricing {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .services,
+        .process,
+        .pricing,
+        .testimonials {
+          grid-template-columns: 1fr;
+        }
+
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 14px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .stagger > * {
+          animation: none;
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="nav">
+        <div class="brand">
+          <div class="brand-mark"></div>
+          Systems Engineering
+        </div>
+        <div class="nav-links">
+          <a href="#services">Services</a>
+          <a href="#positioning">Positioning</a>
+          <a href="#process">How I work</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a class="nav-cta" href="#contact">Book a call</a>
+      </nav>
+
+      <section class="hero">
+        <div class="stagger">
+          <span class="badge">Custom systems engineering</span>
+          <h1>Engineering digital, embedded, and automated systems - built to scale</h1>
+          <p>
+            I design and build custom systems across digital platforms, embedded
+            environments, and automation layers - engineered specifically for
+            each client and each product.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Book a strategy call</a>
+            <a class="btn btn-secondary" href="#contact">Start your project</a>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <strong>Digital systems</strong>
+              Scalable platforms and APIs
+            </div>
+            <div class="metric">
+              <strong>Embedded systems</strong>
+              Firmware and device control
+            </div>
+            <div class="metric">
+              <strong>Automation systems</strong>
+              Orchestrated workflows
+            </div>
+          </div>
+        </div>
+        <div class="hero-card stagger">
+          <h3>What you get</h3>
+          <p>
+            A custom-built system stack designed around your product and
+            operating environment.
+          </p>
+          <ul>
+            <li>Full-stack digital platforms and APIs</li>
+            <li>Embedded firmware and device control</li>
+            <li>Automation workflows and orchestration</li>
+            <li>Analytics, monitoring, and reliability</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>Systems engineered to fit your product</h2>
+            <p>Every system is custom, focused, and built to scale.</p>
+          </div>
+          <a class="btn btn-secondary" href="#contact">Discuss your system</a>
+        </div>
+        <div class="grid services">
+          <div class="card">
+            <span class="label">Digital systems</span>
+            <h3>Digital System Engineering</h3>
+            <p>
+              I design and build scalable digital systems that serve as the
+              backbone of modern startups and products.
+            </p>
+            <span class="label">What I build</span>
+            <ul>
+              <li>Backend and frontend applications</li>
+              <li>System architecture and infrastructure</li>
+              <li>APIs and third-party integrations</li>
+              <li>Data pipelines and analytics systems</li>
+              <li>Secure authentication and user management</li>
+              <li>Cloud-ready, scalable platforms</li>
+            </ul>
+            <p>
+              <strong>How this helps:</strong> Digital systems that are stable,
+              maintainable, and ready for growth - without technical debt that
+              slows you down later.
+            </p>
+          </div>
+          <div class="card">
+            <span class="label">Embedded systems</span>
+            <h3>Custom Embedded System Building</h3>
+            <p>
+              I develop custom embedded systems, engineered individually for
+              each client - never reused, never templated.
+            </p>
+            <span class="label">What I build</span>
+            <ul>
+              <li>Embedded software architecture</li>
+              <li>Firmware and low-level system development</li>
+              <li>Hardware-software integration</li>
+              <li>Device, sensor, and peripheral control</li>
+              <li>Performance and reliability optimization</li>
+              <li>System validation and long-term stability</li>
+            </ul>
+            <p>
+              <strong>Key principle:</strong> Each embedded system is designed
+              around your product, your hardware constraints, and your
+              operational environment.
+            </p>
+          </div>
+          <div class="card">
+            <span class="label">Automation systems</span>
+            <h3>Automation and Workflow Engineering</h3>
+            <p>
+              I build automation systems that connect digital platforms,
+              embedded devices, and business operations into one efficient
+              workflow.
+            </p>
+            <span class="label">What I automate</span>
+            <ul>
+              <li>Business and operational workflows</li>
+              <li>Data processing and reporting</li>
+              <li>Content publishing and analytics</li>
+              <li>Internal tools and system orchestration</li>
+              <li>Cross-platform and cross-system integrations</li>
+            </ul>
+            <p>
+              <strong>Result:</strong> Reduced manual work, fewer errors, and
+              systems that operate consistently at scale.
+            </p>
+          </div>
+          <div class="card">
+            <span class="label">Social media systems</span>
+            <h3>Social Media as a System</h3>
+            <p>
+              I approach social media as an engineered system, not manual
+              content management.
+            </p>
+            <span class="label">What I build</span>
+            <ul>
+              <li>Structured content workflows</li>
+              <li>Automated posting and analytics</li>
+              <li>KPI-driven performance tracking</li>
+              <li>Integration with CRM, analytics, and growth systems</li>
+            </ul>
+            <p>
+              This transforms social media into measurable, repeatable
+              infrastructure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="positioning" class="section">
+      <div class="container">
+        <div class="grid work">
+          <div class="work-panel">
+            <span class="badge">Positioning statement</span>
+            <h2>Systems designed for long-term scale</h2>
+            <p>
+              I help startups and product teams replace fragmented tools with
+              custom digital, embedded, and automated systems designed for
+              long-term scale.
+            </p>
+            <ul>
+              <li>Digital systems engineered end-to-end</li>
+              <li>Embedded systems aligned to hardware constraints</li>
+              <li>Automation that connects every workflow</li>
+              <li>Social media systems with measurable performance</li>
+            </ul>
+          </div>
+          <div class="card">
+            <span class="label">CTA</span>
+            <h3>Build systems that work together - and grow with your product.</h3>
+            <p>
+              Bring your product, constraints, and timeline. I will map the
+              system and build the right stack for your scale.
+            </p>
+            <div class="hero-actions cta-actions">
+              <a class="btn btn-primary" href="#contact">Book a strategy call</a>
+              <a class="btn btn-secondary" href="#contact">Start your project</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>How I work</h2>
+            <p>Structured system delivery from analysis to scale.</p>
+          </div>
+        </div>
+        <div class="grid process">
+          <div class="process-step">
+            <span>Step 01</span>
+            <h3>System analysis</h3>
+            <p>Define goals, constraints, and system boundaries.</p>
+          </div>
+          <div class="process-step">
+            <span>Step 02</span>
+            <h3>Architecture design</h3>
+            <p>Map components, data flow, and integration points.</p>
+          </div>
+          <div class="process-step">
+            <span>Step 03</span>
+            <h3>Engineering and integration</h3>
+            <p>Build, test, and connect digital, embedded, and automation.</p>
+          </div>
+          <div class="process-step">
+            <span>Step 04</span>
+            <h3>Optimization and scaling</h3>
+            <p>Stabilize, monitor, and evolve the system over time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container contact">
+        <div>
+          <span class="badge">Ready to build</span>
+          <h2>Build systems that work together - and grow with your product.</h2>
+          <p>
+            Share what you are building, your timeline, and which systems need
+            to connect. I will reply within two business days.
+          </p>
+          <div class="hero-actions cta-actions">
+            <a class="btn btn-primary" href="#contact">Book a strategy call</a>
+            <a class="btn btn-secondary" href="#contact">Start your project</a>
+          </div>
+          <div class="contact-card">
+            <p><strong>Email:</strong> hello@yourdomain.com</p>
+            <p><strong>Phone:</strong> +1 (000) 000-0000</p>
+            <p><strong>Location:</strong> Your City</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <form>
+            <input type="text" placeholder="Your name" />
+            <input type="email" placeholder="Email address" />
+            <input type="text" placeholder="Company or product name" />
+            <textarea placeholder="What system do you want to build?"></textarea>
+            <button class="btn btn-primary" type="submit">
+              Send request
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="container footer">
+      <div>Copyright (c) 2025 Systems Engineering. All rights reserved.</div>
+      <div>Digital. Embedded. Automation.</div>
+    </footer>
+  </body>
+</html>
