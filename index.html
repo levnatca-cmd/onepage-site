@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Systems Engineering - Digital, Embedded, Automation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="Favicon2.png" type="image/png" />
     <meta
       name="description"
       content="Custom digital, embedded, and automation systems engineered to scale with your product."
@@ -184,20 +185,37 @@
         letter-spacing: 1.4px;
       }
 
-      .hero h1 {
+      .hero-title {
         font-family: "Oxanium", sans-serif;
-        font-size: clamp(38px, 4.4vw, 62px);
+        font-size: clamp(36px, 5.6vw, 72px);
         margin: 18px 0 12px;
-        line-height: 1.05;
+        line-height: 0.98;
         text-transform: uppercase;
-        letter-spacing: 0.6px;
-        text-shadow: 0 0 28px rgba(0, 246, 255, 0.35);
+        letter-spacing: 0.9px;
+        text-shadow: 0 0 24px rgba(0, 246, 255, 0.25);
+      }
+
+      .hero-title .line {
+        display: block;
+      }
+
+      .hero-title .accent {
+        color: transparent;
+        background: linear-gradient(90deg, var(--accent), var(--sun));
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 0 0 30px rgba(0, 246, 255, 0.55);
+      }
+
+      .hero-title .muted {
+        color: #c5d9e6;
       }
 
       .hero p {
         font-size: 16px;
         line-height: 1.8;
         color: var(--muted);
+        max-width: 560px;
       }
 
       .hero-actions {
@@ -615,7 +633,11 @@
       <section class="hero">
         <div class="stagger">
           <span class="badge">Custom systems engineering</span>
-          <h1>Engineering digital, embedded, and automated systems - built to scale</h1>
+          <h1 class="hero-title">
+            <span class="line">Engineering</span>
+            <span class="line accent">digital, embedded, and automated systems</span>
+            <span class="line muted">built to scale</span>
+          </h1>
           <p>
             I design and build custom systems across digital platforms, embedded
             environments, and automation layers - engineered specifically for
@@ -835,21 +857,10 @@
             <a class="btn btn-secondary" href="#contact">Start your project</a>
           </div>
           <div class="contact-card">
-            <p><strong>Email:</strong> hello@yourdomain.com</p>
-            <p><strong>Phone:</strong> +1 (000) 000-0000</p>
-            <p><strong>Location:</strong> Your City</p>
+            <p><strong>Email:</strong> <a data-contact="email" href="#">email</a></p>
+            <p><strong>Phone:</strong> <a data-contact="phone" href="#">phone</a></p>
+            <p><strong>Location:</strong> Toronto GTA</p>
           </div>
-        </div>
-        <div class="contact-card">
-          <form>
-            <input type="text" placeholder="Your name" />
-            <input type="email" placeholder="Email address" />
-            <input type="text" placeholder="Company or product name" />
-            <textarea placeholder="What system do you want to build?"></textarea>
-            <button class="btn btn-primary" type="submit">
-              Send request
-            </button>
-          </form>
         </div>
       </div>
     </section>
@@ -858,5 +869,32 @@
       <div>Copyright (c) 2025 Systems Engineering. All rights reserved.</div>
       <div>Digital. Embedded. Automation.</div>
     </footer>
+    <script>
+      const CONTACT = {
+        phoneDisplay: "+1 (705) 829-5179",
+        phoneLink: "+17058295179",
+        email: "info@levnat.ca",
+        emailSubject: "Strategy call request",
+        emailBody:
+          "Hello,%0A%0AI would like to discuss a project.%0A%0AName:%0ACompany:%0ATimeline:%0A%0AThanks."
+      };
+
+      const setLink = (selector, text, href) => {
+        document.querySelectorAll(selector).forEach((el) => {
+          el.textContent = text;
+          el.setAttribute("href", href);
+        });
+      };
+
+      const mailto = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
+        CONTACT.emailSubject
+      )}&body=${CONTACT.emailBody}`;
+      setLink("[data-contact='email']", CONTACT.email, mailto);
+      setLink(
+        "[data-contact='phone']",
+        CONTACT.phoneDisplay,
+        `tel:${CONTACT.phoneLink}`
+      );
+    </script>
   </body>
 </html>
