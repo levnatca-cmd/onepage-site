@@ -2,33 +2,33 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <title>Product System Galaxy | Systems Engineering Consultant Toronto</title>
+    <title>Website System Galaxy | Clear Website and Product Plan</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="Favicon2.png" type="image/png" sizes="any" />
     <meta
       name="description"
-      content="Interactive 3D Product System Galaxy for founders and product teams. Map ownership gaps across firmware, backend, automation, data, and operations."
+      content="Interactive 3D Website System Galaxy for founders and business owners. Turn a website, app, dashboard, automation, or product idea into a clear visual plan."
     />
     <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#080a0f" />
+    <meta name="theme-color" content="#07090d" />
     <meta name="color-scheme" content="dark" />
     <link rel="canonical" href="https://levnat.ca/" />
 
     <meta property="og:site_name" content="Systems Engineering" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://levnat.ca/" />
-    <meta property="og:title" content="Product System Galaxy | Systems Engineering" />
+    <meta property="og:title" content="Website System Galaxy | Systems Engineering" />
     <meta
       property="og:description"
-      content="See your product system as one picture. Map ownership gaps across firmware, backend, automation, data, and operations."
+      content="See your website or product idea as one clear picture before the real build starts."
     />
     <meta property="og:locale" content="en_CA" />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Product System Galaxy" />
+    <meta name="twitter:title" content="Website System Galaxy" />
     <meta
       name="twitter:description"
-      content="Create a shareable system fingerprint for your product stack."
+      content="Create a cinematic system map for a website, app, dashboard, automation, or product idea."
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,7 +47,7 @@
           "@id": "https://levnat.ca/#website",
           "url": "https://levnat.ca/",
           "name": "Systems Engineering",
-          "description": "Toronto-based systems engineering consultant for embedded firmware, backend platforms, automation, and product system architecture.",
+          "description": "Toronto-based consultant for websites, web apps, dashboards, automation, and clear website or product planning.",
           "inLanguage": "en-CA",
           "publisher": { "@id": "https://levnat.ca/#business" }
         },
@@ -56,7 +56,7 @@
           "@id": "https://levnat.ca/#business",
           "name": "Systems Engineering",
           "alternateName": "Systems Engineering Consultant",
-          "description": "Custom product systems for hardware and SaaS teams. Embedded firmware, backend platforms, automation, and operations visibility.",
+          "description": "Custom website, web app, dashboard, automation, and launch planning for founders and business owners.",
           "url": "https://levnat.ca/",
           "email": "info@levnat.ca",
           "priceRange": "$$$",
@@ -73,12 +73,12 @@
             { "@type": "Place", "name": "Remote" }
           ],
           "serviceType": [
-            "Embedded systems engineering",
-            "Firmware development",
-            "Backend development",
-            "Automation engineering",
-            "System architecture",
-            "Hardware-software integration"
+            "Website planning",
+            "Web app development",
+            "Dashboard development",
+            "Business automation",
+            "Product system planning",
+            "Launch support"
           ]
         }
       ]
@@ -87,21 +87,36 @@
 
     <style>
       :root {
-        --bg: #080a0f;
-        --panel: rgba(12, 16, 24, 0.78);
-        --panel-strong: rgba(14, 20, 31, 0.94);
-        --line: rgba(180, 222, 255, 0.18);
-        --line-strong: rgba(180, 222, 255, 0.36);
-        --text: #edf8ff;
-        --muted: #9cafbf;
-        --soft: #d5e6ef;
-        --cyan: #4be8ff;
-        --green: #80f2ae;
-        --amber: #ffd36a;
-        --orange: #ff9b54;
-        --red: #ff6363;
-        --violet: #b9a4ff;
+        --viewport-height: 100vh;
+        --bg: #07090d;
+        --panel: rgba(10, 13, 18, 0.86);
+        --panel-strong: rgba(12, 16, 22, 0.96);
+        --line: rgba(213, 227, 237, 0.14);
+        --line-strong: rgba(213, 227, 237, 0.32);
+        --text: #f4f8fb;
+        --muted: #b7c3cc;
+        --soft: #e5edf3;
+        --cyan: #5de7ff;
+        --green: #c9d4dc;
+        --amber: #d9e4eb;
+        --orange: #aebbc5;
+        --red: #ff7373;
+        --violet: #c5ced6;
         --shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      @supports (height: 100dvh) {
+        :root {
+          --viewport-height: 100dvh;
+        }
+      }
+
+      @supports (height: 100svh) {
+        @media (max-width: 760px) {
+          :root {
+            --viewport-height: 100svh;
+          }
+        }
       }
 
       * {
@@ -114,7 +129,7 @@
 
       body {
         margin: 0;
-        min-height: 100vh;
+        min-height: var(--viewport-height);
         color: var(--text);
         background: var(--bg);
         font-family: "Share Tech Mono", "Courier New", monospace;
@@ -127,9 +142,8 @@
         inset: 0;
         z-index: -2;
         background:
-          linear-gradient(180deg, rgba(8, 10, 15, 0.85), rgba(8, 10, 15, 1)),
-          linear-gradient(120deg, rgba(75, 232, 255, 0.08), transparent 45%),
-          linear-gradient(260deg, rgba(255, 211, 106, 0.08), transparent 42%);
+          linear-gradient(180deg, rgba(7, 9, 13, 0.9), rgba(7, 9, 13, 1)),
+          linear-gradient(120deg, rgba(93, 231, 255, 0.055), transparent 45%);
       }
 
       a {
@@ -204,11 +218,11 @@
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        border: 1px solid rgba(75, 232, 255, 0.7);
+        border: 1px solid rgba(93, 231, 255, 0.7);
         background:
-          radial-gradient(circle, rgba(237, 248, 255, 0.95) 0 8%, rgba(75, 232, 255, 0.8) 9% 22%, transparent 23%),
-          conic-gradient(from 90deg, rgba(75, 232, 255, 0.1), rgba(255, 211, 106, 0.5), rgba(128, 242, 174, 0.45), rgba(75, 232, 255, 0.1));
-        box-shadow: 0 0 28px rgba(75, 232, 255, 0.35);
+          radial-gradient(circle, rgba(244, 248, 251, 0.95) 0 8%, rgba(93, 231, 255, 0.78) 9% 22%, transparent 23%),
+          conic-gradient(from 90deg, rgba(93, 231, 255, 0.08), rgba(213, 227, 237, 0.32), rgba(93, 231, 255, 0.08));
+        box-shadow: 0 0 22px rgba(93, 231, 255, 0.28);
       }
 
       .nav-links {
@@ -247,7 +261,7 @@
       .nav-cta:hover,
       .btn:hover {
         transform: translateY(-1px);
-        border-color: rgba(75, 232, 255, 0.75);
+        border-color: rgba(93, 231, 255, 0.72);
       }
 
       .btn-primary {
@@ -267,14 +281,14 @@
 
       .galaxy-hero {
         position: relative;
-        min-height: calc(100vh - 74px);
+        min-height: calc(var(--viewport-height) - 74px);
         overflow: hidden;
         border-bottom: 1px solid var(--line);
       }
 
       .galaxy-hero.is-3d-mode {
-        height: calc(100vh - 74px);
-        min-height: calc(100vh - 74px);
+        height: calc(var(--viewport-height) - 74px);
+        min-height: calc(var(--viewport-height) - 74px);
       }
 
       .galaxy-canvas {
@@ -297,11 +311,55 @@
         place-items: center;
         padding: 32px;
         background:
-          linear-gradient(90deg, rgba(75, 232, 255, 0.08) 1px, transparent 1px),
-          linear-gradient(0deg, rgba(75, 232, 255, 0.08) 1px, transparent 1px),
-          #080a0f;
+          linear-gradient(90deg, rgba(93, 231, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(0deg, rgba(213, 227, 237, 0.05) 1px, transparent 1px),
+          #07090d;
         background-size: 44px 44px;
         color: var(--muted);
+      }
+
+      .galaxy-fallback p {
+        max-width: 560px;
+        margin: 0;
+        line-height: 1.65;
+      }
+
+      .fallback-result {
+        display: grid;
+        gap: 8px;
+        margin-top: 16px;
+        color: var(--soft);
+      }
+
+      .fallback-result strong {
+        color: var(--text);
+        font-family: "Oxanium", sans-serif;
+        text-transform: uppercase;
+      }
+
+      .galaxy-loading {
+        position: absolute;
+        left: max(24px, 4vw);
+        bottom: 28px;
+        z-index: 7;
+        padding: 9px 11px;
+        border: 1px solid rgba(213, 227, 237, 0.22);
+        border-radius: 8px;
+        color: var(--soft);
+        background: rgba(7, 9, 13, 0.72);
+        font-size: 11px;
+        text-transform: uppercase;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 160ms ease;
+      }
+
+      .galaxy-loading[hidden] {
+        display: none;
+      }
+
+      .galaxy-hero.is-loading .galaxy-loading {
+        opacity: 1;
       }
 
       .galaxy-hero.no-webgl .galaxy-fallback {
@@ -315,16 +373,56 @@
         top: 92px;
         z-index: 8;
         display: none;
+        overflow: hidden;
         align-items: center;
         justify-content: space-between;
         gap: 18px;
         padding: 14px;
-        border: 1px solid rgba(75, 232, 255, 0.32);
+        border: 1px solid rgba(213, 227, 237, 0.28);
         border-radius: 8px;
-        background: rgba(6, 10, 16, 0.72);
+        background: rgba(7, 9, 13, 0.78);
         box-shadow: 0 18px 60px rgba(0, 0, 0, 0.42);
         backdrop-filter: blur(18px);
         pointer-events: auto;
+      }
+
+      .choice-hud::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background:
+          linear-gradient(90deg, rgba(93, 231, 255, 0.14), transparent 22%, transparent 78%, rgba(213, 227, 237, 0.1)),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .choice-hud::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 120px;
+        background: linear-gradient(90deg, transparent, rgba(93, 231, 255, 0.16), transparent);
+        transform: translateX(-160px) skewX(-18deg);
+        animation: hud-scan 4.8s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      @keyframes hud-scan {
+        0%,
+        64% {
+          transform: translateX(-160px) skewX(-18deg);
+          opacity: 0;
+        }
+        78% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(calc(100vw + 160px)) skewX(-18deg);
+          opacity: 0;
+        }
       }
 
       .galaxy-hero.is-3d-mode .choice-hud {
@@ -335,10 +433,13 @@
         display: grid;
         gap: 6px;
         min-width: 0;
+        position: relative;
+        z-index: 1;
       }
 
       .choice-progress,
-      .choice-archetype {
+      .choice-archetype,
+      .choice-object {
         color: var(--cyan);
         font-size: 11px;
         text-transform: uppercase;
@@ -356,8 +457,27 @@
         color: var(--amber);
       }
 
+      .choice-object {
+        color: var(--soft);
+      }
+
+      .choice-hud-actions {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .choice-back,
       .choice-exit {
         flex: 0 0 auto;
+      }
+
+      .choice-back:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+        transform: none;
       }
 
       .galaxy-hero.is-3d-mode .hero-overlay {
@@ -382,7 +502,7 @@
         grid-template-columns: minmax(0, 0.94fr) minmax(360px, 0.7fr);
         gap: 36px;
         align-items: center;
-        min-height: calc(100vh - 74px);
+        min-height: calc(var(--viewport-height) - 74px);
         padding: 62px 0;
       }
 
@@ -396,7 +516,7 @@
         position: absolute;
         inset: -22px -28px -24px -28px;
         z-index: -1;
-        background: linear-gradient(90deg, rgba(8, 10, 15, 0.9), rgba(8, 10, 15, 0.64) 64%, rgba(8, 10, 15, 0));
+        background: linear-gradient(90deg, rgba(7, 9, 13, 0.92), rgba(7, 9, 13, 0.66) 64%, rgba(7, 9, 13, 0));
         pointer-events: none;
       }
 
@@ -428,7 +548,7 @@
 
       .hero-title .accent {
         color: transparent;
-        background: linear-gradient(90deg, var(--cyan), var(--amber), var(--green));
+        background: linear-gradient(90deg, var(--cyan), var(--text));
         -webkit-background-clip: text;
         background-clip: text;
       }
@@ -545,7 +665,7 @@
       .layer-button.is-active {
         color: var(--text);
         border-color: var(--cyan);
-        background: rgba(75, 232, 255, 0.13);
+        background: rgba(93, 231, 255, 0.1);
       }
 
       .galaxy-panel,
@@ -561,7 +681,7 @@
       }
 
       .galaxy-panel {
-        max-height: min(680px, calc(100vh - 116px));
+        max-height: min(680px, calc(var(--viewport-height) - 116px));
         overflow: auto;
         padding: 18px;
       }
@@ -594,7 +714,7 @@
         align-items: center;
         min-height: 28px;
         padding: 6px 9px;
-        border: 1px solid rgba(128, 242, 174, 0.4);
+        border: 1px solid rgba(213, 227, 237, 0.28);
         border-radius: 8px;
         color: var(--green);
         font-size: 11px;
@@ -646,8 +766,8 @@
       .answer-option:hover,
       .answer-option:has(input:checked) {
         color: var(--text);
-        border-color: rgba(75, 232, 255, 0.66);
-        background: rgba(75, 232, 255, 0.1);
+        border-color: rgba(93, 231, 255, 0.62);
+        background: rgba(93, 231, 255, 0.08);
       }
 
       .answer-option input {
@@ -657,10 +777,10 @@
       .live-insight {
         margin: 14px 0 0;
         padding: 12px;
-        border: 1px solid rgba(255, 211, 106, 0.25);
+        border: 1px solid rgba(213, 227, 237, 0.2);
         border-radius: 8px;
         color: var(--soft);
-        background: rgba(255, 211, 106, 0.08);
+        background: rgba(213, 227, 237, 0.055);
         line-height: 1.55;
       }
 
@@ -725,8 +845,8 @@
       .scenario-card:hover,
       .scenario-card.is-active {
         color: var(--text);
-        border-color: rgba(255, 211, 106, 0.62);
-        background: rgba(255, 211, 106, 0.1);
+        border-color: rgba(93, 231, 255, 0.5);
+        background: rgba(93, 231, 255, 0.07);
       }
 
       .scenario-card strong {
@@ -751,7 +871,7 @@
         place-items: center;
         pointer-events: none;
         opacity: 0;
-        background: radial-gradient(circle at 50% 50%, rgba(75, 232, 255, 0.16), rgba(8, 10, 15, 0.86) 58%, rgba(8, 10, 15, 0.96));
+        background: radial-gradient(circle at 50% 50%, rgba(93, 231, 255, 0.12), rgba(7, 9, 13, 0.88) 58%, rgba(7, 9, 13, 0.96));
         transition: opacity 260ms ease;
       }
 
@@ -762,10 +882,10 @@
       .reveal-card {
         width: min(620px, 88vw);
         padding: 28px;
-        border: 1px solid rgba(75, 232, 255, 0.38);
+        border: 1px solid rgba(213, 227, 237, 0.32);
         border-radius: 8px;
         background: rgba(8, 12, 18, 0.84);
-        box-shadow: 0 0 80px rgba(75, 232, 255, 0.16);
+        box-shadow: 0 0 64px rgba(93, 231, 255, 0.12);
         text-align: center;
       }
 
@@ -861,14 +981,14 @@
       .gap-list li {
         padding: 10px 12px;
         border-left: 2px solid var(--cyan);
-        background: rgba(75, 232, 255, 0.07);
+        background: rgba(93, 231, 255, 0.055);
       }
 
       .slack-box {
         min-height: 210px;
         margin: 0;
         padding: 18px;
-        border: 1px solid rgba(128, 242, 174, 0.24);
+        border: 1px solid rgba(213, 227, 237, 0.18);
         border-radius: 8px;
         color: var(--soft);
         background: rgba(8, 12, 18, 0.78);
@@ -936,7 +1056,7 @@
         bottom: 18px;
         z-index: 30;
         padding: 12px 14px;
-        border: 1px solid rgba(128, 242, 174, 0.4);
+        border: 1px solid rgba(213, 227, 237, 0.28);
         border-radius: 8px;
         color: var(--green);
         background: rgba(8, 12, 18, 0.92);
@@ -988,8 +1108,8 @@
         }
 
         .galaxy-hero.is-3d-mode {
-          height: calc(100vh - 74px);
-          min-height: calc(100vh - 74px);
+          height: calc(var(--viewport-height) - 74px);
+          min-height: calc(var(--viewport-height) - 74px);
         }
 
         .galaxy-hero.is-3d-mode .galaxy-canvas {
@@ -1016,8 +1136,10 @@
           padding: 12px;
         }
 
-        .choice-exit {
+        .choice-hud-actions {
           width: 100%;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
         }
 
         .hero-title {
@@ -1084,85 +1206,94 @@
             Systems Engineering
           </a>
           <div class="nav-links">
-            <a href="#fingerprint">Fingerprint</a>
-            <a href="#services">Ownership gaps</a>
+            <a href="#fingerprint">Build map</a>
+            <a href="#services">What I build</a>
             <a href="#process">Process</a>
             <a href="#contact">Contact</a>
           </div>
-          <button class="nav-cta" type="button" data-start-3d>Create fingerprint</button>
+          <button class="nav-cta" type="button" data-start-3d>Build my map</button>
         </nav>
       </div>
     </header>
 
     <main id="main-content">
       <section class="galaxy-hero" id="top" aria-labelledby="hero-title">
-        <canvas class="galaxy-canvas" id="galaxy-canvas" aria-label="Interactive 3D product system galaxy"></canvas>
+        <canvas class="galaxy-canvas" id="galaxy-canvas" aria-label="Interactive 3D website system galaxy"></canvas>
+        <div class="galaxy-loading" id="galaxy-loading" role="status" aria-live="polite" hidden>Initializing system map</div>
         <div class="reveal-overlay" id="reveal-overlay" aria-hidden="true">
           <div class="reveal-card">
-            <span>Fingerprint locked</span>
-            <strong id="reveal-archetype">The Handoff Black Hole</strong>
+            <span>Your system map is forming</span>
+            <strong id="reveal-archetype">The Connected Website System</strong>
           </div>
         </div>
         <div class="galaxy-fallback">
           <p>
-            The Product System Galaxy needs WebGL. The questionnaire and result
-            below still work as a text-first system map.
+            The Website System Galaxy needs WebGL. The questions and result
+            below still work as a simple text plan.
+          </p>
+          <p class="fallback-result">
+            <strong id="fallback-archetype">Your map: The Connected Website System</strong>
+            <span id="fallback-action">Working session: turn the customer journey into one clear build plan: pages, actions, follow-up, and launch.</span>
           </p>
         </div>
         <div class="choice-hud" id="choice-hud" aria-live="polite">
           <div class="choice-hud-main">
-            <span class="choice-progress" id="choice-progress">3D fingerprint 1 / 5</span>
-            <strong class="choice-question" id="choice-question">Which part most often slows delivery?</strong>
-            <span class="choice-archetype" id="choice-archetype">Current vector: The Handoff Black Hole</span>
+            <span class="choice-progress" id="choice-progress">System map 1 / 5</span>
+            <strong class="choice-question" id="choice-question">What do you want to build first?</strong>
+            <span class="choice-object" id="choice-object">3D choice: system field</span>
+            <span class="choice-archetype" id="choice-archetype">Constellation forming: The Connected Website System</span>
           </div>
-          <button class="btn btn-secondary choice-exit" type="button" data-exit-3d>Exit 3D</button>
+          <div class="choice-hud-actions" aria-label="3D question controls">
+            <button class="btn btn-secondary choice-back" id="choice-back" type="button" data-prev-3d disabled>Previous</button>
+            <button class="btn btn-secondary choice-exit" type="button" data-exit-3d>Exit 3D</button>
+          </div>
         </div>
 
         <div class="container hero-overlay">
           <div class="hero-copy">
-            <span class="eyebrow">3D product system galaxy</span>
+            <span class="eyebrow">3D website system galaxy</span>
             <h1 class="hero-title" id="hero-title">
-              <span>See your product</span>
-              <span class="accent">as one system.</span>
+              <span>Turn your website idea</span>
+              <span class="accent">into a system map.</span>
             </h1>
             <p class="hero-lede">
-              Create a living fingerprint of the ownership gaps between firmware,
-              backend, automation, data, and operations. The galaxy moves as your
-              answers change, then settles into a shareable system archetype.
+              Choose what you want the site or product to do. The 3D map turns
+              your pages, customer actions, admin work, reports, and launch needs
+              into one clear picture before we plan the real build.
             </p>
             <div class="hero-actions">
-              <button class="btn btn-primary" type="button" data-start-3d>Create system fingerprint</button>
+              <button class="btn btn-primary" type="button" data-start-3d>Build my system map</button>
               <button class="btn btn-secondary" type="button" data-simulate="preview">
-                Simulate handoff failure
+                Preview the motion
               </button>
             </div>
-            <div class="layer-strip" aria-label="Explore system planets">
-              <button class="layer-button is-active" type="button" data-planet="firmware">Firmware</button>
-              <button class="layer-button" type="button" data-planet="backend">Backend</button>
-              <button class="layer-button" type="button" data-planet="automation">Automation</button>
-              <button class="layer-button" type="button" data-planet="data">Data</button>
-              <button class="layer-button" type="button" data-planet="ops">Ops</button>
+            <div class="layer-strip" aria-label="Explore system parts">
+              <button class="layer-button is-active" type="button" data-planet="firmware">Customer side</button>
+              <button class="layer-button" type="button" data-planet="backend">Site engine</button>
+              <button class="layer-button" type="button" data-planet="automation">Manual work</button>
+              <button class="layer-button" type="button" data-planet="data">Reports</button>
+              <button class="layer-button" type="button" data-planet="ops">Launch</button>
             </div>
-            <div class="vector-hud" aria-label="Vector telemetry">
-              <span>Focus <b id="readout-focus">Firmware</b></span>
+            <div class="vector-hud" aria-label="Map focus">
+              <span>Looking at <b id="readout-focus">Customer side</b></span>
               <span>Orbit <b id="readout-orbit">4.10 AU</b></span>
               <span>Plane <b id="readout-plane">0.22 RAD</b></span>
             </div>
             <div class="planet-inspector" id="planet-inspector">
               <div class="inspector-topline">
-                <strong id="inspector-title">Firmware</strong>
-                <span class="status-pill" id="inspector-risk">handoff watch</span>
+                <strong id="inspector-title">Customer side</strong>
+                <span class="status-pill" id="inspector-risk">first view</span>
               </div>
               <div class="inspector-meta">
-                <span>Role <b id="inspector-role">device control</b></span>
-                <span>Links <b id="inspector-links">Backend, Ops</b></span>
+                <span>Means <b id="inspector-role">what people see</b></span>
+                <span>Connects <b id="inspector-links">Site engine, launch</b></span>
               </div>
               <p class="inspector-copy" id="inspector-copy">
-                Controls device behavior and defines what the backend must believe about the product in the field.
+                This is what visitors or customers see, click, book, buy, read, or use first.
               </p>
               <div class="inspector-actions">
                 <button class="btn btn-secondary" type="button" data-stress-selected>
-                  Stress this layer
+                  Animate this layer
                 </button>
               </div>
             </div>
@@ -1171,10 +1302,10 @@
           <aside class="galaxy-panel" id="fingerprint" aria-labelledby="fingerprint-title">
             <div class="panel-header">
               <div>
-                <h2 id="fingerprint-title">Create fingerprint</h2>
+                <h2 id="fingerprint-title">Build system map</h2>
                 <p class="section-copy">
-                  Answer five questions. Each answer changes the galaxy and the
-                  final system archetype.
+                  Answer in plain language. Each choice adds a 3D object to the map
+                  and shows what the real website or product should include.
                 </p>
               </div>
               <span class="status-pill" id="completion-status">0 / 5</span>
@@ -1182,69 +1313,68 @@
 
             <form class="question-list" id="fingerprint-form">
               <fieldset class="question">
-                <legend>1. Which part most often slows delivery?</legend>
+                <legend>1. What do you want to build first?</legend>
                 <div class="answer-grid">
-                  <label class="answer-option"><input type="radio" name="q1" value="firmware" /> Firmware or device behavior</label>
-                  <label class="answer-option"><input type="radio" name="q1" value="backend" /> Backend or API changes</label>
-                  <label class="answer-option"><input type="radio" name="q1" value="automation" /> Internal automation</label>
-                  <label class="answer-option"><input type="radio" name="q1" value="data" /> Data or reporting</label>
-                  <label class="answer-option"><input type="radio" name="q1" value="ops" /> Production visibility</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="firmware" /> A website or product page</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="backend" /> A web app, portal, or dashboard</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="automation" /> Something that saves manual work</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="data" /> Reports, numbers, or business visibility</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="ops" /> A launched product people can rely on</label>
                 </div>
               </fieldset>
 
               <fieldset class="question">
-                <legend>2. Where does ownership get unclear?</legend>
+                <legend>2. What should connect so it feels complete?</legend>
                 <div class="answer-grid">
-                  <label class="answer-option"><input type="radio" name="q2" value="hardwareFirmware" /> Between hardware and firmware</label>
-                  <label class="answer-option"><input type="radio" name="q2" value="firmwareBackend" /> Between firmware and backend</label>
-                  <label class="answer-option"><input type="radio" name="q2" value="backendOps" /> Between backend and operations</label>
-                  <label class="answer-option"><input type="radio" name="q2" value="businessAutomation" /> Between business process and automation</label>
-                  <label class="answer-option"><input type="radio" name="q2" value="crossStack" /> No clear owner for the full system</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="hardwareFirmware" /> The offer and the website message</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="firmwareBackend" /> The website and what happens after someone clicks</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="backendOps" /> Forms, orders, bookings, or follow-up</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="businessAutomation" /> A business process and automation</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="crossStack" /> Everything needs one clear plan</label>
                 </div>
               </fieldset>
 
               <fieldset class="question">
-                <legend>3. What changed since the MVP started working?</legend>
+                <legend>3. What is making the system grow?</legend>
                 <div class="answer-grid">
-                  <label class="answer-option"><input type="radio" name="q3" value="users" /> More users</label>
-                  <label class="answer-option"><input type="radio" name="q3" value="devices" /> More devices</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="users" /> More customers or attention</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="devices" /> More products, locations, or services</label>
                   <label class="answer-option"><input type="radio" name="q3" value="manual" /> More manual work</label>
-                  <label class="answer-option"><input type="radio" name="q3" value="integrations" /> More integrations</label>
-                  <label class="answer-option"><input type="radio" name="q3" value="incidents" /> More production incidents</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="integrations" /> More tools that need to work together</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="incidents" /> Things are getting harder to track</label>
                 </div>
               </fieldset>
 
               <fieldset class="question">
-                <legend>4. What does the team do when something breaks?</legend>
+                <legend>4. What should the map make visible?</legend>
                 <div class="answer-grid">
-                  <label class="answer-option"><input type="radio" name="q4" value="logs" /> Check logs and dashboards</label>
-                  <label class="answer-option"><input type="radio" name="q4" value="person" /> Ask the person who built it</label>
-                  <label class="answer-option"><input type="radio" name="q4" value="retry" /> Retry the workflow manually</label>
-                  <label class="answer-option"><input type="radio" name="q4" value="patch" /> Patch one layer and hope</label>
-                  <label class="answer-option"><input type="radio" name="q4" value="debate" /> Debate which layer owns it</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="logs" /> What visitors or customers are doing</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="person" /> What only you or your team know</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="retry" /> Manual steps that should disappear</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="patch" /> The first version we should clean up</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="debate" /> Who owns each part after launch</label>
                 </div>
               </fieldset>
 
               <fieldset class="question">
-                <legend>5. What would make the next 30 days easier?</legend>
+                <legend>5. What should the real session turn into?</legend>
                 <div class="answer-grid">
-                  <label class="answer-option"><input type="radio" name="q5" value="map" /> Clear architecture map</label>
-                  <label class="answer-option"><input type="radio" name="q5" value="handoff" /> Stabilized firmware/backend handoff</label>
-                  <label class="answer-option"><input type="radio" name="q5" value="manualOps" /> Less manual operations</label>
-                  <label class="answer-option"><input type="radio" name="q5" value="monitoring" /> Better monitoring</label>
-                  <label class="answer-option"><input type="radio" name="q5" value="owner" /> One engineer owning the cross-stack path</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="map" /> A clear site or app plan</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="handoff" /> A working customer journey</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="manualOps" /> Less manual admin work</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="monitoring" /> Better visibility after launch</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="owner" /> Someone to design the whole system with me</label>
                 </div>
               </fieldset>
             </form>
 
             <p class="live-insight" id="live-insight" aria-live="polite">
-              Touch a planet or answer the first question. The galaxy will move
-              immediately.
+              Touch a planet or choose the first signal. The map will start taking shape.
             </p>
 
             <div class="immersion-block" aria-labelledby="scale-title">
               <label class="immersion-label" id="scale-title" for="scale-slider">
-                Scale pressure
+                System scale
                 <span id="scale-readout">Prototype</span>
               </label>
               <input class="scale-slider" id="scale-slider" type="range" min="0" max="3" step="1" value="0" />
@@ -1258,38 +1388,38 @@
 
             <div class="immersion-block" aria-labelledby="scenario-title">
               <div class="immersion-label" id="scenario-title">
-                What-if simulation
+                Motion preview
                 <span id="scenario-readout">choose one</span>
               </div>
               <div class="scenario-grid">
                 <button class="scenario-card" type="button" data-scenario="firmwareFail">
-                  <strong>Firmware update fails</strong>
-                  <span>Device signal reaches backend late.</span>
+                  <strong>First page</strong>
+                  <span>The offer, page, and main customer action connect.</span>
                 </button>
                 <button class="scenario-card" type="button" data-scenario="apiLatency">
-                  <strong>API latency spikes</strong>
-                  <span>Backend gravity bends the handoff.</span>
+                  <strong>Click path</strong>
+                  <span>The map shows what happens after a visitor clicks.</span>
                 </button>
                 <button class="scenario-card" type="button" data-scenario="noMonitoring">
-                  <strong>No monitoring</strong>
-                  <span>Ops receives the incident after the cascade.</span>
+                  <strong>After launch</strong>
+                  <span>Leads, bookings, requests, and messages stay visible.</span>
                 </button>
                 <button class="scenario-card" type="button" data-scenario="manualWorkflow">
-                  <strong>Manual workflow doubles</strong>
-                  <span>Automation orbit fills with task debris.</span>
+                  <strong>Admin work</strong>
+                  <span>Repeated work turns into a clearer website flow.</span>
                 </button>
               </div>
             </div>
 
             <div class="panel-actions">
               <button class="btn btn-primary" type="button" data-scroll-result>
-                Show fingerprint
+                Show my map
               </button>
               <button class="btn btn-secondary" type="button" data-simulate="dominant">
-                Run what-if
+                Add motion
               </button>
               <button class="btn btn-quiet" type="button" data-reset>
-                Reset galaxy
+                Start over
               </button>
             </div>
           </aside>
@@ -1300,45 +1430,43 @@
         <div class="container">
           <div class="section-header">
             <div>
-              <span class="eyebrow">System fingerprint</span>
-              <h2 class="section-title" id="result-title">Your galaxy settles into an archetype.</h2>
+              <span class="eyebrow">Your website constellation</span>
+              <h2 class="section-title" id="result-title">This is the surface map.</h2>
               <p class="section-copy">
-                This is designed as a team artifact: concrete enough to discuss,
-                simple enough to paste into Slack.
+                The real value starts when this gets mapped against the actual
+                offer, pages, customer actions, admin work, and launch decisions behind it.
               </p>
             </div>
           </div>
 
           <div class="result-grid">
             <article class="result-panel" aria-live="polite">
-              <span class="result-kicker">Current fingerprint</span>
-              <div class="archetype-name" id="archetype-name">The Handoff Black Hole</div>
+              <span class="result-kicker">Map direction</span>
+              <div class="archetype-name" id="archetype-name">The Connected Website System</div>
               <p class="result-text" id="archetype-summary">
-                Firmware and backend can both look reasonable in isolation, but
-                ownership disappears at the handoff.
+                Your project wants the website, customer journey, and behind-the-scenes work to connect as one path.
               </p>
               <ul class="gap-list" id="gap-list">
-                <li>Firmware events and backend expectations are not mapped as one path.</li>
-                <li>Production issues can bounce between teams before someone owns them.</li>
-                <li>Delivery slows when integration context lives in people's heads.</li>
+                <li>Visitors should understand what to do next.</li>
+                <li>Your team should know what happens after someone clicks, submits, books, or buys.</li>
+                <li>The build plan should show the pages, actions, follow-up, and launch path together.</li>
               </ul>
               <p class="result-text" id="next-action">
-                Useful next action: map the device event -> API -> backend state
-                path on one page before the next sprint.
+                Working session: turn the customer journey into one clear build plan: pages, actions, follow-up, and launch.
               </p>
               <div class="panel-actions">
-                <button class="btn btn-primary" type="button" data-copy="slack">Copy as Slack message</button>
-                <button class="btn btn-secondary" type="button" data-copy="summary">Copy summary</button>
-                <a class="btn btn-quiet" id="email-map" href="mailto:info@levnat.ca">Discuss this map</a>
+                <a class="btn btn-primary" id="email-map" href="mailto:info@levnat.ca">Map my real system</a>
+                <button class="btn btn-secondary" type="button" data-copy="slack">Copy session note</button>
+                <button class="btn btn-quiet" type="button" data-copy="summary">Copy map summary</button>
               </div>
             </article>
 
             <aside class="result-panel">
-              <span class="result-kicker">Slack artifact</span>
-              <pre class="slack-box" id="slack-message">Hey team - I mapped our product system.
-Fingerprint: The Handoff Black Hole.
-Main discussion point: firmware/backend ownership.
-Useful next step: map device event -> API -> backend state before the next sprint.
+              <span class="result-kicker">Session note</span>
+              <pre class="slack-box" id="slack-message">I built a quick website system map.
+Map direction: The Connected Website System.
+Session focus: Site engine.
+Working session: turn the customer journey into one clear build plan: pages, actions, follow-up, and launch.
 Map: https://levnat.ca/</pre>
             </aside>
           </div>
@@ -1349,45 +1477,45 @@ Map: https://levnat.ca/</pre>
         <div class="container">
           <div class="section-header">
             <div>
-              <span class="eyebrow">Ownership gaps</span>
-              <h2 class="section-title" id="services-title">Engineering work mapped to the galaxy.</h2>
+              <span class="eyebrow">What the map can become</span>
+              <h2 class="section-title" id="services-title">Beautiful system clarity becomes buildable work.</h2>
               <p class="section-copy">
-                The point is not the animation. The point is finding the system
-                path that needs ownership.
+                The visual map is the opening move. The working session turns it
+                into a website plan, app flow, automation, dashboard, or launch path.
               </p>
             </div>
           </div>
           <div class="service-grid">
             <article class="service-item">
-              <span class="tag">Firmware / backend</span>
-              <h3>Handoff ownership</h3>
+              <span class="tag">Website / product</span>
+              <h3>Make the offer clear</h3>
               <p>
-                Map firmware events, API contracts, backend state, and production
-                telemetry as one delivery path.
+                Shape the first page, customer journey, and main action so visitors
+                know what to do.
               </p>
             </article>
             <article class="service-item">
-              <span class="tag">Backend / API</span>
-              <h3>Platform ownership</h3>
+              <span class="tag">App / portal</span>
+              <h3>Build the engine</h3>
               <p>
-                Build or stabilize the services, integrations, auth, and data
-                paths that product delivery depends on.
+                Create the forms, accounts, dashboards, payments, bookings, and
+                flows behind the website.
               </p>
             </article>
             <article class="service-item">
-              <span class="tag">Automation / data</span>
-              <h3>Workflow ownership</h3>
+              <span class="tag">Admin / automation</span>
+              <h3>Remove manual work</h3>
               <p>
-                Turn fragile manual glue into explicit workflows, reporting, and
-                reliable internal tooling.
+                Turn repeated messages, spreadsheets, and follow-up into a cleaner
+                business system.
               </p>
             </article>
             <article class="service-item">
-              <span class="tag">Ops / visibility</span>
-              <h3>Production ownership</h3>
+              <span class="tag">Launch / visibility</span>
+              <h3>Know what happens next</h3>
               <p>
-                Make the system answer product-level questions before support
-                tickets become the monitoring layer.
+                Make leads, bookings, requests, usage, and support visible after
+                the site goes live.
               </p>
             </article>
           </div>
@@ -1406,22 +1534,22 @@ Map: https://levnat.ca/</pre>
             <article class="process-step">
               <span class="tag">01</span>
               <h3>Map</h3>
-              <p>Turn the moving system into a concrete ownership map your team can inspect.</p>
+              <p>Turn the moving 3D picture into a simple plan your team can inspect.</p>
             </article>
             <article class="process-step">
               <span class="tag">02</span>
               <h3>Prioritize</h3>
-              <p>Find the path where cross-stack ownership would remove the most delivery drag.</p>
+              <p>Find which pages, actions, forms, or admin steps matter most for the first build.</p>
             </article>
             <article class="process-step">
               <span class="tag">03</span>
               <h3>Build</h3>
-              <p>Implement firmware, backend, automation, or visibility work where the map points.</p>
+              <p>Build the pages, forms, flows, dashboards, automations, or launch visibility where the map points.</p>
             </article>
             <article class="process-step">
               <span class="tag">04</span>
               <h3>Stabilize</h3>
-              <p>Leave the system easier to operate, debug, and explain after the engagement.</p>
+              <p>Leave the site or product easier to run, improve, and explain after the engagement.</p>
             </article>
           </div>
         </div>
@@ -1429,11 +1557,11 @@ Map: https://levnat.ca/</pre>
 
       <section class="section" id="contact" aria-labelledby="contact-title">
         <div class="container">
-          <span class="eyebrow">Discuss the map</span>
-          <h2 class="section-title" id="contact-title">Send the fingerprint when the system needs one owner.</h2>
+          <span class="eyebrow">Bring the map into the real product</span>
+          <h2 class="section-title" id="contact-title">Turn this constellation into a working session.</h2>
           <p class="section-copy">
-            Share what you are building, your timeline, and which planets in the
-            galaxy felt most accurate. I will reply within two business days.
+            Share what you want the site or product to do, your timeline, and
+            which part of the galaxy felt most important. I will reply within two business days.
           </p>
           <address class="contact-panel">
             <p><strong>Email:</strong> <a data-contact="email" href="mailto:info@levnat.ca">info@levnat.ca</a></p>
@@ -1445,13 +1573,11 @@ Map: https://levnat.ca/</pre>
       <section class="section" aria-label="Search summary">
         <div class="container">
           <p class="seo-text">
-            Systems Engineering is a Toronto-based consulting service for product
-            teams that need ownership across embedded firmware, backend APIs,
-            automation, data workflows, hardware-software integration, and
-            production visibility. The Product System Galaxy is an interactive
-            one-page system map for identifying firmware/backend handoff gaps,
-            automation bottlenecks, backend platform risks, and operations blind
-            spots.
+            Systems Engineering is a Toronto-based consulting service for founders,
+            business owners, and product teams that need a clearer plan for a
+            website, web app, portal, dashboard, automation, or launch. The
+            Website System Galaxy turns business ideas, customer actions, admin
+            work, reporting, and launch needs into a clear working session.
           </p>
         </div>
       </section>
@@ -1459,7 +1585,7 @@ Map: https://levnat.ca/</pre>
 
     <footer class="container footer">
       <div>&copy; <span id="copyright-year">2026</span> Systems Engineering</div>
-      <div>Firmware. Backend. Automation. Ops.</div>
+      <div>Websites. Apps. Automation. Launch.</div>
     </footer>
 
     <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
@@ -1472,15 +1598,35 @@ Map: https://levnat.ca/</pre>
         siteUrl: "https://levnat.ca/"
       };
 
+      const QUALITY_CONFIG = {
+        desktopTargetWidth: 2560,
+        compactTargetWidth: 1800,
+        desktopPixelRatioCap: 2,
+        compactPixelRatioCap: 2.25,
+        mobilePixelRatioCap: 1.8,
+        trueMobileWidth: 520,
+        labelScale: 2
+      };
+
+      const VISUAL_COLORS = {
+        accent: 0x5de7ff,
+        accentSoft: 0x9eefff,
+        text: 0xf4f8fb,
+        soft: 0xd9e4eb,
+        muted: 0xaebbc5,
+        dim: 0x7f8c97,
+        warning: 0xff7373
+      };
+
       const PLANETS = {
         firmware: {
-          label: "Firmware",
-          short: "FW",
-          role: "device control",
-          links: "Backend, Ops",
-          risk: "handoff watch",
-          copy: "Controls device behavior and defines what the backend must believe about the product in the field.",
-          color: 0x4be8ff,
+          label: "Customer side",
+          short: "CUSTOMER",
+          role: "what people see",
+          links: "Site engine, Launch",
+          risk: "first view",
+          copy: "This is what visitors or customers see, click, book, buy, read, or use first.",
+          color: VISUAL_COLORS.accent,
           radius: 4.1,
           size: 0.3,
           speed: 0.42,
@@ -1488,13 +1634,13 @@ Map: https://levnat.ca/</pre>
           inclination: 0.22
         },
         backend: {
-          label: "Backend",
-          short: "API",
-          role: "state + services",
-          links: "Firmware, Data, Ops",
-          risk: "contract pressure",
-          copy: "Holds product state, API contracts, and the business rules that other layers depend on.",
-          color: 0xffd36a,
+          label: "Site engine",
+          short: "ENGINE",
+          role: "what happens after clicks",
+          links: "Customer side, Reports, Launch",
+          risk: "after click",
+          copy: "This is the behind-the-scenes engine: forms, accounts, payments, content, bookings, and rules.",
+          color: VISUAL_COLORS.soft,
           radius: 5.4,
           size: 0.36,
           speed: 0.31,
@@ -1502,13 +1648,13 @@ Map: https://levnat.ca/</pre>
           inclination: -0.16
         },
         automation: {
-          label: "Automation",
-          short: "OPS FLOW",
-          role: "workflow glue",
-          links: "Backend, Data",
-          risk: "manual load",
-          copy: "Carries internal operations when no one has converted repeated work into explicit system behavior.",
-          color: 0xff9b54,
+          label: "Manual work",
+          short: "WORK",
+          role: "repeated tasks",
+          links: "Site engine, Reports",
+          risk: "repeated work",
+          copy: "This is the repeated work you do now that the website or app could handle for you.",
+          color: VISUAL_COLORS.muted,
           radius: 6.65,
           size: 0.34,
           speed: 0.24,
@@ -1516,13 +1662,13 @@ Map: https://levnat.ca/</pre>
           inclination: 0.32
         },
         data: {
-          label: "Data",
-          short: "DATA",
-          role: "truth layer",
-          links: "Backend, Automation",
-          risk: "trust drift",
-          copy: "Turns product behavior into reporting, analytics, and decisions the team can trust.",
-          color: 0x80f2ae,
+          label: "Reports",
+          short: "INFO",
+          role: "business visibility",
+          links: "Site engine, Manual work",
+          risk: "what you see",
+          copy: "This is the information you need after people visit, submit, book, buy, or use the product.",
+          color: 0xc9d4dc,
           radius: 7.75,
           size: 0.32,
           speed: 0.2,
@@ -1530,13 +1676,13 @@ Map: https://levnat.ca/</pre>
           inclination: -0.28
         },
         ops: {
-          label: "Ops",
-          short: "OPS",
-          role: "visibility",
-          links: "Backend, Firmware",
-          risk: "blind spot",
-          copy: "Shows whether production can answer system questions before support becomes the monitoring layer.",
-          color: 0xb9a4ff,
+          label: "Launch",
+          short: "LIVE",
+          role: "after it goes live",
+          links: "Site engine, Customer side",
+          risk: "go live",
+          copy: "This is what keeps the website or product understandable, maintainable, and reliable after launch.",
+          color: VISUAL_COLORS.dim,
           radius: 8.75,
           size: 0.34,
           speed: 0.17,
@@ -1576,184 +1722,224 @@ Map: https://levnat.ca/</pre>
       const QUESTION_FLOW = [
         {
           id: "q1",
-          prompt: "Which part most often slows delivery?",
+          prompt: "What do you want to build first?",
           choices: [
-            { value: "firmware", label: "Firmware behavior", tag: "device" },
-            { value: "backend", label: "Backend changes", tag: "api" },
-            { value: "automation", label: "Internal automation", tag: "flow" },
-            { value: "data", label: "Data reporting", tag: "truth" },
-            { value: "ops", label: "Production visibility", tag: "ops" }
+            { value: "firmware", label: "Website or product page", tag: "site" },
+            { value: "backend", label: "App, portal, or dashboard", tag: "engine" },
+            { value: "automation", label: "Save manual work", tag: "workflow" },
+            { value: "data", label: "Reports or visibility", tag: "clarity" },
+            { value: "ops", label: "Reliable launch", tag: "live" }
           ]
         },
         {
           id: "q2",
-          prompt: "Where does ownership get unclear?",
+          prompt: "What should connect so it feels complete?",
           choices: [
-            { value: "hardwareFirmware", label: "Hardware to firmware", tag: "handoff" },
-            { value: "firmwareBackend", label: "Firmware to backend", tag: "contract" },
-            { value: "backendOps", label: "Backend to ops", tag: "incident" },
+            { value: "hardwareFirmware", label: "Offer to website message", tag: "message" },
+            { value: "firmwareBackend", label: "Click to next step", tag: "journey" },
+            { value: "backendOps", label: "Forms to follow-up", tag: "handoff" },
             { value: "businessAutomation", label: "Process to automation", tag: "workflow" },
-            { value: "crossStack", label: "No system owner", tag: "owner" }
+            { value: "crossStack", label: "One clear plan", tag: "plan" }
           ]
         },
         {
           id: "q3",
-          prompt: "What changed since the MVP worked?",
+          prompt: "What is making the system grow?",
           choices: [
-            { value: "users", label: "More users", tag: "scale" },
-            { value: "devices", label: "More devices", tag: "field" },
+            { value: "users", label: "More customers or attention", tag: "scale" },
+            { value: "devices", label: "More products or services", tag: "catalog" },
             { value: "manual", label: "More manual work", tag: "load" },
-            { value: "integrations", label: "More integrations", tag: "mesh" },
-            { value: "incidents", label: "More incidents", tag: "signal" }
+            { value: "integrations", label: "More tools connected", tag: "mesh" },
+            { value: "incidents", label: "Harder to track", tag: "signal" }
           ]
         },
         {
           id: "q4",
-          prompt: "What happens when something breaks?",
+          prompt: "What should the map make visible?",
           choices: [
-            { value: "logs", label: "Check logs", tag: "observe" },
-            { value: "person", label: "Ask the builder", tag: "memory" },
-            { value: "retry", label: "Retry manually", tag: "manual" },
-            { value: "patch", label: "Patch one layer", tag: "patch" },
-            { value: "debate", label: "Debate ownership", tag: "gravity" }
+            { value: "logs", label: "What customers do", tag: "observe" },
+            { value: "person", label: "What the team knows", tag: "memory" },
+            { value: "retry", label: "Manual steps to remove", tag: "manual" },
+            { value: "patch", label: "First version to clean up", tag: "version" },
+            { value: "debate", label: "Who owns each part", tag: "owner" }
           ]
         },
         {
           id: "q5",
-          prompt: "What makes the next 30 days easier?",
+          prompt: "What should the real session turn into?",
           choices: [
-            { value: "map", label: "Architecture map", tag: "map" },
-            { value: "handoff", label: "Stable handoff", tag: "contract" },
-            { value: "manualOps", label: "Less manual ops", tag: "automation" },
-            { value: "monitoring", label: "Better monitoring", tag: "ops" },
-            { value: "owner", label: "One cross-stack owner", tag: "owner" }
+            { value: "map", label: "Clear site or app plan", tag: "map" },
+            { value: "handoff", label: "Working customer journey", tag: "journey" },
+            { value: "manualOps", label: "Less admin work", tag: "automation" },
+            { value: "monitoring", label: "Visibility after launch", tag: "live" },
+            { value: "owner", label: "Design the whole system", tag: "partner" }
           ]
         }
       ];
+
+      const CHOICE_VISUALS = {
+        firmware: { kind: "firmwareChip", accent: VISUAL_COLORS.accent, labelY: 0.95 },
+        backend: { kind: "apiStack", accent: VISUAL_COLORS.soft, labelY: 0.98 },
+        automation: { kind: "workflowGear", accent: VISUAL_COLORS.muted, labelY: 1.02 },
+        data: { kind: "dataVault", accent: 0xc9d4dc, labelY: 1.02 },
+        ops: { kind: "opsRadar", accent: VISUAL_COLORS.dim, labelY: 1.0 },
+        hardwareFirmware: { kind: "hardwarePort", accent: VISUAL_COLORS.accent, labelY: 0.96 },
+        firmwareBackend: { kind: "contractBridge", accent: VISUAL_COLORS.soft, labelY: 0.98 },
+        backendOps: { kind: "incidentBeacon", accent: VISUAL_COLORS.dim, labelY: 1.06 },
+        businessAutomation: { kind: "processRail", accent: VISUAL_COLORS.muted, labelY: 0.96 },
+        crossStack: { kind: "ownershipCompass", accent: VISUAL_COLORS.text, labelY: 1.02 },
+        users: { kind: "userCluster", accent: 0xc9d4dc, labelY: 0.98 },
+        devices: { kind: "deviceFleet", accent: VISUAL_COLORS.accent, labelY: 0.98 },
+        manual: { kind: "manualStack", accent: VISUAL_COLORS.muted, labelY: 0.96 },
+        integrations: { kind: "integrationHub", accent: VISUAL_COLORS.soft, labelY: 1.0 },
+        incidents: { kind: "incidentFlare", accent: VISUAL_COLORS.warning, labelY: 1.08 },
+        logs: { kind: "logConsole", accent: 0xc9d4dc, labelY: 0.96 },
+        person: { kind: "memoryNode", accent: 0xc9d4dc, labelY: 1.02 },
+        retry: { kind: "retryLoop", accent: VISUAL_COLORS.muted, labelY: 1.02 },
+        patch: { kind: "layerPatch", accent: VISUAL_COLORS.soft, labelY: 0.96 },
+        debate: { kind: "debateOrbit", accent: VISUAL_COLORS.warning, labelY: 1.04 },
+        map: { kind: "architectureMap", accent: 0xc9d4dc, labelY: 0.98 },
+        handoff: { kind: "stableHandoff", accent: VISUAL_COLORS.accent, labelY: 0.98 },
+        manualOps: { kind: "opsQueue", accent: VISUAL_COLORS.muted, labelY: 0.96 },
+        monitoring: { kind: "monitoringArray", accent: VISUAL_COLORS.dim, labelY: 1.04 },
+        owner: { kind: "ownerCrown", accent: VISUAL_COLORS.text, labelY: 1.08 }
+      };
+
+      const PLANET_IDS = Object.keys(PLANETS);
+      const BRIDGE_SEGMENTS = 32;
+      const CHOICE_MOTION_GROUPS = {
+        spin: new Set(["workflowGear", "retryLoop", "debateOrbit"]),
+        sweep: new Set(["opsRadar", "monitoringArray"]),
+        orbit: new Set(["dataVault", "integrationHub", "memoryNode"]),
+        incident: new Set(["incidentBeacon", "incidentFlare"]),
+        stack: new Set(["apiStack", "manualStack", "processRail", "opsQueue", "architectureMap"]),
+        bridge: new Set(["contractBridge", "stableHandoff", "hardwarePort", "layerPatch"]),
+        cluster: new Set(["userCluster", "deviceFleet"])
+      };
 
       const SCALE_STAGES = [
         {
           label: "Prototype",
           pressure: 0,
-          copy: "The galaxy is calm. This is when ownership can still be mapped cheaply."
+          copy: "The galaxy is open. This is the moment when a clean system picture can shape the build."
         },
         {
           label: "100 users",
           pressure: 0.35,
-          copy: "More users increase stream density. Unclear ownership starts to become visible."
+          copy: "More users add motion. The map starts showing which paths deserve more structure."
         },
         {
           label: "1k users",
           pressure: 0.68,
-          copy: "Scale stretches the orbits. Manual work and delayed signals begin to deform the map."
+          copy: "Scale stretches the orbits. Repeated work and product signals become easier to see as one system."
         },
         {
           label: "Launch",
           pressure: 1,
-          copy: "Launch pressure compresses the system. Weak handoffs and blind spots become expensive."
+          copy: "Launch motion compresses the system. This is where a precise map can turn movement into leverage."
         }
       ];
 
       const SCENARIOS = {
         firmwareFail: {
-          label: "Firmware update fails",
+          label: "First page",
           simulation: "bench",
           archetype: "bench",
           planet: "firmware",
-          copy: "Firmware update failure: device telemetry pulses unevenly before backend and ops agree on state."
+          copy: "First page: the offer, page, and main customer action start moving as one path."
         },
         apiLatency: {
-          label: "API latency spikes",
+          label: "Click path",
           simulation: "handoff",
           archetype: "handoff",
           planet: "backend",
-          copy: "API latency spike: backend gravity bends the bridge and turns the handoff into the bottleneck."
+          copy: "Click path: the map shows what should happen after someone clicks, submits, books, or buys."
         },
         noMonitoring: {
-          label: "No monitoring",
+          label: "After launch",
           simulation: "ops",
           archetype: "ops",
           planet: "ops",
-          copy: "Monitoring gap: the incident flare arrives at ops late, after the cascade has already moved."
+          copy: "After launch: leads, bookings, requests, messages, and important updates stay visible."
         },
         manualWorkflow: {
-          label: "Manual workflow doubles",
+          label: "Admin work",
           simulation: "automation",
           archetype: "spreadsheet",
           planet: "automation",
-          copy: "Manual workflow doubles: automation debris thickens and starts dragging the data orbit."
+          copy: "Admin work: repeated steps become a clearer flow the website or app can support."
         }
       };
 
       const ARCHETYPES = {
         handoff: {
-          name: "The Handoff Black Hole",
+          name: "The Connected Website System",
           focus: "backend",
           summary:
-            "The product crosses layers, but ownership disappears between firmware, API, backend, and operations.",
+            "Your project wants the website, customer journey, and behind-the-scenes work to connect as one path.",
           gaps: [
-            "Firmware events and backend expectations are not mapped as one path.",
-            "Production issues can bounce between teams before someone owns them.",
-            "Delivery slows when integration context lives in people's heads."
+            "Visitors should understand what to do next.",
+            "Your team should know what happens after someone clicks, submits, books, or buys.",
+            "The build plan should show the pages, actions, follow-up, and launch path together."
           ],
           action:
-            "Map the device event -> API -> backend state path on one page before the next sprint.",
+            "Turn the customer journey into one clear build plan: pages, actions, follow-up, and launch.",
           simulation: "handoff"
         },
         ghost: {
-          name: "The Ghost MVP",
+          name: "The Clear Product Map",
           focus: "data",
           summary:
-            "The MVP works, but the team cannot confidently explain the full path from user action to production outcome.",
+            "Your idea or existing product has moving parts. The opportunity is to make them simple enough to build.",
           gaps: [
-            "Debugging depends on memory or one person.",
-            "The current system path is not visible as one map.",
-            "Changes feel risky because hidden dependencies are doing real work."
+            "The offer, pages, actions, and follow-up can become one picture.",
+            "What is currently in your head can become a plan someone can build from.",
+            "The first version can be scoped without guessing every detail upfront."
           ],
           action:
-            "Document the current user action -> system behavior -> production outcome path.",
+            "Turn the idea into a practical site/app map with pages, flows, and next build steps.",
           simulation: "ghost"
         },
         spreadsheet: {
-          name: "The Spreadsheet Empire",
+          name: "The Work-Saving Engine",
           focus: "automation",
           summary:
-            "Business operations are running through automation, spreadsheets, and manual glue that now behave like infrastructure.",
+            "Your website or app can remove repeated admin work instead of only looking good.",
           gaps: [
-            "Manual workflows are carrying product responsibility.",
-            "Automation failures can quietly become customer or reporting issues.",
-            "Data and process ownership are mixed together."
+            "Repeated messages, forms, updates, or spreadsheets can become part of the system.",
+            "The site can do more than display information.",
+            "Manual follow-up can be designed into the build from the start."
           ],
           action:
-            "Identify the top three manual workflows that now behave like infrastructure.",
+            "Map the manual steps that should become forms, notifications, dashboards, or automations.",
           simulation: "automation"
         },
         bench: {
-          name: "The Bench Hero",
+          name: "The Launch-Ready Product",
           focus: "firmware",
           summary:
-            "The device or product works in controlled conditions, but field behavior is not connected tightly enough to backend and ops.",
+            "Your product or offer is ready to be shaped into something people can understand, use, and trust.",
           gaps: [
-            "Device state, firmware behavior, and backend state are not one visible path.",
-            "Production feedback arrives too late.",
-            "The system is easier to prove on a bench than to operate in the field."
+            "The first screen should make the offer obvious.",
+            "The customer action should be clear: contact, book, buy, apply, or use.",
+            "The launch plan should include what happens after the visitor takes action."
           ],
           action:
-            "Map device state, telemetry, update path, and production observability together.",
+            "Map the offer, first page, main customer action, and follow-up flow together.",
           simulation: "bench"
         },
         ops: {
-          name: "The Ops Blind Spot",
+          name: "The Live Business Dashboard",
           focus: "ops",
           summary:
-            "The system operates, but visibility is too weak to diagnose product failures quickly.",
+            "You want the site or product to keep giving useful signals after it goes live.",
           gaps: [
-            "Support can find product issues before engineering sees the pattern.",
-            "Logs exist but do not answer product-level questions fast enough.",
-            "Operational ownership starts after the incident instead of before it."
+            "You should know what people do after they arrive.",
+            "Important requests, bookings, orders, and messages should not disappear.",
+            "The launch should include simple visibility, not just finished pages."
           ],
           action:
-            "Define three production questions the system must answer in under five minutes.",
+            "Define what you need to see after launch: leads, bookings, requests, usage, and follow-up.",
           simulation: "ops"
         }
       };
@@ -1772,9 +1958,13 @@ Map: https://levnat.ca/</pre>
         threeDMode: false,
         activeQuestionIndex: 0,
         hoveredChoice: null,
+        hoveredBack: false,
         selectedChoice: null,
         choiceAdvanceTimer: null,
         choicePulseUntil: 0,
+        focusPulseUntil: 0,
+        backPortalPulseUntil: 0,
+        galaxyState: null,
         pointer: { x: 0, y: 0 },
         lastPointerFocus: 0
       };
@@ -1790,6 +1980,10 @@ Map: https://levnat.ca/</pre>
         accretionRings: [],
         vectorField: null,
         vectorFieldBase: null,
+        ribbons: null,
+        focusHalo: null,
+        focusHaloRings: [],
+        focusBeam: null,
         orbitTicks: [],
         starRings: null,
         planetMeshes: [],
@@ -1798,18 +1992,34 @@ Map: https://levnat.ca/</pre>
         answerDeck: null,
         answerModels: [],
         answerMeshes: [],
+        backPortal: null,
+        backPortalMeshes: [],
         choiceBeams: [],
         bridges: [],
         particles: [],
         debris: null,
         raycaster: new THREE.Raycaster(),
         pointerVector: new THREE.Vector2(10, 10),
+        hitBuffer: [],
+        scratch: {
+          modelPosition: new THREE.Vector3(),
+          modelScale: new THREE.Vector3(),
+          labelScale: new THREE.Vector3(),
+          detailScale: new THREE.Vector3(),
+          beamStart: new THREE.Vector3(),
+          beamEnd: new THREE.Vector3(),
+          beamMiddle: new THREE.Vector3(),
+          scale: new THREE.Vector3(),
+          lookAt: new THREE.Vector3(),
+          screenPosition: new THREE.Vector3()
+        },
         clock: new THREE.Clock()
       };
 
       function initApp() {
         hydrateContactLinks();
         updateCopyrightYear();
+        refreshGalaxyState();
         initGalaxyScene();
         bindControls();
         renderResult();
@@ -1848,6 +2058,10 @@ Map: https://levnat.ca/</pre>
           return;
         }
 
+        hero.classList.add("is-loading");
+        const loading = document.getElementById("galaxy-loading");
+        if (loading) loading.hidden = false;
+
         galaxy.scene = new THREE.Scene();
         galaxy.scene.fog = new THREE.FogExp2(0x080a0f, 0.035);
         galaxy.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
@@ -1860,11 +2074,11 @@ Map: https://levnat.ca/</pre>
           alpha: true,
           powerPreference: "high-performance"
         });
-        galaxy.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+        galaxy.renderer.setPixelRatio(getRenderPixelRatio());
         galaxy.renderer.setClearColor(0x080a0f, 0);
         galaxy.renderer.outputColorSpace = THREE.SRGBColorSpace;
         galaxy.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        galaxy.renderer.toneMappingExposure = 1.18;
+        galaxy.renderer.toneMappingExposure = 1.24;
 
         galaxy.root = new THREE.Group();
         galaxy.root.position.x = 1.15;
@@ -1872,25 +2086,24 @@ Map: https://levnat.ca/</pre>
         galaxy.root.rotation.z = 0.08;
         galaxy.scene.add(galaxy.root);
 
-        const ambient = new THREE.AmbientLight(0xb8dcff, 0.42);
+        const ambient = new THREE.AmbientLight(0xd8e8f2, 0.48);
         galaxy.scene.add(ambient);
 
-        const key = new THREE.PointLight(0x4be8ff, 3.6, 25);
+        const key = new THREE.PointLight(VISUAL_COLORS.accent, 2.8, 25);
         key.position.set(0, 0, 0);
         galaxy.root.add(key);
 
-        const rim = new THREE.PointLight(0xffd36a, 1.8, 28);
+        const rim = new THREE.PointLight(VISUAL_COLORS.soft, 0.95, 28);
         rim.position.set(-5, 5, 6);
         galaxy.scene.add(rim);
 
-        createStarField();
-        createMathematicalGrid();
-        createVectorField();
         createProductStar();
+        createOrbitalRibbons();
         createSystemPlanets();
         createLightBridges();
         createSignalParticles();
         createAnomalies();
+        createInteractionLayer();
         createAnswerDeck();
         resizeGalaxy();
 
@@ -1898,17 +2111,34 @@ Map: https://levnat.ca/</pre>
         bindCanvasInteraction(canvas);
         appState.webglReady = true;
         animateGalaxy();
+        scheduleIdleGeometry();
+        requestAnimationFrame(function () {
+          hero.classList.remove("is-loading");
+          if (loading) loading.hidden = true;
+        });
+      }
+
+      function scheduleIdleGeometry() {
+        runWhenIdle(createStarField, 450);
+        runWhenIdle(createMathematicalGrid, 700);
+        runWhenIdle(createVectorField, 900);
+      }
+
+      function runWhenIdle(task, timeout) {
+        if ("requestIdleCallback" in window) {
+          window.requestIdleCallback(task, { timeout });
+          return;
+        }
+        window.setTimeout(task, 16);
       }
 
       function createStarField() {
-        const count = 1400;
+        const count = getStarCount();
         const positions = new Float32Array(count * 3);
         const colors = new Float32Array(count * 3);
         const palette = [
-          new THREE.Color(0x9edfff),
-          new THREE.Color(0xffffff),
-          new THREE.Color(0xffd36a),
-          new THREE.Color(0x80f2ae)
+          [0.62, 0.92, 1],
+          [0.9, 0.96, 1]
         ];
         for (let i = 0; i < count; i += 1) {
           const radius = 18 + Math.random() * 32;
@@ -1917,10 +2147,11 @@ Map: https://levnat.ca/</pre>
           positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
           positions[i * 3 + 1] = radius * Math.cos(phi) * 0.55;
           positions[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
-          const color = palette[i % palette.length].clone().multiplyScalar(0.45 + Math.random() * 0.55);
-          colors[i * 3] = color.r;
-          colors[i * 3 + 1] = color.g;
-          colors[i * 3 + 2] = color.b;
+          const color = palette[i % palette.length];
+          const brightness = 0.42 + Math.random() * 0.46;
+          colors[i * 3] = color[0] * brightness;
+          colors[i * 3 + 1] = color[1] * brightness;
+          colors[i * 3 + 2] = color[2] * brightness;
         }
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
@@ -1928,11 +2159,40 @@ Map: https://levnat.ca/</pre>
         const material = new THREE.PointsMaterial({
           size: 0.026,
           transparent: true,
-          opacity: 0.68,
+          opacity: 0.46,
           vertexColors: true,
           depthWrite: false
         });
         galaxy.scene.add(new THREE.Points(geometry, material));
+      }
+
+      function getStarCount() {
+        if (window.innerWidth < QUALITY_CONFIG.trueMobileWidth) return 650;
+        if (window.innerWidth < 760) return 800;
+        return 1200;
+      }
+
+      function getRenderPixelRatio() {
+        const canvas = galaxy.renderer ? galaxy.renderer.domElement : document.getElementById("galaxy-canvas");
+        const width = canvas ? canvas.clientWidth || window.innerWidth : window.innerWidth;
+        const height = canvas ? canvas.clientHeight || window.innerHeight : window.innerHeight;
+        const nativeRatio = window.devicePixelRatio || 1;
+        const trueMobile = window.innerWidth < QUALITY_CONFIG.trueMobileWidth;
+        const compact = window.innerWidth < 760;
+        const targetWidth = trueMobile
+          ? width * QUALITY_CONFIG.mobilePixelRatioCap
+          : compact
+            ? QUALITY_CONFIG.compactTargetWidth
+            : QUALITY_CONFIG.desktopTargetWidth;
+        const cap = trueMobile
+          ? QUALITY_CONFIG.mobilePixelRatioCap
+          : compact
+            ? QUALITY_CONFIG.compactPixelRatioCap
+            : QUALITY_CONFIG.desktopPixelRatioCap;
+        const targetRatio = targetWidth / Math.max(width, 1);
+        const maxCanvasSide = galaxy.renderer ? galaxy.renderer.capabilities.maxTextureSize : 8192;
+        const sizeCap = maxCanvasSide / Math.max(width, height, 1);
+        return Math.min(cap, sizeCap, Math.max(nativeRatio, targetRatio));
       }
 
       function createMathematicalGrid() {
@@ -1955,7 +2215,7 @@ Map: https://levnat.ca/</pre>
         const material = new THREE.LineBasicMaterial({
           color: 0x6fb6d6,
           transparent: true,
-          opacity: 0.09
+          opacity: 0.07
         });
         const grid = new THREE.LineSegments(geometry, material);
         grid.rotation.x = -0.05;
@@ -1973,9 +2233,9 @@ Map: https://levnat.ca/</pre>
         const axis = new THREE.LineSegments(
           axisGeometry,
           new THREE.LineBasicMaterial({
-            color: 0x4be8ff,
+            color: VISUAL_COLORS.accent,
             transparent: true,
-            opacity: 0.2
+            opacity: 0.16
           })
         );
         group.add(axis);
@@ -2003,9 +2263,9 @@ Map: https://levnat.ca/</pre>
         const geometry = new THREE.BufferGeometry();
         geometry.setAttribute("position", new THREE.Float32BufferAttribute(vectors, 3));
         const material = new THREE.LineBasicMaterial({
-          color: 0x80f2ae,
+          color: VISUAL_COLORS.muted,
           transparent: true,
-          opacity: 0.22
+          opacity: 0.14
         });
         galaxy.vectorField = new THREE.LineSegments(geometry, material);
         galaxy.vectorField.userData.base = base;
@@ -2013,32 +2273,32 @@ Map: https://levnat.ca/</pre>
       }
 
       function createProductStar() {
-        const starGeometry = new THREE.IcosahedronGeometry(1.1, 3);
+        const starGeometry = new THREE.IcosahedronGeometry(1.1, 5);
         const starMaterial = new THREE.MeshStandardMaterial({
-          color: 0xeafcff,
-          emissive: 0x4be8ff,
-          emissiveIntensity: 2.2,
-          roughness: 0.36,
-          metalness: 0.18
+          color: VISUAL_COLORS.text,
+          emissive: VISUAL_COLORS.accent,
+          emissiveIntensity: 1.65,
+          roughness: 0.22,
+          metalness: 0.28
         });
         galaxy.star = new THREE.Mesh(starGeometry, starMaterial);
         galaxy.root.add(galaxy.star);
 
-        const wireGeometry = new THREE.IcosahedronGeometry(1.13, 2);
+        const wireGeometry = new THREE.IcosahedronGeometry(1.135, 4);
         const wireMaterial = new THREE.MeshBasicMaterial({
-          color: 0xeafcff,
+          color: VISUAL_COLORS.text,
           wireframe: true,
           transparent: true,
-          opacity: 0.28
+          opacity: 0.22
         });
         const wire = new THREE.Mesh(wireGeometry, wireMaterial);
         galaxy.star.add(wire);
 
-        const haloGeometry = new THREE.SphereGeometry(1.7, 40, 24);
+        const haloGeometry = new THREE.SphereGeometry(1.7, 96, 64);
         const haloMaterial = new THREE.MeshBasicMaterial({
-          color: 0x4be8ff,
+          color: VISUAL_COLORS.accent,
           transparent: true,
-          opacity: 0.09,
+          opacity: 0.055,
           depthWrite: false
         });
         const halo = new THREE.Mesh(haloGeometry, haloMaterial);
@@ -2046,12 +2306,12 @@ Map: https://levnat.ca/</pre>
 
         galaxy.starRings = new THREE.Group();
         [
-          { radius: 1.95, tube: 0.012, color: 0x4be8ff, opacity: 0.36, x: 1.4, y: 0.16 },
-          { radius: 2.3, tube: 0.01, color: 0xffd36a, opacity: 0.24, x: 1.08, y: -0.24 },
-          { radius: 2.62, tube: 0.008, color: 0x80f2ae, opacity: 0.18, x: 1.72, y: 0.48 }
+          { radius: 1.95, tube: 0.009, color: VISUAL_COLORS.accent, opacity: 0.26, x: 1.4, y: 0.16 },
+          { radius: 2.3, tube: 0.008, color: VISUAL_COLORS.soft, opacity: 0.14, x: 1.08, y: -0.24 },
+          { radius: 2.62, tube: 0.006, color: VISUAL_COLORS.muted, opacity: 0.1, x: 1.72, y: 0.48 }
         ].forEach(function (ring) {
           const mesh = new THREE.Mesh(
-            new THREE.TorusGeometry(ring.radius, ring.tube, 8, 128),
+            new THREE.TorusGeometry(ring.radius, ring.tube, 10, 160),
             new THREE.MeshBasicMaterial({
               color: ring.color,
               transparent: true,
@@ -2064,15 +2324,58 @@ Map: https://levnat.ca/</pre>
         });
         galaxy.root.add(galaxy.starRings);
 
-        const shellGeometry = new THREE.SphereGeometry(1.45, 32, 16, 0, Math.PI * 1.25);
+        const shellGeometry = new THREE.SphereGeometry(1.45, 64, 32, 0, Math.PI * 1.25);
         const shellMaterial = new THREE.MeshBasicMaterial({
-          color: 0xffd36a,
+          color: VISUAL_COLORS.soft,
           wireframe: true,
           transparent: true,
           opacity: 0
         });
         galaxy.shell = new THREE.Mesh(shellGeometry, shellMaterial);
         galaxy.root.add(galaxy.shell);
+      }
+
+      function createOrbitalRibbons() {
+        galaxy.ribbons = new THREE.Group();
+        const ribbonConfigs = [
+          { radius: 3.15, color: VISUAL_COLORS.accent, opacity: 0.18, x: 1.08, y: 0.2, z: -0.14, speed: 0.008 },
+          { radius: 4.85, color: VISUAL_COLORS.soft, opacity: 0.12, x: 1.34, y: -0.18, z: 0.28, speed: -0.006 },
+          { radius: 6.55, color: VISUAL_COLORS.muted, opacity: 0.11, x: 1.0, y: 0.48, z: 0.08, speed: 0.004 },
+          { radius: 8.2, color: VISUAL_COLORS.accentSoft, opacity: 0.08, x: 1.52, y: -0.34, z: -0.24, speed: -0.003 }
+        ];
+
+        ribbonConfigs.forEach(function (config, ribbonIndex) {
+          const points = [];
+          const segments = 260;
+          for (let i = 0; i <= segments; i += 1) {
+            const t = i / segments;
+            const angle = t * Math.PI * 2;
+            const wave = Math.sin(angle * (3 + ribbonIndex) + ribbonIndex) * 0.18;
+            const radius = config.radius + wave;
+            points.push(new THREE.Vector3(
+              Math.cos(angle) * radius,
+              Math.sin(angle * 2 + ribbonIndex) * 0.16,
+              Math.sin(angle) * radius * (0.82 + ribbonIndex * 0.04)
+            ));
+          }
+
+          const geometry = new THREE.BufferGeometry().setFromPoints(points);
+          const line = new THREE.Line(
+            geometry,
+            new THREE.LineBasicMaterial({
+              color: config.color,
+              transparent: true,
+              opacity: config.opacity,
+              depthWrite: false
+            })
+          );
+          line.rotation.set(config.x, config.y, config.z);
+          line.userData.speed = config.speed;
+          line.userData.baseOpacity = config.opacity;
+          galaxy.ribbons.add(line);
+        });
+
+        galaxy.root.add(galaxy.ribbons);
       }
 
       function createSystemPlanets() {
@@ -2088,13 +2391,13 @@ Map: https://levnat.ca/</pre>
           const planet = new THREE.Group();
           planet.userData = { id, base: config };
 
-          const geometry = new THREE.SphereGeometry(config.size, 40, 24);
+          const geometry = new THREE.SphereGeometry(config.size, 64, 36);
           const material = new THREE.MeshStandardMaterial({
             color: config.color,
             emissive: config.color,
-            emissiveIntensity: 0.55,
-            roughness: 0.28,
-            metalness: 0.34
+            emissiveIntensity: 0.38,
+            roughness: 0.2,
+            metalness: 0.48
           });
           const sphere = new THREE.Mesh(geometry, material);
           sphere.userData.planetId = id;
@@ -2104,7 +2407,7 @@ Map: https://levnat.ca/</pre>
           galaxy.planetMeshes.push(sphere);
 
           const marker = new THREE.Mesh(
-            new THREE.TorusGeometry(config.size * 1.45, 0.01, 8, 36),
+            new THREE.TorusGeometry(config.size * 1.45, 0.009, 10, 96),
             new THREE.MeshBasicMaterial({
               color: config.color,
               transparent: true,
@@ -2127,8 +2430,9 @@ Map: https://levnat.ca/</pre>
 
       function createOrbit(radius, inclination, color) {
         const points = [];
-        for (let i = 0; i <= 160; i += 1) {
-          const angle = (i / 160) * Math.PI * 2;
+        const segments = 320;
+        for (let i = 0; i <= segments; i += 1) {
+          const angle = (i / segments) * Math.PI * 2;
           points.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
         }
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -2144,7 +2448,7 @@ Map: https://levnat.ca/</pre>
 
       function createOrbitTicks(radius, inclination, color) {
         const positions = [];
-        const count = 40;
+        const count = 64;
         for (let i = 0; i < count; i += 1) {
           const angle = (i / count) * Math.PI * 2;
           const inner = radius - (i % 5 === 0 ? 0.16 : 0.07);
@@ -2165,24 +2469,28 @@ Map: https://levnat.ca/</pre>
       }
 
       function createLabelSprite(text, color) {
+        const scale = QUALITY_CONFIG.labelScale;
         const canvas = document.createElement("canvas");
-        canvas.width = 256;
-        canvas.height = 96;
+        canvas.width = 1024 * scale;
+        canvas.height = 256 * scale;
         const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.scale(scale, scale);
+        ctx.clearRect(0, 0, 1024, 256);
         ctx.fillStyle = "rgba(6, 10, 16, 0.72)";
         ctx.strokeStyle = "rgba(180, 222, 255, 0.45)";
         ctx.lineWidth = 2;
-        ctx.fillRect(16, 22, 224, 52);
-        ctx.strokeRect(16, 22, 224, 52);
-        ctx.font = "700 28px Oxanium, monospace";
+        ctx.fillRect(64, 54, 896, 148);
+        ctx.strokeRect(64, 54, 896, 148);
+        ctx.font = "700 82px Oxanium, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillStyle = "#" + color.toString(16).padStart(6, "0");
-        ctx.fillText(text, 128, 48);
+        ctx.fillText(text, 512, 128);
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.colorSpace = THREE.SRGBColorSpace;
+        texture.generateMipmaps = true;
+        texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
         const material = new THREE.SpriteMaterial({
           map: texture,
           transparent: true,
@@ -2190,7 +2498,7 @@ Map: https://levnat.ca/</pre>
           depthWrite: false
         });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(1.12, 0.42, 1);
+        sprite.scale.set(1.34, 0.5, 1);
         return sprite;
       }
 
@@ -2205,24 +2513,26 @@ Map: https://levnat.ca/</pre>
         ];
         galaxy.bridges = pairs.map(function (pair) {
           const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array((BRIDGE_SEGMENTS + 1) * 3), 3));
           const material = new THREE.LineBasicMaterial({
-            color: 0x8defff,
+            color: VISUAL_COLORS.accentSoft,
             transparent: true,
-            opacity: 0.46
+            opacity: 0.34
           });
           const line = new THREE.Line(geometry, material);
           line.userData = { pair };
+          line.frustumCulled = false;
           galaxy.root.add(line);
           return line;
         });
       }
 
       function createSignalParticles() {
-        const particleGeometry = new THREE.SphereGeometry(0.045, 10, 8);
+        const particleGeometry = new THREE.SphereGeometry(0.045, 12, 8);
         const material = new THREE.MeshBasicMaterial({
-          color: 0xeafcff,
+          color: VISUAL_COLORS.text,
           transparent: true,
-          opacity: 0.85
+          opacity: 0.72
         });
         for (let i = 0; i < 36; i += 1) {
           const particle = new THREE.Mesh(particleGeometry, material.clone());
@@ -2238,9 +2548,9 @@ Map: https://levnat.ca/</pre>
 
       function createAnomalies() {
         galaxy.blackHole = new THREE.Mesh(
-          new THREE.TorusGeometry(0.62, 0.045, 16, 80),
+          new THREE.TorusGeometry(0.62, 0.045, 32, 192),
           new THREE.MeshBasicMaterial({
-            color: 0xff6363,
+            color: VISUAL_COLORS.warning,
             transparent: true,
             opacity: 0
           })
@@ -2250,9 +2560,9 @@ Map: https://levnat.ca/</pre>
 
         [0.78, 1.02, 1.32].forEach(function (radius, index) {
           const ring = new THREE.Mesh(
-            new THREE.TorusGeometry(radius, 0.014, 8, 96),
+            new THREE.TorusGeometry(radius, 0.011, 10, 144),
             new THREE.MeshBasicMaterial({
-              color: index === 0 ? 0xff6363 : index === 1 ? 0xff9b54 : 0xffd36a,
+              color: index === 0 ? VISUAL_COLORS.warning : index === 1 ? VISUAL_COLORS.muted : VISUAL_COLORS.soft,
               transparent: true,
               opacity: 0
             })
@@ -2264,12 +2574,12 @@ Map: https://levnat.ca/</pre>
         });
 
         const debrisGroup = new THREE.Group();
-        const debrisGeometry = new THREE.SphereGeometry(0.035, 8, 6);
+        const debrisGeometry = new THREE.SphereGeometry(0.035, 10, 8);
         for (let i = 0; i < 44; i += 1) {
           const mesh = new THREE.Mesh(
             debrisGeometry,
             new THREE.MeshBasicMaterial({
-              color: i % 3 === 0 ? 0xffd36a : 0xff9b54,
+              color: i % 3 === 0 ? VISUAL_COLORS.soft : VISUAL_COLORS.muted,
               transparent: true,
               opacity: 0
             })
@@ -2285,34 +2595,198 @@ Map: https://levnat.ca/</pre>
         galaxy.root.add(debrisGroup);
       }
 
+      function createInteractionLayer() {
+        galaxy.focusHalo = new THREE.Group();
+        galaxy.focusHaloRings = [];
+
+        [0.56, 0.82, 1.12].forEach(function (radius, index) {
+          const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(radius, 0.012 - index * 0.0015, 10, 144),
+            new THREE.MeshBasicMaterial({
+              color: index === 0 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft,
+              transparent: true,
+              opacity: 0,
+              depthWrite: false
+            })
+          );
+          ring.rotation.x = Math.PI / 2 + index * 0.16;
+          ring.rotation.y = index * 0.2;
+          ring.userData.baseOpacity = index === 0 ? 0.58 : 0.32 - index * 0.05;
+          galaxy.focusHaloRings.push(ring);
+          galaxy.focusHalo.add(ring);
+        });
+
+        const focusCore = new THREE.Mesh(
+          new THREE.SphereGeometry(0.055, 24, 16),
+          new THREE.MeshBasicMaterial({
+            color: VISUAL_COLORS.text,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false
+          })
+        );
+        focusCore.userData.baseOpacity = 0.78;
+        galaxy.focusHaloRings.push(focusCore);
+        galaxy.focusHalo.add(focusCore);
+        galaxy.root.add(galaxy.focusHalo);
+
+        const beamGeometry = new THREE.BufferGeometry();
+        beamGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(6), 3));
+        galaxy.focusBeam = new THREE.Line(
+          beamGeometry,
+          new THREE.LineBasicMaterial({
+            color: VISUAL_COLORS.accent,
+            transparent: true,
+            opacity: 0,
+            depthWrite: false
+          })
+        );
+        galaxy.focusBeam.frustumCulled = false;
+        galaxy.root.add(galaxy.focusBeam);
+      }
+
       function createAnswerDeck() {
         galaxy.answerDeck = new THREE.Group();
         galaxy.answerDeck.visible = false;
         galaxy.answerDeck.position.set(0, 1.65, 4.7);
         galaxy.scene.add(galaxy.answerDeck);
 
-        const deckLight = new THREE.PointLight(0xeafcff, 1.9, 9);
+        const deckLight = new THREE.PointLight(VISUAL_COLORS.text, 1.35, 9);
         deckLight.position.set(0, 1.2, 1.6);
         galaxy.answerDeck.add(deckLight);
+
+        createBackPortal();
 
         for (let i = 0; i < 5; i += 1) {
           const model = createChoiceModel(i);
           galaxy.answerModels.push(model);
           galaxy.answerDeck.add(model);
 
+          const beamGeometry = new THREE.BufferGeometry();
+          beamGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(9), 3));
           const beam = new THREE.Line(
-            new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]),
+            beamGeometry,
             new THREE.LineBasicMaterial({
-              color: 0x4be8ff,
+              color: VISUAL_COLORS.accent,
               transparent: true,
               opacity: 0
             })
           );
+          beam.frustumCulled = false;
           galaxy.choiceBeams.push(beam);
           galaxy.scene.add(beam);
         }
 
         syncAnswerDeck(true);
+      }
+
+      function createBackPortal() {
+        const portal = new THREE.Group();
+        portal.visible = false;
+        portal.userData.materials = [];
+        portal.userData.particles = [];
+
+        const makeMaterial = function (color, opacity, options = {}) {
+          const material = new THREE.MeshBasicMaterial({
+            color,
+            transparent: true,
+            opacity,
+            depthWrite: false,
+            depthTest: false,
+            side: options.side || THREE.DoubleSide,
+            blending: options.blending || THREE.NormalBlending
+          });
+          material.userData.baseOpacity = opacity;
+          portal.userData.materials.push(material);
+          return material;
+        };
+
+        const core = new THREE.Mesh(
+          new THREE.CircleGeometry(0.48, 128),
+          new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.98,
+            depthWrite: false,
+            depthTest: false,
+            side: THREE.DoubleSide
+          })
+        );
+        core.userData.backPortal = true;
+        portal.userData.core = core;
+        portal.add(core);
+
+        const innerRim = new THREE.Mesh(
+          new THREE.RingGeometry(0.42, 0.51, 128),
+          makeMaterial(0x111820, 0.96)
+        );
+        innerRim.userData.backPortal = true;
+        portal.add(innerRim);
+
+        const lens = new THREE.Mesh(
+          new THREE.RingGeometry(0.46, 0.7, 160),
+          makeMaterial(VISUAL_COLORS.accent, 0.3, { blending: THREE.AdditiveBlending })
+        );
+        lens.userData.backPortal = true;
+        portal.userData.lens = lens;
+        portal.add(lens);
+
+        const halo = new THREE.Mesh(
+          new THREE.RingGeometry(0.72, 0.92, 160),
+          makeMaterial(VISUAL_COLORS.soft, 0.12, { blending: THREE.AdditiveBlending })
+        );
+        halo.userData.backPortal = true;
+        portal.userData.halo = halo;
+        portal.add(halo);
+
+        [0.52, 0.68, 0.86, 1.0].forEach(function (radius, index) {
+          const ring = new THREE.Mesh(
+            new THREE.TorusGeometry(radius, 0.018 - index * 0.0025, 14, 192),
+            makeMaterial(index === 0 ? VISUAL_COLORS.accentSoft : index === 1 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft, index === 0 ? 0.64 : 0.42 - index * 0.05, { blending: THREE.AdditiveBlending })
+          );
+          ring.rotation.x = index * 0.1;
+          ring.rotation.y = index * 0.18;
+          ring.userData.backPortal = true;
+          ring.userData.speed = index % 2 ? -0.036 - index * 0.004 : 0.03 + index * 0.006;
+          portal.add(ring);
+        });
+
+        const particleGeometry = new THREE.SphereGeometry(0.022, 12, 8);
+        for (let i = 0; i < 32; i += 1) {
+          const particle = new THREE.Mesh(
+            particleGeometry,
+            makeMaterial(i % 3 === 0 ? VISUAL_COLORS.accentSoft : i % 2 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft, 0.58, { blending: THREE.AdditiveBlending })
+          );
+          particle.userData.backPortal = true;
+          particle.userData.portalParticle = true;
+          particle.userData.angle = (i / 32) * Math.PI * 2;
+          particle.userData.radius = 0.52 + (i % 5) * 0.075;
+          particle.userData.speed = 0.55 + (i % 7) * 0.035;
+          particle.userData.depth = (i % 4 - 1.5) * 0.035;
+          portal.userData.particles.push(particle);
+          portal.add(particle);
+        }
+
+        const label = createBackPortalLabelSprite();
+        label.position.set(0, 1.16, 0.04);
+        portal.userData.label = label;
+        portal.add(label);
+
+        const collider = new THREE.Mesh(
+          new THREE.SphereGeometry(1.02, 28, 18),
+          new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 0.001,
+            depthWrite: false,
+            depthTest: false
+          })
+        );
+        collider.userData.backPortal = true;
+        portal.add(collider);
+
+        galaxy.backPortal = portal;
+        galaxy.backPortalMeshes.push(collider, core, lens);
+        galaxy.answerDeck.add(portal);
       }
 
       function createChoiceModel(index) {
@@ -2321,27 +2795,29 @@ Map: https://levnat.ca/</pre>
         model.userData = { choiceIndex: index, currentValue: null };
 
         const core = new THREE.Mesh(
-          createChoiceGeometry("firmware"),
+          createChoiceGeometry("firmwareChip"),
           new THREE.MeshStandardMaterial({
-            color: 0x4be8ff,
-            emissive: 0x4be8ff,
-            emissiveIntensity: 0.8,
-            roughness: 0.24,
-            metalness: 0.52,
+            color: VISUAL_COLORS.accent,
+            emissive: VISUAL_COLORS.accent,
+            emissiveIntensity: 0.68,
+            roughness: 0.18,
+            metalness: 0.64,
             transparent: true,
-            opacity: 0.92
+            opacity: 1,
+            depthWrite: true
           })
         );
         core.userData.choiceIndex = index;
         model.add(core);
 
         const wire = new THREE.Mesh(
-          createChoiceGeometry("firmware"),
+          createChoiceGeometry("firmwareChip"),
           new THREE.MeshBasicMaterial({
-            color: 0xeafcff,
+            color: VISUAL_COLORS.text,
             wireframe: true,
             transparent: true,
-            opacity: 0.34
+            opacity: 0.24,
+            depthWrite: false
           })
         );
         wire.scale.setScalar(1.06);
@@ -2349,11 +2825,12 @@ Map: https://levnat.ca/</pre>
         model.add(wire);
 
         const marker = new THREE.Mesh(
-          new THREE.TorusGeometry(0.68, 0.014, 8, 80),
+          new THREE.TorusGeometry(0.68, 0.014, 16, 160),
           new THREE.MeshBasicMaterial({
-            color: 0x4be8ff,
+            color: VISUAL_COLORS.accent,
             transparent: true,
-            opacity: 0.46
+            opacity: 0.58,
+            depthWrite: false
           })
         );
         marker.rotation.x = Math.PI / 2;
@@ -2361,19 +2838,23 @@ Map: https://levnat.ca/</pre>
         marker.userData.choiceIndex = index;
         model.add(marker);
 
-        const axis = createChoiceAxis(0x4be8ff);
+        const axis = createChoiceAxis(VISUAL_COLORS.accent);
         axis.position.y = -0.48;
         axis.userData.choiceIndex = index;
         model.add(axis);
 
+        const frame = createChoiceFrame(VISUAL_COLORS.accent, index);
+        model.add(frame);
+
         const collider = new THREE.Mesh(
-          new THREE.BoxGeometry(1.45, 1.45, 1.2),
+          new THREE.BoxGeometry(1.9, 2.25, 1.35),
           new THREE.MeshBasicMaterial({
             transparent: true,
             opacity: 0.001,
             depthWrite: false
           })
         );
+        collider.position.y = 0.24;
         collider.userData.choiceIndex = index;
         model.add(collider);
 
@@ -2381,17 +2862,55 @@ Map: https://levnat.ca/</pre>
         model.userData.wire = wire;
         model.userData.marker = marker;
         model.userData.axis = axis;
+        model.userData.frame = frame;
         model.userData.collider = collider;
         galaxy.answerMeshes.push(core, wire, marker, collider);
         return model;
       }
 
-      function createChoiceGeometry(planetId) {
-        if (planetId === "firmware") return new THREE.CylinderGeometry(0.28, 0.42, 0.78, 7, 2);
-        if (planetId === "backend") return new THREE.BoxGeometry(0.68, 0.48, 0.68, 2, 2, 2);
-        if (planetId === "automation") return new THREE.DodecahedronGeometry(0.48, 0);
-        if (planetId === "data") return new THREE.OctahedronGeometry(0.55, 1);
-        return new THREE.IcosahedronGeometry(0.5, 1);
+      function getChoiceVisual(value, planetId) {
+        return CHOICE_VISUALS[value] || {
+          kind: planetId === "firmware" ? "firmwareChip" : planetId === "backend" ? "apiStack" : planetId === "automation" ? "workflowGear" : planetId === "data" ? "dataVault" : "opsRadar",
+          accent: PLANETS[planetId].color,
+          labelY: 1
+        };
+      }
+
+      function createChoiceGeometry(kind) {
+        if (kind === "firmwareChip") return new THREE.BoxGeometry(0.82, 0.12, 0.62, 16, 4, 12);
+        if (kind === "apiStack") return new THREE.BoxGeometry(0.68, 0.72, 0.68, 14, 14, 14);
+        if (kind === "workflowGear") return new THREE.TorusGeometry(0.36, 0.13, 28, 112);
+        if (kind === "dataVault") return new THREE.CylinderGeometry(0.38, 0.38, 0.76, 72, 10);
+        if (kind === "opsRadar") return new THREE.SphereGeometry(0.43, 64, 32, 0, Math.PI * 2, 0, Math.PI * 0.62);
+        if (kind === "hardwarePort") return new THREE.BoxGeometry(0.72, 0.34, 0.5, 12, 6, 8);
+        if (kind === "contractBridge") {
+          const geometry = new THREE.CylinderGeometry(0.16, 0.16, 0.86, 48, 8);
+          geometry.rotateZ(Math.PI / 2);
+          return geometry;
+        }
+        if (kind === "incidentBeacon") return new THREE.ConeGeometry(0.34, 0.72, 64, 8);
+        if (kind === "processRail") return new THREE.BoxGeometry(0.86, 0.2, 0.42, 12, 4, 8);
+        if (kind === "ownershipCompass") return new THREE.IcosahedronGeometry(0.48, 3);
+        if (kind === "userCluster") return new THREE.SphereGeometry(0.42, 64, 32);
+        if (kind === "deviceFleet") return new THREE.BoxGeometry(0.54, 0.62, 0.32, 8, 12, 6);
+        if (kind === "manualStack") return new THREE.BoxGeometry(0.7, 0.18, 0.54, 10, 3, 8);
+        if (kind === "integrationHub") return new THREE.DodecahedronGeometry(0.48, 2);
+        if (kind === "incidentFlare") return new THREE.ConeGeometry(0.46, 0.78, 64, 10);
+        if (kind === "logConsole") return new THREE.BoxGeometry(0.78, 0.42, 0.18, 12, 8, 3);
+        if (kind === "memoryNode") return new THREE.SphereGeometry(0.46, 64, 32);
+        if (kind === "retryLoop") return new THREE.TorusGeometry(0.38, 0.09, 24, 128);
+        if (kind === "layerPatch") return new THREE.BoxGeometry(0.72, 0.16, 0.56, 12, 3, 10);
+        if (kind === "debateOrbit") return new THREE.TorusKnotGeometry(0.32, 0.08, 128, 18);
+        if (kind === "architectureMap") return new THREE.BoxGeometry(0.82, 0.12, 0.58, 12, 2, 8);
+        if (kind === "stableHandoff") {
+          const geometry = new THREE.CylinderGeometry(0.18, 0.18, 0.92, 64, 8);
+          geometry.rotateZ(Math.PI / 2);
+          return geometry;
+        }
+        if (kind === "opsQueue") return new THREE.BoxGeometry(0.78, 0.18, 0.46, 12, 3, 8);
+        if (kind === "monitoringArray") return new THREE.SphereGeometry(0.42, 64, 32);
+        if (kind === "ownerCrown") return new THREE.CylinderGeometry(0.46, 0.34, 0.46, 6, 4);
+        return new THREE.IcosahedronGeometry(0.5, 3);
       }
 
       function createChoiceAxis(color) {
@@ -2411,6 +2930,412 @@ Map: https://levnat.ca/</pre>
             opacity: 0.4
           })
         );
+      }
+
+      function createChoiceFrame(color, choiceIndex) {
+        const frame = new THREE.Group();
+        frame.userData.accentMaterials = [];
+        frame.userData.softMaterials = [];
+
+        const makeBasic = function (materialColor, opacity) {
+          const material = new THREE.MeshBasicMaterial({
+            color: materialColor,
+            transparent: true,
+            opacity,
+            depthWrite: false
+          });
+          material.userData.baseOpacity = opacity;
+          return material;
+        };
+        const makeStandard = function (materialColor, opacity) {
+          const material = new THREE.MeshStandardMaterial({
+            color: materialColor,
+            emissive: materialColor,
+            emissiveIntensity: 0.08,
+            roughness: 0.22,
+            metalness: 0.54,
+            transparent: true,
+            opacity,
+            depthWrite: false
+          });
+          material.userData.baseOpacity = opacity;
+          return material;
+        };
+        const add = function (mesh, bucket) {
+          mesh.userData.choiceIndex = choiceIndex;
+          frame.add(mesh);
+          if (bucket === "accent") frame.userData.accentMaterials.push(mesh.material);
+          if (bucket === "soft") frame.userData.softMaterials.push(mesh.material);
+          return mesh;
+        };
+
+        const base = add(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.76, 0.88, 0.07, 6, 2),
+          makeStandard(0x1b2730, 0.64)
+        ), "soft");
+        base.rotation.y = Math.PI / 6;
+        base.position.y = -0.64;
+        base.scale.z = 0.72;
+
+        const glass = add(new THREE.Mesh(
+          new THREE.CylinderGeometry(0.68, 0.72, 0.035, 6, 2),
+          makeBasic(color, 0.2)
+        ), "accent");
+        glass.rotation.y = Math.PI / 6;
+        glass.position.y = -0.58;
+        glass.scale.z = 0.7;
+
+        const ring = add(new THREE.Mesh(
+          new THREE.TorusGeometry(0.68, 0.01, 10, 132),
+          makeBasic(color, 0.58)
+        ), "accent");
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = -0.5;
+
+        const innerRing = add(new THREE.Mesh(
+          new THREE.TorusGeometry(0.46, 0.006, 8, 96),
+          makeBasic(VISUAL_COLORS.text, 0.24)
+        ), "soft");
+        innerRing.rotation.x = Math.PI / 2.12;
+        innerRing.rotation.z = 0.38;
+        innerRing.position.y = -0.46;
+
+        [[-0.52, -0.34], [0.52, -0.34], [-0.52, 0.34], [0.52, 0.34]].forEach(function (point, i) {
+          const post = add(new THREE.Mesh(
+            new THREE.BoxGeometry(0.035, 0.22, 0.035, 1, 4, 1),
+            makeStandard(i % 2 ? color : VISUAL_COLORS.text, i % 2 ? 0.62 : 0.42)
+          ), i % 2 ? "accent" : "soft");
+          post.position.set(point[0], -0.42, point[1]);
+
+          const cap = add(new THREE.Mesh(
+            new THREE.BoxGeometry(0.16, 0.025, 0.035, 1, 1, 1),
+            makeBasic(color, 0.52)
+          ), "accent");
+          cap.position.set(point[0], -0.29, point[1]);
+          cap.rotation.y = point[0] > 0 ? 0.45 : -0.45;
+        });
+
+        return frame;
+      }
+
+      function createChoiceDetailGroup(visual, planetColor, choiceIndex) {
+        const group = new THREE.Group();
+        group.userData.kind = visual.kind;
+        group.userData.choiceIndex = choiceIndex;
+        const accent = visual.accent || planetColor;
+        const pale = VISUAL_COLORS.text;
+        const addMesh = function (geometry, material, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.set(position[0], position[1], position[2]);
+          mesh.rotation.set(rotation[0], rotation[1], rotation[2]);
+          mesh.scale.set(scale[0], scale[1], scale[2]);
+          mesh.userData.choiceIndex = choiceIndex;
+          group.add(mesh);
+          return mesh;
+        };
+        const addBox = function (size, position, color = pale, opacity = 0.55, rotation = [0, 0, 0]) {
+          return addMesh(
+            new THREE.BoxGeometry(size[0], size[1], size[2], 2, 2, 2),
+            createDetailMaterial(color, opacity),
+            position,
+            rotation
+          );
+        };
+        const addCylinder = function (radiusTop, radiusBottom, height, position, color = pale, opacity = 0.58, rotation = [0, 0, 0], segments = 32) {
+          return addMesh(
+            new THREE.CylinderGeometry(radiusTop, radiusBottom, height, segments, 4),
+            createDetailMaterial(color, opacity),
+            position,
+            rotation
+          );
+        };
+        const addSphere = function (radius, position, color = pale, opacity = 0.58) {
+          return addMesh(
+            new THREE.SphereGeometry(radius, 24, 16),
+            createDetailMaterial(color, opacity),
+            position
+          );
+        };
+        const addRing = function (radius, tube, position, color = accent, opacity = 0.46, rotation = [Math.PI / 2, 0, 0]) {
+          return addMesh(
+            new THREE.TorusGeometry(radius, tube, 12, 72),
+            createDetailMaterial(color, opacity),
+            position,
+            rotation
+          );
+        };
+        const addLine = function (points, color = accent, opacity = 0.6) {
+          const geometry = new THREE.BufferGeometry().setFromPoints(points);
+          const line = new THREE.Line(
+            geometry,
+            new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false })
+          );
+          line.userData.choiceIndex = choiceIndex;
+          group.add(line);
+          return line;
+        };
+        const addDeck = function (width = 0.92, depth = 0.7) {
+          addBox([width, 0.035, depth], [0, -0.38, 0], pale, 0.32);
+          addRing(Math.max(width, depth) * 0.45, 0.01, [0, -0.405, 0], accent, 0.46);
+          [-0.32, 0, 0.32].forEach(function (offset) {
+            addBox([0.055, 0.02, depth * 0.72], [offset, -0.352, 0], accent, 0.24);
+          });
+        };
+
+        addDeck();
+
+        switch (visual.kind) {
+          case "firmwareChip":
+            addBox([0.64, 0.05, 0.46], [0, 0.12, 0], pale, 0.5);
+            addBox([0.52, 0.035, 0.08], [0, 0.18, -0.17], accent, 0.74);
+            addBox([0.5, 0.03, 0.045], [0, 0.2, -0.04], pale, 0.58);
+            addBox([0.2, 0.03, 0.05], [-0.15, 0.215, 0.08], pale, 0.5);
+            addBox([0.18, 0.03, 0.05], [0.18, 0.215, 0.08], pale, 0.5);
+            addBox([0.18, 0.045, 0.09], [0.22, 0.235, 0.19], accent, 0.84);
+            for (let i = -3; i <= 3; i += 1) {
+              addBox([0.035, 0.1, 0.13], [i * 0.095, 0.02, -0.42], accent, 0.74);
+              addBox([0.035, 0.1, 0.13], [i * 0.095, 0.02, 0.42], accent, 0.74);
+            }
+            addLine([new THREE.Vector3(-0.31, 0.245, -0.17), new THREE.Vector3(0.18, 0.245, 0.18)], accent, 0.86);
+            addSphere(0.035, [-0.31, 0.25, -0.17], pale, 0.86);
+            addSphere(0.035, [0.18, 0.25, 0.18], accent, 0.9);
+            break;
+          case "apiStack":
+            [-0.26, -0.04, 0.18].forEach(function (offset, layerIndex) {
+              addBox([0.78 - layerIndex * 0.05, 0.07, 0.62], [0, offset, 0], layerIndex === 1 ? accent : pale, layerIndex === 1 ? 0.62 : 0.46);
+              addSphere(0.028, [-0.29, offset + 0.055, 0.32], accent, 0.88);
+              addSphere(0.026, [-0.19, offset + 0.055, 0.32], pale, 0.72);
+              addBox([0.28, 0.018, 0.035], [0.15, offset + 0.06, 0.32], pale, 0.54);
+            });
+            addBox([0.08, 0.56, 0.08], [-0.38, -0.02, -0.26], accent, 0.5);
+            addBox([0.08, 0.56, 0.08], [0.38, -0.02, 0.26], accent, 0.42);
+            addLine([new THREE.Vector3(-0.38, 0.34, -0.26), new THREE.Vector3(0.38, -0.34, 0.26)], accent, 0.72);
+            break;
+          case "workflowGear":
+            for (let i = 0; i < 10; i += 1) {
+              const angle = (i / 10) * Math.PI * 2;
+              addBox([0.14, 0.1, 0.2], [Math.cos(angle) * 0.48, 0, Math.sin(angle) * 0.48], accent, 0.62, [0, -angle, 0]);
+            }
+            addSphere(0.1, [0, 0, 0], pale, 0.86);
+            [-0.34, 0, 0.34].forEach(function (offset, i) {
+              addBox([0.2, 0.09, 0.16], [offset, 0.24 + i * 0.018, 0.04 * (i - 1)], i === 1 ? accent : pale, 0.58);
+            });
+            addLine([new THREE.Vector3(-0.43, 0.24, 0.02), new THREE.Vector3(0, 0.29, -0.02), new THREE.Vector3(0.43, 0.28, 0.02)], accent, 0.74);
+            break;
+          case "dataVault":
+            [-0.3, -0.06, 0.18, 0.38].forEach(function (offset, i) {
+              addRing(0.42 - i * 0.018, 0.012, [0, offset, 0], i === 2 ? accent : pale, i === 2 ? 0.68 : 0.48);
+            });
+            addBox([0.08, 0.82, 0.025], [0.28, 0, 0.28], pale, 0.48);
+            addBox([0.08, 0.82, 0.025], [-0.28, 0, -0.28], pale, 0.48);
+            [-0.2, 0, 0.2].forEach(function (offset, i) {
+              addBox([0.06, 0.22 + i * 0.1, 0.06], [offset, 0.04 + i * 0.06, 0.08], accent, 0.72);
+            });
+            break;
+          case "opsRadar":
+            addRing(0.54, 0.012, [0, -0.06, 0], accent, 0.72);
+            addRing(0.34, 0.01, [0, 0.03, 0], pale, 0.5);
+            addLine([new THREE.Vector3(0, 0.05, 0), new THREE.Vector3(0.48, 0.2, 0.16)], accent, 0.92);
+            addSphere(0.052, [0.5, 0.21, 0.17], pale, 0.95);
+            addCylinder(0.035, 0.045, 0.3, [0, 0.18, 0], accent, 0.62);
+            addSphere(0.045, [-0.24, 0.1, -0.18], pale, 0.72);
+            break;
+          case "hardwarePort":
+            addBox([0.68, 0.05, 0.42], [0, 0.08, 0], pale, 0.46);
+            addBox([0.52, 0.035, 0.1], [0, 0.17, -0.14], accent, 0.72);
+            addBox([0.34, 0.032, 0.06], [-0.08, 0.2, 0.02], pale, 0.58);
+            addBox([0.16, 0.045, 0.08], [0.22, 0.22, 0.15], accent, 0.82);
+            [-0.24, -0.08, 0.08, 0.24].forEach(function (offset) {
+              addBox([0.055, 0.18, 0.44], [offset, 0.3, 0], accent, 0.74);
+            });
+            break;
+          case "contractBridge":
+            addBox([0.25, 0.42, 0.54], [-0.56, 0, 0], accent, 0.6);
+            addBox([0.25, 0.42, 0.54], [0.56, 0, 0], planetColor, 0.58);
+            [-0.16, 0.04, 0.24].forEach(function (height, i) {
+              addLine([new THREE.Vector3(-0.4, height, -0.08 + i * 0.08), new THREE.Vector3(0.4, height, 0.08 - i * 0.08)], i === 1 ? accent : pale, i === 1 ? 0.86 : 0.64);
+            });
+            addSphere(0.05, [0, 0.04, 0], accent, 0.88);
+            break;
+          case "incidentBeacon":
+            addRing(0.46, 0.012, [0, -0.28, 0], accent, 0.72);
+            addRing(0.64, 0.01, [0, -0.3, 0], VISUAL_COLORS.warning, 0.5);
+            addCylinder(0.16, 0.28, 0.42, [0, 0.03, 0], accent, 0.5);
+            addSphere(0.075, [0, 0.48, 0], VISUAL_COLORS.warning, 0.88);
+            addLine([new THREE.Vector3(-0.32, 0.28, 0), new THREE.Vector3(0, 0.48, 0), new THREE.Vector3(0.32, 0.28, 0)], VISUAL_COLORS.warning, 0.72);
+            break;
+          case "processRail":
+            addBox([1.0, 0.045, 0.055], [0, 0.16, -0.24], pale, 0.64);
+            addBox([1.0, 0.045, 0.055], [0, 0.16, 0.24], pale, 0.64);
+            [-0.32, 0, 0.32].forEach(function (offset) {
+              addBox([0.2, 0.2, 0.2], [offset, 0.29, 0], accent, 0.68);
+              addSphere(0.04, [offset, 0.45, 0], pale, 0.76);
+            });
+            addLine([new THREE.Vector3(-0.42, 0.38, 0), new THREE.Vector3(0, 0.45, 0), new THREE.Vector3(0.42, 0.38, 0)], accent, 0.78);
+            break;
+          case "ownershipCompass":
+            addRing(0.58, 0.014, [0, 0, 0], accent, 0.64);
+            addRing(0.36, 0.01, [0, 0.04, 0], pale, 0.4);
+            addLine([new THREE.Vector3(-0.66, 0, 0), new THREE.Vector3(0.66, 0, 0)], pale, 0.68);
+            addLine([new THREE.Vector3(0, 0, -0.66), new THREE.Vector3(0, 0, 0.66)], pale, 0.68);
+            addMesh(new THREE.ConeGeometry(0.09, 0.26, 24, 4), createDetailMaterial(accent, 0.9), [0.68, 0, 0], [0, 0, -Math.PI / 2]);
+            addSphere(0.055, [0, 0.05, 0], pale, 0.86);
+            break;
+          case "userCluster":
+            [[-0.26, 0.08, 0.12], [0, 0.18, 0], [0.28, 0.06, -0.12], [-0.1, -0.18, -0.2], [0.18, -0.16, 0.2]].forEach(function (pos, i) {
+              addSphere(i === 1 ? 0.13 : 0.09, pos, i === 1 ? accent : pale, i === 1 ? 0.88 : 0.72);
+              addCylinder(0.045, 0.065, 0.16, [pos[0], pos[1] - 0.13, pos[2]], i === 1 ? accent : pale, 0.54);
+            });
+            addLine([new THREE.Vector3(-0.26, 0.08, 0.12), new THREE.Vector3(0, 0.18, 0), new THREE.Vector3(0.28, 0.06, -0.12)], accent, 0.58);
+            break;
+          case "deviceFleet":
+            [[-0.24, 0.1, 0], [0.04, 0, 0.08], [0.3, -0.08, -0.06]].forEach(function (pos, i) {
+              addBox([0.2, 0.34, 0.05], pos, i === 0 ? accent : pale, i === 0 ? 0.72 : 0.58);
+              addBox([0.13, 0.035, 0.018], [pos[0], pos[1] + 0.08, pos[2] + 0.04], i === 0 ? pale : accent, 0.76);
+              addSphere(0.02, [pos[0], pos[1] - 0.13, pos[2] + 0.045], accent, 0.9);
+            });
+            addLine([new THREE.Vector3(-0.24, 0.1, 0), new THREE.Vector3(0.04, 0, 0.08), new THREE.Vector3(0.3, -0.08, -0.06)], accent, 0.64);
+            break;
+          case "manualStack":
+            [-0.18, 0, 0.18].forEach(function (offset, i) {
+              addBox([0.64, 0.055, 0.44], [offset * 0.24, 0.18 + i * 0.065, offset], i === 2 ? accent : pale, i === 2 ? 0.66 : 0.48);
+              addBox([0.34, 0.018, 0.035], [offset * 0.24 - 0.08, 0.215 + i * 0.065, offset + 0.17], accent, 0.56);
+            });
+            addBox([0.09, 0.28, 0.09], [0.34, 0.31, 0.24], accent, 0.68);
+            addSphere(0.04, [0.34, 0.48, 0.24], pale, 0.86);
+            break;
+          case "integrationHub":
+            addSphere(0.12, [0, 0, 0], accent, 0.92);
+            [[0.52, 0, 0], [-0.46, 0.14, 0.1], [0.12, -0.08, 0.52], [-0.12, 0.18, -0.5]].forEach(function (pos) {
+              addSphere(0.075, pos, pale, 0.82);
+              addBox([0.12, 0.04, 0.12], [pos[0], pos[1] - 0.12, pos[2]], accent, 0.46);
+              addLine([new THREE.Vector3(0, 0, 0), new THREE.Vector3(pos[0], pos[1], pos[2])], accent, 0.66);
+            });
+            addRing(0.42, 0.01, [0, -0.02, 0], pale, 0.42, [Math.PI / 2.4, 0, 0.3]);
+            break;
+          case "incidentFlare":
+            addRing(0.46, 0.012, [0, -0.28, 0], VISUAL_COLORS.warning, 0.68);
+            addRing(0.66, 0.009, [0, -0.31, 0], VISUAL_COLORS.soft, 0.38);
+            addCylinder(0.1, 0.24, 0.44, [0, 0.02, 0], VISUAL_COLORS.warning, 0.46);
+            [0, 1, 2].forEach(function (i) {
+              const angle = i * Math.PI * 0.66;
+              addLine([new THREE.Vector3(0, 0.34, 0), new THREE.Vector3(Math.cos(angle) * 0.36, 0.64, Math.sin(angle) * 0.36)], VISUAL_COLORS.warning, 0.76);
+              addSphere(0.026, [Math.cos(angle) * 0.36, 0.64, Math.sin(angle) * 0.36], pale, 0.8);
+            });
+            break;
+          case "logConsole":
+            addBox([0.72, 0.07, 0.42], [0, 0.04, 0], pale, 0.44);
+            [-0.24, -0.08, 0.08, 0.24].forEach(function (offset, i) {
+              addBox([0.065, 0.05 + i * 0.055, 0.04], [offset, 0.15 + i * 0.03, 0.18], accent, 0.76);
+            });
+            [-0.17, 0, 0.17].forEach(function (offset) {
+              addBox([0.46, 0.018, 0.03], [0, 0.23 + offset * 0.2, -0.12 + offset], pale, 0.5);
+            });
+            addLine([new THREE.Vector3(-0.34, -0.12, 0.18), new THREE.Vector3(0.34, 0.2, 0.18)], pale, 0.72);
+            break;
+          case "memoryNode":
+            addRing(0.54, 0.012, [0, 0, 0], accent, 0.6, [Math.PI / 2.6, 0, 0.4]);
+            addSphere(0.08, [-0.32, 0.12, 0.18], pale, 0.82);
+            addSphere(0.07, [0.34, -0.06, -0.12], accent, 0.9);
+            addSphere(0.055, [0.05, 0.24, 0.08], pale, 0.72);
+            addLine([new THREE.Vector3(-0.32, 0.12, 0.18), new THREE.Vector3(0.05, 0.24, 0.08), new THREE.Vector3(0.34, -0.06, -0.12)], accent, 0.68);
+            break;
+          case "retryLoop":
+            addMesh(new THREE.ConeGeometry(0.09, 0.26, 24, 4), createDetailMaterial(accent, 0.86), [0.38, 0.04, 0.04], [0, 0, -0.85]);
+            addRing(0.52, 0.011, [0, 0, 0], pale, 0.52, [Math.PI / 2, 0.15, 0]);
+            addRing(0.34, 0.009, [0, 0.02, 0], accent, 0.42, [Math.PI / 2.2, -0.3, 0.2]);
+            addBox([0.18, 0.1, 0.18], [-0.18, 0.05, 0.14], pale, 0.54);
+            break;
+          case "layerPatch":
+            addBox([0.68, 0.045, 0.46], [0, 0.12, 0], pale, 0.36);
+            addBox([0.58, 0.052, 0.09], [0, 0.25, -0.18], accent, 0.66);
+            addBox([0.58, 0.052, 0.09], [0, 0.25, 0.18], accent, 0.66);
+            addBox([0.09, 0.052, 0.42], [-0.23, 0.26, 0], pale, 0.56);
+            addBox([0.09, 0.052, 0.42], [0.23, 0.26, 0], pale, 0.56);
+            addSphere(0.04, [0, 0.34, 0], accent, 0.88);
+            break;
+          case "debateOrbit":
+            addSphere(0.1, [-0.34, 0.12, 0], accent, 0.88);
+            addSphere(0.1, [0.34, -0.12, 0], VISUAL_COLORS.warning, 0.78);
+            addRing(0.48, 0.01, [0, 0, 0], pale, 0.4, [Math.PI / 2.3, 0, -0.6]);
+            addLine([new THREE.Vector3(-0.26, 0.1, 0), new THREE.Vector3(0.26, -0.1, 0)], pale, 0.68);
+            addBox([0.14, 0.08, 0.16], [0, 0.04, 0.18], accent, 0.5);
+            break;
+          case "architectureMap":
+            addBox([0.76, 0.04, 0.5], [0, 0.09, 0], pale, 0.38);
+            addLine([new THREE.Vector3(-0.34, 0.18, -0.2), new THREE.Vector3(-0.06, 0.25, 0.1), new THREE.Vector3(0.32, 0.18, -0.02)], accent, 0.86);
+            addSphere(0.05, [-0.34, 0.18, -0.2], pale, 0.84);
+            addSphere(0.05, [-0.06, 0.25, 0.1], accent, 0.88);
+            addSphere(0.05, [0.32, 0.18, -0.02], pale, 0.84);
+            addBox([0.15, 0.05, 0.12], [-0.34, 0.13, -0.2], accent, 0.44);
+            addBox([0.15, 0.05, 0.12], [0.32, 0.13, -0.02], pale, 0.4);
+            break;
+          case "stableHandoff":
+            addBox([0.24, 0.38, 0.46], [-0.54, 0, 0], accent, 0.58);
+            addBox([0.24, 0.38, 0.46], [0.54, 0, 0], planetColor, 0.58);
+            addRing(0.2, 0.014, [-0.28, 0, 0], pale, 0.62, [0, Math.PI / 2, 0]);
+            addRing(0.2, 0.014, [0.28, 0, 0], pale, 0.62, [0, Math.PI / 2, 0]);
+            addLine([new THREE.Vector3(-0.38, 0.18, 0.1), new THREE.Vector3(0, 0.28, 0), new THREE.Vector3(0.38, 0.18, -0.1)], accent, 0.78);
+            addSphere(0.045, [0, 0.28, 0], pale, 0.9);
+            break;
+          case "opsQueue":
+            [-0.34, -0.12, 0.1, 0.32].forEach(function (offset, i) {
+              addBox([0.18, 0.14, 0.32], [offset, 0.19 + i * 0.03, 0], i === 3 ? accent : pale, i === 3 ? 0.7 : 0.52);
+              addSphere(0.025, [offset, 0.31 + i * 0.03, 0.18], i === 3 ? pale : accent, 0.78);
+            });
+            addLine([new THREE.Vector3(-0.44, -0.02, 0.24), new THREE.Vector3(0.44, -0.02, 0.24)], accent, 0.72);
+            addBox([0.88, 0.03, 0.05], [0, 0.08, 0.25], pale, 0.42);
+            break;
+          case "monitoringArray":
+            [0.28, 0.46, 0.64].forEach(function (radius, i) {
+              addRing(radius, 0.009, [0, 0, 0], i === 2 ? accent : pale, i === 2 ? 0.64 : 0.38);
+            });
+            addLine([new THREE.Vector3(0, 0.03, 0), new THREE.Vector3(0.56, 0.08, 0.2)], accent, 0.9);
+            addSphere(0.05, [0.56, 0.08, 0.2], pale, 0.9);
+            [-0.18, 0, 0.18].forEach(function (offset, i) {
+              addBox([0.055, 0.14 + i * 0.08, 0.055], [offset, 0.12 + i * 0.04, -0.2], accent, 0.62);
+            });
+            break;
+          case "ownerCrown":
+            [-0.26, 0, 0.26].forEach(function (offset, i) {
+              addMesh(new THREE.ConeGeometry(0.085, 0.36, 24, 4), createDetailMaterial(i === 1 ? accent : pale, 0.84), [offset, 0.36, i === 1 ? 0 : 0.08]);
+              addSphere(0.035, [offset, 0.58, i === 1 ? 0 : 0.08], i === 1 ? pale : accent, 0.88);
+            });
+            addRing(0.42, 0.014, [0, 0.05, 0], accent, 0.72);
+            addBox([0.64, 0.09, 0.18], [0, 0.18, 0], pale, 0.42);
+            break;
+          default:
+            addRing(0.48, 0.01, [0, 0, 0], accent, 0.46);
+        }
+
+        return group;
+      }
+
+      function createDetailMaterial(color, opacity) {
+        const solidOpacity = Math.min(1, opacity + 0.22);
+        return new THREE.MeshStandardMaterial({
+          color,
+          emissive: color,
+          emissiveIntensity: 0.08,
+          roughness: 0.28,
+          metalness: 0.42,
+          transparent: solidOpacity < 0.98,
+          opacity: solidOpacity,
+          depthWrite: false
+        });
+      }
+
+      function disposeObject3D(object) {
+        object.traverse(function (child) {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach(function (material) { material.dispose(); });
+            } else {
+              child.material.dispose();
+            }
+          }
+        });
       }
 
       function syncAnswerDeck(force = false) {
@@ -2436,14 +3361,22 @@ Map: https://levnat.ca/</pre>
       function updateChoiceModel(model, choice) {
         const planetId = inferPlanet(choice.value);
         const planet = PLANETS[planetId];
-        const color = planet.color;
+        const visual = getChoiceVisual(choice.value, planetId);
+        const color = visual.accent || planet.color;
         const data = model.userData;
 
         if (data.currentValue !== choice.value) {
           data.core.geometry.dispose();
           data.wire.geometry.dispose();
-          data.core.geometry = createChoiceGeometry(planetId);
-          data.wire.geometry = createChoiceGeometry(planetId);
+          data.core.geometry = createChoiceGeometry(visual.kind);
+          data.wire.geometry = createChoiceGeometry(visual.kind);
+
+          if (data.detailGroup) {
+            model.remove(data.detailGroup);
+            disposeObject3D(data.detailGroup);
+          }
+          data.detailGroup = createChoiceDetailGroup(visual, planet.color, model.userData.choiceIndex);
+          model.add(data.detailGroup);
 
           if (data.label) {
             model.remove(data.label);
@@ -2451,56 +3384,187 @@ Map: https://levnat.ca/</pre>
             data.label.material.dispose();
           }
           data.label = createChoiceLabelSprite(choice, color);
-          data.label.position.set(0, 0.9, 0);
+          data.label.position.set(0, visual.labelY || 0.98, 0);
           model.add(data.label);
           data.currentValue = choice.value;
           data.planetId = planetId;
+          data.visualKind = visual.kind;
         }
 
         data.core.material.color.setHex(color);
         data.core.material.emissive.setHex(color);
-        data.wire.material.color.setHex(0xeafcff);
+        data.wire.material.color.setHex(VISUAL_COLORS.text);
         data.marker.material.color.setHex(color);
         data.axis.material.color.setHex(color);
+        updateChoiceFrameColors(data.frame, color);
+      }
+
+      function updateChoiceFrameColors(frame, color) {
+        if (!frame) return;
+        frame.userData.accentMaterials.forEach(function (material) {
+          material.color.setHex(color);
+          if (material.emissive) material.emissive.setHex(color);
+        });
+        frame.userData.softMaterials.forEach(function (material) {
+          material.color.setHex(VISUAL_COLORS.text);
+          if (material.emissive) material.emissive.setHex(VISUAL_COLORS.text);
+        });
+      }
+
+      function updateChoiceFrameState(frame, selected, hovered, dimmed) {
+        if (!frame) return;
+        const opacityBoost = selected ? 1.25 : hovered ? 1.08 : dimmed ? 0.34 : 0.82;
+        const scale = selected ? 1.08 : hovered ? 1.03 : 1;
+        frame.scale.lerp(galaxy.scratch.detailScale.set(scale, scale, scale), 0.1);
+        frame.traverse(function (child) {
+          if (!child.material || child.material.userData.baseOpacity === undefined) return;
+          const baseOpacity = child.material.userData.baseOpacity;
+          const targetOpacity = Math.min(0.96, baseOpacity * opacityBoost);
+          child.material.opacity += (targetOpacity - child.material.opacity) * 0.12;
+        });
       }
 
       function createChoiceLabelSprite(choice, color) {
+        const scale = QUALITY_CONFIG.labelScale;
         const canvas = document.createElement("canvas");
-        canvas.width = 512;
-        canvas.height = 180;
+        canvas.width = 1024 * scale;
+        canvas.height = 512 * scale;
         const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(6, 10, 16, 0.78)";
-        ctx.strokeStyle = "rgba(180, 222, 255, 0.52)";
-        ctx.lineWidth = 3;
-        ctx.fillRect(26, 24, 460, 112);
-        ctx.strokeRect(26, 24, 460, 112);
+        ctx.scale(scale, scale);
+        ctx.clearRect(0, 0, 1024, 512);
+        drawCanvasRoundRect(ctx, 56, 72, 912, 274, 18);
+        ctx.fillStyle = "rgba(7, 10, 15, 0.84)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(213, 227, 237, 0.34)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
         const colorHex = "#" + color.toString(16).padStart(6, "0");
-        ctx.font = "700 28px Oxanium, monospace";
+        ctx.fillStyle = colorHex;
+        ctx.fillRect(92, 102, 840, 5);
+        ctx.fillRect(92, 320, 120, 4);
+        ctx.fillRect(812, 320, 120, 4);
+
+        ctx.strokeStyle = colorHex;
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(86, 132);
+        ctx.lineTo(86, 96);
+        ctx.lineTo(122, 96);
+        ctx.moveTo(938, 132);
+        ctx.lineTo(938, 96);
+        ctx.lineTo(902, 96);
+        ctx.moveTo(86, 286);
+        ctx.lineTo(86, 322);
+        ctx.lineTo(122, 322);
+        ctx.moveTo(938, 286);
+        ctx.lineTo(938, 322);
+        ctx.lineTo(902, 322);
+        ctx.stroke();
+
+        ctx.font = "700 58px Oxanium, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = "#edf8ff";
-        wrapChoiceText(choice.label, 23).forEach(function (line, lineIndex, lines) {
-          const y = lines.length === 1 ? 78 : 62 + lineIndex * 34;
-          ctx.fillText(line.toUpperCase(), 256, y);
+        ctx.fillStyle = "#f4f8fb";
+        wrapChoiceText(choice.label, 28).forEach(function (line, lineIndex, lines) {
+          const y = lines.length === 1 ? 212 : 176 + lineIndex * 72;
+          ctx.fillText(line.toUpperCase(), 512, y);
         });
 
         ctx.fillStyle = colorHex;
-        ctx.font = "700 18px Share Tech Mono, monospace";
-        ctx.fillText(choice.tag.toUpperCase(), 256, 150);
+        ctx.font = "700 34px Share Tech Mono, monospace";
+        drawCanvasRoundRect(ctx, 424, 388, 176, 48, 12);
+        ctx.fillStyle = "rgba(7, 10, 15, 0.78)";
+        ctx.fill();
+        ctx.strokeStyle = colorHex;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = colorHex;
+        ctx.fillText(choice.tag.toUpperCase(), 512, 413);
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.colorSpace = THREE.SRGBColorSpace;
+        texture.generateMipmaps = true;
+        texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
         const material = new THREE.SpriteMaterial({
           map: texture,
           transparent: true,
           opacity: 0.92,
-          depthWrite: false
+          depthWrite: false,
+          depthTest: false
         });
         const sprite = new THREE.Sprite(material);
-        sprite.scale.set(1.9, 0.66, 1);
+        sprite.renderOrder = 20;
+        sprite.scale.set(1.65, 0.74, 1);
         return sprite;
+      }
+
+      function createBackPortalLabelSprite() {
+        const scale = QUALITY_CONFIG.labelScale;
+        const canvas = document.createElement("canvas");
+        canvas.width = 1024 * scale;
+        canvas.height = 256 * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(scale, scale);
+        ctx.clearRect(0, 0, 1024, 256);
+        drawCanvasRoundRect(ctx, 116, 58, 792, 140, 20);
+        ctx.fillStyle = "rgba(3, 5, 9, 0.9)";
+        ctx.fill();
+        ctx.strokeStyle = "rgba(93, 231, 255, 0.72)";
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(93, 231, 255, 0.18)";
+        ctx.fillRect(156, 82, 708, 4);
+        ctx.fillRect(156, 172, 708, 3);
+
+        ctx.strokeStyle = "rgba(93, 231, 255, 0.88)";
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(196, 128);
+        ctx.lineTo(262, 88);
+        ctx.moveTo(196, 128);
+        ctx.lineTo(262, 168);
+        ctx.moveTo(204, 128);
+        ctx.lineTo(328, 128);
+        ctx.stroke();
+
+        ctx.font = "700 58px Oxanium, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#f4f8fb";
+        ctx.fillText("PREVIOUS", 588, 128);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.generateMipmaps = true;
+        texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
+        const material = new THREE.SpriteMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0,
+          depthWrite: false,
+          depthTest: false
+        });
+        material.userData.baseOpacity = 0.92;
+        const sprite = new THREE.Sprite(material);
+        sprite.renderOrder = 24;
+        sprite.scale.set(1.9, 0.5, 1);
+        return sprite;
+      }
+
+      function drawCanvasRoundRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
       }
 
       function wrapChoiceText(text, maxLength) {
@@ -2527,48 +3591,65 @@ Map: https://levnat.ca/</pre>
         const height = canvas.clientHeight || window.innerHeight;
         galaxy.camera.aspect = width / Math.max(height, 1);
         galaxy.camera.updateProjectionMatrix();
+        galaxy.renderer.setPixelRatio(getRenderPixelRatio());
         galaxy.renderer.setSize(width, height, false);
       }
 
       function bindCanvasInteraction(canvas) {
         canvas.addEventListener("pointermove", function (event) {
-          const rect = canvas.getBoundingClientRect();
-          const x = (event.clientX - rect.left) / Math.max(rect.width, 1);
-          const y = (event.clientY - rect.top) / Math.max(rect.height, 1);
-          appState.pointer.x = (x - 0.5) * 2;
-          appState.pointer.y = (0.5 - y) * 2;
-          galaxy.pointerVector.set(appState.pointer.x, appState.pointer.y);
+          updatePointerFromEvent(canvas, event);
 
           const hit = getCanvasHit();
           const now = performance.now();
           canvas.classList.toggle("is-targeting", Boolean(hit));
 
-          if (hit && hit.type === "choice") {
+          if (hit && hit.type === "back") {
+            const changedBack = !appState.hoveredBack;
+            appState.hoveredBack = true;
+            appState.hoveredChoice = null;
+            appState.hoveredPlanet = null;
+            if (changedBack) updateChoiceHud();
+          } else if (hit && hit.type === "choice") {
+            const changedChoice = appState.hoveredChoice !== hit.choiceIndex;
+            appState.hoveredBack = false;
             appState.hoveredChoice = hit.choiceIndex;
             appState.hoveredPlanet = null;
+            if (changedChoice) updateChoiceHud();
           } else if (hit && hit.type === "planet" && hit.planetId !== appState.hoveredPlanet && now - appState.lastPointerFocus > 90) {
+            appState.hoveredBack = false;
             appState.hoveredChoice = null;
             appState.hoveredPlanet = hit.planetId;
             appState.lastPointerFocus = now;
             focusPlanet(hit.planetId, { fromCanvas: true });
+            runMicroPulse(hit.planetId, { preserveInsight: true });
+            updateChoiceHud();
           } else if (!hit) {
+            const hadChoice = appState.hoveredChoice !== null;
+            const hadBack = appState.hoveredBack;
+            appState.hoveredBack = false;
             appState.hoveredChoice = null;
             appState.hoveredPlanet = null;
+            if (hadChoice || hadBack) updateChoiceHud();
           }
         });
 
         canvas.addEventListener("pointerleave", function () {
           appState.pointer.x = 0;
           appState.pointer.y = 0;
+          appState.hoveredBack = false;
           appState.hoveredChoice = null;
           appState.hoveredPlanet = null;
           canvas.classList.remove("is-targeting");
+          updateChoiceHud();
         });
 
-        canvas.addEventListener("click", function () {
+        canvas.addEventListener("click", function (event) {
+          updatePointerFromEvent(canvas, event);
           const hit = getCanvasHit();
           if (!hit) return;
-          if (hit.type === "choice") {
+          if (hit.type === "back") {
+            goToPrevious3DQuestion();
+          } else if (hit.type === "choice") {
             select3DChoice(hit.choiceIndex);
           } else if (hit.type === "planet") {
             focusPlanet(hit.planetId, { fromCanvas: true, clicked: true });
@@ -2577,14 +3658,39 @@ Map: https://levnat.ca/</pre>
         });
       }
 
+      function updatePointerFromEvent(canvas, event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / Math.max(rect.width, 1);
+        const y = (event.clientY - rect.top) / Math.max(rect.height, 1);
+        appState.pointer.x = (x - 0.5) * 2;
+        appState.pointer.y = (0.5 - y) * 2;
+        galaxy.pointerVector.set(appState.pointer.x, appState.pointer.y);
+      }
+
       function getCanvasHit() {
         if (!galaxy.raycaster || !galaxy.camera) return null;
         galaxy.raycaster.setFromCamera(galaxy.pointerVector, galaxy.camera);
 
         if (appState.threeDMode && galaxy.answerMeshes.length > 0) {
-          const choiceHits = galaxy.raycaster.intersectObjects(galaxy.answerMeshes, false);
-          if (choiceHits.length) {
-            return { type: "choice", choiceIndex: choiceHits[0].object.userData.choiceIndex };
+          if (canGoBackIn3D() && galaxy.backPortal && galaxy.backPortal.visible) {
+            galaxy.hitBuffer.length = 0;
+            galaxy.raycaster.intersectObjects(galaxy.backPortalMeshes, false, galaxy.hitBuffer);
+            if (galaxy.hitBuffer.length) {
+              return { type: "back" };
+            }
+            if (getBackPortalFromPointerProximity()) {
+              return { type: "back" };
+            }
+          }
+
+          galaxy.hitBuffer.length = 0;
+          galaxy.raycaster.intersectObjects(galaxy.answerMeshes, false, galaxy.hitBuffer);
+          if (galaxy.hitBuffer.length) {
+            return { type: "choice", choiceIndex: galaxy.hitBuffer[0].object.userData.choiceIndex };
+          }
+          const nearbyChoice = getChoiceFromPointerProximity();
+          if (nearbyChoice !== null) {
+            return { type: "choice", choiceIndex: nearbyChoice };
           }
         }
 
@@ -2592,20 +3698,59 @@ Map: https://levnat.ca/</pre>
         return planetId ? { type: "planet", planetId } : null;
       }
 
-      function getPlanetFromPointer() {
-        if (!galaxy.raycaster || !galaxy.camera || galaxy.planetMeshes.length === 0) return null;
-        const hits = galaxy.raycaster.intersectObjects(galaxy.planetMeshes, false);
-        return hits.length ? hits[0].object.userData.planetId : null;
+      function getChoiceFromPointerProximity() {
+        if (!appState.threeDMode || !galaxy.camera || galaxy.answerModels.length === 0) return null;
+        const compact = window.innerWidth < 700;
+        const threshold = compact ? 0.32 : 0.22;
+        let bestIndex = null;
+        let bestScore = threshold * threshold;
+
+        galaxy.answerModels.forEach(function (model, index) {
+          if (!model.visible) return;
+          model.getWorldPosition(galaxy.scratch.screenPosition);
+          galaxy.scratch.screenPosition.project(galaxy.camera);
+          if (galaxy.scratch.screenPosition.z < -1 || galaxy.scratch.screenPosition.z > 1) return;
+          const dx = galaxy.pointerVector.x - galaxy.scratch.screenPosition.x;
+          const dy = galaxy.pointerVector.y - galaxy.scratch.screenPosition.y;
+          const score = dx * dx + dy * dy * 0.85;
+          if (score < bestScore) {
+            bestScore = score;
+            bestIndex = index;
+          }
+        });
+
+        return bestIndex;
       }
 
-      function runMicroPulse(planetId) {
+      function getBackPortalFromPointerProximity() {
+        if (!canGoBackIn3D() || !galaxy.backPortal || !galaxy.backPortal.visible || !galaxy.camera) return false;
+        const compact = window.innerWidth < 700;
+        const threshold = compact ? 0.24 : 0.16;
+        galaxy.backPortal.getWorldPosition(galaxy.scratch.screenPosition);
+        galaxy.scratch.screenPosition.project(galaxy.camera);
+        if (galaxy.scratch.screenPosition.z < -1 || galaxy.scratch.screenPosition.z > 1) return false;
+        const dx = galaxy.pointerVector.x - galaxy.scratch.screenPosition.x;
+        const dy = galaxy.pointerVector.y - galaxy.scratch.screenPosition.y;
+        return dx * dx + dy * dy * 0.85 < threshold * threshold;
+      }
+
+      function getPlanetFromPointer() {
+        if (!galaxy.raycaster || !galaxy.camera || galaxy.planetMeshes.length === 0) return null;
+        galaxy.hitBuffer.length = 0;
+        galaxy.raycaster.intersectObjects(galaxy.planetMeshes, false, galaxy.hitBuffer);
+        return galaxy.hitBuffer.length ? galaxy.hitBuffer[0].object.userData.planetId : null;
+      }
+
+      function runMicroPulse(planetId, options = {}) {
         const planet = galaxy.planets[planetId];
         if (!planet) return;
         planet.userData.pulseUntil = galaxy.clock.elapsedTime + 1.2;
+        appState.focusPulseUntil = galaxy.clock.elapsedTime + 1.35;
+        if (options.preserveInsight) return;
         const insight = document.getElementById("live-insight");
         if (insight) {
           const config = PLANETS[planetId];
-          insight.textContent = config.label + " vector selected on canvas. Role: " + config.role + ".";
+          insight.textContent = config.label + " selected in the 3D map. Meaning: " + config.role + ".";
         }
       }
 
@@ -2614,7 +3759,7 @@ Map: https://levnat.ca/</pre>
         const delta = Math.min(galaxy.clock.getDelta(), 0.05);
         const elapsed = galaxy.clock.elapsedTime;
         const archetype = ARCHETYPES[appState.archetype];
-        const visual = deriveGalaxyState(appState.archetype);
+        const visual = appState.galaxyState || refreshGalaxyState();
 
         if (!appState.reducedMotion) {
           galaxy.root.rotation.y += delta * (0.045 + visual.pressure * 0.035);
@@ -2625,6 +3770,7 @@ Map: https://levnat.ca/</pre>
         updateParticles(delta, visual);
         updateVectorField(elapsed, visual);
         updateAnomalies(elapsed, visual);
+        updateInteractionLayer(elapsed, visual);
         updateAnswerDeck(elapsed, visual);
 
         galaxy.star.rotation.y += delta * 0.22;
@@ -2632,7 +3778,7 @@ Map: https://levnat.ca/</pre>
         galaxy.star.material.emissiveIntensity = 1.8 + Math.sin(elapsed * 2.4) * 0.28;
 
         const targetPlanet = galaxy.planets[archetype.focus];
-        const target = targetPlanet ? targetPlanet.position : new THREE.Vector3();
+        const target = targetPlanet ? targetPlanet.position : galaxy.scratch.lookAt;
         const revealing = appState.revealUntil > elapsed;
         const revealBoost = revealing ? 1 : 0;
         const desiredX = target.x * (0.08 + revealBoost * 0.12) + appState.pointer.x * 0.55;
@@ -2657,22 +3803,27 @@ Map: https://levnat.ca/</pre>
           const angle = item.angle + swirl;
           const radius = item.radius * warp;
           const y = -0.45 + item.ringIndex * 0.04 + Math.sin(elapsed * 0.8 + item.angle * 2) * 0.04;
-          const tangent = new THREE.Vector3(-Math.sin(angle), 0.08 * Math.sin(angle * 2), Math.cos(angle)).normalize();
+          let tangentX = -Math.sin(angle);
+          let tangentY = 0.08 * Math.sin(angle * 2);
+          let tangentZ = Math.cos(angle);
+          const tangentLength = 1 / Math.hypot(tangentX, tangentY, tangentZ);
+          tangentX *= tangentLength;
+          tangentY *= tangentLength;
+          tangentZ *= tangentLength;
           const x = Math.cos(angle) * radius;
           const z = Math.sin(angle) * radius;
           const length = item.length * (1 + visual.completeness * 0.4);
           position.setXYZ(cursor, x, y, z);
-          position.setXYZ(cursor + 1, x + tangent.x * length, y + tangent.y * length, z + tangent.z * length);
+          position.setXYZ(cursor + 1, x + tangentX * length, y + tangentY * length, z + tangentZ * length);
           cursor += 2;
         });
         position.needsUpdate = true;
         galaxy.vectorField.material.opacity = 0.16 + visual.completeness * 0.18;
       }
 
-      function deriveGalaxyState(archetypeId) {
-        const answerCount = Object.keys(appState.answers).length;
-        const completeness = answerCount / 5;
-        const pressure = SCALE_STAGES[appState.scaleStage].pressure;
+      function computeGalaxyState(archetypeId, answerCount, scaleStage) {
+        const completeness = answerCount / QUESTION_FLOW.length;
+        const pressure = SCALE_STAGES[scaleStage].pressure;
         return {
           handoffWarp: Math.min(1.45, (archetypeId === "handoff" ? 1 : 0.2 * completeness) + pressure * 0.34),
           ghostShell: Math.min(1.25, (archetypeId === "ghost" ? 1 : 0) + pressure * 0.18),
@@ -2684,8 +3835,18 @@ Map: https://levnat.ca/</pre>
         };
       }
 
+      function refreshGalaxyState() {
+        appState.galaxyState = computeGalaxyState(
+          appState.archetype,
+          Object.keys(appState.answers).length,
+          appState.scaleStage
+        );
+        return appState.galaxyState;
+      }
+
       function updatePlanets(elapsed, visual) {
-        Object.entries(PLANETS).forEach(function ([id, config]) {
+        PLANET_IDS.forEach(function (id) {
+          const config = PLANETS[id];
           const planet = galaxy.planets[id];
           const speed = appState.reducedMotion ? 0.03 : config.speed;
           let radius = config.radius * (1 + visual.pressure * 0.045);
@@ -2710,12 +3871,16 @@ Map: https://levnat.ca/</pre>
             : 0;
           const pressureScale = visual.pressure * (id === "backend" || id === "automation" ? 0.18 : 0.08);
           const scale = (selected ? 1.42 : 1 + visual.benchGlow * (id === "firmware" ? 0.38 : 0)) + pressureScale + Math.max(pulse, 0);
-          planet.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.08);
-          planet.userData.sphere.material.emissiveIntensity = selected ? 1.65 : 0.55;
+          galaxy.scratch.scale.set(scale, scale, scale);
+          planet.scale.lerp(galaxy.scratch.scale, 0.08);
+          planet.userData.sphere.material.emissiveIntensity = selected ? 1.25 : 0.38;
           planet.userData.sphere.material.opacity = id === "ops" ? 1 - visual.opsShadow * 0.34 : 1;
           planet.userData.marker.material.opacity += ((selected ? 0.78 : 0.32) - planet.userData.marker.material.opacity) * 0.1;
           if (planet.userData.label) {
-            planet.userData.label.material.opacity += ((selected ? 1 : 0.52) - planet.userData.label.material.opacity) * 0.1;
+            const labelOpacity = appState.threeDMode
+              ? selected ? 0.18 : 0.04
+              : selected ? 1 : 0.52;
+            planet.userData.label.material.opacity += (labelOpacity - planet.userData.label.material.opacity) * 0.1;
           }
 
           const orbit = galaxy.orbits[id];
@@ -2731,21 +3896,33 @@ Map: https://levnat.ca/</pre>
           const [a, b] = bridge.userData.pair;
           const start = galaxy.planets[a].position;
           const end = galaxy.planets[b].position;
-          const middle = start.clone().add(end).multiplyScalar(0.5);
+          let middleX = (start.x + end.x) * 0.5;
+          let middleY = (start.y + end.y) * 0.5;
+          let middleZ = (start.z + end.z) * 0.5;
 
           if ((a === "firmware" && b === "backend") || (a === "backend" && b === "ops")) {
-            middle.y += visual.handoffWarp * Math.sin(elapsed * 2.2) * 0.7;
-            middle.x += visual.handoffWarp * 0.45;
+            middleY += visual.handoffWarp * Math.sin(elapsed * 2.2) * 0.7;
+            middleX += visual.handoffWarp * 0.45;
           }
 
           if (a === "backend" && b === "automation") {
-            middle.y += visual.automationDebris * 0.9;
+            middleY += visual.automationDebris * 0.9;
           }
 
-          const curve = new THREE.CatmullRomCurve3([start.clone(), middle, end.clone()]);
-          bridge.geometry.setFromPoints(curve.getPoints(36));
-          bridge.material.opacity = 0.28 + visual.completeness * 0.28 + visual.pressure * 0.12;
-          bridge.material.color.setHex(visual.handoffWarp > 0.8 && a === "firmware" ? 0xff9b54 : 0x8defff);
+          const position = bridge.geometry.getAttribute("position");
+          for (let i = 0; i <= BRIDGE_SEGMENTS; i += 1) {
+            const t = i / BRIDGE_SEGMENTS;
+            const inv = 1 - t;
+            position.setXYZ(
+              i,
+              inv * inv * start.x + 2 * inv * t * middleX + t * t * end.x,
+              inv * inv * start.y + 2 * inv * t * middleY + t * t * end.y,
+              inv * inv * start.z + 2 * inv * t * middleZ + t * t * end.z
+            );
+          }
+          position.needsUpdate = true;
+          bridge.material.opacity = 0.18 + visual.completeness * 0.18 + visual.pressure * 0.08;
+          bridge.material.color.setHex(visual.handoffWarp > 0.8 && a === "firmware" ? VISUAL_COLORS.soft : VISUAL_COLORS.accentSoft);
         });
       }
 
@@ -2758,11 +3935,11 @@ Map: https://levnat.ca/</pre>
           particle.userData.progress = (particle.userData.progress + delta * particle.userData.speed * (1 + visual.pressure * 0.8)) % 1;
           if (visual.automationDebris > 0 && particle.userData.bridgeIndex === 2) {
             particle.userData.progress = (particle.userData.progress + delta * 0.08) % 1;
-            particle.material.color.setHex(0xffd36a);
+            particle.material.color.setHex(VISUAL_COLORS.soft);
           } else if (visual.opsShadow > 0 && particle.userData.bridgeIndex === 4) {
-            particle.material.color.setHex(0xb9a4ff);
+            particle.material.color.setHex(VISUAL_COLORS.dim);
           } else {
-            particle.material.color.setHex(0xeafcff);
+            particle.material.color.setHex(VISUAL_COLORS.text);
           }
 
           const index = Math.floor(particle.userData.progress * (positionAttr.count - 1));
@@ -2778,7 +3955,11 @@ Map: https://levnat.ca/</pre>
       function updateAnomalies(elapsed, visual) {
         const firmware = galaxy.planets.firmware.position;
         const backend = galaxy.planets.backend.position;
-        galaxy.blackHole.position.copy(firmware.clone().add(backend).multiplyScalar(0.5));
+        galaxy.blackHole.position.set(
+          (firmware.x + backend.x) * 0.5,
+          (firmware.y + backend.y) * 0.5,
+          (firmware.z + backend.z) * 0.5
+        );
         galaxy.blackHole.scale.setScalar(1 + visual.handoffWarp * 0.6);
         galaxy.blackHole.rotation.z += 0.025 + visual.handoffWarp * 0.04;
         galaxy.blackHole.material.opacity += ((visual.handoffWarp > 0.85 ? 0.75 : 0.08) - galaxy.blackHole.material.opacity) * 0.08;
@@ -2815,8 +3996,46 @@ Map: https://levnat.ca/</pre>
           const revealPulse = 0.5 + Math.sin(elapsed * 7) * 0.5;
           galaxy.star.scale.setScalar(1.05 + revealPulse * 0.08);
         } else {
-          galaxy.star.scale.lerp(new THREE.Vector3(1, 1, 1), 0.08);
+          galaxy.scratch.scale.set(1, 1, 1);
+          galaxy.star.scale.lerp(galaxy.scratch.scale, 0.08);
         }
+      }
+
+      function updateInteractionLayer(elapsed, visual) {
+        if (galaxy.ribbons) {
+          galaxy.ribbons.children.forEach(function (ribbon, index) {
+            ribbon.rotation.z += ribbon.userData.speed * (1 + visual.pressure * 0.45);
+            ribbon.material.opacity += ((ribbon.userData.baseOpacity + visual.completeness * 0.04) - ribbon.material.opacity) * 0.04;
+            ribbon.position.y = Math.sin(elapsed * 0.32 + index) * 0.03;
+          });
+        }
+
+        if (!galaxy.focusHalo || !galaxy.focusBeam) return;
+        const focusId = appState.hoveredPlanet || appState.selectedPlanet || ARCHETYPES[appState.archetype].focus;
+        const targetPlanet = galaxy.planets[focusId];
+        if (!targetPlanet) return;
+
+        galaxy.focusHalo.position.lerp(targetPlanet.position, 0.16);
+        const focusConfig = PLANETS[focusId];
+        const pulseLeft = Math.max(0, appState.focusPulseUntil - elapsed);
+        const pulse = pulseLeft ? Math.sin(pulseLeft * 9) * 0.18 + 0.22 : 0;
+        const activeBoost = appState.threeDMode ? 0.2 : 0;
+        galaxy.focusHaloRings.forEach(function (item, index) {
+          const ringPulse = 1 + pulse + Math.sin(elapsed * (1.8 + index * 0.4)) * 0.035;
+          item.scale.setScalar(ringPulse + index * 0.04);
+          item.rotation.z += 0.01 + index * 0.006 + activeBoost * 0.01;
+          item.material.color.setHex(index === 0 ? focusConfig.color : VISUAL_COLORS.soft);
+          const targetOpacity = (item.userData.baseOpacity || 0.4) * (0.48 + activeBoost + visual.completeness * 0.28 + pulse);
+          item.material.opacity += (Math.min(0.9, targetOpacity) - item.material.opacity) * 0.1;
+        });
+
+        const position = galaxy.focusBeam.geometry.getAttribute("position");
+        position.setXYZ(0, 0, 0, 0);
+        position.setXYZ(1, targetPlanet.position.x, targetPlanet.position.y, targetPlanet.position.z);
+        position.needsUpdate = true;
+        galaxy.focusBeam.material.color.setHex(focusConfig.color);
+        const beamOpacity = 0.16 + visual.completeness * 0.16 + activeBoost * 0.24 + pulse * 0.42;
+        galaxy.focusBeam.material.opacity += (Math.min(0.72, beamOpacity) - galaxy.focusBeam.material.opacity) * 0.1;
       }
 
       function updateAnswerDeck(elapsed, visual) {
@@ -2826,6 +4045,7 @@ Map: https://levnat.ca/</pre>
         galaxy.answerDeck.visible = active;
 
         if (!active) {
+          updateBackPortal(elapsed, visual, false);
           galaxy.choiceBeams.forEach(function (beam) {
             beam.material.opacity += (0 - beam.material.opacity) * 0.16;
           });
@@ -2833,12 +4053,14 @@ Map: https://levnat.ca/</pre>
         }
 
         const compact = window.innerWidth < 700;
-        const spread = compact ? 0.92 : 1.68;
+        const spread = compact ? 1.08 : 1.86;
         const deckY = compact ? 1.95 : 1.58;
         const deckZ = compact ? 5.0 : 4.65;
+        const hasSelectedChoice = appState.selectedChoice !== null;
         galaxy.answerDeck.position.x += (appState.pointer.x * 0.18 - galaxy.answerDeck.position.x) * 0.08;
         galaxy.answerDeck.position.y += (deckY - galaxy.answerDeck.position.y) * 0.08;
         galaxy.answerDeck.position.z += (deckZ - galaxy.answerDeck.position.z) * 0.08;
+        updateBackPortal(elapsed, visual, true);
 
         const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
         galaxy.answerModels.forEach(function (model, index) {
@@ -2850,28 +4072,168 @@ Map: https://levnat.ca/</pre>
           const pulse = appState.choicePulseUntil > elapsed ? Math.sin(elapsed * 18) * 0.08 + 0.08 : 0;
           const row = compact ? Math.floor(index / 3) : index % 2;
           const columnOffset = compact && index > 2 ? 0.46 : 0;
-          const x = (index - 2) * spread + columnOffset;
-          const y = compact ? -row * 1.04 : (index % 2 === 0 ? 0.08 : -0.2);
-          const z = selected ? 1.18 : hovered ? 0.78 : 0;
-          const targetScale = selected ? 1.22 + pulse : hovered ? 1.1 : 0.92;
+          const mobileLayout = [
+            [-1.08, 0.06],
+            [0, 0.06],
+            [1.08, 0.06],
+            [-0.56, -0.98],
+            [0.56, -0.98]
+          ];
+          let x = compact ? mobileLayout[index][0] : (index - 2) * spread + columnOffset;
+          let y = compact ? mobileLayout[index][1] : (index % 2 === 0 ? 0.08 : -0.2);
+          let z = hovered ? 0.78 : 0;
+          let targetScale = hovered ? 1.1 : 0.92;
 
-          model.position.lerp(new THREE.Vector3(x, y, z), 0.12);
-          model.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.12);
+          if (hasSelectedChoice) {
+            const distance = index - appState.selectedChoice;
+            if (selected) {
+              x = appState.pointer.x * 0.1;
+              y = compact ? 0.94 : 0.88;
+              z = compact ? 1.68 : 1.78;
+              targetScale = (compact ? 1.12 : 1.24) + pulse;
+            } else {
+              x = distance * (compact ? 1.16 : 1.58);
+              y = compact ? -1.38 : -0.94;
+              z = -0.92;
+              targetScale = hovered ? 0.74 : 0.58;
+            }
+          }
+
+          const dimmed = hasSelectedChoice && !selected && !hovered;
+          setChoiceModelRenderPriority(model, selected ? 18 : hovered ? 12 : dimmed ? 4 : 8);
+          galaxy.scratch.modelPosition.set(x, y, z);
+          galaxy.scratch.modelScale.set(targetScale, targetScale, targetScale);
+          model.position.lerp(galaxy.scratch.modelPosition, 0.12);
+          model.scale.lerp(galaxy.scratch.modelScale, 0.12);
           model.rotation.y = elapsed * (0.36 + index * 0.035) + appState.pointer.x * 0.18;
           model.rotation.x = Math.sin(elapsed * 0.6 + index) * 0.08;
 
-          data.core.material.emissiveIntensity += ((selected ? 2.2 : hovered ? 1.45 : 0.78) - data.core.material.emissiveIntensity) * 0.1;
-          data.core.material.opacity += ((selected ? 1 : 0.86) - data.core.material.opacity) * 0.1;
-          data.wire.material.opacity += ((selected || hovered ? 0.62 : 0.28) - data.wire.material.opacity) * 0.1;
-          data.marker.material.opacity += ((selected ? 0.9 : hovered ? 0.65 : 0.38) - data.marker.material.opacity) * 0.1;
+          data.core.material.emissiveIntensity += ((selected ? 2.8 : hovered ? 1.55 : 0.78) - data.core.material.emissiveIntensity) * 0.1;
+          data.core.material.opacity += ((selected ? 1 : dimmed ? 0.42 : 0.86) - data.core.material.opacity) * 0.1;
+          data.wire.material.opacity += ((selected ? 0.78 : hovered ? 0.62 : dimmed ? 0.14 : 0.28) - data.wire.material.opacity) * 0.1;
+          data.marker.material.opacity += ((selected ? 1 : hovered ? 0.65 : dimmed ? 0.12 : 0.38) - data.marker.material.opacity) * 0.1;
           data.marker.rotation.z += 0.018 + visual.completeness * 0.012;
-          data.axis.material.opacity += ((selected || hovered ? 0.72 : 0.28) - data.axis.material.opacity) * 0.1;
+          data.axis.material.opacity += ((selected ? 0.84 : hovered ? 0.72 : dimmed ? 0.12 : 0.28) - data.axis.material.opacity) * 0.1;
+          updateChoiceFrameState(data.frame, selected, hovered, dimmed);
           if (data.label) {
-            data.label.material.opacity += ((selected || hovered ? 1 : 0.78) - data.label.material.opacity) * 0.1;
+            data.label.material.opacity += ((selected ? 1 : hovered ? 0.92 : dimmed ? 0.36 : 0.78) - data.label.material.opacity) * 0.1;
+            const labelX = compact ? 1.4 : 1.58;
+            const labelY = compact ? 0.62 : 0.72;
+            const labelBoost = selected ? 0.22 : hovered ? 0.08 : 0;
+            galaxy.scratch.labelScale.set(labelX + labelBoost, labelY + labelBoost * 0.45, 1);
+            data.label.scale.lerp(galaxy.scratch.labelScale, 0.12);
           }
+          updateChoiceModelMotion(data, elapsed, selected, hovered, visual);
 
           updateChoiceBeam(index, choice, selected, hovered, visual);
         });
+      }
+
+      function updateBackPortal(elapsed, visual, deckActive) {
+        if (!galaxy.backPortal) return;
+        const enabled = deckActive && canGoBackIn3D();
+        const portal = galaxy.backPortal;
+        portal.visible = enabled;
+        if (!enabled) {
+          appState.hoveredBack = false;
+          return;
+        }
+
+        const compact = window.innerWidth < 700;
+        const pulseLeft = Math.max(0, appState.backPortalPulseUntil - elapsed);
+        const pulse = pulseLeft ? Math.sin(pulseLeft * 11) * 0.14 + 0.18 : 0;
+        const hoverBoost = appState.hoveredBack ? 0.14 : 0;
+        const targetScale = (compact ? 0.54 : 0.74) + hoverBoost + pulse * 0.28;
+        const targetX = compact ? -1.56 : -5.24;
+        const targetY = compact ? 1.76 : 2.18;
+        const targetZ = compact ? 1.78 : 2.02;
+
+        galaxy.scratch.modelPosition.set(targetX, targetY + Math.sin(elapsed * 2.8) * 0.035, targetZ);
+        galaxy.scratch.modelScale.set(targetScale, targetScale, targetScale);
+        portal.position.lerp(galaxy.scratch.modelPosition, 0.14);
+        portal.scale.lerp(galaxy.scratch.modelScale, 0.14);
+        portal.lookAt(galaxy.camera.position);
+        portal.renderOrder = 26;
+
+        portal.children.forEach(function (child, index) {
+          if (child.userData && child.userData.portalParticle) {
+            const data = child.userData;
+            const angle = data.angle + elapsed * data.speed * (1 + hoverBoost);
+            const radius = data.radius + Math.sin(elapsed * 1.7 + index) * 0.035;
+            child.position.set(
+              Math.cos(angle) * radius,
+              Math.sin(angle) * radius * 0.48,
+              data.depth + Math.sin(angle * 2 + elapsed) * 0.025
+            );
+            child.scale.setScalar(1 + hoverBoost * 1.4 + pulse * 0.7);
+          }
+          if (child.userData && child.userData.speed) {
+            child.rotation.z += child.userData.speed * (1 + hoverBoost * 2 + visual.pressure * 0.2);
+          }
+          if (!child.material) return;
+          child.renderOrder = child.type === "Sprite" ? 34 : 26 + index;
+          if (child.material.userData.baseOpacity === undefined) return;
+          const baseOpacity = child.material.userData.baseOpacity;
+          const targetOpacity = Math.min(1, baseOpacity * (1 + hoverBoost + pulse));
+          child.material.opacity += (targetOpacity - child.material.opacity) * 0.14;
+        });
+
+        if (portal.userData.lens && portal.userData.lens.material) {
+          const lensOpacity = 0.34 + hoverBoost * 0.32 + pulse * 0.42;
+          portal.userData.lens.material.opacity += (Math.min(0.9, lensOpacity) - portal.userData.lens.material.opacity) * 0.12;
+        }
+        if (portal.userData.halo && portal.userData.halo.material) {
+          const haloScale = 1.05 + Math.sin(elapsed * 2.4) * 0.035 + hoverBoost * 0.12;
+          portal.userData.halo.scale.setScalar(haloScale);
+          portal.userData.halo.material.opacity += ((0.16 + hoverBoost * 0.18 + pulse * 0.28) - portal.userData.halo.material.opacity) * 0.12;
+        }
+        if (portal.userData.core && portal.userData.core.material) {
+          portal.userData.core.scale.setScalar(1 + hoverBoost * 0.06 + pulse * 0.05);
+          portal.userData.core.material.opacity += ((appState.hoveredBack ? 1 : 0.94) - portal.userData.core.material.opacity) * 0.12;
+        }
+      }
+
+      function setChoiceModelRenderPriority(model, priority) {
+        model.renderOrder = priority;
+        model.traverse(function (child) {
+          if (!child.material) return;
+          child.renderOrder = child.type === "Sprite" ? priority + 6 : priority;
+        });
+      }
+
+      function updateChoiceModelMotion(data, elapsed, selected, hovered, visual) {
+        const group = data.detailGroup;
+        if (!group) return;
+        const kind = data.visualKind || group.userData.kind;
+        const intensity = selected ? 1 : hovered ? 0.72 : 0.28;
+        const pulse = 1 + Math.sin(elapsed * (selected ? 6.4 : 3.2) + group.userData.choiceIndex) * 0.035 * intensity;
+        galaxy.scratch.detailScale.set(pulse, pulse, pulse);
+        group.scale.lerp(galaxy.scratch.detailScale, 0.12);
+
+        if (CHOICE_MOTION_GROUPS.spin.has(kind)) {
+          group.rotation.z += 0.012 + intensity * 0.045;
+        } else if (CHOICE_MOTION_GROUPS.sweep.has(kind)) {
+          group.rotation.y = Math.sin(elapsed * 1.8) * 0.22 * intensity;
+          group.rotation.z += 0.006 + intensity * 0.018;
+        } else if (CHOICE_MOTION_GROUPS.orbit.has(kind)) {
+          group.rotation.y += 0.006 + intensity * 0.018;
+        } else if (CHOICE_MOTION_GROUPS.incident.has(kind)) {
+          group.rotation.y += 0.018 + intensity * 0.026;
+          group.position.y = Math.sin(elapsed * 5.2) * 0.05 * intensity;
+        } else if (CHOICE_MOTION_GROUPS.stack.has(kind)) {
+          group.position.y = Math.sin(elapsed * 3.6 + group.userData.choiceIndex) * 0.035 * intensity;
+          group.rotation.x = Math.sin(elapsed * 1.3) * 0.05 * intensity;
+        } else if (CHOICE_MOTION_GROUPS.bridge.has(kind)) {
+          group.rotation.z = Math.sin(elapsed * 2.2 + group.userData.choiceIndex) * 0.08 * intensity;
+        } else if (kind === "ownerCrown") {
+          group.position.y = 0.04 + Math.sin(elapsed * 3.4) * 0.045 * intensity;
+          group.rotation.y += 0.008 + intensity * 0.015;
+        } else if (CHOICE_MOTION_GROUPS.cluster.has(kind)) {
+          group.rotation.y += 0.007 + intensity * 0.012;
+          group.position.y = Math.sin(elapsed * 2.6 + group.userData.choiceIndex) * 0.025 * intensity;
+        } else {
+          group.rotation.y += 0.008 + intensity * 0.01;
+        }
       }
 
       function updateChoiceBeam(index, choice, selected, hovered, visual) {
@@ -2880,20 +4242,24 @@ Map: https://levnat.ca/</pre>
         if (!beam || !model) return;
         const planetId = inferPlanet(choice.value);
         const planet = galaxy.planets[planetId];
-        if (!planet || (!selected && !hovered)) {
+        if (!planet) {
           beam.material.opacity += (0 - beam.material.opacity) * 0.14;
           return;
         }
 
-        const start = new THREE.Vector3();
-        model.getWorldPosition(start);
-        const end = new THREE.Vector3();
-        planet.getWorldPosition(end);
-        const middle = start.clone().lerp(end, 0.5);
-        middle.y += 0.65 + visual.pressure * 0.35;
-        beam.geometry.setFromPoints([start, middle, end]);
+        model.getWorldPosition(galaxy.scratch.beamStart);
+        planet.getWorldPosition(galaxy.scratch.beamEnd);
+        galaxy.scratch.beamMiddle.lerpVectors(galaxy.scratch.beamStart, galaxy.scratch.beamEnd, 0.5);
+        galaxy.scratch.beamMiddle.y += 0.65 + visual.pressure * 0.35;
+        const position = beam.geometry.getAttribute("position");
+        position.setXYZ(0, galaxy.scratch.beamStart.x, galaxy.scratch.beamStart.y, galaxy.scratch.beamStart.z);
+        position.setXYZ(1, galaxy.scratch.beamMiddle.x, galaxy.scratch.beamMiddle.y, galaxy.scratch.beamMiddle.z);
+        position.setXYZ(2, galaxy.scratch.beamEnd.x, galaxy.scratch.beamEnd.y, galaxy.scratch.beamEnd.z);
+        position.needsUpdate = true;
         beam.material.color.setHex(PLANETS[planetId].color);
-        beam.material.opacity += ((selected ? 0.58 : 0.34) - beam.material.opacity) * 0.12;
+        const hasSelectedChoice = appState.selectedChoice !== null;
+        const baseOpacity = hasSelectedChoice && !selected && !hovered ? 0.035 : 0.11;
+        beam.material.opacity += ((selected ? 0.76 : hovered ? 0.42 : baseOpacity) - beam.material.opacity) * 0.12;
       }
 
       function bindControls() {
@@ -2907,6 +4273,13 @@ Map: https://levnat.ca/</pre>
         if (exit3DButton) {
           exit3DButton.addEventListener("click", function () {
             exit3DFingerprintMode();
+          });
+        }
+
+        const prev3DButton = document.querySelector("[data-prev-3d]");
+        if (prev3DButton) {
+          prev3DButton.addEventListener("click", function () {
+            goToPrevious3DQuestion();
           });
         }
 
@@ -2951,6 +4324,7 @@ Map: https://levnat.ca/</pre>
         if (scaleSlider) {
           scaleSlider.addEventListener("input", function () {
             appState.scaleStage = Number(scaleSlider.value);
+            refreshGalaxyState();
             updateScaleReadout();
           });
         }
@@ -2990,12 +4364,14 @@ Map: https://levnat.ca/</pre>
         }
 
         appState.threeDMode = true;
+        appState.hoveredBack = false;
         appState.hoveredChoice = null;
         appState.activeQuestionIndex = getNextQuestionIndex();
         syncAnswerDeck(true);
         updateChoiceHud();
         if (hero) {
           hero.classList.add("is-3d-mode");
+          requestAnimationFrame(resizeGalaxy);
           hero.scrollIntoView({ behavior: appState.reducedMotion ? "auto" : "smooth", block: "start" });
         }
       }
@@ -3003,10 +4379,39 @@ Map: https://levnat.ca/</pre>
       function exit3DFingerprintMode() {
         const hero = document.querySelector(".galaxy-hero");
         appState.threeDMode = false;
+        appState.hoveredBack = false;
         appState.hoveredChoice = null;
         if (hero) hero.classList.remove("is-3d-mode");
+        requestAnimationFrame(resizeGalaxy);
         const canvas = document.getElementById("galaxy-canvas");
         if (canvas) canvas.classList.remove("is-targeting");
+      }
+
+      function goToPrevious3DQuestion() {
+        if (!appState.threeDMode || appState.activeQuestionIndex <= 0) return;
+
+        if (appState.choiceAdvanceTimer) {
+          window.clearTimeout(appState.choiceAdvanceTimer);
+          appState.choiceAdvanceTimer = null;
+        }
+
+        appState.activeQuestionIndex -= 1;
+        appState.hoveredBack = false;
+        appState.hoveredChoice = null;
+        appState.backPortalPulseUntil = galaxy.clock.elapsedTime + 0.9;
+        syncAnswerDeck(true);
+        updateChoiceHud();
+
+        const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
+        const selectedValue = appState.answers[question.id];
+        if (selectedValue) {
+          focusPlanet(inferPlanet(selectedValue), { fromCanvas: true });
+        }
+
+        const insight = document.getElementById("live-insight");
+        if (insight) {
+          insight.textContent = "Reviewing: " + question.prompt + " Your choices stay saved while you adjust the map.";
+        }
       }
 
       function select3DChoice(choiceIndex) {
@@ -3021,10 +4426,11 @@ Map: https://levnat.ca/</pre>
         appState.selectedChoice = choiceIndex;
         appState.choicePulseUntil = galaxy.clock.elapsedTime + 0.9;
         setFingerprintAnswer(question.id, choice.value, { from3D: true, deferSimulation: true });
-        runMicroPulse(inferPlanet(choice.value));
+        runMicroPulse(inferPlanet(choice.value), { preserveInsight: true });
 
         const complete = Object.keys(appState.answers).length === QUESTION_FLOW.length;
         appState.choiceAdvanceTimer = window.setTimeout(function () {
+          appState.choiceAdvanceTimer = null;
           if (complete) {
             updateChoiceHud();
             runWhatIfSimulation(ARCHETYPES[appState.archetype].simulation);
@@ -3033,11 +4439,12 @@ Map: https://levnat.ca/</pre>
           }
 
           appState.activeQuestionIndex = getNextQuestionIndex(appState.activeQuestionIndex + 1);
+          appState.hoveredBack = false;
           appState.hoveredChoice = null;
           appState.selectedChoice = null;
           syncAnswerDeck(true);
           updateChoiceHud();
-        }, appState.reducedMotion ? 300 : 720);
+        }, appState.reducedMotion ? 420 : 1150);
       }
 
       function setFingerprintAnswer(questionId, value, options = {}) {
@@ -3049,6 +4456,7 @@ Map: https://levnat.ca/</pre>
         const firstPlanet = inferPlanet(value);
         focusPlanet(firstPlanet, { fromCanvas: Boolean(options.from3D) });
         appState.archetype = classifyArchetype();
+        refreshGalaxyState();
 
         const activeIndex = getQuestionIndex(questionId);
         if (activeIndex === appState.activeQuestionIndex) {
@@ -3059,7 +4467,7 @@ Map: https://levnat.ca/</pre>
         updateCompletion();
         renderResult();
         updateMailto();
-        updateLiveInsight(firstScore);
+        updateLiveInsight(firstScore, value);
         updateChoiceHud();
 
         if (Object.keys(appState.answers).length === QUESTION_FLOW.length && !options.deferSimulation) {
@@ -3091,19 +4499,81 @@ Map: https://levnat.ca/</pre>
         return QUESTION_FLOW.length - 1;
       }
 
+      function canGoBackIn3D() {
+        return appState.threeDMode && appState.activeQuestionIndex > 0;
+      }
+
       function updateChoiceHud() {
         const progress = document.getElementById("choice-progress");
         const questionEl = document.getElementById("choice-question");
+        const objectEl = document.getElementById("choice-object");
         const archetypeEl = document.getElementById("choice-archetype");
+        const backButton = document.getElementById("choice-back");
         if (!progress || !questionEl || !archetypeEl) return;
 
         const complete = Object.keys(appState.answers).length === QUESTION_FLOW.length;
         const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
+        if (backButton) {
+          const canGoBack = canGoBackIn3D();
+          backButton.disabled = !canGoBack;
+          backButton.setAttribute("aria-disabled", String(!canGoBack));
+        }
         progress.textContent = complete
-          ? "3D fingerprint complete"
-          : "3D fingerprint " + (appState.activeQuestionIndex + 1) + " / " + QUESTION_FLOW.length;
-        questionEl.textContent = complete ? "Fingerprint locked" : question.prompt;
-        archetypeEl.textContent = "Current vector: " + ARCHETYPES[appState.archetype].name;
+          ? "System map complete"
+          : "System map " + (appState.activeQuestionIndex + 1) + " / " + QUESTION_FLOW.length;
+        questionEl.textContent = complete ? "Your map is ready" : question.prompt;
+        if (objectEl) {
+          if (appState.hoveredBack) {
+            objectEl.textContent = "3D review: previous step portal";
+            archetypeEl.textContent = "Choices stay saved while you review step " + appState.activeQuestionIndex;
+            return;
+          }
+          const focusIndex = appState.hoveredChoice !== null
+            ? appState.hoveredChoice
+            : appState.selectedChoice !== null
+              ? appState.selectedChoice
+              : null;
+          const focusChoice = focusIndex !== null ? question.choices[focusIndex] : null;
+          if (focusChoice) {
+            const focusPlanet = inferPlanet(focusChoice.value);
+            const focusVisual = getChoiceVisual(focusChoice.value, focusPlanet);
+            objectEl.textContent = "3D choice: " + focusChoice.label + " / " + formatVisualKind(focusVisual.kind);
+          } else {
+            objectEl.textContent = complete ? "3D choice: constellation reveal" : "3D choice: system field";
+          }
+        }
+        archetypeEl.textContent = "Constellation forming: " + ARCHETYPES[appState.archetype].name;
+      }
+
+      function formatVisualKind(kind) {
+        const labels = {
+          firmwareChip: "first-page model",
+          apiStack: "site-engine model",
+          workflowGear: "work-saving model",
+          dataVault: "reports model",
+          opsRadar: "launch model",
+          hardwarePort: "message model",
+          contractBridge: "click-path bridge",
+          incidentBeacon: "follow-up beacon",
+          processRail: "process rail",
+          ownershipCompass: "clear-plan compass",
+          userCluster: "customer cluster",
+          deviceFleet: "services model",
+          manualStack: "admin stack",
+          integrationHub: "tools hub",
+          incidentFlare: "tracking signal",
+          logConsole: "customer activity",
+          memoryNode: "team knowledge",
+          retryLoop: "manual-step loop",
+          layerPatch: "first-version layer",
+          debateOrbit: "responsibility orbit",
+          architectureMap: "site-plan model",
+          stableHandoff: "customer-journey bridge",
+          opsQueue: "admin-relief queue",
+          monitoringArray: "launch-visibility model",
+          ownerCrown: "design-partner model"
+        };
+        return labels[kind] || "3D model";
       }
 
       function focusPlanet(planetId, options = {}) {
@@ -3114,8 +4584,8 @@ Map: https://levnat.ca/</pre>
         const planet = PLANETS[planetId];
         const insight = document.getElementById("live-insight");
         if (planet && insight) {
-          const source = options.fromCanvas ? "Canvas vector" : "Layer";
-          insight.textContent = source + " focus: " + planet.label + ". Role: " + planet.role + ". Watch its orbit and light bridges respond as you answer.";
+          const source = options.fromCanvas ? "3D object" : "Layer";
+          insight.textContent = source + " focus: " + planet.label + ". Meaning: " + planet.role + ". Watch this part pull the map into shape.";
         }
         updateVectorReadout(planetId);
         updatePlanetInspector(planetId);
@@ -3152,7 +4622,7 @@ Map: https://levnat.ca/</pre>
         const readout = document.getElementById("scale-readout");
         const insight = document.getElementById("live-insight");
         if (readout) readout.textContent = stage.label;
-        if (insight) insight.textContent = "Scale pressure: " + stage.label + ". " + stage.copy;
+        if (insight) insight.textContent = "System scale: " + stage.label + ". " + stage.copy;
       }
 
       function runScenario(scenarioId) {
@@ -3160,6 +4630,7 @@ Map: https://levnat.ca/</pre>
         if (!scenario) return;
         appState.activeScenario = scenarioId;
         appState.archetype = scenario.archetype;
+        refreshGalaxyState();
         focusPlanet(scenario.planet);
         document.querySelectorAll("[data-scenario]").forEach(function (button) {
           button.classList.toggle("is-active", button.dataset.scenario === scenarioId);
@@ -3231,21 +4702,35 @@ Map: https://levnat.ca/</pre>
         }
       }
 
-      function updateLiveInsight(score) {
+      function updateLiveInsight(score, value) {
         const insight = document.getElementById("live-insight");
         const archetype = ARCHETYPES[appState.archetype];
         if (!insight) return;
         const keys = Object.keys(score || {});
         insight.textContent = keys.length
-          ? "Galaxy shifted toward " + archetype.name + ". Dominant focus: " + PLANETS[archetype.focus].label + "."
-          : "Galaxy updated. Continue answering to reveal the fingerprint.";
+          ? "Map layer added: " + getChoiceLabel(value) + ". The constellation is moving toward " + archetype.name + ". Focus layer: " + PLANETS[archetype.focus].label + "."
+          : "Map updated. Continue choosing signals to complete the constellation.";
+      }
+
+      function getChoiceLabel(value) {
+        for (let i = 0; i < QUESTION_FLOW.length; i += 1) {
+          const match = QUESTION_FLOW[i].choices.find(function (choice) {
+            return choice.value === value;
+          });
+          if (match) return match.label;
+        }
+        return "selected choice";
       }
 
       function renderResult() {
         const archetype = ARCHETYPES[appState.archetype];
         document.getElementById("archetype-name").textContent = archetype.name;
         document.getElementById("archetype-summary").textContent = archetype.summary;
-        document.getElementById("next-action").textContent = "Useful next action: " + archetype.action;
+        document.getElementById("next-action").textContent = "Working session: " + archetype.action;
+        const fallbackArchetype = document.getElementById("fallback-archetype");
+        const fallbackAction = document.getElementById("fallback-action");
+        if (fallbackArchetype) fallbackArchetype.textContent = "Your map: " + archetype.name;
+        if (fallbackAction) fallbackAction.textContent = "Working session: " + archetype.action;
 
         const gapList = document.getElementById("gap-list");
         gapList.innerHTML = "";
@@ -3261,10 +4746,10 @@ Map: https://levnat.ca/</pre>
       function buildSlackMessage() {
         const archetype = ARCHETYPES[appState.archetype];
         return [
-          "Hey team - I mapped our product system.",
-          "Fingerprint: " + archetype.name + ".",
-          "Main discussion point: " + PLANETS[archetype.focus].label + " ownership.",
-          "Useful next step: " + archetype.action,
+          "I built a quick website system map.",
+          "Map direction: " + archetype.name + ".",
+          "Session focus: " + PLANETS[archetype.focus].label + ".",
+          "Working session: " + archetype.action,
           "Map: " + CONTACT_CONFIG.siteUrl
         ].join("\n");
       }
@@ -3272,11 +4757,11 @@ Map: https://levnat.ca/</pre>
       function buildSummaryText() {
         const archetype = ARCHETYPES[appState.archetype];
         return [
-          "Product System Fingerprint: " + archetype.name,
+          "Website System Map: " + archetype.name,
           archetype.summary,
-          "Ownership gaps:",
+          "Map signals:",
           archetype.gaps.map(function (gap) { return "- " + gap; }).join("\n"),
-          "Useful next action: " + archetype.action
+          "Working session: " + archetype.action
         ].join("\n\n");
       }
 
@@ -3284,15 +4769,15 @@ Map: https://levnat.ca/</pre>
         const link = document.getElementById("email-map");
         if (!link) return;
         const archetype = ARCHETYPES[appState.archetype];
-        const body = encodeURIComponent(buildSummaryText() + "\n\nI would like to discuss this map.");
-        link.href = "mailto:" + CONTACT_CONFIG.email + "?subject=" + encodeURIComponent("Product system map: " + archetype.name) + "&body=" + body;
+        const body = encodeURIComponent(buildSummaryText() + "\n\nI want to turn this into a working session for my real website or product.");
+        link.href = "mailto:" + CONTACT_CONFIG.email + "?subject=" + encodeURIComponent("Map my website or product: " + archetype.name) + "&body=" + body;
       }
 
       function runWhatIfSimulation(type) {
         appState.simulation = type || "handoff";
         const insight = document.getElementById("live-insight");
         if (insight) {
-          insight.textContent = "Running what-if simulation: " + appState.simulation + ". Watch the galaxy settle into the fingerprint.";
+          insight.textContent = "Adding motion layer: " + appState.simulation + ". Watch the map settle into a stronger constellation.";
         }
         window.setTimeout(function () {
           appState.simulation = null;
@@ -3308,15 +4793,18 @@ Map: https://levnat.ca/</pre>
         appState.archetype = "handoff";
         appState.selectedPlanet = "firmware";
         appState.activeQuestionIndex = 0;
+        appState.hoveredBack = false;
         appState.hoveredChoice = null;
         appState.selectedChoice = null;
         appState.choicePulseUntil = 0;
+        appState.backPortalPulseUntil = 0;
         document.querySelectorAll("input[type='radio']").forEach(function (input) {
           input.checked = false;
         });
         appState.activeScenario = null;
         appState.scaleStage = 0;
         appState.revealUntil = 0;
+        refreshGalaxyState();
         const scaleSlider = document.getElementById("scale-slider");
         if (scaleSlider) scaleSlider.value = "0";
         document.querySelectorAll("[data-scenario]").forEach(function (button) {
@@ -3333,7 +4821,7 @@ Map: https://levnat.ca/</pre>
         updateChoiceHud();
         const insight = document.getElementById("live-insight");
         if (insight) {
-          insight.textContent = "Galaxy reset. Touch a planet or answer the first question.";
+          insight.textContent = "Map reset. Touch a planet or choose the first signal.";
         }
       }
 
