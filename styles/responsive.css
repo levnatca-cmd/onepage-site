@@ -1,0 +1,377 @@
+/* All breakpoint overrides + prefers-reduced-motion. Loaded last so it cascades over component files. */
+
+@media (max-width: 1100px) {
+  .hero-overlay {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding: 32px max(20px, 4vw);
+    min-height: auto;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-copy,
+  .rescue-rig,
+  .layer-strip,
+  .vector-hud,
+  .planet-inspector {
+    position: relative;
+    inset: auto;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .rescue-rig {
+    order: 2;
+    width: min(500px, 100%);
+    max-width: 500px;
+    margin: -8px auto 0;
+    aspect-ratio: 1;
+    pointer-events: none;
+    perspective: 760px;
+  }
+
+  .hero-copy {
+    order: 1;
+  }
+
+  .vector-hud {
+    order: 3;
+  }
+
+  .planet-inspector {
+    order: 4;
+  }
+
+  .layer-strip {
+    order: 5;
+  }
+
+  .layer-strip {
+    justify-content: flex-start;
+    max-width: none;
+  }
+
+  .vector-hud {
+    grid-template-columns: repeat(3, minmax(0, max-content));
+  }
+
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .galaxy-panel {
+    max-height: none;
+  }
+
+  .service-grid,
+  .process-grid,
+  .pricing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pricing-card-featured {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav {
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    row-gap: 0;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    order: 2;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-links {
+    display: none;
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    margin: 12px 0 6px;
+  }
+
+  .nav-links a {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: rgba(12, 17, 26, 0.72);
+  }
+
+  .nav-links.is-open {
+    display: flex;
+  }
+
+  .nav-links .nav-mobile-cta {
+    display: flex;
+    color: #061017;
+    background: linear-gradient(135deg, var(--cyan), var(--tint-bright));
+    border-color: transparent;
+    font-weight: 700;
+  }
+
+  .galaxy-hero,
+  .hero-overlay {
+    min-height: auto;
+  }
+
+  .galaxy-canvas {
+    height: 52vh;
+    min-height: 420px;
+  }
+
+  .galaxy-hero.is-3d-mode {
+    height: calc(var(--viewport-height) - 70px);
+    min-height: calc(var(--viewport-height) - 70px);
+  }
+
+  .galaxy-hero.is-3d-mode .galaxy-canvas {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .hero-overlay {
+    padding: 24px 14px 32px;
+  }
+
+  .launch-ring {
+    left: 50%;
+    top: 26%;
+    width: 96vw;
+  }
+
+  .launch-token {
+    display: none;
+  }
+
+  .launch-beam {
+    top: 28%;
+  }
+
+  .hero-copy {
+    width: min(362px, calc(100vw - 28px));
+    max-width: min(362px, calc(100vw - 28px));
+    margin-inline: 0 auto;
+    padding: 18px;
+  }
+
+  .rescue-rig {
+    order: 0;
+    width: min(320px, calc(100vw - 28px));
+    margin-inline: 0 auto;
+    margin-top: -8px;
+    margin-bottom: -12px;
+  }
+
+  .mission-stats {
+    gap: 6px;
+  }
+
+  .mission-stats span {
+    min-height: 58px;
+    padding: 9px 8px;
+  }
+
+  .mission-stats b {
+    font-size: 15px;
+  }
+
+  .layer-strip {
+    width: min(362px, calc(100vw - 28px));
+    max-width: min(362px, calc(100vw - 28px));
+    margin-inline: 0 auto;
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .layer-button {
+    padding: 9px 10px;
+    font-size: 11px;
+  }
+
+  .vector-hud,
+  .planet-inspector {
+    display: none;
+  }
+
+  .panel-actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .galaxy-hero.is-3d-mode .hero-overlay {
+    min-height: 100%;
+    padding: 0;
+  }
+
+  .galaxy-hero.is-3d-mode .rescue-rig {
+    display: none;
+  }
+
+  .choice-hud {
+    left: 4vw;
+    right: 4vw;
+    top: 116px;
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .choice-hud-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-title {
+    font-size: clamp(32px, 10vw, 46px);
+    overflow-wrap: anywhere;
+  }
+
+  .vector-hud {
+    grid-template-columns: 1fr;
+    max-width: 220px;
+  }
+
+  .planet-inspector {
+    max-width: 320px;
+  }
+
+  .scenario-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .answer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-meter-top,
+  .mission-meter-meta {
+    align-items: start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .share-badge {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .share-badge-copy {
+    justify-items: center;
+  }
+
+  .galaxy-panel {
+    padding: 18px;
+  }
+
+  .section {
+    padding: 58px 0;
+  }
+
+  .section-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .service-grid,
+  .process-grid,
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-card,
+  .pricing-card-featured {
+    grid-column: auto;
+    min-height: auto;
+  }
+
+  .pricing-note {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pricing-note .btn {
+    width: 100%;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+
+  .achievement-toast {
+    top: 78px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn,
+  .nav-cta,
+  .toast,
+  .reveal-overlay,
+  .galaxy-hero.is-3d-mode .hero-copy,
+  .galaxy-hero.is-3d-mode .rescue-rig,
+  .galaxy-hero.is-3d-mode .layer-strip,
+  .galaxy-hero.is-3d-mode .vector-hud,
+  .galaxy-hero.is-3d-mode .planet-inspector {
+    transition: none !important;
+  }
+
+  .choice-hud::after,
+  .share-badge::after,
+  .wow-score-card,
+  .wow-score-card::after,
+  .wow-score-card i,
+  .score-pop,
+  .rescue-rig,
+  .rescue-rig *,
+  .hero-copy::after,
+  .mission-stats span::after,
+  .share-badge-ring,
+  .completion-burst span,
+  .btn-primary::after,
+  .scroll-hint::after,
+  .sys-status-led,
+  .hero-title .accent,
+  .brand-mark,
+  body::after {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+
+  .launch-sequence,
+  .launch-sequence * {
+    animation: none !important;
+  }
+
+  .launch-sequence {
+    opacity: 0 !important;
+  }
+}
