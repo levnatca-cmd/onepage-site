@@ -1,0 +1,37 @@
+{
+  "js": "src/galaxy/js",
+  "styles": "src/galaxy/styles",
+  "three.module.min.js": "vendor/three/three.module.min.js",
+  "Favicon2.png": "assets/images/favicon.png",
+  "scripts/scene-contract-check.mjs": "tests/galaxy/scene-contract-check.mjs",
+  "starworld-qa/REPORT.md": "docs/reviews/starworld-qa.md",
+  "starworld-qa/original-hashes.json": "tests/fixtures/starworld-original-hashes.json",
+  "starworld-qa/security-ios-preview.jpg": "artifacts/screenshots/security-ios-preview.jpg",
+  "starworld-qa/runtime.mjs": "scripts/prepare-starworld-qa.mjs",
+  "3D_REVIEW.md": "docs/reviews/3d-review.md",
+  "ENGINEERING_CONSOLE_PLAN.md": "docs/plans/engineering-console.md",
+  "STARWORLD_PLAN.md": "docs/plans/starworld.md",
+  "TODO.md": "docs/roadmap.md",
+  "REFACTOR_PLAN.md": "docs/plans/repository-organization.md",
+  "output/pqc-motion": "prototypes/pqc-motion",
+  "starworld-publish": "deploy/starworld",
+  "starworld-qa/no-webgl.html": "artifacts/qa/starworld/no-webgl.html",
+  "starworld-qa/runtime.html": "artifacts/qa/starworld/runtime.html",
+  "starworld-src/build.mjs": "scripts/build-starworld.mjs",
+  "starworld-src/check.mjs": "tests/starworld/check.mjs",
+  "starworld-src/app.js": [
+    "src/starworld/data/services.js",
+    "src/starworld/domain/project-brief.js",
+    "src/starworld/scene/label-layout.js",
+    "src/starworld/scene/geometry.js",
+    "src/starworld/scene/service-map.js",
+    "src/starworld/app.js"
+  ],
+  "starworld-src/shell.html": [
+    "src/starworld/index.html",
+    "src/starworld/styles/base.css",
+    "src/starworld/styles/theme.css",
+    "src/starworld/styles/services.css"
+  ],
+  "starworld-src/qa.css": "src/starworld/styles/layout.css"
+}

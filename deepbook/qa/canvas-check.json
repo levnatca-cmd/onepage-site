@@ -1,0 +1,18 @@
+{
+  "desktop": {
+    "width": 1280,
+    "height": 300,
+    "visiblePixels": 21845,
+    "changedPixels": 24251,
+    "nonblank": true,
+    "moving": true
+  },
+  "mobile": {
+    "width": 390,
+    "height": 160,
+    "visiblePixels": 2553,
+    "changedPixels": 4608,
+    "nonblank": true,
+    "moving": true
+  }
+}

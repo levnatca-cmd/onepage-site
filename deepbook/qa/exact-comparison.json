@@ -1,0 +1,4679 @@
+{
+  "desktop": [
+    {
+      "route": "/",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.71875,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 875.1640625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 35.90625,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Spot. Margin. Predict.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 121.234375,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Three primitives, shared liquidity, and one composable stack.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 78.5703125,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Everything you need to go from idea to launch. Fast.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 121.234375,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Combine them to build financial products that don't exist yet.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 78.5703125,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Whether you're building or trading — it starts here.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 51.1953125,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Builders",
+            "width": 163.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 51.1953125,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Traders",
+            "width": 149.7578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 159.5703125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Who’s Building On DeepBook",
+            "width": 764.4375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.7890625,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack.",
+            "width": 583.1875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Battle-Tested Security",
+            "width": 462.8203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 625.1796875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-stack",
+            "height": 3838.2109375,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-builders",
+            "height": 762.6328125,
+            "tag": "SECTION",
+            "top": 4558.2109375,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-db container-1440",
+            "height": 941.7890625,
+            "tag": "SECTION",
+            "top": 5320.84375,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-built",
+            "height": 977.2421875,
+            "tag": "SECTION",
+            "top": 6262.6328125,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "home-security",
+            "height": 638.0546875,
+            "tag": "SECTION",
+            "top": 7239.875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "home-cta",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 7877.9296875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 8597.9296875,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.71875,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 875.1640625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 35.90625,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Spot. Margin. Predict.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 121.234375,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Three primitives, shared liquidity, and one composable stack.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 78.5703125,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Everything you need to go from idea to launch. Fast.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 121.234375,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Combine them to build financial products that don't exist yet.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 78.5703125,
+            "lineHeight": "42.6667px",
+            "size": "35.5556px",
+            "text": "Whether you're building or trading — it starts here.",
+            "width": 481.7734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 51.1953125,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Builders",
+            "width": 163.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 51.1953125,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Traders",
+            "width": 149.7578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 159.5703125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Who’s Building On DeepBook",
+            "width": 764.4375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.7890625,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack.",
+            "width": 583.1875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Battle-Tested Security",
+            "width": 462.8203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 625.1796875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-stack",
+            "height": 3838.2109375,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-builders",
+            "height": 762.6328125,
+            "tag": "SECTION",
+            "top": 4558.2109375,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-db container-1440",
+            "height": 941.7890625,
+            "tag": "SECTION",
+            "top": 5320.84375,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-built",
+            "height": 977.2421875,
+            "tag": "SECTION",
+            "top": 6262.6328125,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "home-security",
+            "height": 638.0546875,
+            "tag": "SECTION",
+            "top": 7239.875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "home-cta",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 7877.9296875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 8597.9296875,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/builder-hub",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.796875,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Three primitives. Infinite combinations.",
+            "width": 786.0859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Why builders choose DeepBook",
+            "width": 588.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Spot",
+            "width": 663.46875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Margin",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Predict",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "This is where it gets interesting.",
+            "width": 518.09375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Already powering Sui Finance",
+            "width": 373.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "Everything you need to start building",
+            "width": 542.5078125
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-deepbook",
+            "height": 840.71875,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-spot",
+            "height": 873.4609375,
+            "tag": "SECTION",
+            "top": 1560.71875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-products",
+            "height": 2025.25,
+            "tag": "SECTION",
+            "top": 2434.1796875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-finance",
+            "height": 2413.4609375,
+            "tag": "SECTION",
+            "top": 4459.4296875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-building",
+            "height": 962.421875,
+            "tag": "SECTION",
+            "top": 6872.890625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 7835.3125,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.796875,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Three primitives. Infinite combinations.",
+            "width": 786.0859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Why builders choose DeepBook",
+            "width": 588.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Spot",
+            "width": 663.46875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Margin",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Predict",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "This is where it gets interesting.",
+            "width": 518.09375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Already powering Sui Finance",
+            "width": 373.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "Everything you need to start building",
+            "width": 542.5078125
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-deepbook",
+            "height": 840.71875,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-spot",
+            "height": 873.4609375,
+            "tag": "SECTION",
+            "top": 1560.71875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-products",
+            "height": 2025.25,
+            "tag": "SECTION",
+            "top": 2434.1796875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-finance",
+            "height": 2413.4609375,
+            "tag": "SECTION",
+            "top": 4459.4296875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-building",
+            "height": 962.421875,
+            "tag": "SECTION",
+            "top": 6872.890625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 7835.3125,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/trader-hub",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.796875,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 910.21875
+          },
+          {
+            "display": "none",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.7890625,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else.",
+            "width": 565.140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 159.5703125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Why traders choose Sui",
+            "width": 675.5546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 32.421875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Learn before you trade",
+            "width": 588.4453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Choose where to trade",
+            "width": 497.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 181.328125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Where to trade on DeepBook",
+            "width": 716.796875
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-trade",
+            "height": 1348.015625,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-sui",
+            "height": 870.6796875,
+            "tag": "SECTION",
+            "top": 2068.015625,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-info",
+            "height": 669.5234375,
+            "tag": "SECTION",
+            "top": 2938.6953125,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-learn",
+            "height": 708.3984375,
+            "tag": "SECTION",
+            "top": 3608.21875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-setup",
+            "height": 697.8515625,
+            "tag": "SECTION",
+            "top": 4316.6171875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "th-platforms",
+            "height": 2441.765625,
+            "tag": "SECTION",
+            "top": 5014.46875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 7456.234375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.796875,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 910.21875
+          },
+          {
+            "display": "none",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 140.7890625,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else.",
+            "width": 565.140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 159.5703125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Why traders choose Sui",
+            "width": 675.5546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 32.421875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Learn before you trade",
+            "width": 588.4453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 129.59375,
+            "lineHeight": "64.8px",
+            "size": "72px",
+            "text": "Choose where to trade",
+            "width": 497.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 181.328125,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Where to trade on DeepBook",
+            "width": 716.796875
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-trade",
+            "height": 1348.015625,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-sui",
+            "height": 870.6796875,
+            "tag": "SECTION",
+            "top": 2068.015625,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-info",
+            "height": 669.5234375,
+            "tag": "SECTION",
+            "top": 2938.6953125,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-learn",
+            "height": 708.3984375,
+            "tag": "SECTION",
+            "top": 3608.21875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-setup",
+            "height": 697.8515625,
+            "tag": "SECTION",
+            "top": 4316.6171875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "th-platforms",
+            "height": 2441.765625,
+            "tag": "SECTION",
+            "top": 5014.46875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 7456.234375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/deep-token",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 68.90625,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Introducing DEEP",
+            "width": 763.9453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "DEEP’s Utility",
+            "width": 271.2265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Token Distribution and Release Schedule",
+            "width": 488.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "The DEEP tokens are split into three buckets:",
+            "width": 674.0859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.2109375,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "10% Initial Community Airdrop",
+            "width": 300.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.8125,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "28.43% Core Contributors and Early Backers",
+            "width": 382.21875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.2109375,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "61.57% Ecosystem Growth",
+            "width": 267.7109375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "DEEP will be distributed over the next 7 years",
+            "width": 630.6875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 61.0078125,
+            "lineHeight": "34.6667px",
+            "size": "34.6667px",
+            "text": "Join the community today",
+            "width": 389.34375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 61.0078125,
+            "lineHeight": "34.6667px",
+            "size": "34.6667px",
+            "text": "There’s support waiting for you!",
+            "width": 346.6640625
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-numbers",
+            "height": 177.7734375,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-utility",
+            "height": 1172.0859375,
+            "tag": "SECTION",
+            "top": 897.7734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-schedule",
+            "height": 699.8828125,
+            "tag": "SECTION",
+            "top": 2069.859375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-split",
+            "height": 1207.109375,
+            "tag": "SECTION",
+            "top": 2769.7421875,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-dist",
+            "height": 1045.4375,
+            "tag": "SECTION",
+            "top": 3976.8515625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-cta",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 5022.2890625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 5742.2890625,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 68.90625,
+            "lineHeight": "90.6667px",
+            "size": "90.6667px",
+            "text": "Introducing DEEP",
+            "width": 763.9453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "DEEP’s Utility",
+            "width": 271.2265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Token Distribution and Release Schedule",
+            "width": 488.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "The DEEP tokens are split into three buckets:",
+            "width": 674.0859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.2109375,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "10% Initial Community Airdrop",
+            "width": 300.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.8125,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "28.43% Core Contributors and Early Backers",
+            "width": 382.21875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.2109375,
+            "lineHeight": "25.6px",
+            "size": "21.3333px",
+            "text": "61.57% Ecosystem Growth",
+            "width": 267.7109375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 120.890625,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "DEEP will be distributed over the next 7 years",
+            "width": 630.6875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 61.0078125,
+            "lineHeight": "34.6667px",
+            "size": "34.6667px",
+            "text": "Join the community today",
+            "width": 389.34375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 61.0078125,
+            "lineHeight": "34.6667px",
+            "size": "34.6667px",
+            "text": "There’s support waiting for you!",
+            "width": 346.6640625
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-numbers",
+            "height": 177.7734375,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-utility",
+            "height": 1172.0859375,
+            "tag": "SECTION",
+            "top": 897.7734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-schedule",
+            "height": 699.8828125,
+            "tag": "SECTION",
+            "top": 2069.859375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-split",
+            "height": 1207.109375,
+            "tag": "SECTION",
+            "top": 2769.7421875,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-dist",
+            "height": 1045.4375,
+            "tag": "SECTION",
+            "top": 3976.8515625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-cta",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 5022.2890625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 5742.2890625,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/points",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.71875,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "DeepBook Points Program",
+            "width": 906.9140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Built to reward real usage",
+            "width": 505.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 80,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "View Your Balance",
+            "width": 677.921875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "View Your Balance",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 60.4453125,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "How to earn points",
+            "width": 498.265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Participating Ecosystem Projects",
+            "width": 488.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "FAQs",
+            "width": 111.6171875
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-built",
+            "height": 640.0546875,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-balance",
+            "height": 529.421875,
+            "tag": "SECTION",
+            "top": 1360.0546875,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-earn",
+            "height": 736.1640625,
+            "tag": "SECTION",
+            "top": 1889.4765625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "po-projects",
+            "height": 2594.9765625,
+            "tag": "SECTION",
+            "top": 2625.640625,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-faq",
+            "height": 1683.59375,
+            "tag": "SECTION",
+            "top": 5220.6171875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 6904.2109375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.71875,
+            "lineHeight": "72px",
+            "size": "72px",
+            "text": "DeepBook Points Program",
+            "width": 906.9140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Built to reward real usage",
+            "width": 505.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 80,
+            "lineHeight": "80px",
+            "size": "80px",
+            "text": "View Your Balance",
+            "width": 677.921875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "View Your Balance",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 60.4453125,
+            "lineHeight": "60.4444px",
+            "size": "60.4444px",
+            "text": "How to earn points",
+            "width": 498.265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 93.859375,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "Participating Ecosystem Projects",
+            "width": 488.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 46.9296875,
+            "lineHeight": "46.9333px",
+            "size": "42.6667px",
+            "text": "FAQs",
+            "width": 111.6171875
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-hero",
+            "height": 720,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-built",
+            "height": 640.0546875,
+            "tag": "SECTION",
+            "top": 720,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-balance",
+            "height": 529.421875,
+            "tag": "SECTION",
+            "top": 1360.0546875,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-earn",
+            "height": 736.1640625,
+            "tag": "SECTION",
+            "top": 1889.4765625,
+            "width": 1280
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "po-projects",
+            "height": 2594.9765625,
+            "tag": "SECTION",
+            "top": 2625.640625,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-faq",
+            "height": 1683.59375,
+            "tag": "SECTION",
+            "top": 5220.6171875,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 6904.2109375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/privacy-policy",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 56.890625,
+            "lineHeight": "56.8889px",
+            "size": "56.8889px",
+            "text": "Privacy Policy",
+            "width": 380.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information You Provide to Us Directly",
+            "width": 234.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information Collected Automatically",
+            "width": 224.6796875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information Collected from Other Sources",
+            "width": 260.203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Provide Our Services",
+            "width": 131.1328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Administrative Purposes",
+            "width": 153.7109375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Marketing and Advertising our Products and Services",
+            "width": 332.5546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "With Your Consent",
+            "width": 116.53125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Other Purposes",
+            "width": 97.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Other Purposes",
+            "width": 97.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosures to Provide our Services",
+            "width": 219.2734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosures to Protect Us or Others",
+            "width": 217.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosure in the Event of Merger, Sale, or Other Asset Transfers",
+            "width": 394.7578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Your Privacy Choices",
+            "width": 131
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Your Rights",
+            "width": 70.609375
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 549.734375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 13099.1328125,
+            "tag": "SECTION",
+            "top": 549.734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 13648.8671875,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 56.890625,
+            "lineHeight": "56.8889px",
+            "size": "56.8889px",
+            "text": "Privacy Policy",
+            "width": 380.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information You Provide to Us Directly",
+            "width": 234.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information Collected Automatically",
+            "width": 224.6796875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Information Collected from Other Sources",
+            "width": 260.203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Provide Our Services",
+            "width": 131.1328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Administrative Purposes",
+            "width": 153.7109375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Marketing and Advertising our Products and Services",
+            "width": 332.5546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "With Your Consent",
+            "width": 116.53125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Other Purposes",
+            "width": 97.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Other Purposes",
+            "width": 97.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosures to Provide our Services",
+            "width": 219.2734375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosures to Protect Us or Others",
+            "width": 217.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Disclosure in the Event of Merger, Sale, or Other Asset Transfers",
+            "width": 394.7578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Your Privacy Choices",
+            "width": 131
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Your Rights",
+            "width": 70.609375
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 549.734375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 13099.1328125,
+            "tag": "SECTION",
+            "top": 549.734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 13648.8671875,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    },
+    {
+      "route": "/terms-of-use",
+      "viewport": [
+        1280,
+        720
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 56.890625,
+            "lineHeight": "56.8889px",
+            "size": "56.8889px",
+            "text": "Terms of Use",
+            "width": 350.6953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Agreement to Terms",
+            "width": 126.71875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Changes to these Terms or the Site",
+            "width": 215.6328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Who May Use the Site?",
+            "width": 145.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Deepbook’s Intellectual Property",
+            "width": 203.546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "The Site",
+            "width": 51.21875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Reward Points",
+            "width": 91.078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 26.1484375,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "General Prohibitions and Deepbook’s Enforcement Rights. You agree not to do any of the following:",
+            "width": 373.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Links to Third Party Websites or Resources",
+            "width": 264.9453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "No Investment Advice",
+            "width": 138.84375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "No Fiduciary Duty",
+            "width": 112.046875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Termination",
+            "width": 73.6953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Warranty Disclaimers",
+            "width": 135.015625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Indemnity.",
+            "width": 65.546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Limitation of Liability",
+            "width": 127.90625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Limitation of Liability",
+            "width": 127.90625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Dispute Resolution",
+            "width": 117.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "General Terms",
+            "width": 90.1171875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Contact Information",
+            "width": 125.5859375
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 549.734375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 8230.2890625,
+            "tag": "SECTION",
+            "top": 549.734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 8780.0234375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 56.890625,
+            "lineHeight": "56.8889px",
+            "size": "56.8889px",
+            "text": "Terms of Use",
+            "width": 350.6953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Agreement to Terms",
+            "width": 126.71875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Changes to these Terms or the Site",
+            "width": 215.6328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Who May Use the Site?",
+            "width": 145.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Deepbook’s Intellectual Property",
+            "width": 203.546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "The Site",
+            "width": 51.21875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Reward Points",
+            "width": 91.078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 26.1484375,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "General Prohibitions and Deepbook’s Enforcement Rights. You agree not to do any of the following:",
+            "width": 373.328125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Links to Third Party Websites or Resources",
+            "width": 264.9453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "No Investment Advice",
+            "width": 138.84375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "No Fiduciary Duty",
+            "width": 112.046875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Termination",
+            "width": 73.6953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Warranty Disclaimers",
+            "width": 135.015625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Indemnity.",
+            "width": 65.546875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Limitation of Liability",
+            "width": 127.90625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Limitation of Liability",
+            "width": 127.90625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Dispute Resolution",
+            "width": 117.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "General Terms",
+            "width": 90.1171875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 10.140625,
+            "lineHeight": "16.0085px",
+            "size": "13.3404px",
+            "text": "Contact Information",
+            "width": 125.5859375
+          }
+        ],
+        "height": 720,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 549.734375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 1280
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 8230.2890625,
+            "tag": "SECTION",
+            "top": 549.734375,
+            "width": 1280
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 720,
+            "tag": "FOOTER",
+            "top": 8780.0234375,
+            "width": 1280
+          }
+        ],
+        "width": 1280
+      }
+    }
+  ],
+  "mobile": [
+    {
+      "route": "/",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Where Sui Finance Starts",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 28.3515625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Spot. Margin. Predict.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Three primitives, shared liquidity, and one composable stack.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Everything you need to go from idea to launch. Fast.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Combine them to build financial products that don't exist yet.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Whether you're building or trading — it starts here.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 48.671875,
+            "lineHeight": "44.616px",
+            "size": "40.56px",
+            "text": "Builders",
+            "width": 155.25
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 48.671875,
+            "lineHeight": "44.616px",
+            "size": "40.56px",
+            "text": "Traders",
+            "width": 142.3515625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Who’s Building On DeepBook",
+            "width": 352.5625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 274.546875,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack.",
+            "width": 333.4296875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 89.859375,
+            "lineHeight": "44.928px",
+            "size": "49.92px",
+            "text": "Battle-Tested Security",
+            "width": 320.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 77.375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Where Sui Finance Starts",
+            "width": 332.796875
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-stack",
+            "height": 4332.3125,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-builders",
+            "height": 1772.28125,
+            "tag": "SECTION",
+            "top": 5176.3125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-db container-1440",
+            "height": 659.9453125,
+            "tag": "SECTION",
+            "top": 6948.59375,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-built",
+            "height": 1387.2421875,
+            "tag": "SECTION",
+            "top": 7608.5390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "home-security",
+            "height": 576.6796875,
+            "tag": "SECTION",
+            "top": 8995.78125,
+            "width": 390
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "home-cta",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 9572.4609375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 10416.4609375,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Where Sui Finance Starts",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 28.3515625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Spot. Margin. Predict.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Three primitives, shared liquidity, and one composable stack.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Everything you need to go from idea to launch. Fast.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Combine them to build financial products that don't exist yet.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 98.5390625,
+            "lineHeight": "35.1px",
+            "size": "28.08px",
+            "text": "Whether you're building or trading — it starts here.",
+            "width": 306.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 48.671875,
+            "lineHeight": "44.616px",
+            "size": "40.56px",
+            "text": "Builders",
+            "width": 155.25
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 48.671875,
+            "lineHeight": "44.616px",
+            "size": "40.56px",
+            "text": "Traders",
+            "width": 142.3515625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "Who’s Building On DeepBook",
+            "width": 352.5625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 274.546875,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack.",
+            "width": 333.4296875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 89.859375,
+            "lineHeight": "44.928px",
+            "size": "49.92px",
+            "text": "Battle-Tested Security",
+            "width": 320.890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Where Sui Finance Starts",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 77.375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Where Sui Finance Starts",
+            "width": 332.796875
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-stack",
+            "height": 4332.3125,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-builders",
+            "height": 1772.28125,
+            "tag": "SECTION",
+            "top": 5176.3125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-db container-1440",
+            "height": 659.9453125,
+            "tag": "SECTION",
+            "top": 6948.59375,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "home-built",
+            "height": 1387.2421875,
+            "tag": "SECTION",
+            "top": 7608.5390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "home-security",
+            "height": 576.6796875,
+            "tag": "SECTION",
+            "top": 8995.78125,
+            "width": 390
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "home-cta",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 9572.4609375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 10416.4609375,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    },
+    {
+      "route": "/builder-hub",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 114.8203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Three primitives. Infinite combinations.",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Why builders choose DeepBook",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Spot",
+            "width": 315.140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Margin",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Predict",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 83.203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "This is where it gets interesting.",
+            "width": 292.78125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 91.515625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Already powering Sui Finance",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 124.8046875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Everything you need to start building",
+            "width": 272.859375
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-hero",
+            "height": 1088.578125,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-deepbook",
+            "height": 1033.3671875,
+            "tag": "SECTION",
+            "top": 1088.578125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-spot",
+            "height": 1045.7421875,
+            "tag": "SECTION",
+            "top": 2121.9453125,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-products",
+            "height": 2616.5546875,
+            "tag": "SECTION",
+            "top": 3167.6875,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-finance",
+            "height": 855.1484375,
+            "tag": "SECTION",
+            "top": 5784.2421875,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-building",
+            "height": 920.0546875,
+            "tag": "SECTION",
+            "top": 6639.390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 7559.4453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 114.8203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Three primitives. Infinite combinations.",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Why builders choose DeepBook",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Spot",
+            "width": 315.140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Margin",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Predict",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 83.203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "This is where it gets interesting.",
+            "width": 292.78125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 91.515625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Already powering Sui Finance",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 124.8046875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Everything you need to start building",
+            "width": 272.859375
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-hero",
+            "height": 1088.578125,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-deepbook",
+            "height": 1033.3671875,
+            "tag": "SECTION",
+            "top": 1088.578125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "bh-spot",
+            "height": 1045.7421875,
+            "tag": "SECTION",
+            "top": 2121.9453125,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-products",
+            "height": 2616.5546875,
+            "tag": "SECTION",
+            "top": 3167.6875,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-finance",
+            "height": 855.1484375,
+            "tag": "SECTION",
+            "top": 5784.2421875,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "bh-building",
+            "height": 920.0546875,
+            "tag": "SECTION",
+            "top": 6639.390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 7559.4453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    },
+    {
+      "route": "/trader-hub",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "none",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 114.8203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 324.3203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 228.7890625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else.",
+            "width": 344.703125
+          },
+          {
+            "display": "block",
+            "font": "Twkeverett, Arial, sans-serif",
+            "height": 92.8515625,
+            "lineHeight": "54.912px",
+            "size": "49.92px",
+            "text": "Why traders choose Sui",
+            "width": 288.7890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 77.375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Learn before you trade",
+            "width": 312
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 89.859375,
+            "lineHeight": "44.928px",
+            "size": "49.92px",
+            "text": "Choose where to trade",
+            "width": 344.8984375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 149.765625,
+            "lineHeight": "49.92px",
+            "size": "49.92px",
+            "text": "Where to trade on DeepBook",
+            "width": 246.5625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-hero",
+            "height": 1088.578125,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-trade",
+            "height": 2655.734375,
+            "tag": "SECTION",
+            "top": 1088.578125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-sui",
+            "height": 831.25,
+            "tag": "SECTION",
+            "top": 3744.3125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-info",
+            "height": 1212.4609375,
+            "tag": "SECTION",
+            "top": 4575.5625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-learn",
+            "height": 1064.0625,
+            "tag": "SECTION",
+            "top": 5788.0234375,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-setup",
+            "height": 578.515625,
+            "tag": "SECTION",
+            "top": 6852.0859375,
+            "width": 390
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "th-platforms",
+            "height": 3585.8515625,
+            "tag": "SECTION",
+            "top": 7430.6015625,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 11016.453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "none",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 114.8203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Every market. One ecosystem. Only on Sui.",
+            "width": 324.3203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 228.7890625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else.",
+            "width": 344.703125
+          },
+          {
+            "display": "block",
+            "font": "Twkeverett, Arial, sans-serif",
+            "height": 92.8515625,
+            "lineHeight": "54.912px",
+            "size": "49.92px",
+            "text": "Why traders choose Sui",
+            "width": 288.7890625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 77.375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Learn before you trade",
+            "width": 312
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 89.859375,
+            "lineHeight": "44.928px",
+            "size": "49.92px",
+            "text": "Choose where to trade",
+            "width": 344.8984375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 149.765625,
+            "lineHeight": "49.92px",
+            "size": "49.92px",
+            "text": "Where to trade on DeepBook",
+            "width": 246.5625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-hero",
+            "height": 1088.578125,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-trade",
+            "height": 2655.734375,
+            "tag": "SECTION",
+            "top": 1088.578125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-sui",
+            "height": 831.25,
+            "tag": "SECTION",
+            "top": 3744.3125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "th-info",
+            "height": 1212.4609375,
+            "tag": "SECTION",
+            "top": 4575.5625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-learn",
+            "height": 1064.0625,
+            "tag": "SECTION",
+            "top": 5788.0234375,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "th-setup",
+            "height": 578.515625,
+            "tag": "SECTION",
+            "top": 6852.0859375,
+            "width": 390
+          },
+          {
+            "background": "rgb(0, 0, 0)",
+            "className": "th-platforms",
+            "height": 3585.8515625,
+            "tag": "SECTION",
+            "top": 7430.6015625,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 11016.453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "note": "Measured after asynchronous widget initialization settled."
+    },
+    {
+      "route": "/deep-token",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 73.21875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Introducing DEEP",
+            "width": 281.859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "DEEP’s Utility",
+            "width": 264.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Token Distribution and Release Schedule",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 199.6875,
+            "lineHeight": "49.92px",
+            "size": "49.92px",
+            "text": "The DEEP tokens are split into three buckets:",
+            "width": 328.578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.6015625,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "10% Initial Community Airdrop",
+            "width": 307.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 42.8125,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "28.43% Core Contributors and Early Backers",
+            "width": 291.1953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.6015625,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "61.57% Ecosystem Growth",
+            "width": 274.1171875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 124.8046875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "DEEP will be distributed over the next 7 years",
+            "width": 287.3359375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 86.1171875,
+            "lineHeight": "31.2px",
+            "size": "31.2px",
+            "text": "Join the community today",
+            "width": 224.640625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.9140625,
+            "lineHeight": "31.2px",
+            "size": "31.2px",
+            "text": "There’s support waiting for you!",
+            "width": 224.640625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-numbers",
+            "height": 416,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-utility",
+            "height": 1948.265625,
+            "tag": "SECTION",
+            "top": 1260,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-schedule",
+            "height": 823.7421875,
+            "tag": "SECTION",
+            "top": 3208.265625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-split",
+            "height": 1532.5703125,
+            "tag": "SECTION",
+            "top": 4032.0078125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-dist",
+            "height": 718.0546875,
+            "tag": "SECTION",
+            "top": 5564.578125,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-cta",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 6282.6328125,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 7126.6328125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 73.21875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Introducing DEEP",
+            "width": 281.859375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "DEEP’s Utility",
+            "width": 264.453125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Token Distribution and Release Schedule",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 199.6875,
+            "lineHeight": "49.92px",
+            "size": "49.92px",
+            "text": "The DEEP tokens are split into three buckets:",
+            "width": 328.578125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.6015625,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "10% Initial Community Airdrop",
+            "width": 307.5078125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 42.8125,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "28.43% Core Contributors and Early Backers",
+            "width": 291.1953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 16.6015625,
+            "lineHeight": "26.208px",
+            "size": "21.84px",
+            "text": "61.57% Ecosystem Growth",
+            "width": 274.1171875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 124.8046875,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "DEEP will be distributed over the next 7 years",
+            "width": 287.3359375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 86.1171875,
+            "lineHeight": "31.2px",
+            "size": "31.2px",
+            "text": "Join the community today",
+            "width": 224.640625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 54.9140625,
+            "lineHeight": "31.2px",
+            "size": "31.2px",
+            "text": "There’s support waiting for you!",
+            "width": 224.640625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-numbers",
+            "height": 416,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-utility",
+            "height": 1948.265625,
+            "tag": "SECTION",
+            "top": 1260,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-schedule",
+            "height": 823.7421875,
+            "tag": "SECTION",
+            "top": 3208.265625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-split",
+            "height": 1532.5703125,
+            "tag": "SECTION",
+            "top": 4032.0078125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "dt-dist",
+            "height": 718.0546875,
+            "tag": "SECTION",
+            "top": 5564.578125,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "dt-cta",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 6282.6328125,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 7126.6328125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    },
+    {
+      "route": "/points",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "DeepBook Points Program",
+            "width": 291.4921875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 91.515625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Built to reward real usage",
+            "width": 283.671875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 83.203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "View Your Balance",
+            "width": 190.03125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "View Your Balance",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "How to earn points",
+            "width": 342.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Participating Ecosystem Projects",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "FAQs",
+            "width": 108.828125
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-built",
+            "height": 950.1953125,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-balance",
+            "height": 580.84375,
+            "tag": "SECTION",
+            "top": 1794.1953125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-earn",
+            "height": 1458.953125,
+            "tag": "SECTION",
+            "top": 2375.0390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "po-projects",
+            "height": 1089.140625,
+            "tag": "SECTION",
+            "top": 3833.9921875,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-faq",
+            "height": 1125.1328125,
+            "tag": "SECTION",
+            "top": 4923.1328125,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 6048.265625,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 160.75,
+            "lineHeight": "58.24px",
+            "size": "58.24px",
+            "text": "DeepBook Points Program",
+            "width": 291.4921875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 91.515625,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Built to reward real usage",
+            "width": 283.671875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 83.203125,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "View Your Balance",
+            "width": 190.03125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 0,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "View Your Balance",
+            "width": 0
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "How to earn points",
+            "width": 342.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 137.2734375,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "Participating Ecosystem Projects",
+            "width": 348.40625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 45.7578125,
+            "lineHeight": "45.76px",
+            "size": "41.6px",
+            "text": "FAQs",
+            "width": 108.828125
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-hero",
+            "height": 844,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-built",
+            "height": 950.1953125,
+            "tag": "SECTION",
+            "top": 844,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-balance",
+            "height": 580.84375,
+            "tag": "SECTION",
+            "top": 1794.1953125,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-earn",
+            "height": 1458.953125,
+            "tag": "SECTION",
+            "top": 2375.0390625,
+            "width": 390
+          },
+          {
+            "background": "rgb(255, 255, 255)",
+            "className": "po-projects",
+            "height": 1089.140625,
+            "tag": "SECTION",
+            "top": 3833.9921875,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "po-faq",
+            "height": 1125.1328125,
+            "tag": "SECTION",
+            "top": 4923.1328125,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 6048.265625,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    },
+    {
+      "route": "/privacy-policy",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Privacy Policy",
+            "width": 278.265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information You Provide to Us Directly",
+            "width": 274.3203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information Collected Automatically",
+            "width": 262.8203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information Collected from Other Sources",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Provide Our Services",
+            "width": 153.3984375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Administrative Purposes",
+            "width": 179.8046875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Marketing and Advertising our Products and Services",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "With Your Consent",
+            "width": 136.3125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Other Purposes",
+            "width": 114.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Other Purposes",
+            "width": 114.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosures to Provide our Services",
+            "width": 256.5
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosures to Protect Us or Others",
+            "width": 254.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosure in the Event of Merger, Sale, or Other Asset Transfers",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Your Privacy Choices",
+            "width": 153.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Your Rights",
+            "width": 82.6015625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 517.359375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 24401.3515625,
+            "tag": "SECTION",
+            "top": 517.359375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 24918.7109375,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Privacy Policy",
+            "width": 278.265625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information You Provide to Us Directly",
+            "width": 274.3203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information Collected Automatically",
+            "width": 262.8203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Information Collected from Other Sources",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Provide Our Services",
+            "width": 153.3984375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Administrative Purposes",
+            "width": 179.8046875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Marketing and Advertising our Products and Services",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "With Your Consent",
+            "width": 136.3125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Other Purposes",
+            "width": 114.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Other Purposes",
+            "width": 114.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosures to Provide our Services",
+            "width": 256.5
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosures to Protect Us or Others",
+            "width": 254.953125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Disclosure in the Event of Merger, Sale, or Other Asset Transfers",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Your Privacy Choices",
+            "width": 153.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Your Rights",
+            "width": 82.6015625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 517.359375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 24401.3515625,
+            "tag": "SECTION",
+            "top": 517.359375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 24918.7109375,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    },
+    {
+      "route": "/terms-of-use",
+      "viewport": [
+        390,
+        844
+      ],
+      "sectionsMatch": true,
+      "headingsMatch": true,
+      "reference": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Terms of Use",
+            "width": 256.46875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Agreement to Terms",
+            "width": 148.234375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Changes to these Terms or the Site",
+            "width": 252.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Who May Use the Site?",
+            "width": 170.65625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Deepbook’s Intellectual Property",
+            "width": 238.1015625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "The Site",
+            "width": 59.9140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Reward Points",
+            "width": 106.5390625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 49.3125,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "General Prohibitions and Deepbook’s Enforcement Rights. You agree not to do any of the following:",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Links to Third Party Websites or Resources",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "No Investment Advice",
+            "width": 162.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "No Fiduciary Duty",
+            "width": 131.0703125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Termination",
+            "width": 86.203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Warranty Disclaimers",
+            "width": 157.9375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Indemnity.",
+            "width": 76.671875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Limitation of Liability",
+            "width": 149.625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Limitation of Liability",
+            "width": 149.625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Dispute Resolution",
+            "width": 137.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "General Terms",
+            "width": 105.4140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Contact Information",
+            "width": 146.90625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 517.359375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 16951.09375,
+            "tag": "SECTION",
+            "top": 517.359375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 17468.453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      },
+      "local": {
+        "headings": [
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 41.6015625,
+            "lineHeight": "41.6px",
+            "size": "41.6px",
+            "text": "Terms of Use",
+            "width": 256.46875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Agreement to Terms",
+            "width": 148.234375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Changes to these Terms or the Site",
+            "width": 252.2421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Who May Use the Site?",
+            "width": 170.65625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Deepbook’s Intellectual Property",
+            "width": 238.1015625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "The Site",
+            "width": 59.9140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Reward Points",
+            "width": 106.5390625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 49.3125,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "General Prohibitions and Deepbook’s Enforcement Rights. You agree not to do any of the following:",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 30.5859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Links to Third Party Websites or Resources",
+            "width": 279.8828125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "No Investment Advice",
+            "width": 162.421875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "No Fiduciary Duty",
+            "width": 131.0703125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Termination",
+            "width": 86.203125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Warranty Disclaimers",
+            "width": 157.9375
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Indemnity.",
+            "width": 76.671875
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Limitation of Liability",
+            "width": 149.625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Limitation of Liability",
+            "width": 149.625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Dispute Resolution",
+            "width": 137.8125
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "General Terms",
+            "width": 105.4140625
+          },
+          {
+            "display": "block",
+            "font": "TWKEverett, Arial, sans-serif",
+            "height": 11.859375,
+            "lineHeight": "18.73px",
+            "size": "15.6083px",
+            "text": "Contact Information",
+            "width": 146.90625
+          }
+        ],
+        "height": 844,
+        "scrollY": 0,
+        "sections": [
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-hero",
+            "height": 517.359375,
+            "tag": "SECTION",
+            "top": 0,
+            "width": 390
+          },
+          {
+            "background": "rgba(0, 0, 0, 0)",
+            "className": "legal-content",
+            "height": 16951.09375,
+            "tag": "SECTION",
+            "top": 517.359375,
+            "width": 390
+          },
+          {
+            "background": "rgb(30, 110, 243)",
+            "className": "footer",
+            "height": 844,
+            "tag": "FOOTER",
+            "top": 17468.453125,
+            "width": 390
+          }
+        ],
+        "width": 390
+      }
+    }
+  ],
+  "base": "http://127.0.0.1:4180",
+  "source": "https://deepbook-v2-wip.webflow.io",
+  "navigation": {
+    "buildPath": "/builder-hub",
+    "marginTab": "Margin"
+  }
+}

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Crawl-friendly for all major search engines and link-preview bots
+# (GoogleBot, Bingbot, DuckDuckBot, LinkedInBot, Twitterbot, facebookexternalhit).
+
+Sitemap: https://levnat.ca/sitemap.xml

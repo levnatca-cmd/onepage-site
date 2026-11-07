@@ -1,0 +1,51 @@
+[
+  {
+    "file": "index.html",
+    "svgCount": 29,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 7,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "trader-hub/index.html",
+    "svgCount": 46,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 6,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "terms-of-use/index.html",
+    "svgCount": 6,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 4,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "privacy-policy/index.html",
+    "svgCount": 21,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 4,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "deep-token/index.html",
+    "svgCount": 18,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 5,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "builder-hub/index.html",
+    "svgCount": 61,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 6,
+    "inlineStylesByteIdentical": true
+  },
+  {
+    "file": "points/index.html",
+    "svgCount": 64,
+    "svgByteIdentical": true,
+    "inlineStyleCount": 5,
+    "inlineStylesByteIdentical": true
+  }
+]

@@ -1,0 +1,825 @@
+/* Verified UI layer: scalable controls and reserved regions for the 3D canvas. */
+.topbar {
+  height: auto;
+  min-height: 84px;
+  flex-wrap: wrap;
+  padding-block: 12px;
+  gap: 16px 28px;
+}
+.topnav {
+  min-height: 44px;
+  flex-wrap: wrap;
+  align-self: center;
+}
+.topnav button {
+  font-size: 0.875rem;
+  min-height: 44px;
+}
+.topnav span {
+  font-size: 0.75rem;
+}
+.account,
+.contact-link {
+  font-size: 0.875rem;
+}
+.brand small {
+  font-size: 0.75rem;
+  letter-spacing: 0.9px;
+}
+.workspace {
+  grid-template-columns: 72px minmax(0, 1fr) 330px;
+}
+.map-column,
+.mission-panel,
+.selection-info > div {
+  min-width: 0;
+}
+.map-stage {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-rows: auto minmax(420px, 1fr) auto;
+  min-height: 0;
+  height: auto;
+  overflow: visible;
+  isolation: isolate;
+  scroll-margin-top: 16px;
+}
+.map-heading {
+  position: relative;
+  grid-column: 1/-1;
+  grid-row: 1;
+  left: auto;
+  top: auto;
+  padding: 26px 30px 20px;
+  max-width: 100%;
+  pointer-events: auto;
+}
+.map-heading h1 {
+  font-size: clamp(1.8rem, 3vw, 2.7rem);
+  overflow-wrap: normal;
+}
+.map-heading .eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  line-height: 1.65;
+}
+.map-heading .map-explanation {
+  font-size: 1rem;
+  max-width: 28rem;
+}
+.map-sub {
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.map-heading:after {
+  margin-top: 14px;
+}
+.scene-viewport {
+  position: relative;
+  grid-column: 1/-1;
+  grid-row: 2;
+  min-width: 0;
+  min-height: 420px;
+  overflow: hidden;
+}
+.scene-viewport:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, #06030c18 3px 4px);
+  pointer-events: none;
+}
+.map-stage:after {
+  display: none;
+}
+#universe:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -4px;
+}
+.map-corner {
+  top: 12px;
+  right: 16px;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  padding: 8px 10px;
+  background: #0b0816dd;
+}
+.map-tools {
+  right: 16px;
+  bottom: 16px;
+  gap: 8px;
+}
+.map-tools button,
+.icon-button {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+}
+.map-tools svg {
+  width: 18px;
+  height: 18px;
+}
+.worlds {
+  position: relative;
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+  left: auto;
+  bottom: auto;
+  width: auto;
+  margin: 0 0 18px 20px;
+  min-width: 0;
+  background: #100b1ef0;
+}
+.worlds-title {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  padding: 10px 10px 4px;
+  margin: 0;
+  letter-spacing: 0.9px;
+}
+.world-button {
+  padding: 10px;
+  min-height: 60px;
+  gap: 9px;
+}
+.world-button > span:nth-child(2) {
+  min-width: 0;
+}
+.world-button strong {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.world-button small {
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.world-button .num {
+  font-size: 0.75rem;
+}
+.world-button .state-dot {
+  flex-shrink: 0;
+}
+.world-label {
+  transform: none;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  letter-spacing: 0.4px;
+  white-space: normal;
+  max-width: 190px;
+  padding: 6px 8px;
+}
+.world-label b {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  letter-spacing: 0;
+  display: block;
+}
+.world-label.selected:before {
+  display: none;
+}
+.world-label.in-brief:after {
+  content: none;
+}
+.world-label.in-brief {
+  border-bottom: 1px solid var(--accent);
+}
+.map-hint {
+  position: relative;
+  grid-column: 1/-1;
+  grid-row: 3;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 8px 24px;
+  gap: 8px 14px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  min-height: 56px;
+  background: #0c0919;
+  z-index: 3;
+}
+.map-hint .hint-auto {
+  font-size: 0.75rem;
+}
+.map-hint #hint-help {
+  min-height: 44px;
+  padding: 8px !important;
+  margin-left: auto;
+}
+.map-bottom {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 20px 24px;
+  gap: 16px;
+}
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.button {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  min-height: 48px;
+  padding: 10px 16px;
+  white-space: normal;
+  min-width: 0;
+}
+.button span {
+  min-width: 0;
+}
+.selection-info h2 {
+  font-size: 1.125rem;
+}
+.selection-info p {
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+}
+.selection-icon {
+  flex-shrink: 0;
+}
+.mission-panel {
+  scroll-margin-top: 20px;
+  gap: 22px;
+}
+.mission-description,
+.brief-empty,
+.dialog-copy,
+.service-list li {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.mission-panel .mission-title {
+  font-size: 1.625rem;
+}
+.panel-heading,
+.objective-heading,
+.mission-tag,
+.mission-meta,
+.scope-note,
+.brief-summary,
+.brief-chip,
+.badge,
+.email-note,
+.telemetry-row {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  letter-spacing: 0.4px;
+}
+.mission-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.scope-note {
+  font-size: 0.875rem;
+}
+.brief-chip {
+  overflow-wrap: anywhere;
+}
+.telemetry-row {
+  font-size: 0.875rem;
+}
+.mission-art .art-coordinate,
+.mission-art .art-label {
+  font-size: 0.75rem;
+}
+.fallback-map {
+  inset: 18px 80px 18px 240px;
+  font-size: 1rem;
+  gap: 12px;
+}
+.fallback-map p {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.map-unavailable .map-corner {
+  display: none;
+}
+.map-unavailable #universe {
+  visibility: hidden;
+}
+.map-tools button:disabled {
+  opacity: 0.3;
+}
+dialog {
+  width: min(580px, calc(100% - 32px));
+  padding: 24px;
+  max-height: calc(100svh - 32px);
+  overflow: auto;
+}
+.dialog-heading {
+  align-items: flex-start;
+}
+.dialog-heading h2 {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.dialog-heading .icon-button {
+  flex: 0 0 44px;
+}
+.brief-label,
+.brief-item strong,
+.brief-notes {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.brief-notes {
+  border-color: #9276a8;
+}
+.brief-item strong {
+  overflow-wrap: anywhere;
+}
+.brief-item button {
+  font-size: 0.875rem;
+  min-height: 44px;
+}
+.notes-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  font: 0.75rem/1.6 var(--mono);
+  color: #bfb1ce;
+  margin-top: 8px;
+}
+.brief-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.brief-actions a {
+  overflow-wrap: anywhere;
+}
+.setting {
+  font-size: 1rem;
+  min-height: 56px;
+}
+.toast {
+  font-size: 0.875rem;
+}
+.system-status {
+  height: auto;
+  min-height: 48px;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  padding: 12px 22px;
+}
+.paused .scanning .sweep {
+  animation-play-state: paused;
+}
+.paused .map-stage {
+  filter: none;
+}
+@media (min-width: 1500px) {
+  .workspace {
+    grid-template-columns: 80px minmax(0, 1fr) 360px;
+  }
+  .map-bottom {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .action-buttons {
+    min-width: 360px;
+  }
+}
+@media (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: 58px minmax(0, 1fr) 300px;
+  }
+  .map-corner {
+    display: none;
+  }
+  .map-stage {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+  .map-heading {
+    padding: 24px;
+  }
+  .worlds {
+    margin-left: 12px;
+  }
+  .map-bottom {
+    padding: 20px;
+  }
+  .rail-mark {
+    font-size: 0.75rem;
+  }
+  .online {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  .workspace {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+  .account {
+    display: none;
+  }
+  .map-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto clamp(320px, 56vw, 450px) auto auto;
+  }
+  .scene-viewport {
+    min-height: 0;
+  }
+  .worlds {
+    grid-column: 1;
+    grid-row: 3;
+    position: relative;
+    width: auto;
+    left: auto;
+    bottom: auto;
+    margin: 0;
+    padding: 14px 20px 18px;
+    border-top: 1px solid var(--line);
+  }
+  #world-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .world-button:first-child {
+    grid-column: 1/-1;
+  }
+  .worlds-title {
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .map-hint {
+    grid-row: 4;
+  }
+  .map-hint .hint-auto {
+    display: none;
+  }
+  .map-corner {
+    display: none;
+  }
+  .mission-panel {
+    grid-column: 2;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 24px;
+  }
+  .fallback-map {
+    inset: 18px 80px 18px 18px;
+  }
+  .map-tools {
+    bottom: 14px;
+    right: 12px;
+  }
+  .world-label {
+    max-width: 150px;
+  }
+  .world-label b {
+    display: none;
+  }
+}
+@media (max-width: 580px) {
+  .workspace {
+    display: block;
+  }
+  .rail {
+    display: none;
+  }
+  .topbar {
+    height: auto;
+    padding: 16px 16px 0;
+    min-height: 0;
+    gap: 10px;
+  }
+  .brand {
+    font-size: 1.3rem;
+    flex: 1;
+  }
+  .brand small {
+    font-size: 0.75rem;
+    letter-spacing: 0.4px;
+  }
+  .topnav {
+    width: 100%;
+    height: auto;
+    min-height: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .topnav button {
+    font-size: 0.875rem;
+    min-height: 48px;
+    padding: 8px 0;
+  }
+  .topnav button:last-child {
+    display: block;
+  }
+  .topnav span {
+    display: none;
+  }
+  .map-heading {
+    padding: 24px 18px 20px;
+  }
+  .map-heading .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.4px;
+  }
+  .map-heading h1 {
+    font-size: clamp(1.65rem, 7.8vw, 2.2rem);
+    letter-spacing: -0.8px;
+  }
+  .map-heading .map-explanation {
+    font-size: 1rem;
+    max-width: none;
+  }
+  .map-sub {
+    font-size: 0.75rem;
+    gap: 8px;
+  }
+  .map-stage {
+    height: auto;
+    min-height: 0;
+    grid-template-rows: auto 330px auto auto;
+  }
+  .scene-viewport {
+    min-height: 0;
+  }
+  .worlds {
+    width: auto;
+    left: auto;
+    bottom: auto;
+    padding: 14px 14px 18px;
+  }
+  .world-button {
+    padding: 9px 7px;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .world-button strong {
+    font-size: 0.875rem;
+  }
+  .world-button small {
+    font-size: 0.75rem;
+  }
+  .world-button .state-dot {
+    margin-top: 8px;
+  }
+  .world-label {
+    font-size: 0.75rem;
+    max-width: 135px;
+    padding: 5px 7px;
+  }
+  .map-hint {
+    font-size: 0.75rem;
+    padding: 6px 14px;
+    gap: 4px;
+  }
+  .map-hint div {
+    max-width: 100%;
+  }
+  .map-bottom {
+    padding: 18px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .selection-info h2 {
+    font-size: 1.125rem;
+  }
+  .action-buttons {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .mission-panel {
+    display: flex;
+    gap: 24px;
+    padding: 26px 20px;
+  }
+  .mission-panel .mission-title {
+    font-size: 1.75rem;
+  }
+  .panel-heading,
+  .objective-heading {
+    font-size: 0.75rem;
+  }
+  .system-status {
+    font-size: 0.75rem;
+    padding: 12px 16px;
+    gap: 5px 14px;
+  }
+  .system-status .right {
+    display: none;
+  }
+  .fallback-map {
+    inset: 14px 70px 14px 14px;
+    padding: 12px;
+  }
+  .fallback-map svg {
+    width: 44px;
+    height: 44px;
+  }
+  .fallback-map p {
+    font-size: 0.875rem;
+    margin: 0;
+  }
+  .brief-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .brief-actions > * {
+    width: 100%;
+  }
+  .brief-item {
+    gap: 8px;
+  }
+  dialog {
+    padding: 20px;
+  }
+  .dialog-heading {
+    gap: 8px;
+  }
+  .dialog-heading h2 {
+    font-size: 1.4rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sweep {
+    animation: none !important;
+  }
+}
+/* Long service names also reflow when the browser's text size is enlarged. */
+.world-button small,
+.world-label,
+.selection-info h2,
+.selection-info p {
+  overflow-wrap: anywhere;
+}
+.fallback-map {
+  overflow: auto;
+  justify-content: flex-start;
+}
+.fallback-map > * {
+  flex-shrink: 0;
+}
+.worlds-title span {
+  display: inline-block;
+  white-space: nowrap;
+}
+.mission-title,
+.mission-meta strong,
+.mission-tag {
+  overflow-wrap: anywhere;
+}
+.map-heading h1 {
+  overflow-wrap: anywhere;
+}
+.telemetry-row,
+.panel-heading {
+  flex-wrap: wrap;
+}
+.telemetry-row > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 850px) {
+  #world-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+  }
+}
+@media (max-width: 580px) {
+  .topnav {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
+  }
+  .topnav button {
+    overflow-wrap: anywhere;
+  }
+}
+.brief-item {
+  flex-wrap: wrap;
+}
+.brief-item strong {
+  flex: 1 1 10rem;
+}
+.fallback-map > * {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+/* Seven services: clear technology detail and a dedicated scene/list layout. */
+.service-specialism {
+  padding: 18px;
+  border: 1px solid #4c4266;
+  background: linear-gradient(135deg, #14233788, #1b102eaa);
+  min-width: 0;
+}
+.service-specialism[hidden] {
+  display: none;
+}
+.service-specialism h3 {
+  font: 0.75rem/1.6 var(--mono);
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+.service-specialism p {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: #d1c4e0;
+  margin: 0;
+}
+.service-technologies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 14px 0;
+}
+.service-technologies span {
+  border: 1px solid #61537d;
+  color: #d6eaff;
+  padding: 4px 7px;
+  font: 0.75rem/1.5 var(--mono);
+  overflow-wrap: anywhere;
+}
+.service-specialism a {
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.service-specialism a[hidden] {
+  display: none;
+}
+@media (min-width: 1151px) {
+  .scene-viewport {
+    grid-column: 2;
+  }
+  .worlds {
+    align-self: start;
+    margin-top: 18px;
+  }
+  .fallback-map {
+    inset: 18px 80px 18px 18px;
+  }
+}
+@media (min-width: 581px) and (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+  .mission-panel {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 24px;
+  }
+  .mission-panel > .panel-heading,
+  .mission-panel .telemetry {
+    grid-column: 1/-1;
+  }
+  .mission-panel .mission-brief {
+    grid-column: 1;
+  }
+  .mission-panel .service-specialism {
+    grid-column: 2;
+  }
+  .mission-panel .mission-progress {
+    grid-column: 1/-1;
+  }
+  .map-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto clamp(360px, 50vw, 480px) auto auto;
+  }
+  .scene-viewport {
+    grid-column: 1;
+    min-height: 0;
+  }
+  .worlds {
+    grid-column: 1;
+    grid-row: 3;
+    margin: 0;
+    padding: 14px 20px 18px;
+    border-top: 1px solid var(--line);
+  }
+  #world-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: 6px;
+  }
+  .world-button:first-child {
+    grid-column: 1/-1;
+  }
+  .worlds-title {
+    padding: 0;
+    margin-bottom: 10px;
+  }
+  .map-hint {
+    grid-row: 4;
+  }
+  .fallback-map {
+    inset: 18px 80px 18px 18px;
+  }
+}
+
+@media (min-width: 581px) and (max-width: 1150px) {
+  .mission-panel:not(.has-specialism) .mission-brief {
+    grid-column: 1/-1;
+  }
+}
+/* Long security explanations must not stretch the camera viewport. */
+.map-column {
+  align-self: start;
+}

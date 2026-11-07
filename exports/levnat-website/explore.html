@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en-CA" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interactive Project Explorer | Systems Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/png" sizes="any" />
+    <meta
+      name="description"
+      content="Website and app development, API integrations, workflow automation, hardware/software debugging and ongoing support. Explore the services your project needs."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#07090d" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href="https://levnat.ca/" />
+
+    <meta property="og:site_name" content="Systems Engineering" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://levnat.ca/" />
+    <meta property="og:title" content="Websites &amp; Apps | Systems Engineering" />
+    <meta
+      property="og:description"
+      content="Build a new website or app, connect existing tools, or get help debugging and maintaining your product. Explore an initial project direction in 3D."
+    />
+    <meta property="og:locale" content="en_CA" />
+
+    <meta property="og:image" content="https://levnat.ca/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Systems Engineering: websites, apps, integrations, debugging and ongoing support." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Websites &amp; Apps | Systems Engineering" />
+    <meta
+      name="twitter:description"
+      content="Website and app development, integrations and ongoing support. Answer five questions for an initial project recommendation."
+    />
+    <meta name="twitter:image" content="https://levnat.ca/og-card.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="modulepreload" href="./vendor/three/three.module.min.js" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&family=Share+Tech+Mono&display=swap"
+    />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://levnat.ca/#website",
+          "url": "https://levnat.ca/",
+          "name": "Systems Engineering",
+          "description": "Toronto-based consultant for website and app development, APIs, automation, hardware/software debugging and ongoing support.",
+          "inLanguage": "en-CA",
+          "publisher": { "@id": "https://levnat.ca/#business" }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://levnat.ca/#business",
+          "name": "Systems Engineering",
+          "alternateName": "Systems Engineering Consultant",
+          "description": "Website and app development, API integrations, workflow automation, hardware/software debugging and ongoing support for founders and business owners.",
+          "url": "https://levnat.ca/",
+          "email": "info@levnat.ca",
+          "priceRange": "CAD $500-$50,000+",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Toronto",
+            "addressRegion": "ON",
+            "addressCountry": "CA"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "Toronto" },
+            { "@type": "AdministrativeArea", "name": "Greater Toronto Area" },
+            { "@type": "Country", "name": "Canada" },
+            { "@type": "Place", "name": "Remote" }
+          ],
+          "serviceType": [
+            "Website planning",
+            "Web app development",
+            "Dashboard development",
+            "Business automation",
+            "Product system planning",
+            "Hardware/software debugging",
+            "Maintenance support"
+          ],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Service price list",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "name": "Project planning session",
+                "priceCurrency": "CAD",
+                "price": "500",
+                "description": "A 90-minute working session with prep and follow-up notes that turns the problem into a build, debug, or maintenance plan."
+              },
+              {
+                "@type": "Offer",
+                "name": "Website or focused app interface",
+                "priceCurrency": "CAD",
+                "priceSpecification": {
+                  "@type": "PriceSpecification",
+                  "priceCurrency": "CAD",
+                  "minPrice": "4000"
+                },
+                "description": "A responsive website or focused app interface with forms and primary actions. Scope is agreed before work starts."
+              },
+              {
+                "@type": "Offer",
+                "name": "Automation or dashboard sprint",
+                "priceCurrency": "CAD",
+                "priceSpecification": {
+                  "@type": "PriceSpecification",
+                  "priceCurrency": "CAD",
+                  "minPrice": "8000"
+                },
+                "description": "Forms, databases, reporting, notifications, integrations, or dashboards that remove manual work."
+              },
+              {
+                "@type": "Offer",
+                "name": "Web app, portal, or backend build",
+                "priceCurrency": "CAD",
+                "priceSpecification": {
+                  "@type": "PriceSpecification",
+                  "priceCurrency": "CAD",
+                  "minPrice": "20000"
+                },
+                "description": "Custom app, portal, backend, API, dashboard, authentication, and connected workflow build."
+              },
+              {
+                "@type": "Offer",
+                "name": "Hardware/software debugging or ongoing support",
+                "priceCurrency": "CAD",
+                "description": "Debugging at CAD $200/hr or monthly support from CAD $2,000/mo. Included work and response expectations are agreed before support starts."
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="./src/galaxy/styles/tokens.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/base.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/layout.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/header.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/buttons.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hud.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/forms.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/result.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/sections.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/utility.css?v=wow50" />
+    <link rel="stylesheet" href="./src/galaxy/styles/responsive.css?v=wow50" />
+
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <noscript>
+      <div class="noscript-banner" role="alert">
+        The project explorer needs JavaScript. Discuss your project directly:
+        <a href="mailto:info@levnat.ca">info@levnat.ca</a>
+        &middot;
+      </div>
+    </noscript>
+
+    <header class="site-header">
+      <div class="container">
+        <nav class="nav" aria-label="Primary">
+          <a class="brand" href="#top" aria-label="Systems Engineering home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            Systems Engineering
+          </a>
+          <button class="nav-toggle" id="nav-toggle" type="button" aria-controls="nav-links" aria-expanded="false">
+            <span class="sr-only">Menu</span>
+            <span class="nav-toggle-bars" aria-hidden="true"></span>
+          </button>
+          <div class="nav-links" id="nav-links">
+            <a href="/">Main website</a>
+            <a href="#fingerprint">Project explorer</a>
+            <a href="#services">What I build</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#process">Process</a>
+            <a href="#contact">Contact</a>
+            <a class="nav-mobile-cta" href="#fingerprint" data-start-3d>Explore my project</a>
+          </div>
+          <a class="nav-cta btn-quiet" href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="galaxy-hero" id="top" aria-labelledby="hero-title">
+        <canvas class="galaxy-canvas" id="galaxy-canvas" aria-hidden="true"></canvas>
+        <div class="hero-atmosphere" aria-hidden="true">
+          <span class="atmosphere-aurora atmosphere-aurora-a"></span>
+          <span class="atmosphere-aurora atmosphere-aurora-b"></span>
+          <span class="atmosphere-beam atmosphere-beam-a"></span>
+          <span class="atmosphere-beam atmosphere-beam-b"></span>
+          <span class="atmosphere-grid"></span>
+        </div>
+        <div class="galaxy-loading" id="galaxy-loading" role="status" aria-live="polite" hidden>Loading project explorer</div>
+        <div class="reveal-overlay" id="reveal-overlay" aria-hidden="true">
+          <div class="reveal-card">
+            <span>Your initial project direction</span>
+            <strong id="reveal-archetype">Connected websites &amp; apps</strong>
+            <div class="reveal-score">
+              <b id="reveal-score">000</b>
+              <small id="reveal-rank">Scout rank</small>
+            </div>
+          </div>
+        </div>
+        <div class="galaxy-fallback" role="status" aria-live="polite">
+          <p>
+            3D is unavailable in this browser. You can still answer the questions
+            below or discuss your project directly:
+          </p>
+          <p class="fallback-result">
+            <strong id="fallback-archetype">Initial direction: Connected websites &amp; apps</strong>
+            <span id="fallback-action">Suggested next step: review the screens, user actions, APIs, data and support your project needs.</span>
+          </p>
+          <p class="fallback-result">
+            <a class="btn btn-primary" href="mailto:info@levnat.ca">Email info@levnat.ca</a>
+          </p>
+        </div>
+
+        <div class="choice-hud" id="choice-hud" aria-live="polite">
+          <div class="choice-hud-main">
+            <span class="choice-progress" id="choice-progress">Project mission 1 / 5</span>
+            <strong class="choice-question" id="choice-question">What would you like to build or improve?</strong>
+            <span class="choice-object" id="choice-object">3D choice: system field</span>
+            <span class="choice-archetype" id="choice-archetype">Initial direction: Connected websites &amp; apps</span>
+          </div>
+          <div class="choice-options" id="choice-options" role="group" aria-label="Answer choices"></div>
+          <div class="choice-hud-actions" aria-label="3D question controls">
+            <button class="btn btn-secondary choice-back" id="choice-back" type="button" data-prev-3d disabled>Previous</button>
+            <button class="btn btn-secondary choice-exit" type="button" data-exit-3d>Exit 3D</button>
+          </div>
+        </div>
+
+        <div class="hero-overlay">
+          <div class="launch-sequence" aria-hidden="true">
+            <span class="launch-ring launch-ring-a"></span>
+            <span class="launch-ring launch-ring-b"></span>
+            <span class="launch-beam launch-beam-a"></span>
+            <span class="launch-beam launch-beam-b"></span>
+            <span class="launch-token launch-token-a">SYSTEM LOCK</span>
+            <span class="launch-token launch-token-b">ROUTE MAP</span>
+            <span class="launch-token launch-token-c">LIVE DEBUG</span>
+          </div>
+
+          <div class="hero-copy hud-panel">
+            <span class="eyebrow"><b class="eyebrow-id">4F3A</b><span class="eyebrow-sep">·</span>Development &amp; ongoing support</span>
+            <h1 class="hero-title" id="hero-title">
+              <span>Websites &amp; apps.</span>
+              <span class="accent">Built to work.</span>
+            </h1>
+            <p class="hero-stack">
+              Websites · Web apps · APIs · Automation · Hardware/software debugging
+            </p>
+            <div class="hero-proof-strip" aria-label="Engagement signals">
+              <span>Plan first</span>
+              <span>Build &amp; connect</span>
+              <span>Ongoing support</span>
+            </div>
+            <div class="mission-stats" aria-label="Map signal stats">
+              <span><b id="hero-score">000</b><small>progress %</small></span>
+              <span><b id="hero-rank">Scout</b><small>rank</small></span>
+              <span><b id="hero-combo">0</b><small>answers</small></span>
+            </div>
+            <p class="hero-lede">
+              I build websites and apps, connect APIs and automate workflows. I also help debug hardware/software issues and maintain existing systems.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#contact">Discuss your project</a>
+              <button class="btn btn-secondary" type="button" data-start-3d>Explore in 3D</button>
+              <a class="hero-form-link" href="#fingerprint">Use the question form ↓</a>
+            </div>
+            <div class="hero-outcome-rail" aria-label="Session outputs">
+              <span><b>01</b> Define your goal</span>
+              <span><b>02</b> Choose a priority</span>
+              <span><b>03</b> Discuss next steps</span>
+            </div>
+            <p class="hero-price">Answer five questions for an initial recommendation. A tailored plan requires a review of your project.</p>
+          </div>
+
+          <div class="rescue-rig" aria-hidden="true">
+            <div class="rig-stage">
+              <span class="rig-glow rig-glow-a"></span>
+              <span class="rig-glow rig-glow-b"></span>
+              <span class="rig-shockwave rig-shockwave-a"></span>
+              <span class="rig-shockwave rig-shockwave-b"></span>
+              <span class="rig-orbit rig-orbit-a"></span>
+              <span class="rig-orbit rig-orbit-b"></span>
+              <span class="rig-orbit rig-orbit-c"></span>
+              <span class="rig-cable rig-cable-web-api"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-cable rig-cable-api-auto"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-cable rig-cable-auto-logs"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-cable rig-cable-logs-hw"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-cable rig-cable-hw-live"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-cable rig-cable-live-web"><i class="rig-cable-top"></i><i class="rig-cable-caps"></i></span>
+              <span class="rig-signal rig-signal-a"></span>
+              <span class="rig-signal rig-signal-b"></span>
+              <span class="rig-signal rig-signal-c"></span>
+              <span class="rig-signal rig-signal-d"></span>
+              <div class="rig-core">
+                <span class="rig-ring rig-ring-a"></span>
+                <span class="rig-ring rig-ring-b"></span>
+                <span class="rig-ring rig-ring-c"></span>
+                <span class="rig-core-cube"></span>
+              </div>
+              <div class="rig-node rig-node-web" data-rig-node="firmware">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">WEB / APP</span>
+                <span class="rig-spin">
+                  <span class="rig-screen"><i></i><i></i><i></i></span>
+                </span>
+              </div>
+              <div class="rig-node rig-node-api" data-rig-node="backend">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">BACKEND / API</span>
+                <span class="rig-spin">
+                  <span class="rig-stack"><i></i><i></i><i></i></span>
+                </span>
+              </div>
+              <div class="rig-node rig-node-auto" data-rig-node="automation">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">AUTOMATION</span>
+                <span class="rig-spin">
+                  <span class="rig-gear"><i></i></span>
+                </span>
+              </div>
+              <div class="rig-node rig-node-logs" data-rig-node="data">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">DATA / LOGS</span>
+                <span class="rig-spin">
+                  <span class="rig-terminal"><i></i><i></i><i></i></span>
+                </span>
+              </div>
+              <div class="rig-node rig-node-hardware" data-rig-node="hardware">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">HARDWARE</span>
+                <span class="rig-spin">
+                  <span class="rig-board"><i></i></span>
+                </span>
+              </div>
+              <div class="rig-node rig-node-live" data-rig-node="ops">
+                <span class="rig-node-top" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                <span class="rig-shell" aria-hidden="true"></span>
+                <span class="rig-node-label">MONITORING</span>
+                <span class="rig-spin">
+                  <span class="rig-radar"><i></i></span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="vector-hud hud-panel" aria-label="Map focus">
+            <span>Looking at <b id="readout-focus">Website / app</b></span>
+            <span>Orbit <b id="readout-orbit">4.10 AU</b></span>
+            <span>Plane <b id="readout-plane">0.22 RAD</b></span>
+          </div>
+
+          <div class="planet-inspector hud-panel" id="planet-inspector">
+            <div class="inspector-topline">
+              <strong id="inspector-title">Website / app</strong>
+              <span class="status-pill" id="inspector-risk">first touch</span>
+            </div>
+            <div class="inspector-meta">
+              <span>Means <b id="inspector-role">interface people use</b></span>
+              <span>Connects <b id="inspector-links">Backend/API, Monitoring</b></span>
+            </div>
+            <p class="inspector-copy" id="inspector-copy">
+              This is the website, app, portal, landing page, or dashboard surface people see and use first.
+            </p>
+            <div class="inspector-actions">
+              <button class="btn btn-secondary" type="button" data-stress-selected>
+                Animate this layer
+              </button>
+            </div>
+          </div>
+
+          <div class="layer-strip hud-panel" aria-label="Explore system parts">
+            <button class="layer-button is-active" type="button" data-planet="firmware" aria-pressed="true">Website/App</button>
+            <button class="layer-button" type="button" data-planet="backend" aria-pressed="false">Backend/API</button>
+            <button class="layer-button" type="button" data-planet="automation" aria-pressed="false">Automation</button>
+            <button class="layer-button" type="button" data-planet="data" aria-pressed="false">Data/Logs</button>
+            <button class="layer-button" type="button" data-planet="hardware" aria-pressed="false">Hardware</button>
+            <button class="layer-button" type="button" data-planet="ops" aria-pressed="false">Monitoring</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="system-proof-band" aria-label="What the working session produces">
+        <div class="container proof-band-grid">
+          <div>
+            <span class="eyebrow"><b class="eyebrow-id">READY</b><span class="eyebrow-sep">·</span>from wow to work</span>
+            <h2>Start with a clear project direction.</h2>
+          </div>
+          <p>
+            Explore an initial recommendation based on your answers. A working session can then review your actual project, agree on priorities and define the work to estimate.
+          </p>
+          <a class="btn btn-secondary" href="#pricing">View starting prices</a>
+        </div>
+      </section>
+
+      <section class="section section-form" aria-labelledby="fingerprint-title">
+        <div class="container">
+          <section class="galaxy-panel" id="fingerprint" aria-labelledby="fingerprint-title">
+            <div class="panel-header">
+              <div>
+                <h2 id="fingerprint-title">Explore your project</h2>
+                <p class="section-copy">
+                  Choose the answer closest to your project, whether it is a new idea or an existing system. The result is an initial recommendation, not a technical assessment.
+                </p>
+              </div>
+              <span class="status-pill" id="completion-status" aria-label="Questions answered">0 / 5</span>
+            </div>
+
+            <div class="mission-meter" aria-label="Project mission progress">
+              <div class="mission-meter-top">
+                <span>Mission progress</span>
+                <strong id="mission-rank">Scout</strong>
+              </div>
+              <div class="mission-track" aria-hidden="true">
+                <span id="mission-fill"></span>
+              </div>
+              <div class="mission-meter-meta">
+                <span>Completed <b id="mission-score">000</b>%</span>
+                <span id="mission-combo">0 of 5 answered</span>
+              </div>
+            </div>
+
+            <form class="question-list" id="fingerprint-form">
+              <fieldset class="question">
+                <legend>1. What would you like to build or improve?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q1" value="firmware" /> Website or web app</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="backend" /> Backend, API or dashboard</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="automation" /> Automation for repetitive work</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="hardware" /> Hardware/software debugging</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="ops" /> Monitoring and ongoing support</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>2. Which part needs planning or improvement?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q2" value="hardwareFirmware" /> Device signals and software</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="firmwareBackend" /> Interface and backend/API</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="backendOps" /> Backend and ongoing support</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="businessAutomation" /> Manual tasks and automation</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="crossStack" /> Project architecture or a new idea</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>3. What is your main priority?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q3" value="users" /> Reaching or supporting more users</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="devices" /> Connecting more devices or locations</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="manual" /> Reducing manual work</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="integrations" /> Connecting apps, APIs or devices</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="incidents" /> Investigating bugs or device faults</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>4. What needs more clarity before work starts?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q4" value="logs" /> App/device activity and logs</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="person" /> Requirements and team knowledge</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="retry" /> Repeated failures or retries</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="patch" /> Scope of a first version</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="debate" /> Responsibilities and support</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>5. What would you like help with first?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q5" value="map" /> Scope and project priorities</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="handoff" /> Building an app or customer flow</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="manualOps" /> Automation or a dashboard</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="hardwareCare" /> Hardware/software debugging</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="monitoring" /> Monitoring and ongoing support</label>
+                </div>
+              </fieldset>
+            </form>
+
+            <p class="live-insight" id="live-insight" aria-live="polite">
+              Choose a service or answer the first question to explore a project direction.
+            </p>
+
+            <div class="immersion-block" aria-labelledby="scale-title">
+              <label class="immersion-label" id="scale-title" for="scale-slider">
+                System scale
+                <span id="scale-readout">Prototype</span>
+              </label>
+              <input class="scale-slider" id="scale-slider" type="range" min="0" max="3" step="1" value="0" />
+              <div class="scale-marks" aria-hidden="true">
+                <span>Prototype</span>
+                <span>First users</span>
+                <span>Field use</span>
+                <span>Launch</span>
+              </div>
+            </div>
+
+            <div class="immersion-block" aria-labelledby="scenario-title">
+              <div class="immersion-label" id="scenario-title">
+                Service preview
+                <span id="scenario-readout">choose one</span>
+              </div>
+              <div class="scenario-grid">
+                <button class="scenario-card" type="button" data-scenario="firmwareFail" aria-pressed="false">
+                  <strong>Build mode</strong>
+                  <span>Explore how an interface connects to its backend.</span>
+                </button>
+                <button class="scenario-card" type="button" data-scenario="apiLatency" aria-pressed="false">
+                  <strong>API integration</strong>
+                  <span>Explore the services behind a user action.</span>
+                </button>
+                <button class="scenario-card" type="button" data-scenario="noMonitoring" aria-pressed="false">
+                  <strong>Ongoing support</strong>
+                  <span>Explore monitoring, error reporting and maintenance.</span>
+                </button>
+                <button class="scenario-card" type="button" data-scenario="manualWorkflow" aria-pressed="false">
+                  <strong>Hardware/software debugging</strong>
+                  <span>Explore the connection between devices, signals and software.</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="panel-actions">
+              <button class="btn btn-primary" type="button" data-scroll-result>
+                View initial recommendation
+              </button>
+              <button class="btn btn-secondary" type="button" data-simulate="dominant">
+                Add motion
+              </button>
+              <button class="btn btn-quiet" type="button" data-reset>
+                Start over
+              </button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="section" id="result" aria-labelledby="result-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow"><b class="eyebrow-id">7B12</b><span class="eyebrow-sep">·</span>Project recommendation</span>
+              <h2 class="section-title" id="result-title">Your initial project direction.</h2>
+              <p class="section-copy">
+                This recommendation is based on your answers. A tailored plan, technical assessment and estimate require a review of your actual project.
+              </p>
+            </div>
+          </div>
+
+          <div class="result-grid">
+            <article class="result-panel" aria-live="polite">
+              <span class="result-kicker">Initial direction</span>
+              <div class="archetype-name" id="archetype-name">Explore a project direction</div>
+              <p class="result-text" id="archetype-summary">
+                Answer the questions for an initial recommendation, or describe your project directly.
+              </p>
+              <ul class="gap-list" id="gap-list" role="list">
+                <li>Users should understand what to do next in the website or app.</li>
+                <li>The backend should know what happens after a click, form, payment, booking, or device event.</li>
+                <li>The build plan should show UI, API, data, automation, and support together.</li>
+              </ul>
+              <p class="result-text" id="next-action">
+                Suggested next step: review the screens, user actions, APIs, data and support your project needs.
+              </p>
+              <div class="panel-actions">
+                <a class="btn btn-primary" id="email-map" href="mailto:info@levnat.ca">Request a working session</a>
+                <button class="btn btn-secondary" type="button" data-download="md">Download summary (.md)</button>
+                <button class="btn btn-secondary" type="button" data-share>Share direction</button>
+                <button class="btn btn-quiet" type="button" data-copy="slack">Copy note</button>
+              </div>
+              <p class="result-text">Requests open an email draft. The project planning session is CAD $500 for 90 minutes, with preparation and follow-up notes. Implementation is scoped separately.</p>
+            </article>
+
+            <aside class="result-panel result-share-panel">
+              <span class="result-kicker">Mission badge</span>
+              <div class="share-badge" id="share-badge" aria-label="Project mission progress badge">
+                <div class="share-badge-ring">
+                  <span id="badge-score">000</span>
+                  <small>progress %</small>
+                </div>
+                <div class="share-badge-copy">
+                  <strong id="badge-rank">Scout rank</strong>
+                  <span id="badge-code">SYS-HANDOFF-000</span>
+                  <p id="badge-line">Explore the services your project needs.</p>
+                </div>
+              </div>
+              <div class="panel-actions badge-actions">
+                <button class="btn btn-secondary" type="button" data-copy="badge">Copy badge</button>
+                <button class="btn btn-quiet" type="button" data-share>Share direction</button>
+              </div>
+              <span class="result-kicker note-kicker">Project summary</span>
+              <pre class="slack-box" id="slack-message">Answer the questions to add your project choices to this initial recommendation.</pre>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services" aria-labelledby="services-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow"><b class="eyebrow-id">2C8E</b><span class="eyebrow-sep">·</span>Development &amp; support services</span>
+              <h2 class="section-title" id="services-title">Build, connect and maintain your product.</h2>
+              <p class="section-copy">
+                Start with a focused review of your project. Agree on priorities, then scope the design, development, integration or debugging work.
+              </p>
+            </div>
+          </div>
+          <div class="service-grid">
+            <article class="service-item">
+              <span class="tag">Website / app</span>
+              <h3>Build the interface</h3>
+              <p>
+                Websites, landing pages, customer portals and app screens designed around the actions your customers and team need to take.
+              </p>
+            </article>
+            <article class="service-item">
+              <span class="tag">Backend / API</span>
+              <h3>Connect your app and data</h3>
+              <p>
+                APIs, authentication, payments, bookings, background jobs and access controls that connect your interface to the work behind it.
+              </p>
+            </article>
+            <article class="service-item">
+              <span class="tag">Automation / data</span>
+              <h3>Remove manual work</h3>
+              <p>
+                Connect tools and automate repetitive tasks with forms, data exchange, notifications, dashboards and scheduled jobs.
+              </p>
+            </article>
+            <article class="service-item">
+              <span class="tag">Debugging / ongoing support</span>
+              <h3>Investigate faults and keep systems running</h3>
+              <p>
+                Investigate hardware/software issues through device signals, logs and app behavior. Plan fixes, monitoring and maintenance around your existing system.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="pricing" aria-labelledby="pricing-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow"><b class="eyebrow-id">31D9</b><span class="eyebrow-sep">·</span>Price list</span>
+              <h2 class="section-title" id="pricing-title">Starting prices and project scope.</h2>
+              <p class="section-copy">
+                Prices are in CAD and use a $200/hr baseline. Final scope depends on integrations, content, existing code, hardware access, and how much needs to be rebuilt.
+              </p>
+            </div>
+          </div>
+
+          <div class="pricing-grid" aria-label="Service price list">
+            <article class="pricing-card">
+              <span class="tag">Map</span>
+              <h3>Project planning session</h3>
+              <p class="price-line"><span>$500</span> <small>fixed</small></p>
+              <p>
+                A 90-minute working session with prep and follow-up notes to turn the problem into a build, debug, or maintenance plan.
+              </p>
+              <ul class="pricing-list" role="list">
+                <li>Project overview and key risks</li>
+                <li>First implementation or debugging task</li>
+                <li>Next steps for scoping an estimate</li>
+              </ul>
+            </article>
+
+            <article class="pricing-card">
+              <span class="tag">Website / app</span>
+              <h3>Website or focused app interface</h3>
+              <p class="price-line"><span>from $4,000</span> <small>20+ hrs</small></p>
+              <p>
+                A website, landing page or focused app interface. A complete custom app is scoped separately.
+              </p>
+              <ul class="pricing-list" role="list">
+                <li>Responsive interface</li>
+                <li>Forms and main actions</li>
+                <li>Launch polish and handoff</li>
+              </ul>
+            </article>
+
+            <article class="pricing-card">
+              <span class="tag">Automation / data</span>
+              <h3>Automation or dashboard sprint</h3>
+              <p class="price-line"><span>from $8,000</span> <small>40+ hrs</small></p>
+              <p>
+                Replace manual steps with forms, databases, notifications, reporting, or integrations.
+              </p>
+              <ul class="pricing-list" role="list">
+                <li>Workflow and data model</li>
+                <li>Dashboard or admin view</li>
+                <li>Alerts, exports, or webhooks</li>
+              </ul>
+            </article>
+
+            <article class="pricing-card pricing-card-featured">
+              <span class="tag">Full build</span>
+              <h3>Web app, portal, or backend</h3>
+              <p class="price-line"><span>from $20,000</span> <small>100+ hrs</small></p>
+              <p>
+                Custom app, portal, backend/API, dashboard, auth, roles, and connected product workflow.
+              </p>
+              <ul class="pricing-list" role="list">
+                <li>Screens, API, and database</li>
+                <li>Admin/customer workflows</li>
+                <li>Deployment and launch support</li>
+              </ul>
+            </article>
+
+            <article class="pricing-card">
+              <span class="tag">Debug / support</span>
+              <h3>Debugging &amp; ongoing support</h3>
+              <p class="price-line"><span>$200/hr</span> <small>or from $2,000/mo</small></p>
+              <p>
+                Investigate device signals, logs and hardware/software issues. Monthly support covers an agreed scope of maintenance work.
+              </p>
+              <ul class="pricing-list" role="list">
+                <li>Fault isolation and notes</li>
+                <li>Status checks and monitoring</li>
+                <li>Support scope and response expectations agreed upfront</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="pricing-note">
+            <p>
+              Taxes, paid tools, hosting, device parts, and third-party service fees are not included. Emergency rebuilds, inherited codebases, unusual hardware, or regulated data are quoted after inspection.
+            </p>
+            <a class="btn btn-primary" href="#contact">Request a quote</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="process" aria-labelledby="process-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <span class="eyebrow"><b class="eyebrow-id">9A1F</b><span class="eyebrow-sep">·</span>From inquiry to ongoing support</span>
+              <h2 class="section-title" id="process-title">How the real work starts.</h2>
+            </div>
+          </div>
+          <div class="process-grid">
+            <article class="process-step">
+              <span class="tag">01 · ~90 min</span>
+              <h3>Map</h3>
+              <p>Review your goals, existing work and technical requirements in a project planning session. This scopes the next steps; it does not include implementation.</p>
+            </article>
+            <article class="process-step">
+              <span class="tag">02 · Before implementation</span>
+              <h3>Prioritize</h3>
+              <p>Agree on the first task, deliverables, estimate and schedule before development or debugging starts.</p>
+            </article>
+            <article class="process-step">
+              <span class="tag">03 · Schedule agreed per project</span>
+              <h3>Build</h3>
+              <p>Build and test the agreed interface, API, integration or workflow, or investigate the device issue. Delivery timing depends on the agreed scope.</p>
+            </article>
+            <article class="process-step">
+              <span class="tag">04 · Ongoing, by agreement</span>
+              <h3>Support &amp; maintain</h3>
+              <p>Document the work and arrange handover, monitoring or ongoing support. Included tasks and response expectations are agreed before support starts.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <span class="eyebrow"><b class="eyebrow-id">D04B</b><span class="eyebrow-sep">·</span>Project inquiries</span>
+          <h2 class="section-title" id="contact-title">Tell me what you want to build or improve.</h2>
+          <p class="section-copy">
+            Describe your new idea or existing product, the help you need and any target date. Ask for a project quote or a planning session. I aim to reply within two business days.
+          </p>
+
+          <form class="contact-form" id="contact-form" novalidate>
+            <label class="contact-field">
+              <span class="contact-field-label">Tell me about your project</span>
+              <textarea
+                id="contact-message"
+                rows="6"
+                placeholder="For example: I need a new website and customer portal, or help connecting an existing app to device logs. Here is what exists, what I need next and my target date."
+                aria-describedby="contact-hint"
+              ></textarea>
+            </label>
+            <p class="contact-hint" id="contact-hint">
+              <em>Open email draft</em> prepares your message and any selected answers in your email app, addressed to <a data-contact="email" href="mailto:info@levnat.ca">info@levnat.ca</a>. Review and send it there. No email app? Copy the inquiry and email it manually.
+            </p>
+            <div class="contact-actions">
+              <button class="btn btn-primary" type="submit" id="contact-send">Open email draft</button>
+              <button class="btn btn-secondary" type="button" id="contact-copy">Copy inquiry</button>
+            </div>
+          </form>
+
+          <address class="contact-panel">
+            <p><strong>Direct:</strong> <a data-contact="email" href="mailto:info@levnat.ca">info@levnat.ca</a></p>
+            <p><strong>Location:</strong> Toronto GTA, remote-friendly</p>
+          </address>
+        </div>
+      </section>
+
+      <div class="sr-only">
+        Systems Engineering is a Toronto-based consulting service for founders,
+        business owners, and product teams that need a clearer plan for a
+        website, web app, portal, dashboard, automation, hardware/software debugging, or ongoing support.
+        The project explorer offers an initial recommendation. A paid planning session reviews the actual project and helps scope the next work.
+      </div>
+    </main>
+
+    <footer class="container footer">
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#fingerprint">Project explorer</a>
+        <a href="#services">What I build</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:info@levnat.ca">info@levnat.ca</a>
+      </nav>
+      <div>&copy; <span id="copyright-year">2026</span> Systems Engineering &middot; Toronto, Canada</div>
+    </footer>
+
+    <a class="back-to-top" id="back-to-top" href="#top" aria-label="Back to top">&uarr;</a>
+
+    <div class="sys-status" id="sys-status" aria-hidden="true">
+      <span class="sys-status-led"></span>
+      <span>SYS_OK</span>
+      <span class="sys-status-sep">·</span>
+      <span>LOC TORONTO_GTA</span>
+      <span class="sys-status-sep">·</span>
+      <span id="sys-status-time">TS 00:00:00</span>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+    <div class="achievement-toast" id="achievement-toast" role="status" aria-live="polite" aria-atomic="true">
+      <span id="achievement-kicker">Answer added</span>
+      <strong id="achievement-title">1 of 5 questions answered</strong>
+    </div>
+
+    <script type="module" src="./src/galaxy/js/main.js?v=wow50"></script>
+  </body>
+</html>
