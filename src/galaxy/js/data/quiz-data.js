@@ -1,17 +1,17 @@
-// All quiz/galaxy data: planets, scoring, questions, choice visuals, motion groups,
-// scale stages, motion-preview scenarios, archetype outcomes.
+// Galaxy orbits, quiz choices and scores, motion previews, and project outcomes.
 
-import { VISUAL_COLORS } from "./config.js?v=wow50";
+import { VISUAL_COLORS } from "./config.js?v=wow60";
+import { GALAXY_SERVICES, GALAXY_SERVICE_BY_ID } from "../../../shared/service-catalog.js";
 
 export const PLANETS = {
   firmware: {
-    label: "Website / app",
+    label: GALAXY_SERVICE_BY_ID.firmware.label,
     short: "WEBAPP",
     role: "interface people use",
     links: "Backend/API, Monitoring",
     risk: "first touch",
     copy: "This is the website, app, portal, landing page, or dashboard surface people see and use first.",
-    color: VISUAL_COLORS.accent,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.firmware.accentKey],
     radius: 4.1,
     size: 0.3,
     speed: 0.42,
@@ -19,13 +19,13 @@ export const PLANETS = {
     inclination: 0.22
   },
   backend: {
-    label: "Backend / API",
+    label: GALAXY_SERVICE_BY_ID.backend.label,
     short: "ENGINE",
     role: "logic behind actions",
     links: "Website/app, Data/logs, Hardware",
     risk: "handoff",
     copy: "This is the engine behind the interface: APIs, forms, auth, business rules, payments, webhooks, and integrations.",
-    color: VISUAL_COLORS.api,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.backend.accentKey],
     radius: 5.4,
     size: 0.36,
     speed: 0.31,
@@ -33,27 +33,41 @@ export const PLANETS = {
     inclination: -0.16
   },
   automation: {
-    label: "Automation",
+    label: GALAXY_SERVICE_BY_ID.automation.label,
     short: "WORK",
     role: "repeated tasks",
     links: "Backend/API, Data/logs",
     risk: "repeated work",
     copy: "This is repeated admin work that can become forms, notifications, scheduled jobs, queues, and dashboards.",
-    color: VISUAL_COLORS.automation,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.automation.accentKey],
     radius: 6.65,
     size: 0.34,
     speed: 0.24,
     angle: 2.8,
     inclination: 0.32
   },
+  pqc: {
+    label: GALAXY_SERVICE_BY_ID.pqc.label,
+    short: "PQC",
+    role: "protected signal routing",
+    links: "System core, Backend/API",
+    risk: "key exchange",
+    copy: "An unprotected signal enters the bridge. The bridge represents post-quantum key establishment before protected traffic is routed to the core.",
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.pqc.accentKey],
+    radius: 6.95,
+    size: 0.34,
+    speed: 0.22,
+    angle: 3.55,
+    inclination: 0.16
+  },
   data: {
-    label: "Data / logs",
+    label: GALAXY_SERVICE_BY_ID.data.label,
     short: "SIGNAL",
     role: "visibility layer",
     links: "Backend/API, Automation, Hardware",
     risk: "unknowns",
     copy: "This is the information you need from users, app flows, integrations, devices, logs, and business events.",
-    color: VISUAL_COLORS.data,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.data.accentKey],
     radius: 7.75,
     size: 0.32,
     speed: 0.2,
@@ -61,13 +75,13 @@ export const PLANETS = {
     inclination: -0.28
   },
   hardware: {
-    label: "Hardware",
+    label: GALAXY_SERVICE_BY_ID.hardware.label,
     short: "HW",
     role: "real-world device layer",
     links: "Backend/API, Data/logs, Monitoring",
     risk: "field faults",
     copy: "This is where real devices, signals, boards, cables, sensors, firmware behavior, and physical debugging enter the system.",
-    color: VISUAL_COLORS.hardware,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.hardware.accentKey],
     radius: 8.45,
     size: 0.34,
     speed: 0.18,
@@ -75,13 +89,13 @@ export const PLANETS = {
     inclination: 0.38
   },
   ops: {
-    label: "Monitoring",
+    label: GALAXY_SERVICE_BY_ID.ops.label,
     short: "LIVE",
     role: "support after launch",
     links: "Website/app, Backend/API, Hardware",
     risk: "maintenance",
     copy: "This is what keeps the site, app, integration, or hardware-backed product understandable, maintainable, and reliable after launch.",
-    color: VISUAL_COLORS.ops,
+    color: VISUAL_COLORS[GALAXY_SERVICE_BY_ID.ops.accentKey],
     radius: 9.35,
     size: 0.34,
     speed: 0.145,
@@ -90,12 +104,13 @@ export const PLANETS = {
   }
 };
 
-export const PLANET_IDS = Object.keys(PLANETS);
+export const PLANET_IDS = GALAXY_SERVICES.map(({ id }) => id);
 
 export const SCORE_MAP = {
   firmware: { bench: 2, handoff: 1 },
   backend: { ghost: 1, handoff: 1 },
   automation: { spreadsheet: 2 },
+  pqc: { ghost: 3, handoff: 1 },
   data: { ops: 1, ghost: 1 },
   hardware: { hardware: 3 },
   ops: { ops: 2 },
@@ -104,21 +119,29 @@ export const SCORE_MAP = {
   backendOps: { ops: 2, handoff: 1 },
   businessAutomation: { spreadsheet: 3 },
   crossStack: { ghost: 2, handoff: 1, hardware: 1 },
+  cryptoStack: { ghost: 3, handoff: 1 },
+  dataLayer: { ghost: 2, ops: 1 },
   users: { ghost: 1, handoff: 1 },
   devices: { hardware: 2 },
   manual: { spreadsheet: 2 },
   integrations: { handoff: 1, hardware: 1 },
   incidents: { ops: 2 },
+  protectTraffic: { ghost: 2, handoff: 1 },
+  dataQuality: { ghost: 1, ops: 2 },
   logs: { ops: 2, hardware: 1 },
   person: { ghost: 2 },
   retry: { spreadsheet: 2 },
   patch: { ghost: 1, handoff: 1 },
   debate: { handoff: 2 },
+  cryptoInventory: { ghost: 2, handoff: 1 },
+  deviceEvidence: { hardware: 2, ops: 1 },
   map: { ghost: 2 },
   handoff: { handoff: 3 },
   manualOps: { spreadsheet: 2 },
   hardwareCare: { hardware: 2, ops: 1 },
   monitoring: { ops: 3 },
+  securityReview: { ghost: 3, handoff: 1 },
+  dataPlan: { ghost: 2, ops: 1 },
   owner: { handoff: 1, ghost: 1 }
 };
 
@@ -127,98 +150,68 @@ export const QUESTION_FLOW = [
     id: "q1",
     prompt: "What would you like to build or improve?",
     choices: [
-      { value: "firmware", label: "Website or web app", tag: "webapp" },
-      { value: "backend", label: "Backend, API or dashboard", tag: "engine" },
-      { value: "automation", label: "Automation for repetitive work", tag: "workflow" },
-      { value: "hardware", label: "Hardware/software debugging", tag: "device" },
-      { value: "ops", label: "Monitoring and ongoing support", tag: "support" }
+      { value: "firmware", label: "Website or web app", tag: "webapp", serviceId: "firmware" },
+      { value: "backend", label: "Backend, API or dashboard", tag: "engine", serviceId: "backend" },
+      { value: "automation", label: "Automation for repetitive work", tag: "workflow", serviceId: "automation" },
+      { value: "hardware", label: "Hardware/software debugging", tag: "device", serviceId: "hardware" },
+      { value: "ops", label: "Monitoring and ongoing support", tag: "support", serviceId: "ops" },
+      { value: "pqc", label: "Post-quantum security", tag: "security", serviceId: "pqc" },
+      { value: "data", label: "Data, logs or reporting", tag: "data", serviceId: "data" }
     ]
   },
   {
     id: "q2",
     prompt: "Which part needs planning or improvement?",
     choices: [
-      { value: "hardwareFirmware", label: "Device signals and software", tag: "signal" },
-      { value: "firmwareBackend", label: "Interface and backend/API", tag: "journey" },
-      { value: "backendOps", label: "Backend and ongoing support", tag: "handoff" },
-      { value: "businessAutomation", label: "Manual tasks and automation", tag: "workflow" },
-      { value: "crossStack", label: "Project architecture or a new idea", tag: "plan" }
+      { value: "hardwareFirmware", label: "Device signals and software", tag: "signal", serviceId: "hardware" },
+      { value: "firmwareBackend", label: "Interface and backend/API", tag: "journey", serviceId: "firmware" },
+      { value: "backendOps", label: "Backend and ongoing support", tag: "handoff", serviceId: "ops" },
+      { value: "businessAutomation", label: "Manual tasks and automation", tag: "workflow", serviceId: "automation" },
+      { value: "crossStack", label: "Project architecture or a new idea", tag: "plan", serviceId: "backend" },
+      { value: "cryptoStack", label: "Cryptography and key exchanges", tag: "security", serviceId: "pqc" },
+      { value: "dataLayer", label: "Data sources, storage and logs", tag: "data", serviceId: "data" }
     ]
   },
   {
     id: "q3",
     prompt: "What is your main priority?",
     choices: [
-      { value: "users", label: "Reaching or supporting more users", tag: "scale" },
-      { value: "devices", label: "Connecting more devices or locations", tag: "field" },
-      { value: "manual", label: "Reducing manual work", tag: "load" },
-      { value: "integrations", label: "Connecting apps, APIs or devices", tag: "mesh" },
-      { value: "incidents", label: "Investigating bugs or device faults", tag: "incident" }
+      { value: "users", label: "Reaching or supporting more users", tag: "scale", serviceId: "firmware" },
+      { value: "devices", label: "Connecting more devices or locations", tag: "field", serviceId: "hardware" },
+      { value: "manual", label: "Reducing manual work", tag: "load", serviceId: "automation" },
+      { value: "integrations", label: "Connecting apps, APIs or devices", tag: "mesh", serviceId: "backend" },
+      { value: "incidents", label: "Investigating bugs or device faults", tag: "incident", serviceId: "ops" },
+      { value: "protectTraffic", label: "Preparing for post-quantum security", tag: "security", serviceId: "pqc" },
+      { value: "dataQuality", label: "Improving data quality and visibility", tag: "data", serviceId: "data" }
     ]
   },
   {
     id: "q4",
     prompt: "What needs more clarity before work starts?",
     choices: [
-      { value: "logs", label: "App/device activity and logs", tag: "observe" },
-      { value: "person", label: "Requirements and team knowledge", tag: "memory" },
-      { value: "retry", label: "Repeated failures or retries", tag: "manual" },
-      { value: "patch", label: "Scope of a first version", tag: "version" },
-      { value: "debate", label: "Responsibilities and support", tag: "owner" }
+      { value: "logs", label: "App/device activity and logs", tag: "observe", serviceId: "data" },
+      { value: "person", label: "Requirements and team knowledge", tag: "memory", serviceId: "backend" },
+      { value: "retry", label: "Repeated failures or retries", tag: "manual", serviceId: "automation" },
+      { value: "patch", label: "Scope of a first version", tag: "version", serviceId: "firmware" },
+      { value: "debate", label: "Responsibilities and support", tag: "owner", serviceId: "ops" },
+      { value: "cryptoInventory", label: "Cryptography and vendor dependencies", tag: "security", serviceId: "pqc" },
+      { value: "deviceEvidence", label: "Device behavior and fault evidence", tag: "device", serviceId: "hardware" }
     ]
   },
   {
     id: "q5",
     prompt: "What would you like help with first?",
     choices: [
-      { value: "map", label: "Scope and project priorities", tag: "map" },
-      { value: "handoff", label: "Building an app or customer flow", tag: "journey" },
-      { value: "manualOps", label: "Automation or a dashboard", tag: "automation" },
-      { value: "hardwareCare", label: "Hardware/software debugging", tag: "device" },
-      { value: "monitoring", label: "Monitoring and ongoing support", tag: "live" }
+      { value: "map", label: "Scope and project priorities", tag: "map", serviceId: "backend" },
+      { value: "handoff", label: "Building an app or customer flow", tag: "journey", serviceId: "firmware" },
+      { value: "manualOps", label: "Automation or a dashboard", tag: "automation", serviceId: "automation" },
+      { value: "hardwareCare", label: "Hardware/software debugging", tag: "device", serviceId: "hardware" },
+      { value: "monitoring", label: "Monitoring and ongoing support", tag: "live", serviceId: "ops" },
+      { value: "securityReview", label: "Reviewing post-quantum readiness", tag: "security", serviceId: "pqc" },
+      { value: "dataPlan", label: "Planning data collection or reporting", tag: "data", serviceId: "data" }
     ]
   }
 ];
-
-export const CHOICE_VISUALS = {
-  firmware: { kind: "webInterface", accent: VISUAL_COLORS.accent, labelY: 1.14 },
-  backend: { kind: "apiStack", accent: VISUAL_COLORS.api, labelY: 1.1 },
-  automation: { kind: "workflowGear", accent: VISUAL_COLORS.automation, labelY: 1.04 },
-  data: { kind: "dataVault", accent: VISUAL_COLORS.data, labelY: 1.1 },
-  hardware: { kind: "hardwarePort", accent: VISUAL_COLORS.hardware, labelY: 1.02 },
-  ops: { kind: "opsRadar", accent: VISUAL_COLORS.ops, labelY: 1.1 },
-  hardwareFirmware: { kind: "hardwarePort", accent: VISUAL_COLORS.hardware, labelY: 0.96 },
-  firmwareBackend: { kind: "contractBridge", accent: VISUAL_COLORS.api, labelY: 0.98 },
-  backendOps: { kind: "incidentBeacon", accent: VISUAL_COLORS.ops, labelY: 1.06 },
-  businessAutomation: { kind: "processRail", accent: VISUAL_COLORS.automation, labelY: 0.96 },
-  crossStack: { kind: "ownershipCompass", accent: VISUAL_COLORS.text, labelY: 1.02 },
-  users: { kind: "userCluster", accent: 0xc9d4dc, labelY: 0.98 },
-  devices: { kind: "deviceFleet", accent: VISUAL_COLORS.accent, labelY: 0.98 },
-  manual: { kind: "manualStack", accent: VISUAL_COLORS.muted, labelY: 0.96 },
-  integrations: { kind: "integrationHub", accent: VISUAL_COLORS.soft, labelY: 1.0 },
-  incidents: { kind: "incidentFlare", accent: VISUAL_COLORS.warning, labelY: 1.08 },
-  logs: { kind: "logConsole", accent: 0xc9d4dc, labelY: 0.96 },
-  person: { kind: "memoryNode", accent: 0xc9d4dc, labelY: 1.02 },
-  retry: { kind: "retryLoop", accent: VISUAL_COLORS.muted, labelY: 1.02 },
-  patch: { kind: "layerPatch", accent: VISUAL_COLORS.soft, labelY: 0.96 },
-  debate: { kind: "debateOrbit", accent: VISUAL_COLORS.warning, labelY: 1.04 },
-  map: { kind: "architectureMap", accent: 0xc9d4dc, labelY: 0.98 },
-  handoff: { kind: "stableHandoff", accent: VISUAL_COLORS.accent, labelY: 0.98 },
-  manualOps: { kind: "opsQueue", accent: VISUAL_COLORS.muted, labelY: 0.96 },
-  hardwareCare: { kind: "hardwarePort", accent: VISUAL_COLORS.warning, labelY: 1.02 },
-  monitoring: { kind: "monitoringArray", accent: VISUAL_COLORS.ops, labelY: 1.04 },
-  owner: { kind: "ownerCrown", accent: VISUAL_COLORS.text, labelY: 1.08 }
-};
-
-export const CHOICE_MOTION_GROUPS = {
-  spin: new Set(["workflowGear", "retryLoop", "debateOrbit"]),
-  sweep: new Set(["opsRadar", "monitoringArray"]),
-  orbit: new Set(["dataVault", "integrationHub", "memoryNode"]),
-  incident: new Set(["incidentBeacon", "incidentFlare"]),
-  stack: new Set(["webInterface", "apiStack", "manualStack", "processRail", "opsQueue", "architectureMap"]),
-  bridge: new Set(["contractBridge", "stableHandoff", "hardwarePort", "layerPatch"]),
-  cluster: new Set(["userCluster", "deviceFleet"])
-};
 
 export const SCALE_STAGES = [
   {

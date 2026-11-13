@@ -4,7 +4,7 @@ let brief = new Set(),
   selected = 0,
   paused = false,
   sound = false,
-  rain = true;
+  rain = false;
 const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
 let reduced = motionPreference.matches;
 let sceneApi = null,
@@ -13,16 +13,16 @@ let sceneApi = null,
   lastRendered = 0,
   elapsed = 0,
   toastTimer,
-  scanFxUntil = 0,
-  jumpFxUntil = 0;
+  scanFxUntil = 0;
 let backgroundPaused = document.hidden,
   dialogPaused = false,
   sceneAvailable = false;
 const dialogOpeners = new WeakMap();
-const draftKey = "systems-project-brief:v1";
-let draftStorage = true;
 try {
-  const saved = JSON.parse(sessionStorage.getItem(draftKey) || "null");
+  const legacyDraftKey = "systems-project-brief:v1";
+  const raw = sessionStorage.getItem(legacyDraftKey);
+  sessionStorage.removeItem(legacyDraftKey);
+  const saved = JSON.parse(raw || "null");
   if (saved && Array.isArray(saved.services)) {
     brief = new Set(
       saved.services.filter((id) => Number.isInteger(id) && id >= 0 && id < worlds.length),
@@ -30,7 +30,7 @@ try {
     $("brief-notes").value = normalizeNotes(typeof saved.notes === "string" ? saved.notes : "");
   }
 } catch {
-  draftStorage = false;
+  // Storage may be unavailable or contain an invalid legacy draft.
 }
 const effectivePause = () => paused || backgroundPaused || dialogPaused;
 function toast(message) {
@@ -71,10 +71,6 @@ function syncSettings() {
   $("sound-setting").checked = sound;
   $("motion-setting").checked = reduced;
   $("rain-setting").checked = rain;
-  $("sound-button").setAttribute("aria-pressed", String(sound));
-  $("sound-button").setAttribute("aria-label", sound ? "Mute sound" : "Enable sound");
-  $("sound-button").title = sound ? "Mute sound" : "Enable sound";
-  $("sound-button").style.color = sound ? "var(--accent)" : "";
   document.documentElement.classList.toggle("reduced-motion", reduced);
 }
 function renderPause() {
@@ -87,12 +83,10 @@ function renderPause() {
     ? '<svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></svg>'
     : '<svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg>';
 }
-function selectWorld(id, { feedback = true } = {}) {
+function selectWorld(id, { feedback = true, reveal = false } = {}) {
   if (!Number.isInteger(id) || id < 0 || id >= worlds.length) return;
   selected = id;
   const w = worlds[id];
-  $("selected-name").textContent = w.name;
-  $("selected-meta").textContent = w.type;
   $("service-tag").textContent = `0${id + 1} / ${w.type}`;
   $("service-title").textContent = w.name;
   $("service-description").textContent = w.info;
@@ -116,7 +110,6 @@ function selectWorld(id, { feedback = true } = {}) {
     reference.href = w.reference;
     reference.textContent = w.referenceLabel + " ↗";
   } else reference.removeAttribute("href");
-  document.querySelector(".art-label").textContent = `SERVICE // ${w.code}`;
   $("service-deliverables").replaceChildren(
     ...w.deliverables.map((text) => {
       const li = document.createElement("li");
@@ -133,42 +126,65 @@ function selectWorld(id, { feedback = true } = {}) {
     .forEach((b, i) => b.classList.toggle("selected", i === id));
   if (feedback) playTone(360 + id * 80, 0.07);
   sceneApi?.select(id);
+  if (feedback) openPreview(id, reveal);
   renderBrief();
 }
-$("service-count").textContent = `${worlds.length} SERVICE AREAS`;
-$("service-count-badge").textContent = `[ ${String(worlds.length).padStart(2, "0")} ]`;
 $("shortcut-last").textContent = String(worlds.length);
 $("universe").setAttribute(
   "aria-label",
-  `Interactive service map. Drag to orbit. Select a service with 1 to ${worlds.length} while focused here, or use the service list.`,
+  `Interactive service map. Drag to orbit. Select an object to preview a service, use keys 1 to ${worlds.length} while focused here, or open Explore services.`,
 );
 worlds.forEach((w, id) => {
   const b = document.createElement("button");
   b.className = "world-button";
   b.setAttribute("aria-pressed", String(id === 0));
   b.setAttribute("aria-label", `${id + 1}. ${w.name}, ${w.type.toLowerCase()}`);
-  b.innerHTML = `<span class="num">0${id + 1}</span><span><strong>${w.name}</strong><small>${w.code} · ${w.short}</small></span><span class="state-dot"></span>`;
-  b.addEventListener("click", () => selectWorld(id));
+  b.innerHTML = `<span class="num" aria-hidden="true">0${id + 1}</span><span><strong>${w.name}</strong><small>${w.short}</small></span><span class="state-dot" aria-hidden="true"></span>`;
+  b.addEventListener("click", () => selectWorld(id, { reveal: true }));
   $("world-list").append(b);
   const label = document.createElement("div");
   label.className = "world-label";
-  label.innerHTML = `${(w.mapLabel || w.name).toUpperCase()}<b>${w.code} / ${w.short.toUpperCase()}</b>`;
+  label.textContent = w.mapLabel || w.name;
   $("world-labels").append(label);
 });
-function syncDraft() {
+const holograms = makeHolograms({
+  panel: $("holograms"),
+  toggle: $("hologram-toggle"),
+  status: $("hologram-status"),
+  services: worlds,
+  onDetails: showService,
+  onScope: (id) => setService(id, !brief.has(id)),
+  inBrief: (id) => brief.has(id),
+});
+const servicesPanel = makeCollapsiblePanel({
+  container: $("services-panel"),
+  closeButton: $("services-toggle"),
+  content: $("services-content"),
+  triggers: [$("hero-services"), $("nav-service")],
+  fallbackFocus: $("hero-services"),
+});
+const overviewPanel = makeCollapsiblePanel({
+  container: $("service-control"),
+  closeButton: $("overview-toggle"),
+  content: $("overview-content"),
+  fallbackFocus: $("hologram-toggle"),
+});
+function scrollToSection(id) {
+  $(id).scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+}
+function openPreview(id, reveal) {
+  holograms.open(id, { focus: reveal });
+  if (reveal) scrollToSection("holograms");
+}
+function toggleHolograms() {
+  if (holograms.isOpen()) holograms.close();
+  else openPreview(selected, true);
+}
+$("hologram-toggle").addEventListener("click", toggleHolograms);
+function syncBriefNotes() {
   const notes = normalizeNotes($("brief-notes").value);
   if ($("brief-notes").value !== notes) $("brief-notes").value = notes;
-  $("email-draft").href = createMailto(brief, notes);
   $("notes-count").textContent = `${notes.length} / 1,200`;
-  try {
-    sessionStorage.setItem(draftKey, JSON.stringify({ services: [...brief], notes }));
-    draftStorage = true;
-  } catch {
-    draftStorage = false;
-  }
-  $("draft-save-status").textContent = draftStorage
-    ? "Saved in this tab, including after refresh."
-    : "Kept on this page. Save a copy before refreshing.";
 }
 function setMapAvailable(available) {
   sceneAvailable = available;
@@ -178,18 +194,20 @@ function setMapAvailable(available) {
   $("universe").tabIndex = available ? 0 : -1;
   for (const id of ["zoom-in", "zoom-out", "recenter", "pause-button"]) $(id).disabled = !available;
   $("map-gesture-hint").textContent = available
-    ? "DRAG TO ORBIT · + / − TO ZOOM"
-    : "SELECT A SERVICE FROM THE LIST";
+    ? "Drag to orbit · Tap an object to explore"
+    : "Explore the service list";
   $("render-status").textContent = available ? "3D SERVICE MAP" : "SERVICE LIST MODE";
 }
 
 function renderBrief() {
+  holograms.syncBrief();
   const ids = worlds.map((_, id) => id).filter((id) => brief.has(id));
   $("nav-brief-count").textContent = String(brief.size);
-  $("add-button").querySelector("span").textContent = brief.has(selected)
-    ? "Remove from brief"
-    : "Add to brief";
-  $("add-button").setAttribute("aria-pressed", String(brief.has(selected)));
+  $("nav-brief-count").hidden = !brief.size;
+  $("nav-brief").setAttribute(
+    "aria-label",
+    brief.size ? `Review project brief, ${brief.size} selected` : "Review project brief",
+  );
   $("brief-summary").textContent = brief.size
     ? `${brief.size} service ${brief.size === 1 ? "area" : "areas"} selected. Review your brief and tell us what you need.`
     : "Add the services you need, or describe your project in the brief.";
@@ -231,7 +249,7 @@ function renderBrief() {
       "Not sure which services you need? Describe your project below and I can help clarify the scope.";
     $("brief-items").append(empty);
   }
-  syncDraft();
+  syncBriefNotes();
 }
 function setService(id, include) {
   brief = updateBrief(brief, id, include);
@@ -246,13 +264,16 @@ function toggleService() {
 function explore() {
   sceneApi?.jump(selected);
   scanFxUntil = elapsed + 1.2;
-  $("map-stage").classList.remove("scanning");
-  void $("map-stage").offsetWidth;
-  $("map-stage").classList.add("scanning");
   showService();
 }
+function showCatalog() {
+  servicesPanel.open();
+  scrollToSection("services-panel");
+  $("catalog-title").focus({ preventScroll: true });
+}
 function showService() {
-  $("service-control").scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+  overviewPanel.open();
+  scrollToSection("service-control");
   $("service-control").focus({ preventScroll: true });
 }
 function togglePause() {
@@ -280,29 +301,62 @@ function recenter() {
   sceneApi.reset();
   toast("Camera recentered on your product.");
 }
-$("explore-button").addEventListener("click", explore);
-$("add-button").addEventListener("click", toggleService);
 $("pause-button").addEventListener("click", togglePause);
 $("recenter").addEventListener("click", recenter);
 $("zoom-in").addEventListener("click", () => sceneApi?.zoom(-3));
 $("zoom-out").addEventListener("click", () => sceneApi?.zoom(3));
-for (const id of ["help-button", "hint-help"])
-  $(id).addEventListener("click", () => openDialog("help-dialog"));
-for (const id of ["settings-button", "mobile-settings"])
-  $(id).addEventListener("click", () => openDialog("settings-dialog"));
-for (const id of ["nav-brief", "rail-brief", "review-button"])
+$("hint-help").addEventListener("click", () => openDialog("help-dialog"));
+$("mobile-settings").addEventListener("click", () => {
+  openDialog("settings-dialog");
+});
+for (const id of ["nav-brief", "review-button"])
   $(id).addEventListener("click", () => openDialog("brief-dialog"));
-for (const id of ["nav-map", "rail-map"])
-  $(id).addEventListener("click", () => {
+$("hero-brief").addEventListener("click", () => {
+  openDialog("brief-dialog");
+  $("brief-notes").focus();
+});
+const brandLink = $("nav-map");
+// The hosted standalone copy lives at / and also works when opened from disk.
+if (window.location.pathname === "/starworld.html" && /^https?:$/.test(window.location.protocol)) {
+  brandLink.href = "/home/";
+  brandLink.setAttribute("aria-label", "LEVNAT light homepage");
+  brandLink.querySelector("span").textContent = "LEVNAT";
+  $("map-signature").hidden = true;
+  $("site-services").hidden = false;
+  $("site-contact").hidden = false;
+  $("device-theme-link").hidden = false;
+  const context = new URLSearchParams(window.location.search);
+  const light = context.get("theme") === "light";
+  const galaxyLinks = [$("nav-galaxy"), $("site-galaxy")];
+  for (const link of galaxyLinks) link.href = light ? "/home/" : "/explore.html";
+  const layout = context.get("layout");
+  if (layout === "atom" || layout === "planets") {
+    const focus = context.get("focus");
+    const siteLinks = [brandLink, $("site-services"), $("site-contact"), $("device-theme-link")];
+    for (const link of [...galaxyLinks, ...siteLinks]) {
+      const destination = new URL(link.href);
+      destination.searchParams.set("layout", layout);
+      if (focus) destination.searchParams.set("focus", focus);
+      if (light && destination.pathname !== "/") destination.searchParams.set("theme", "light");
+      link.href = destination.pathname + destination.search;
+    }
+  }
+} else {
+  brandLink.addEventListener("click", (event) => {
+    event.preventDefault();
     recenter();
-    $("map-stage").scrollIntoView({ behavior: reduced ? "instant" : "smooth", block: "start" });
+    window.scrollTo({ top: 0, behavior: reduced ? "instant" : "smooth" });
   });
-for (const id of ["nav-service", "rail-service"]) $(id).addEventListener("click", showService);
-$("sound-button").addEventListener("click", () => {
-  sound = !sound;
-  syncSettings();
-  playTone();
-  toast(sound ? "Sound enabled." : "Sound muted.");
+}
+for (const id of ["nav-service", "hero-services"]) $(id).addEventListener("click", showCatalog);
+$("guide-services").addEventListener("click", () => {
+  const guide = $("help-dialog");
+  guide.addEventListener("close", showCatalog, { once: true });
+  guide.close();
+});
+$("skip-service").addEventListener("click", (event) => {
+  event.preventDefault();
+  showService();
 });
 $("sound-setting").addEventListener("change", (e) => {
   sound = e.target.checked;
@@ -321,7 +375,24 @@ $("settings-help").addEventListener("click", () => {
   $("settings-dialog").close();
   openDialog("help-dialog");
 });
-$("brief-notes").addEventListener("input", syncDraft);
+$("brief-notes").addEventListener("input", syncBriefNotes);
+if (window.location.protocol === "https:") {
+  import("/src/shared/secure-inquiry.js?v=pqc1")
+    .then(({ bindSecureInquiry }) =>
+      bindSecureInquiry($("brief-form"), {
+        read: () => createBriefInquiry(brief, $("brief-notes").value, $("brief-email").value),
+        status: $("brief-submit-status"),
+        onSuccess: () => {
+          $("brief-form").reset();
+          brief = new Set();
+          renderBrief();
+        },
+      }),
+    )
+    .catch(() => {
+      $("brief-submit-status").textContent = "Protected submission is unavailable on this page.";
+    });
+}
 motionPreference.addEventListener("change", (event) => {
   reduced = event.matches;
   syncSettings();
@@ -393,16 +464,38 @@ document.addEventListener("keydown", (e) => {
     document.querySelector("dialog[open]")
   )
     return;
-  if (!e.target.closest("#main-content,#service-control,.rail")) return;
+  if (!e.target.closest("#main-content")) return;
   const k = e.key.toLowerCase();
+  if (k === "escape" && e.target.closest("#scene-controls[open]")) {
+    e.preventDefault();
+    $("scene-controls").open = false;
+    $("scene-controls").querySelector("summary").focus();
+    return;
+  }
+  if (k === "escape" && servicesPanel.isOpen() && e.target.closest("#services-panel")) {
+    e.preventDefault();
+    servicesPanel.close();
+    return;
+  }
+  if (k === "escape" && overviewPanel.isOpen() && e.target.closest("#service-control")) {
+    e.preventDefault();
+    overviewPanel.close();
+    return;
+  }
+  if (k === "escape" && holograms.isOpen()) {
+    e.preventDefault();
+    holograms.close();
+    return;
+  }
+  if (!e.target.closest("#scene-viewport,#services-panel,#holograms,#service-control")) return;
   if (/^[1-9]$/.test(k) && Number(k) <= worlds.length) {
     e.preventDefault();
-    selectWorld(Number(k) - 1);
-    $("world-list").children[Number(k) - 1].focus();
+    selectWorld(Number(k) - 1, { reveal: true });
     return;
   }
   if (!sceneAvailable && ["p", "r", "+", "=", "-"].includes(k)) return;
   const actions = {
+    h: toggleHolograms,
     e: explore,
     a: toggleService,
     b: () => openDialog("brief-dialog"),
@@ -436,7 +529,6 @@ function frame(now) {
   if (document.hidden) return;
   const suspended = effectivePause();
   if (!suspended) elapsed += dt / 1000;
-  if (elapsed >= scanFxUntil) $("map-stage").classList.remove("scanning");
   const interval = reduced || suspended ? 1000 / 15 : 1000 / 45;
   if (now - lastRendered >= interval) {
     const renderDt = Math.min(0.12, (now - lastRendered) / 1000);
@@ -445,14 +537,14 @@ function frame(now) {
   }
 }
 requestAnimationFrame(frame);
-// Optional tools prepare the same local brief as the visible interface; no transmission.
+// Optional tools expose service choices. Inquiry fields stay in the form.
 const modelContext = document.modelContext || navigator.modelContext;
 if (modelContext?.registerTool) {
   const lifecycle = new AbortController();
   const snapshot = () => ({
     selected: worlds[selected].name,
     services: worlds.map((w, id) => ({ id, name: w.name, inBrief: brief.has(id) })),
-    brief: createBriefText(brief, $("brief-notes").value),
+    brief: createBriefText(brief),
   });
   const register = (tool) => {
     try {
@@ -463,15 +555,14 @@ if (modelContext?.registerTool) {
   };
   register({
     name: "inspect_software_services",
-    description: "Read software services, selected service and the local project brief.",
+    description: "Read software services and the current service selections.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
     annotations: { readOnlyHint: true },
     execute: async () => snapshot(),
   });
   register({
     name: "configure_project_brief",
-    description:
-      "Select a service or add/remove it from the local project brief. Does not open email or send anything.",
+    description: "Select a service or add/remove it from the local project brief.",
     inputSchema: {
       type: "object",
       properties: {

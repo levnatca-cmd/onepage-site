@@ -1,25 +1,25 @@
-// Entry point: bootstraps app, then wires lightweight DOM widgets (mobile nav,
-// back-to-top, native share button) that don't need the galaxy/state pipeline.
+// Entry point: bootstraps app, then wires the back-to-top and native share controls.
 
-import { appState } from "./state.js?v=wow50";
-import { initGalaxyScene, refreshGalaxyState } from "./galaxy.js?v=wow50";
+import { appState } from "./state.js?v=wow60";
+import { bindGalaxyServiceLinks, initGalaxyScene, refreshGalaxyState } from "./galaxy.js?v=wow60&rev=service-row-dive1";
 import {
-  hydrateContactLinks,
   updateCopyrightYear,
   bindControls,
+  bindGalaxyStageOffsets,
+  bindGalaxyServiceRow,
+  bindQuizNavigation,
   renderResult,
   updateCompletion,
   updateVectorReadout,
   updatePlanetInspector,
   updateScaleReadout,
-  updateMailto,
   updateChoiceHud,
   getProjectShareData
-} from "./ui.js?v=wow50";
+} from "./ui.js?v=wow60&rev=service-row-dive1";
 
 function initApp() {
-  hydrateContactLinks();
   updateCopyrightYear();
+  bindGalaxyStageOffsets();
   refreshGalaxyState();
   try {
     initGalaxyScene();
@@ -39,39 +39,20 @@ function initApp() {
     if (loading) loading.hidden = true;
   }
   bindControls();
-  renderResult();
-  updateCompletion();
+  bindGalaxyServiceLinks();
+  bindGalaxyServiceRow();
+  if (document.getElementById("quiz-console")) {
+    bindQuizNavigation();
+    renderResult();
+    updateCompletion();
+    updateChoiceHud();
+  }
   updateVectorReadout(appState.selectedPlanet);
   updatePlanetInspector(appState.selectedPlanet);
   updateScaleReadout();
-  updateMailto();
-  updateChoiceHud();
 }
 
 // ---------- Standalone DOM widgets (no app-state coupling) ----------
-
-function bindMobileNav() {
-  const toggle = document.getElementById("nav-toggle");
-  const menu = document.getElementById("nav-links");
-  if (!toggle || !menu) return;
-
-  function setOpen(open) {
-    toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    menu.classList.toggle("is-open", open);
-  }
-
-  toggle.addEventListener("click", function () {
-    setOpen(toggle.getAttribute("aria-expanded") !== "true");
-  });
-
-  menu.addEventListener("click", function (event) {
-    if (event.target.tagName === "A") setOpen(false);
-  });
-
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") setOpen(false);
-  });
-}
 
 function bindBackToTop() {
   const btn = document.getElementById("back-to-top");
@@ -163,7 +144,6 @@ function startTelemetryTicker() {
 }
 
 initApp();
-bindMobileNav();
 bindBackToTop();
 bindShareButton();
 startSysClock();

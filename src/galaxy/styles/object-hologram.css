@@ -1,0 +1,105 @@
+.galaxy-object-hologram {
+  --hologram-accent: #5de7ff;
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.galaxy-object-hologram[hidden] {
+  display: none;
+}
+
+.galaxy-object-hologram-projection,
+.galaxy-object-hologram-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.galaxy-object-hologram-projection {
+  height: 14px;
+  transform-origin: 0 0;
+}
+
+.galaxy-object-hologram-projection::before,
+.galaxy-object-hologram-projection::after {
+  position: absolute;
+  inset-inline: 0;
+  content: "";
+  transform-origin: left center;
+  animation: galaxy-hologram-project 180ms ease-out both;
+}
+
+.galaxy-object-hologram-projection::before {
+  top: -7px;
+  bottom: 7px;
+  clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 55%);
+  background: linear-gradient(90deg, var(--hologram-accent), transparent);
+  opacity: 0.42;
+}
+
+.galaxy-object-hologram-projection::after {
+  top: -0.5px;
+  height: 1px;
+  background: linear-gradient(90deg, #f0fcff, var(--hologram-accent));
+  opacity: 0.82;
+}
+
+.galaxy-object-hologram-panel {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--hologram-accent) 42%, transparent));
+}
+
+.galaxy-object-hologram-label {
+  box-sizing: border-box;
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+  padding: 5px 10px;
+  border: 1px solid var(--hologram-accent);
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(211, 248, 255, 0.06) 3px 4px),
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--hologram-accent) 24%, rgba(9, 17, 30, 0.8)),
+      rgba(9, 17, 30, 0.82) 72%
+    );
+  box-shadow:
+    inset 0 0 14px color-mix(in srgb, var(--hologram-accent) 32%, transparent),
+    inset 0 -3px color-mix(in srgb, var(--hologram-accent) 42%, transparent);
+  color: #effaff;
+  font: 650 12px/1.18 var(--font-heading);
+  text-align: center;
+  text-shadow: 0 1px 3px #080e17;
+  overflow-wrap: anywhere;
+  transform-origin: var(--hologram-reveal-origin, center);
+  animation: galaxy-hologram-unfold 280ms cubic-bezier(0.2, 0.72, 0.24, 1) 45ms both;
+}
+
+@keyframes galaxy-hologram-project {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes galaxy-hologram-unfold {
+  from {
+    opacity: 0;
+    transform: scale(0.25, 0.12);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(0.92, 0.55);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-object-hologram-projection::before,
+  .galaxy-object-hologram-projection::after,
+  .galaxy-object-hologram-label {
+    animation: none;
+  }
+}

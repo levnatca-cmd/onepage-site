@@ -31,6 +31,27 @@ function createBriefText(ids, notes = "") {
   lines.push("", "Please help me clarify the scope and next steps.");
   return lines.join("\n");
 }
-function createMailto(ids, notes = "") {
-  return `mailto:info@levnat.ca?subject=${encodeURIComponent("Software development & support — project enquiry")}&body=${encodeURIComponent(createBriefText(ids, notes))}`;
+function createBriefInquiry(ids, notes, email) {
+  const serviceByCode = {
+    APP: "websites",
+    API: "integrations",
+    LINK: "integrations",
+    CARE: "support",
+    iOS: "ios",
+    SEC: "security",
+  };
+  const services = new Set(
+    worlds
+      .filter((_, id) => ids.has(id))
+      .map((world) => serviceByCode[world.code])
+      .filter(Boolean),
+  );
+  return {
+    name: "",
+    email,
+    service: services.size === 1 ? services.values().next().value : "unsure",
+    description: createBriefText(ids, notes),
+    budget: "",
+    timeline: "",
+  };
 }

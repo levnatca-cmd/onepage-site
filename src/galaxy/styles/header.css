@@ -19,6 +19,7 @@
 
 .nav-toggle {
   display: none;
+  flex: 0 0 auto;
   width: 44px;
   height: 44px;
   align-items: center;
@@ -73,13 +74,14 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: "Oxanium", sans-serif;
+  font-family: var(--font-heading);
   font-weight: 700;
   letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
 .brand-mark {
+  flex: 0 0 auto;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -119,7 +121,7 @@
   transition: color 160ms ease, background 160ms ease, border-color 160ms ease;
 }
 
-.nav-links a:hover {
+.nav-links a:is(:hover, [aria-current="page"]) {
   color: var(--cyan);
   border-color: rgba(213, 227, 237, 0.12);
   background: rgba(244, 248, 251, 0.05);
@@ -127,4 +129,88 @@
 
 .nav-links .nav-mobile-cta {
   display: none;
+}
+
+.galaxy-theme-toggle {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--panel-muted);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.galaxy-theme-toggle > * {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: inherit;
+}
+
+.galaxy-theme-toggle [aria-current="page"] {
+  background: var(--selection, rgba(93, 231, 255, 0.13));
+  color: var(--cyan-strong);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+
+.galaxy-theme-toggle a:is(:hover, :focus-visible) {
+  background: var(--hover-surface, rgba(244, 248, 251, 0.08));
+  color: var(--text);
+  outline-offset: -3px;
+}
+
+@media (max-width: 900px) {
+  .site-header .nav {
+    column-gap: 8px;
+    padding-block: 10px;
+  }
+
+  .site-header .brand {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.13;
+    overflow-wrap: anywhere;
+  }
+
+  .site-header:not(.has-site-menu) {
+    position: relative;
+  }
+
+  .site-header:not(.has-site-menu) .nav-toggle {
+    display: none;
+  }
+
+  .site-header:not(.has-site-menu) .nav-links {
+    display: flex;
+    flex-flow: row wrap;
+    margin-block: 8px 0;
+  }
+
+  .site-header.has-site-menu .nav-links {
+    max-height: max(48px, calc(100svh - 112px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px;
+  }
+
+  .site-header .nav-links a {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header .brand {
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .site-header .brand-mark {
+    width: 28px;
+    height: 28px;
+  }
 }

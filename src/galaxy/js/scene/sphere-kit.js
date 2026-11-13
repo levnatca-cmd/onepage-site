@@ -1,48 +1,13 @@
 import * as THREE from "../../../../vendor/three/three.module.min.js";
+import {
+  createServiceSphereCover,
+  retargetServiceSphereCover,
+  updateServiceSphereCover
+} from "./service-sphere-cover.js?v=wow60&rev=galaxy-light1";
+import { updateModelSignalPackets } from "./system-models/signal-packets.js?v=wow60";
 
-const DESKTOP_SPHERE_GEOMETRY = new THREE.SphereGeometry(1, 32, 20);
-const COMPACT_SPHERE_GEOMETRY = new THREE.SphereGeometry(1, 20, 12);
-const SPHERE_ARC_GEOMETRY = createSphereArcGeometry(64);
-[DESKTOP_SPHERE_GEOMETRY, COMPACT_SPHERE_GEOMETRY, SPHERE_ARC_GEOMETRY].forEach(function (geometry) {
-  geometry.userData.sharedResource = true;
-});
-
-const SHELL_VERTEX_SHADER = `
-  #include <fog_pars_vertex>
-  varying vec3 vNormalView;
-  varying vec3 vViewDirection;
-
-  void main() {
-    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-    vNormalView = normalize(normalMatrix * normal);
-    vViewDirection = normalize(-mvPosition.xyz);
-    gl_Position = projectionMatrix * mvPosition;
-    #include <fog_vertex>
-  }
-`;
-
-const SHELL_FRAGMENT_SHADER = `
-  #include <fog_pars_fragment>
-  uniform vec3 uAccent;
-  uniform float uBaseAlpha;
-  uniform float uRimAlpha;
-  uniform float uGlintPhase;
-  varying vec3 vNormalView;
-  varying vec3 vViewDirection;
-
-  void main() {
-    vec3 normalView = normalize(vNormalView);
-    float facing = abs(dot(normalView, normalize(vViewDirection)));
-    float rim = pow(max(0.0, 1.0 - facing), 2.35);
-    vec3 glintDirection = normalize(vec3(cos(uGlintPhase), 0.56, sin(uGlintPhase)));
-    float glint = pow(max(0.0, dot(normalView, glintDirection)), 18.0);
-    float alpha = uBaseAlpha + rim * uRimAlpha + glint * 0.055;
-    gl_FragColor = vec4(uAccent, min(alpha, 0.42));
-    #include <tonemapping_fragment>
-    #include <colorspace_fragment>
-    #include <fog_fragment>
-  }
-`;
+const SERVICE_VIEW_SWING = 0.32;
+const FEEDTHROUGH_AXIS = new THREE.Vector3(1, 0, 0);
 
 export function createSpherePresentation(options) {
   const {
@@ -52,7 +17,8 @@ export function createSpherePresentation(options) {
     config,
     context = "rescue",
     radius: radiusOverride = null,
-    compact = false
+    compact = false,
+    lightTheme = false
   } = options;
 
   if (!model || !config) throw new Error("Sphere presentation requires a model and config for " + id);
@@ -61,58 +27,16 @@ export function createSpherePresentation(options) {
   const posePivot = new THREE.Group();
   const spinPivot = new THREE.Group();
   const fitPivot = new THREE.Group();
-  const shellArcPivot = new THREE.Group();
   const radius = Number.isFinite(radiusOverride) ? radiusOverride : config.rescueRadius;
   const innerRadius = radius * config.fill;
-  const fit = fitModelIntoSphere(model, innerRadius);
-
-  const shellMaterial = new THREE.ShaderMaterial({
-    uniforms: THREE.UniformsUtils.merge([
-      THREE.UniformsLib.fog,
-      {
-        uAccent: { value: new THREE.Color(color) },
-        uBaseAlpha: { value: 0 },
-        uRimAlpha: { value: 0 },
-        uGlintPhase: { value: config.spinPhase }
-      }
-    ]),
-    vertexShader: SHELL_VERTEX_SHADER,
-    fragmentShader: SHELL_FRAGMENT_SHADER,
-    transparent: true,
-    depthWrite: false,
-    depthTest: true,
-    side: THREE.FrontSide,
-    toneMapped: true,
-    fog: true
-  });
-
-  const shell = new THREE.Mesh(
-    compact ? COMPACT_SPHERE_GEOMETRY : DESKTOP_SPHERE_GEOMETRY,
-    shellMaterial
-  );
-  shell.scale.setScalar(radius);
-  shell.renderOrder = 14;
-  shell.userData.presentationShell = true;
-  root.add(shell);
-
-  const arcMaterial = new THREE.LineBasicMaterial({
-    color,
-    transparent: true,
-    opacity: 0,
-    depthWrite: false,
-    depthTest: true,
-    blending: THREE.AdditiveBlending
-  });
-  const arcs = new THREE.LineSegments(SPHERE_ARC_GEOMETRY, arcMaterial);
-  arcs.scale.setScalar(radius * 1.003);
-  arcs.renderOrder = 15;
-  shellArcPivot.rotation.set(config.shellTilt[0], config.shellTilt[1], config.shellTilt[2]);
-  shellArcPivot.add(arcs);
-  root.add(shellArcPivot);
+  const { fit, feedthroughs, modelSignals } = fitSphereContents(model, innerRadius, context !== "choice");
+  const cover = createServiceSphereCover({ color, radius, config, compact, lightTheme });
+  root.add(cover.root);
 
   fitPivot.add(model);
   spinPivot.add(fitPivot);
   posePivot.add(spinPivot);
+  if (context !== "choice") posePivot.rotation.x = config.tiltX ?? 0;
   root.add(posePivot);
 
   const spinAxis = new THREE.Vector3(
@@ -129,25 +53,31 @@ export function createSpherePresentation(options) {
     spinPivot,
     fitPivot,
     model,
-    shell,
-    shellMaterial,
-    shellArcPivot,
-    arcs,
-    arcMaterial,
+    cover,
+    shell: cover.shell,
+    shellMaterial: cover.shellMaterial,
+    shellArcPivot: cover.shellArcPivot,
+    arcs: cover.arcs,
+    arcMaterial: cover.arcMaterial,
     radius,
     innerRadius,
     spinAxis,
     spinAngle: config.spinPhase,
+    spinTravel: 0,
     speedFactor: 1,
     revealProgress: 0,
     config,
-    fit
+    fit,
+    feedthroughs,
+    modelSignals
   };
 
   spinPivot.quaternion.setFromAxisAngle(spinAxis, config.spinPhase + 0.314);
   spinPivot.scale.setScalar(0.86);
+  updateSphereFeedthroughs(presentation);
   root.userData.presentation = presentation;
   root.userData.presentationContext = context;
+  root.userData.usesServiceSphereCover = true;
   root.userData.sphereRadius = radius;
   root.userData.model = model;
   return presentation;
@@ -168,10 +98,10 @@ export function retargetSpherePresentation(presentation, options) {
 
   const innerRadius = radius * config.fill;
   const modelParent = presentation.model.parent;
-  let fit;
+  let contents;
   if (modelParent) modelParent.remove(presentation.model);
   try {
-    fit = fitModelIntoSphere(presentation.model, innerRadius);
+    contents = fitSphereContents(presentation.model, innerRadius, presentation.context !== "choice");
   } finally {
     if (modelParent) modelParent.add(presentation.model);
   }
@@ -180,31 +110,24 @@ export function retargetSpherePresentation(presentation, options) {
   presentation.config = config;
   presentation.radius = radius;
   presentation.innerRadius = innerRadius;
-  presentation.fit = fit;
+  presentation.fit = contents.fit;
+  presentation.feedthroughs = contents.feedthroughs;
+  presentation.modelSignals = contents.modelSignals;
   presentation.spinAxis.set(
     config.spinAxis[0],
     config.spinAxis[1],
     config.spinAxis[2]
   ).normalize();
   presentation.spinAngle = config.spinPhase;
+  presentation.spinTravel = 0;
   presentation.speedFactor = 1;
   presentation.spinPivot.quaternion.setFromAxisAngle(
     presentation.spinAxis,
     presentation.spinAngle
   );
 
-  presentation.shell.scale.setScalar(radius);
-  presentation.arcs.scale.setScalar(radius * 1.003);
-  presentation.shellArcPivot.rotation.set(
-    config.shellTilt[0],
-    config.shellTilt[1],
-    config.shellTilt[2]
-  );
-  if (color !== undefined) {
-    presentation.shellMaterial.uniforms.uAccent.value.set(color);
-    presentation.arcMaterial.color.set(color);
-  }
-  presentation.shellMaterial.uniforms.uGlintPhase.value = config.spinPhase;
+  retargetServiceSphereCover(presentation.cover, { color, radius, config });
+  updateSphereFeedthroughs(presentation);
 
   presentation.root.userData.presentation = presentation;
   presentation.root.userData.presentationContext = presentation.context;
@@ -221,7 +144,10 @@ export function updateSpherePresentation(presentation, options) {
     selected = false,
     hovered = false,
     reducedMotion = false,
-    debugPhase = null
+    signalElapsed = elapsed,
+    signalReducedMotion = reducedMotion,
+    debugPhase = null,
+    faceReadable = presentation.context !== "choice"
   } = options;
   const config = presentation.config;
   const targetSpeedFactor = selected ? 0.2 : hovered ? 0.45 : 1;
@@ -232,10 +158,15 @@ export function updateSpherePresentation(presentation, options) {
     presentation.spinAngle = config.spinPhase + debugPhase * Math.PI * 2;
   } else if (reducedMotion) {
     presentation.spinAngle = config.staticAngle;
-  } else if (selected) {
+  } else if (selected || faceReadable) {
+    let viewAngle = config.staticAngle;
+    if (!selected) {
+      presentation.spinTravel += delta * config.spinSpeed * presentation.speedFactor;
+      viewAngle += Math.sin(presentation.spinTravel + config.spinPhase) * SERVICE_VIEW_SWING;
+    }
     const angleDelta = Math.atan2(
-      Math.sin(config.staticAngle - presentation.spinAngle),
-      Math.cos(config.staticAngle - presentation.spinAngle)
+      Math.sin(viewAngle - presentation.spinAngle),
+      Math.cos(viewAngle - presentation.spinAngle)
     );
     presentation.spinAngle += angleDelta * (1 - Math.exp(-Math.max(delta, 0) * 7));
   } else {
@@ -255,96 +186,116 @@ export function updateSpherePresentation(presentation, options) {
     presentation.spinAngle + revealTwist
   );
   presentation.spinPivot.scale.setScalar(0.86 + reveal * 0.14);
-
-  if (Number.isFinite(debugPhase)) {
-    presentation.shellArcPivot.rotation.x = config.shellTilt[0] + debugPhase * 0.32;
-    presentation.shellArcPivot.rotation.y = config.shellTilt[1] - debugPhase * 0.46;
-    presentation.shellArcPivot.rotation.z = config.shellTilt[2];
-  } else if (reducedMotion) {
-    presentation.shellArcPivot.rotation.set(
-      config.shellTilt[0],
-      config.shellTilt[1],
-      config.shellTilt[2]
-    );
-  } else if (!reducedMotion) {
-    presentation.shellArcPivot.rotation.x += delta * config.shellSpeed * 0.42;
-    presentation.shellArcPivot.rotation.y -= delta * config.shellSpeed;
-  }
-
-  const baseAlpha = selected ? 0.042 : hovered ? 0.032 : 0.022;
-  const rimAlpha = selected ? 0.28 : hovered ? 0.23 : 0.18;
-  presentation.shellMaterial.uniforms.uBaseAlpha.value = baseAlpha * reveal;
-  presentation.shellMaterial.uniforms.uRimAlpha.value = rimAlpha * reveal;
-  presentation.shellMaterial.uniforms.uGlintPhase.value = reducedMotion
-    ? config.spinPhase
-    : elapsed * 0.12 + config.spinPhase;
-  presentation.arcMaterial.opacity = (selected ? 0.22 : hovered ? 0.18 : 0.12) * reveal;
+  updateSphereFeedthroughs(presentation);
+  updateModelSignalPackets(presentation.modelSignals, signalElapsed, signalReducedMotion);
+  updateServiceSphereCover(presentation.cover, {
+    delta,
+    elapsed,
+    reveal,
+    selected,
+    hovered,
+    reducedMotion,
+    debugPhase
+  });
 }
 
-export function fitModelIntoSphere(model, innerRadius) {
+function fitSphereContents(model, innerRadius, radialFit) {
+  const feedthroughs = [];
+  const modelSignals = [];
+  model.traverse((owner) => {
+    const attachment = owner.userData.sphereFeedthrough;
+    if (attachment) feedthroughs.push({ owner, ...attachment });
+    if (owner.userData.modelSignals) modelSignals.push(owner.userData.modelSignals);
+  });
+
+  // Fit the interior first so an external cable cannot shrink the assembly.
+  for (const { mount } of feedthroughs) mount.removeFromParent();
+  try {
+    const fit = fitModelIntoSphere(model, innerRadius, radialFit);
+    for (const port of feedthroughs) {
+      port.center = port.owner.worldToLocal(new THREE.Vector3());
+      port.direction = port.anchor.clone().sub(port.center).normalize();
+      port.anchorRadius = port.anchor.distanceTo(port.center);
+      port.modelScale = port.owner.getWorldScale(new THREE.Vector3()).x;
+      port.mount.quaternion.setFromUnitVectors(FEEDTHROUGH_AXIS, port.direction);
+    }
+    return { fit, feedthroughs, modelSignals };
+  } finally {
+    for (const { owner, mount } of feedthroughs) owner.add(mount);
+  }
+}
+
+function updateSphereFeedthroughs(presentation) {
+  for (const port of presentation.feedthroughs) {
+    // Cancel the interior reveal scale so the flange stays on the shell.
+    const localRadius = presentation.radius / (port.modelScale * presentation.spinPivot.scale.x);
+    port.mount.position.copy(port.center).addScaledVector(port.direction, localRadius);
+    port.mount.scale.setScalar(localRadius);
+    port.lead.scale.x = 1 - port.anchorRadius / localRadius;
+  }
+}
+
+export function fitModelIntoSphere(model, innerRadius, radialFit = false) {
   const box = new THREE.Box3();
   const center = new THREE.Vector3();
-  const sourceSphere = new THREE.Sphere();
-  const fittedSphere = new THREE.Sphere();
 
   model.position.set(0, 0, 0);
   model.rotation.set(0, 0, 0);
   model.scale.set(1, 1, 1);
   model.updateMatrixWorld(true);
-  box.setFromObject(model);
+  box.setFromObject(model, radialFit);
   if (box.isEmpty()) throw new Error("Cannot fit an empty semantic model into a sphere");
 
   box.getCenter(center);
-  model.position.sub(center);
-  model.updateMatrixWorld(true);
-  box.setFromObject(model);
-  box.getBoundingSphere(sourceSphere);
-  if (!Number.isFinite(sourceSphere.radius) || sourceSphere.radius <= 0) {
+  const sourceRadius = radialFit
+    ? getModelRadialExtent(model, center)
+    : box.getBoundingSphere(new THREE.Sphere()).radius;
+  if (!Number.isFinite(sourceRadius) || sourceRadius <= 0) {
     throw new Error("Semantic model has invalid bounds");
   }
 
-  const scale = innerRadius / sourceSphere.radius;
+  const scale = innerRadius / sourceRadius;
   model.scale.setScalar(scale);
+  model.position.copy(center).multiplyScalar(-scale);
   model.updateMatrixWorld(true);
-  box.setFromObject(model);
-  box.getBoundingSphere(fittedSphere);
-  const epsilon = 0.0001;
-  if (fittedSphere.radius > innerRadius + epsilon) {
-    throw new Error("Semantic model exceeded its sphere containment budget");
-  }
 
   return Object.freeze({
-    sourceRadius: sourceSphere.radius,
-    fittedRadius: fittedSphere.radius,
+    sourceRadius,
+    fittedRadius: sourceRadius * scale,
     scale,
-    centerOffset: Object.freeze([-center.x, -center.y, -center.z])
+    centerOffset: Object.freeze(model.position.toArray())
   });
 }
 
-function createSphereArcGeometry(segments) {
-  const positions = [];
-  const planes = ["xy", "xz", "yz"];
-  planes.forEach(function (plane, planeIndex) {
-    const start = planeIndex * 0.34;
-    const end = start + Math.PI * 1.72;
-    for (let index = 0; index < segments; index += 1) {
-      const a = start + (index / segments) * (end - start);
-      const b = start + ((index + 1) / segments) * (end - start);
-      appendCirclePoint(positions, plane, a);
-      appendCirclePoint(positions, plane, b);
+function getModelRadialExtent(model, center) {
+  let extent = 0;
+  const point = new THREE.Vector3();
+
+  function visit(part, envelope) {
+    const { spin, sweep, sweepRing, fault } = part.userData;
+    if (spin || sweep || sweepRing || fault) {
+      const pivot = new THREE.Vector3().setFromMatrixPosition(part.matrixWorld);
+      // Budget the hardware diagnostic marker at its strongest pulse.
+      const growth = fault ? 2.11 / part.scale.x : 1;
+      const offset = envelope
+        ? envelope.offset + envelope.pivot.distanceTo(pivot) * envelope.growth
+        : center.distanceTo(pivot);
+      envelope = { pivot, offset, growth: growth * (envelope?.growth ?? 1) };
     }
-  });
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  return geometry;
-}
 
-function appendCirclePoint(target, plane, angle) {
-  const x = Math.cos(angle);
-  const y = Math.sin(angle);
-  if (plane === "xy") target.push(x, y, 0);
-  else if (plane === "xz") target.push(x, 0, y);
-  else target.push(0, x, y);
+    const positions = part.geometry?.getAttribute("position");
+    for (let index = 0; index < (positions?.count ?? 0); index += 1) {
+      point.fromBufferAttribute(positions, index).applyMatrix4(part.matrixWorld);
+      const radius = envelope
+        ? envelope.offset + envelope.pivot.distanceTo(point) * envelope.growth
+        : center.distanceTo(point);
+      extent = Math.max(extent, radius);
+    }
+    part.children.forEach((child) => visit(child, envelope));
+  }
+
+  visit(model, null);
+  return extent;
 }
 
 function smoothStep(value) {

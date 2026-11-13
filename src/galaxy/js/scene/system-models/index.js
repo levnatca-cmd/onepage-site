@@ -1,14 +1,16 @@
-import { buildWebModel } from "./web.js?v=wow50";
-import { buildBackendModel } from "./backend.js?v=wow50";
-import { buildAutomationModel } from "./automation.js?v=wow50";
-import { buildDataModel } from "./data.js?v=wow50";
-import { buildHardwareModel } from "./hardware.js?v=wow50";
-import { buildMonitoringModel } from "./monitoring.js?v=wow50";
+import { buildWebModel } from "./web.js?v=wow60";
+import { buildBackendModel } from "./backend.js?v=wow60";
+import { buildAutomationModel } from "./automation.js?v=wow60";
+import { buildPqcModel } from "./pqc.js?v=wow60";
+import { buildDataModel } from "./data.js?v=wow60";
+import { buildHardwareModel } from "./hardware.js?v=wow60";
+import { buildMonitoringModel } from "./monitoring.js?v=wow60";
 
 export const SYSTEM_MODEL_BUILDERS = Object.freeze({
   firmware: buildWebModel,
   backend: buildBackendModel,
   automation: buildAutomationModel,
+  pqc: buildPqcModel,
   data: buildDataModel,
   hardware: buildHardwareModel,
   ops: buildMonitoringModel

@@ -1,0 +1,273 @@
+{
+  "schemaVersion": "1.0.0",
+  "assetId": "system-galaxy.hardware",
+  "name": "Hardware",
+  "description": "A transparent sphere containing an edge processor, physical peripherals, and a braided signal network.",
+  "reference": {
+    "file": "06-hardware.png",
+    "sizePx": [1254, 1254],
+    "observed": "A cool glass shell, a central illuminated processor with three suspended layers, several glass peripherals, and an amber-rimmed cable feedthrough on the right.",
+    "reconstruction": "All 3D positions, dimensions, hidden surfaces, circuit roles, signal directions, and motion values are authored estimates derived from a single view.",
+    "screenLandmarks": {
+      "coordinateSystem": "Normalized image coordinates from the top-left corner.",
+      "sphereCenter": [0.492, 0.45],
+      "sphereRadius": 0.365,
+      "processorCenter": [0.492, 0.438],
+      "memoryBank": [0.3, 0.33],
+      "opticalSensor": [0.67, 0.319],
+      "edgeNode": [0.235, 0.542],
+      "controlTiles": [0.519, 0.226],
+      "logicDock": [0.643, 0.611],
+      "rightFeedthrough": [0.814, 0.491]
+    }
+  },
+  "coordinates": {
+    "handedness": "right-handed",
+    "axes": { "x": "right", "y": "up", "z": "toward the reference camera" },
+    "unit": "shell radius",
+    "rotation": "XYZ Euler angles in degrees",
+    "dimensions": "Box sizes are [width, height, depth]. The size includes the bevel.",
+    "transforms": "Component positions and route via points are in model space. Parts, ports, and repeat offsets are local to the component. Transform each route endpoint through its owning component before constructing the curve."
+  },
+  "shell": {
+    "id": "hardware-shell",
+    "geometry": { "type": "sphere", "radius": 1, "position": [0, 0, 0] },
+    "material": "shellGlass",
+    "lighting": {
+      "fresnelExponent": 3.1,
+      "keyGlint": { "screenSide": "upper-left", "color": "ice", "strength": 0.85 },
+      "floorGlint": { "screenSide": "bottom", "color": "signalCyan", "strength": 0.64 },
+      "warmGlint": { "screenSide": "upper-right", "color": "copper", "strength": 0.22 }
+    },
+    "render": { "side": "front", "depthTest": true, "depthWrite": false, "renderOrder": 20 },
+    "feedthrough": "Let the opaque mounting ring cover the shell seam. On a close-up, mask a circular patch of radius 0.094 around rightFeedthrough.shellJoint."
+  },
+  "palette": {
+    "background": "#031318",
+    "glassTeal": "#147F97",
+    "shellTeal": "#2488A2",
+    "signalCyan": "#66EFFF",
+    "ice": "#E3FBFF",
+    "amber": "#FFBD65",
+    "copper": "#B66936",
+    "metal": "#334B53"
+  },
+  "materials": {
+    "shellGlass": { "type": "fresnelShader", "color": "shellTeal", "centerOpacity": 0.045, "rimOpacity": 0.46 },
+    "moduleGlass": { "type": "tintedGlass", "color": "glassTeal", "opacity": 0.22, "edgeColor": "signalCyan", "edgeOpacity": 0.78 },
+    "amberGlass": { "type": "tintedGlass", "color": "copper", "opacity": 0.19, "edgeColor": "amber", "edgeOpacity": 0.85 },
+    "carrierGlass": { "type": "tintedGlass", "color": "glassTeal", "opacity": 0.31, "edgeColor": "ice", "edgeOpacity": 0.78 },
+    "darkMetal": { "type": "pbr", "color": "metal", "metalness": 0.72, "roughness": 0.23 },
+    "copperMetal": { "type": "pbr", "color": "copper", "metalness": 0.82, "roughness": 0.26 },
+    "dieGlass": { "type": "tintedGlass", "color": "signalCyan", "opacity": 0.44, "edgeColor": "ice", "edgeOpacity": 0.94 },
+    "cyanTrace": { "type": "emissive", "color": "signalCyan", "intensity": 1.2 },
+    "amberTrace": { "type": "emissive", "color": "amber", "intensity": 0.96 },
+    "iceEmitter": { "type": "emissive", "color": "ice", "intensity": 1.7 },
+    "guideWire": { "type": "dashedLine", "color": "signalCyan", "opacity": 0.29, "dashLength": 0.006, "gapLength": 0.008 },
+    "cableJacket": { "type": "tintedGlass", "color": "shellTeal", "opacity": 0.16, "edgeColor": "glassTeal", "edgeOpacity": 0.25 }
+  },
+  "components": {
+    "processor": {
+      "role": "Edge computation and signal distribution.",
+      "position": [0, 0.047, 0.024],
+      "rotationDeg": [0, 45, 0],
+      "parts": [
+        { "id": "bottom-rim", "geometry": "roundedBox", "size": [0.58, 0.038, 0.58], "position": [0, -0.086, 0], "bevel": 0.021, "material": "amberGlass" },
+        { "id": "package-body", "geometry": "roundedBox", "size": [0.546, 0.091, 0.546], "position": [0, -0.038, 0], "bevel": 0.019, "material": "carrierGlass" },
+        { "id": "upper-rim", "geometry": "roundedBox", "size": [0.577, 0.028, 0.577], "position": [0, 0.012, 0], "bevel": 0.019, "material": "amberGlass" },
+        { "id": "glass-substrate", "geometry": "roundedBox", "size": [0.474, 0.034, 0.474], "position": [0, 0.036, 0], "bevel": 0.014, "material": "carrierGlass" },
+        { "id": "silicon-die", "geometry": "roundedBox", "size": [0.338, 0.033, 0.338], "position": [0, 0.07, 0], "bevel": 0.009, "material": "dieGlass" }
+      ],
+      "dieGrid": { "geometry": "pointGridXZ", "position": [0, 0.088, 0], "rows": 27, "columns": 27, "spacing": 0.0114, "pointRadius": 0.0022, "material": "iceEmitter" },
+      "pinRows": { "geometry": "verticalBars", "sides": 4, "countPerSide": 18, "positionY": -0.037, "edgeInset": 0.011, "span": 0.48, "size": [0.006, 0.058, 0.004], "material": "copperMetal" },
+      "ports": {
+        "memory": [-0.274, -0.018, -0.11],
+        "sensor": [0.095, -0.018, -0.274],
+        "edge": [-0.274, -0.03, 0.16],
+        "dock": [0.15, -0.028, 0.273],
+        "control": [-0.145, -0.008, -0.273],
+        "trunk": [0.274, -0.035, 0.06]
+      }
+    },
+    "suspendedStack": {
+      "role": "An exploded visual layer stack below the processor package.",
+      "position": [0, -0.233, 0.024],
+      "rotationDeg": [0, 45, 0],
+      "parts": [
+        { "id": "upper-layer", "geometry": "roundedBox", "size": [0.35, 0.008, 0.35], "position": [0, 0, 0], "bevel": 0.002, "material": "moduleGlass" },
+        { "id": "middle-layer", "geometry": "roundedBox", "size": [0.35, 0.008, 0.35], "position": [0, -0.102, 0], "bevel": 0.002, "material": "amberGlass" },
+        { "id": "lower-layer", "geometry": "roundedBox", "size": [0.35, 0.008, 0.35], "position": [0, -0.204, 0], "bevel": 0.002, "material": "moduleGlass" }
+      ],
+      "verticalTraces": { "geometry": "lineGridXZ", "rows": 5, "columns": 5, "spacing": 0.052, "startY": -0.204, "endY": 0.19, "material": "cyanTrace", "opacity": 0.27 }
+    },
+    "memoryBank": {
+      "role": "A bank of upright translucent cards with warm contact edges.",
+      "position": [-0.518, 0.17, -0.278],
+      "rotationDeg": [0, 22, 0],
+      "parts": [
+        { "id": "platform", "geometry": "roundedBox", "size": [0.35, 0.039, 0.26], "position": [0, 0, 0], "bevel": 0.017, "material": "carrierGlass" },
+        { "id": "contact-rail", "geometry": "roundedBox", "size": [0.283, 0.014, 0.19], "position": [0, 0.024, 0], "bevel": 0.005, "material": "amberGlass" },
+        { "id": "memory-fin", "geometry": "roundedBox", "size": [0.017, 0.18, 0.177], "position": [-0.092, 0.117, 0], "bevel": 0.004, "material": "moduleGlass", "repeat": { "count": 4, "step": [0.061, 0, 0] } }
+      ],
+      "ports": { "bus": [0.118, 0.003, 0.11] }
+    },
+    "opticalSensor": {
+      "role": "A cylindrical sensor with a warm central iris.",
+      "position": [0.486, 0.133, -0.319],
+      "rotationDeg": [0, -18, 0],
+      "parts": [
+        { "id": "platform", "geometry": "roundedBox", "size": [0.235, 0.032, 0.187], "position": [0, 0, 0], "bevel": 0.012, "material": "carrierGlass" },
+        { "id": "pedestal", "geometry": "roundedBox", "size": [0.066, 0.065, 0.072], "position": [0, 0.046, 0], "bevel": 0.006, "material": "amberGlass" },
+        { "id": "sensor-barrel", "geometry": "cylinder", "axis": [0, 0, 1], "radius": 0.088, "length": 0.108, "position": [0, 0.12, -0.013], "material": "moduleGlass" },
+        { "id": "outer-lens-ring", "geometry": "torus", "normal": [0, 0, 1], "radius": 0.078, "tubeRadius": 0.007, "position": [0, 0.12, 0.044], "material": "cyanTrace" },
+        { "id": "inner-iris", "geometry": "torus", "normal": [0, 0, 1], "radius": 0.039, "tubeRadius": 0.007, "position": [0, 0.12, 0.051], "material": "amberTrace" },
+        { "id": "lens-center", "geometry": "sphere", "radius": 0.018, "position": [0, 0.12, 0.046], "material": "amberGlass" }
+      ],
+      "ports": { "bus": [-0.095, 0.005, 0.052] }
+    },
+    "edgeNode": {
+      "role": "A glass edge device with tiny status lights inside.",
+      "position": [-0.688, -0.215, 0.208],
+      "rotationDeg": [0, 28, 0],
+      "parts": [
+        { "id": "platform", "geometry": "roundedBox", "size": [0.263, 0.036, 0.23], "position": [0, 0, 0], "bevel": 0.014, "material": "carrierGlass" },
+        { "id": "glass-device", "geometry": "roundedBox", "size": [0.145, 0.183, 0.145], "position": [0, 0.112, 0], "bevel": 0.006, "material": "moduleGlass" },
+        { "id": "device-base-light", "geometry": "roundedBox", "size": [0.128, 0.011, 0.128], "position": [0, 0.022, 0], "bevel": 0.004, "material": "amberGlass" }
+      ],
+      "statusPoints": { "geometry": "seededPointVolume", "position": [0, 0.109, 0], "size": [0.105, 0.127, 0.104], "seed": 6, "count": 34, "pointRadius": 0.0028, "material": "amberTrace" },
+      "ports": { "bus": [0.116, 0.009, -0.016], "return": [0.056, -0.009, 0.101] }
+    },
+    "controlTiles": {
+      "role": "Four suspended controller tiles with optical drop guides.",
+      "position": [0.078, 0.495, -0.365],
+      "rotationDeg": [0, 45, 0],
+      "tiles": {
+        "geometry": "roundedBox",
+        "size": [0.122, 0.051, 0.122],
+        "bevel": 0.005,
+        "instances": [
+          { "position": [-0.071, -0.016, 0.071], "material": "moduleGlass" },
+          { "position": [-0.071, 0.009, -0.071], "material": "moduleGlass" },
+          { "position": [0.071, 0.008, -0.071], "material": "amberGlass" },
+          { "position": [0.071, -0.025, 0.071], "material": "carrierGlass" }
+        ]
+      },
+      "dropGuides": { "from": "underside center of each tile", "targetLocalY": -0.304, "material": "guideWire", "reticleRadius": 0.066 },
+      "ports": { "bus": [-0.055, -0.25, 0.02] }
+    },
+    "logicDock": {
+      "role": "Four seated I/O blocks on a common layered dock.",
+      "position": [0.419, -0.28, 0.39],
+      "rotationDeg": [0, 34, 0],
+      "parts": [
+        { "id": "dock-base", "geometry": "roundedBox", "size": [0.359, 0.044, 0.309], "position": [0, 0, 0], "bevel": 0.021, "material": "carrierGlass" },
+        { "id": "dock-tray", "geometry": "roundedBox", "size": [0.309, 0.018, 0.262], "position": [0, 0.023, 0], "bevel": 0.012, "material": "amberGlass" }
+      ],
+      "blockCentersXZ": [[-0.078, -0.071], [0.078, -0.071], [-0.078, 0.071], [0.078, 0.071]],
+      "blockParts": [
+        { "id": "block-case", "geometry": "roundedBox", "size": [0.125, 0.055, 0.113], "position": [0, 0.057, 0], "bevel": 0.007, "material": "moduleGlass" },
+        { "id": "block-cap", "geometry": "roundedBox", "size": [0.104, 0.012, 0.093], "position": [0, 0.089, 0], "bevel": 0.004, "material": "carrierGlass" },
+        { "id": "status-emitter", "geometry": "sphere", "radius": 0.011, "position": [0, 0.099, 0], "material": "amberTrace" }
+      ],
+      "ports": { "bus": [-0.165, 0.009, -0.038], "return": [-0.094, -0.009, 0.136] }
+    },
+    "rightFeedthrough": {
+      "role": "A shell-mounted connector with concentric metal, glass and amber seals.",
+      "position": [0.886, 0.118, 0.447],
+      "rotationDeg": [0, -37, 0],
+      "parts": [
+        { "id": "mounting-flange", "geometry": "cylinder", "axis": [1, 0, 0], "radius": 0.129, "length": 0.054, "position": [-0.017, 0, 0], "material": "darkMetal" },
+        { "id": "outer-glass-ring", "geometry": "torus", "normal": [1, 0, 0], "radius": 0.117, "tubeRadius": 0.009, "position": [0.007, 0, 0], "material": "carrierGlass" },
+        { "id": "amber-seal", "geometry": "torus", "normal": [1, 0, 0], "radius": 0.089, "tubeRadius": 0.01, "position": [0.037, 0, 0], "material": "amberTrace" },
+        { "id": "metal-neck", "geometry": "cylinder", "axis": [1, 0, 0], "radius": 0.067, "length": 0.094, "position": [0.078, 0, 0], "material": "darkMetal" },
+        { "id": "strain-relief", "geometry": "cylinder", "axis": [1, 0, 0], "radius": 0.052, "length": 0.087, "position": [0.159, 0, 0], "material": "moduleGlass" },
+        { "id": "rib", "geometry": "torus", "normal": [1, 0, 0], "radius": 0.052, "tubeRadius": 0.005, "position": [0.13, 0, 0], "material": "copperMetal", "repeat": { "count": 3, "step": [0.025, 0, 0] } }
+      ],
+      "ports": { "inner": [-0.052, 0, 0], "shellJoint": [0, 0, 0], "outer": [0.202, 0, 0] }
+    }
+  },
+  "inspectionGuides": {
+    "geometry": "dottedWireframeBoxOverReticle",
+    "material": "guideWire",
+    "size": [0.145, 0.075, 0.145],
+    "reticleRadius": 0.044,
+    "instances": [
+      { "position": [-0.31, 0.494, -0.48], "reticleDrop": 0.104 },
+      { "position": [0.701, 0.13, -0.097], "reticleDrop": 0.107 },
+      { "position": [-0.365, -0.384, 0.409], "reticleDrop": 0.105 }
+    ],
+    "role": "Faint auxiliary structure. These guides carry no signals."
+  },
+  "signalNetwork": {
+    "geometry": "Centripetal Catmull-Rom spline. Build parallel rails in a continuous transported frame and sample moving packets at equal distances.",
+    "portReference": "componentId.portId",
+    "profile": {
+      "jacket": { "radius": 0.018, "material": "cableJacket" },
+      "rails": [
+        { "offset": [-0.008, 0], "radius": 0.0035, "material": "cyanTrace" },
+        { "offset": [0.007, 0], "radius": 0.0028, "material": "amberTrace" },
+        { "offset": [0, -0.009], "radius": 0.0018, "material": "cyanTrace" }
+      ],
+      "beadRadius": 0.006,
+      "beadMaterial": "iceEmitter"
+    },
+    "routes": [
+      { "id": "memory-bus", "from": "memoryBank.bus", "to": "processor.memory", "via": [[-0.361, 0.104, -0.175], [-0.393, 0.021, -0.112], [-0.333, 0.034, 0.053]], "phase": 0.12 },
+      { "id": "sensor-bus", "from": "opticalSensor.bus", "to": "processor.sensor", "via": [[0.338, 0.119, -0.205], [0.302, 0.08, -0.145], [0.031, 0.052, -0.235]], "phase": 0.36 },
+      { "id": "edge-bus", "from": "edgeNode.bus", "to": "processor.edge", "via": [[-0.497, -0.119, 0.265], [-0.348, -0.057, 0.345], [-0.209, -0.019, 0.357]], "phase": 0.54 },
+      { "id": "dock-bus", "from": "processor.dock", "to": "logicDock.bus", "via": [[0.364, -0.019, 0.187], [0.447, -0.093, 0.293], [0.396, -0.21, 0.422]], "phase": 0.71 },
+      { "id": "control-bus", "from": "processor.control", "to": "controlTiles.bus", "via": [[-0.361, 0.043, -0.219], [-0.271, 0.166, -0.39], [-0.108, 0.226, -0.414]], "phase": 0.26 },
+      { "id": "external-trunk", "from": "processor.trunk", "to": "rightFeedthrough.inner", "via": [[0.361, -0.018, 0.044], [0.511, -0.016, 0.243], [0.675, 0.088, 0.425]], "phase": 0.84 },
+      { "id": "lower-return", "from": "logicDock.return", "to": "edgeNode.return", "via": [[0.153, -0.461, 0.554], [-0.104, -0.503, 0.51], [-0.338, -0.388, 0.468], [-0.538, -0.293, 0.402]], "phase": 0.48 }
+    ],
+    "externalCable": {
+      "id": "portrait-cable",
+      "from": "rightFeedthrough.outer",
+      "via": [[1.175, 0.13, 0.62], [1.36, 0.127, 0.658]],
+      "end": [1.584, 0.15, 0.665],
+      "usage": "Use the visible lead in the portrait. The Galaxy can connect its own route to the outer port."
+    }
+  },
+  "motion": {
+    "intent": "The hardware assembly is stable. Small pulses communicate signal flow without moving the peripheral platforms.",
+    "packets": { "speedRadiiPerSecond": 0.32, "countPerRoute": 2, "radius": 0.007, "color": "ice", "fadeDistance": 0.04, "direction": "from route.from to route.to" },
+    "diePulse": { "periodSeconds": 3.6, "intensityRange": [0.9, 1.2] },
+    "sensorPulse": { "periodSeconds": 4.8, "intensityRange": [0.86, 1.14] },
+    "diagnosticPulse": { "attachment": "rightFeedthrough.outer", "geometry": "octahedron", "radius": 0.025, "material": "amberTrace", "activeOnlyOnFault": true },
+    "reducedMotion": "Freeze moving packets as evenly spaced markers and use steady light levels. Keep the fault indicator static and visible when active."
+  },
+  "portrait": {
+    "camera": { "type": "orthographic", "position": [0.022, 3.085, 5.4], "target": [0.022, -0.16, 0], "up": [0, 1, 0], "verticalSpan": 2.74, "near": 0.1, "far": 20, "aspect": 1 },
+    "backgroundColor": "background",
+    "lights": [
+      { "type": "area", "position": [-3, 3, 2], "size": [3, 2], "color": "ice", "intensity": 2.6 },
+      { "type": "point", "position": [0, -1.65, 0.4], "color": "signalCyan", "intensity": 1.1 },
+      { "type": "point", "position": [2.5, 1.0, -0.8], "color": "amber", "intensity": 0.42 }
+    ],
+    "bloom": { "strength": 0.26, "radius": 0.33, "threshold": 0.82 },
+    "presentationOnly": {
+      "horizon": { "screenY": 0.86, "color": "signalCyan", "thicknessPxAt1254": 2, "glowPxAt1254": 16 },
+      "backgroundGuides": "Sparse, low-opacity cyan curves and points. Keep the area behind the processor quiet.",
+      "title": { "text": "HARDWARE", "position01": [0.038, 0.033], "font": "Neutral sans-serif" },
+      "caption": { "text": "Physical signals, devices, and edge computation meet the digital system.", "position01": [0.038, 0.942] }
+    }
+  },
+  "threeJsIntegration": {
+    "format": "Declarative reconstruction spec for a procedural Three.js builder.",
+    "existingBuilder": "../../../src/galaxy/js/scene/system-models/hardware.js",
+    "existingShell": "../../../src/galaxy/js/scene/service-sphere-cover.js",
+    "semanticRole": "hardware",
+    "normalization": "When mounted in Galaxy, use the shared sphere cover and adapt the radius to its host. Exclude the portrait-only lead and outer connector protrusion from automatic fit bounds.",
+    "buildNotes": [
+      "Align CylinderGeometry from its default +Y axis to each declared axis. Align the TorusGeometry normal from +Z to each declared normal.",
+      "Batch static edges by material and instance repeated pins and dots. Enable depth testing and disable depth writes for transparent faces.",
+      "Use additive glow only around the die, iris, collars, and packets. Keep the cyan and amber rails separately readable.",
+      "Leave the label, caption, horizon, and framing outside the model group."
+    ],
+    "quality": {
+      "desktop": { "shellSegments": [64, 40], "curveSegmentsPerRoute": 48, "tubeRadialSegments": 8 },
+      "compact": { "shellSegments": [32, 20], "curveSegmentsPerRoute": 24, "tubeRadialSegments": 5, "dieGridStride": 2, "inspectionGuides": false, "bloom": false },
+      "priority": ["transparent shell", "processor silhouette", "right feedthrough", "four peripheral silhouettes", "separate cyan and amber rails"]
+    }
+  }
+}

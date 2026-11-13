@@ -1,24 +1,24 @@
+import { GALAXY_SERVICE_BY_ID, GALAXY_SERVICES } from "../shared/service-catalog.js";
 import { systemWorkbench, systemLedger } from "./lab/view.js";
+import { SERVICE_LABELS } from "./inquiry.js";
+import { DAYBOOK_DEMO_PATH } from "./start-route.js";
 
 const arrow = '<i data-lucide="arrow-up-right" aria-hidden="true"></i>';
 
 const serviceLinks = [
   {
-    number: "01",
     title: "Websites & applications",
     description:
       "Websites, web apps, customer portals and native iOS experiences. Built around what your users need to do.",
-    href: "/services/websites-apps/",
+    href: GALAXY_SERVICE_BY_ID.firmware.path,
   },
   {
-    number: "02",
     title: "APIs & automation",
     description:
       "Connect your interface, data and existing tools. Replace repetitive steps with a workflow you can follow.",
     href: "/services/integrations/",
   },
   {
-    number: "03",
     title: "Debugging & ongoing support",
     description:
       "Investigate software and device-connected issues, plan fixes, and maintain the system you already have.",
@@ -26,12 +26,12 @@ const serviceLinks = [
   },
 ];
 
-function serviceRows() {
-  return `<div class="service-list">${serviceLinks
+function serviceRows(links = serviceLinks) {
+  return `<div class="service-list">${links
     .map(
-      (service) => `
+      (service, index) => `
     <article class="service-row">
-      <span class="service-number" aria-hidden="true">${service.number}</span>
+      <span class="service-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
       <div class="service-content">
         <h3>${service.title}</h3>
         <p>${service.description}</p>
@@ -50,6 +50,22 @@ function pageIntro(eyebrow, heading, intro) {
   </section>`;
 }
 
+function galaxyServiceIntro(service, heading, intro, inquiryAction) {
+  return `<section class="galaxy-service-hero">
+    <div class="container galaxy-service-hero-layout">
+      <div class="galaxy-service-hero-copy">
+        <h1>${heading}</h1>
+        <p class="galaxy-service-hero-intro">${intro}</p>
+        <div class="galaxy-service-hero-actions">
+          ${inquiryAction}
+          <a class="galaxy-service-hero-return" href="/explore.html" data-galaxy-return>Back to Galaxy</a>
+        </div>
+      </div>
+      <img class="galaxy-service-hero-art" src="/assets/images/galaxy-services/${service}.svg" width="960" height="540" alt="" decoding="async" />
+    </div>
+  </section>`;
+}
+
 function callout(heading, copy, href = "/contact/", label = "Discuss your project") {
   return `<section class="callout-band">
     <div class="container">
@@ -57,6 +73,64 @@ function callout(heading, copy, href = "/contact/", label = "Discuss your projec
       <a class="button primary" href="${href}">${label} ${arrow}</a>
     </div>
   </section>`;
+}
+
+function serviceDive({
+  service,
+  title,
+  key,
+  description,
+  intro,
+  outcome,
+  startingPoint,
+  flow,
+  steps,
+  ordered = true,
+  note,
+  related,
+  relatedGalaxyService = false,
+  inquiry,
+}) {
+  const { slug, heading, path } = GALAXY_SERVICE_BY_ID[service];
+  const stepsTag = ordered ? "ol" : "ul";
+  const [relatedPath, relatedLabel] = related;
+  const [inquiryService, inquiryLabel] = inquiry;
+  const inquiryAction = `<a class="button primary" href="/contact/?service=${inquiryService}">${inquiryLabel} ${arrow}</a>`;
+  return {
+    path,
+    key: key ?? slug,
+    galaxyService: service,
+    inquiryService,
+    title: title ?? heading,
+    description,
+    html: `
+      ${galaxyServiceIntro(service, heading.replaceAll("&", "&amp;"), intro, inquiryAction)}
+      <div class="container galaxy-service-details">
+        <dl class="galaxy-service-brief">
+          <div><dt>What you get</dt><dd>${outcome}</dd></div>
+          <div><dt>What to share</dt><dd>${startingPoint}</dd></div>
+        </dl>
+        <section aria-labelledby="service-flow-heading">
+          <h2 id="service-flow-heading">${flow}</h2>
+          <${stepsTag} class="galaxy-service-steps" role="list">
+            ${steps
+              .map(
+                ([icon, label, copy]) => `<li>
+              <span class="galaxy-service-step-icon" aria-hidden="true"><i data-lucide="${icon}" aria-hidden="true"></i></span>
+              <div><h3>${label}</h3><p>${copy}</p></div>
+            </li>`,
+              )
+              .join("\n            ")}
+          </${stepsTag}>
+          ${note ? `<p class="galaxy-service-note">${note}</p>` : ""}
+          <div class="galaxy-service-actions">
+            ${inquiryAction}
+            <a class="text-link" href="${relatedPath}"${relatedGalaxyService ? " data-galaxy-related" : ""}>${relatedLabel} ${arrow}</a>
+          </div>
+        </section>
+      </div>
+    `,
+  };
 }
 
 function daybookPreview() {
@@ -134,13 +208,13 @@ const pricing = `<section class="section container" id="pricing" aria-labelledby
 
 export const pages = [
   {
-    path: "/",
-    key: "home",
-    title: "Website & App Development",
+    path: DAYBOOK_DEMO_PATH,
+    key: "daybook-demo",
+    title: "Daybook Interactive Demo",
     description:
-      "Independent website and app development, API integrations, automation, hardware/software debugging and ongoing support. Toronto and remote.",
+      "Try Daybook, an independent booking prototype with a request queue, a simulated API and a sample device.",
     html: `
-      <section class="home-hero living-hero" aria-labelledby="home-heading">
+      <section class="home-hero living-hero" aria-labelledby="daybook-demo-heading">
         <div id="engineering-scene" class="hero-scene" aria-hidden="true">
           <div class="scene-fallback living-fallback">
             <div class="fallback-system">
@@ -157,12 +231,12 @@ export const pages = [
         </div>
         <div class="living-grid container">
           <div class="hero-content">
-            <p class="eyebrow">LEVNAT / Independent development</p>
-            <h1 class="hero-title" id="home-heading">Websites &amp;<br>apps.</h1>
-            <p class="hero-intro">I build websites and apps, connect APIs, and debug software and device-connected systems.</p>
+            <p class="eyebrow">LEVNAT / Independent prototype</p>
+            <h1 class="hero-title" id="daybook-demo-heading">Daybook demo</h1>
+            <p class="hero-intro">Try a booking flow, trace the request through a queue, and recover from a simulated connection fault.</p>
             <div class="actions">
-              <a class="button primary" href="/contact/">Let's talk ${arrow}</a>
-              <a class="text-link" href="/work/">View work ${arrow}</a>
+              <a class="button primary" href="/contact/">Describe your project ${arrow}</a>
+              <a class="text-link" href="/services/">Explore services ${arrow}</a>
             </div>
           </div>
           ${systemWorkbench()}
@@ -230,11 +304,18 @@ export const pages = [
       ${pageIntro("Services / Build, connect, care", "Development, integrations<br>&amp; ongoing support.", "I build new websites and applications, connect existing tools, and investigate the software and device issues in between.")}
       <section class="section container" aria-labelledby="services-heading">
         <div class="section-heading">
-          <p class="eyebrow">Choose your starting point</p>
-          <h2 id="services-heading">The interface is only one part.</h2>
-          <p>Start with a focused task or scope a larger build. I review how the screens, data, integrations and ongoing support fit together.</p>
+          <h2 id="services-heading">Explore services</h2>
+          <a class="text-link" href="/starworld.html">Open Starworld service map ${arrow}</a>
         </div>
-        ${serviceRows()}
+        <nav class="actions" aria-labelledby="services-heading">
+          ${GALAXY_SERVICES.map(({ path, heading }) => `<a class="button secondary" href="${path}">${heading.replaceAll("&", "&amp;")}</a>`).join("\n          ")}
+        </nav>
+      </section>
+      <section class="section container" aria-labelledby="supporting-services-heading">
+        <div class="section-heading">
+          <h2 id="supporting-services-heading">Integration &amp; support</h2>
+        </div>
+        ${serviceRows(serviceLinks.slice(1))}
       </section>
       <section class="section container split-section" aria-labelledby="specialist-heading">
         <div class="section-heading">
@@ -246,7 +327,7 @@ export const pages = [
           <p>Product-security reviews and post-quantum readiness planning are separate, scoped engagements. Scope and platform constraints are reviewed first; no certification or compliance guarantee is implied.</p>
           <div class="actions">
             <a class="text-link" href="/contact/?service=ios">Discuss an iOS app ${arrow}</a>
-            <a class="text-link" href="/contact/">Ask about a specialist review ${arrow}</a>
+            <a class="text-link" href="/contact/?service=security">Ask about a specialist review ${arrow}</a>
           </div>
         </div>
       </section>
@@ -254,46 +335,35 @@ export const pages = [
       ${callout("Not sure which service fits?", "Describe the project in your own words. An inquiry does not commit you to a paid session or a build.")}
     `,
   },
-  {
-    path: "/services/websites-apps/",
+  serviceDive({
     key: "websites",
+    service: "firmware",
     title: "Website, Web App & iOS Development",
     description:
       "Scope and build a responsive website, customer portal, web application or native iOS app. Work directly with an independent developer.",
-    html: `
-      ${pageIntro("Services / Websites & applications", "Websites &amp; apps,<br>built around your users.", "A website, customer portal or native app starts with the actions people need to take. I connect those screens to the data and services behind them.")}
-      <section class="section container" aria-labelledby="website-scope-heading">
-        <div class="section-heading">
-          <p class="eyebrow">What I can build</p>
-          <h2 id="website-scope-heading">The right scope, not every feature.</h2>
-        </div>
-        <div class="detail-grid">
-          <article class="detail-item"><h3>Websites</h3><p>Responsive service sites and focused landing pages with clear navigation, content, forms and primary actions.</p></article>
-          <article class="detail-item"><h3>Web applications</h3><p>Customer portals, dashboards and internal tools, with scoped roles, authentication, data and workflows.</p></article>
-          <article class="detail-item"><h3>Native iOS</h3><p>Swift and SwiftUI interfaces, API connections and local data, with target-device testing and release preparation.</p></article>
-        </div>
-      </section>
-      <section class="section container split-section" aria-labelledby="website-delivery-heading">
-        <div class="section-heading"><p class="eyebrow">From scope to handover</p><h2 id="website-delivery-heading">Make the main journey work.</h2></div>
-        <ul class="ruled-list">
-          <li><h3>Define the user journey</h3><p>Agree on who the product serves, the main screens and what each action needs to do.</p></li>
-          <li><h3>Connect the product</h3><p>Plan APIs, forms, authentication, payments or bookings where the agreed scope requires them.</p></li>
-          <li><h3>Test the agreed experience</h3><p>Check key flows, responsive layouts and accessibility against the agreed browsers and devices.</p></li>
-          <li><h3>Prepare the handover</h3><p>Document the build, release steps and any maintenance that needs an ongoing agreement.</p></li>
-        </ul>
-      </section>
-      <section class="section container" aria-labelledby="website-price-heading">
-        <div class="section-heading"><p class="eyebrow">Starting prices / CAD</p><h2 id="website-price-heading">A focused interface or a full product.</h2></div>
-        <div class="price-grid">
-          <article class="price-item"><h3>Website or focused app interface</h3><p class="price-amount">From CAD $4,000</p><p>A responsive interface, forms and primary actions. This is not a complete custom app package.</p></article>
-          <article class="price-item"><h3>Web app, portal or backend</h3><p class="price-amount">From CAD $20,000</p><p>A larger scoped build with the agreed screens, business logic, data and access controls. Native iOS is quoted for its own scope.</p></article>
-        </div>
-        <p class="pricing-note">Final scope and schedule are agreed before work. Taxes, hosting, paid tools and third-party fees are extra.</p>
-        <a class="text-link" href="/services/#pricing">Full pricing &amp; exclusions ${arrow}</a>
-      </section>
-      ${callout("Have an idea or an existing app?", "Share what you want users to do, what already exists and the first version you have in mind.", "/contact/?service=websites")}
-    `,
-  },
+    intro: "Give users a clear path to book, sign in or get work done.",
+    outcome: "An agreed scope, a tested build, and a handover for your team.",
+    startingPoint:
+      "The main action users need to take, the pages or features you need, and any existing tools.",
+    flow: "What I build",
+    ordered: false,
+    steps: [
+      ["app-window", "Websites", "Responsive sites and landing pages with forms and bookings."],
+      [
+        "panels-top-left",
+        "Web apps",
+        "Portals, dashboards and internal tools with roles and data.",
+      ],
+      [
+        "smartphone",
+        "Native iOS",
+        "SwiftUI apps with API integration, device testing and release preparation.",
+      ],
+    ],
+    note: "Websites and focused interfaces from CAD $4,000. Custom web apps and portals from CAD $20,000. Native iOS is quoted by scope.",
+    related: ["/services/#pricing", "Full pricing &amp; exclusions"],
+    inquiry: ["websites", "Discuss a website or app"],
+  }),
   {
     path: "/services/integrations/",
     key: "integrations",
@@ -368,6 +438,135 @@ export const pages = [
       ${callout("What is behaving differently?", "Start with the symptoms and what the system should do. Do not include passwords, access tokens or private device data.", "/contact/?service=support", "Discuss a technical issue")}
     `,
   },
+  serviceDive({
+    service: "backend",
+    description:
+      "Build the logic behind a website or app, from the first request through validation, permissions, storage and response.",
+    intro: "Give your app the rules, permissions and data it needs to work.",
+    outcome: "A tested API workflow with agreed endpoints, permissions, and integration notes.",
+    startingPoint:
+      "One example request, the response you expect, and the systems that need to connect.",
+    flow: "How a booking request works",
+    steps: [
+      ["log-in", "Validate", "Check the requested time slot and the account’s permissions."],
+      ["database", "Save", "Check availability and prevent duplicate bookings."],
+      ["circle-check", "Respond", "Confirm the booking or explain how to resolve an error."],
+    ],
+    related: [GALAXY_SERVICE_BY_ID.firmware.path, "Explore websites &amp; apps"],
+    relatedGalaxyService: true,
+    inquiry: ["integrations", "Discuss an API"],
+  }),
+  serviceDive({
+    service: "automation",
+    description:
+      "Turn a repeated handoff into a workflow that shows what ran, what succeeded and what needs a person’s attention.",
+    intro: "Automate repetitive handoffs and see when a run needs attention.",
+    outcome: "A workflow with a run history and clear rules for retries and human review.",
+    startingPoint: "What starts the workflow, which tools it touches, and who handles exceptions.",
+    flow: "From form to follow-up",
+    steps: [
+      ["inbox", "Capture", "Receive a form or webhook and check required fields."],
+      ["workflow", "Hand off", "Update the record and notify the person responsible."],
+      ["rotate-ccw", "Recover", "Record the failure and follow the agreed retry or review path."],
+    ],
+    related: [GALAXY_SERVICE_BY_ID.data.path, "Explore data &amp; logs"],
+    relatedGalaxyService: true,
+    inquiry: ["integrations", "Discuss a workflow"],
+  }),
+  serviceDive({
+    service: "pqc",
+    description:
+      "Review where your product relies on cryptography, then plan and test a migration within its platform and protocol constraints.",
+    intro: "Find where your product uses cryptography and plan a migration.",
+    outcome:
+      "A cryptography inventory and a prioritized migration plan. Implementation is scoped separately.",
+    startingPoint:
+      "The clients, APIs, and vendors involved, and how long their data needs protection.",
+    flow: "What the readiness review covers",
+    steps: [
+      [
+        "key-round",
+        "Map dependencies",
+        "Find key exchanges and signatures across clients, APIs and vendors.",
+      ],
+      [
+        "shield-check",
+        "Set priorities",
+        "Rank systems by how long data must stay private and what partners support.",
+      ],
+      [
+        "flask-conical",
+        "Plan validation",
+        "Define compatibility and performance checks and a rollback plan.",
+      ],
+    ],
+    related: [GALAXY_SERVICE_BY_ID.backend.path, "Explore backend &amp; API"],
+    relatedGalaxyService: true,
+    inquiry: ["security", "Discuss a readiness review"],
+  }),
+  serviceDive({
+    service: "data",
+    description:
+      "Organize product records and technical events so you can trace what happened across an interface, backend and connected device.",
+    intro: "See what happened across your app, API and connected devices.",
+    outcome: "A trace that links events across systems, with agreed access and retention rules.",
+    startingPoint: "A redacted example event, where you see it, and what you need to investigate.",
+    flow: "Trace a device event",
+    steps: [
+      ["file-text", "Capture", "Record time, source and outcome. Keep sensitive data out of logs."],
+      ["link", "Connect", "Use a shared ID to follow the event through the API and jobs."],
+      ["list-filter", "Review", "Set retention, access and the views needed to investigate."],
+    ],
+    related: [GALAXY_SERVICE_BY_ID.ops.path, "Explore monitoring"],
+    relatedGalaxyService: true,
+    inquiry: ["integrations", "Discuss a data project"],
+  }),
+  serviceDive({
+    service: "hardware",
+    description:
+      "Investigate how a connected device, its firmware and the application exchange signals when behaviour differs from what you expect.",
+    intro: "Trace faults from a connected device through its firmware to your app.",
+    outcome: "A record of where the signal stopped, the evidence, and the next test to run.",
+    startingPoint:
+      "The device model, expected and observed behavior, and any redacted logs you can share.",
+    flow: "Find a missing device reading",
+    steps: [
+      ["cpu", "Check the device", "Review inputs and firmware output within the agreed access."],
+      [
+        "radio",
+        "Follow the signal",
+        "Compare device events with gateway traffic and backend logs.",
+      ],
+      [
+        "clipboard-list",
+        "Record the evidence",
+        "Note where the reading stopped and what to test next.",
+      ],
+    ],
+    related: ["/services/support/", "See debugging &amp; support"],
+    inquiry: ["support", "Discuss a device issue"],
+  }),
+  serviceDive({
+    service: "ops",
+    description:
+      "Choose which signals show that a live product is working, then agree on how faults are investigated and who responds.",
+    intro: "Know when an important action fails and who should respond.",
+    outcome: "A monitoring plan with checks, alert recipients, and recovery steps.",
+    startingPoint:
+      "One critical action to monitor, who should receive alerts, and your required response window.",
+    flow: "From alert to recovery",
+    steps: [
+      ["activity", "Measure", "Check whether bookings save or a device is still reporting."],
+      ["bell-ring", "Alert", "Show the failing action, time and relevant logs."],
+      [
+        "wrench",
+        "Respond",
+        "Agree who investigates, when they respond and how to verify recovery.",
+      ],
+    ],
+    related: ["/services/support/", "See maintenance &amp; support"],
+    inquiry: ["support", "Discuss monitoring"],
+  }),
   {
     path: "/work/",
     key: "work",
@@ -390,7 +589,7 @@ export const pages = [
             <p>The interface, event trail and spatial system react to the same state. Shareable configurations use public settings, not guest names or booking records.</p>
             <div class="actions">
               <a class="button primary" href="/work/daybook/">Read the case ${arrow}</a>
-              <a class="text-link" href="/#live-system">Open Daybook ${arrow}</a>
+              <a class="text-link" href="${DAYBOOK_DEMO_PATH}#live-system">Open Daybook ${arrow}</a>
             </div>
           </div>
         </div>
@@ -444,11 +643,11 @@ export const pages = [
             <div class="experiment-heading">
               <p class="eyebrow">03 / Systems / Independent experiment</p>
               <h2>Engineering in 3D</h2>
-              <p>Two interactive service explorers from this site. Explore connected technical areas or answer questions for an initial project direction.</p>
+              <p>Explore seven service models in Galaxy and see how the services connect in Starworld.</p>
               <p>These are presentation experiments, not technical assessments, delivered client work or tailored implementation plans.</p>
             </div>
             <div class="explorer-links">
-              <a class="text-link" href="/explore.html">Open project explorer ${arrow}</a>
+              <a class="text-link" href="/explore.html">Open Galaxy ${arrow}</a>
               <a class="text-link" href="/starworld.html">Open Starworld service map ${arrow}</a>
             </div>
           </article>
@@ -473,7 +672,7 @@ export const pages = [
         </div>
         ${daybookPreview()}
         <div class="actions">
-          <a class="button primary" href="/#live-system">Open Daybook ${arrow}</a>
+          <a class="button primary" href="${DAYBOOK_DEMO_PATH}#live-system">Open Daybook ${arrow}</a>
           <a class="text-link" href="/work/">All independent work ${arrow}</a>
         </div>
       </section>
@@ -576,8 +775,7 @@ export const pages = [
     path: "/contact/",
     key: "contact",
     title: "Discuss Your Website, App or Technical Issue",
-    description:
-      "Describe your website, app, integration or hardware/software issue. Prepare a local project inquiry, then review and send it from your own email app.",
+    description: "Send an inquiry about your website, app, integration or hardware/software issue.",
     html: `
       ${pageIntro("Contact / Project inquiries", "What do you want<br>to build or fix?", "Tell me what exists, what you need next and any target date. I aim to reply within two business days; this is not an emergency-support channel.")}
       <section class="section container split-section" aria-labelledby="contact-details-heading">
@@ -585,18 +783,17 @@ export const pages = [
           <p class="eyebrow">Direct contact</p>
           <h2 id="contact-details-heading">One conversation to start.</h2>
           <address>
-            <a class="text-link" href="mailto:info@levnat.ca">info@levnat.ca ${arrow}</a>
             <p>Toronto, Canada / Remote</p>
           </address>
           <p>Your inquiry does not book a paid session or confirm an engagement. Scope and pricing are agreed before work starts.</p>
           <a class="text-link" href="/services/#pricing">View starting prices ${arrow}</a>
           <noscript>
-            <p>JavaScript is required for the local draft tool. Contact me directly by <a href="mailto:info@levnat.ca">email at info@levnat.ca</a>. No inquiry has been sent.</p>
+            <p>Enable JavaScript to submit your inquiry.</p>
           </noscript>
         </div>
-        <form id="project-form" aria-labelledby="inquiry-heading" aria-describedby="draft-privacy-note">
-          <h2 id="inquiry-heading">Prepare your inquiry.</h2>
-          <p id="draft-privacy-note">This tool saves your draft in this browser only. It does not send a message. Prepare the draft, then continue to your email app to review and send it, or copy or download it.</p>
+        <form id="project-form" method="post" action="/api/inquiries" aria-labelledby="inquiry-heading" aria-describedby="inquiry-privacy-note">
+          <h2 id="inquiry-heading">Send your inquiry.</h2>
+          <p id="inquiry-privacy-note">You'll receive a reference once your inquiry is saved.</p>
           <div class="form-grid">
             <div class="field">
               <label for="inquiry-name">Name <span>(optional)</span></label>
@@ -614,6 +811,7 @@ export const pages = [
                 <option value="integrations">APIs &amp; automation</option>
                 <option value="support">Debugging &amp; ongoing support</option>
                 <option value="ios">Native iOS development</option>
+                <option value="security">${SERVICE_LABELS.security}</option>
                 <option value="planning">Project planning session</option>
               </select>
             </div>
@@ -632,14 +830,9 @@ export const pages = [
             </div>
           </div>
           <div class="form-actions">
-            <button class="button primary" type="submit" data-action="email"><i data-lucide="mail" aria-hidden="true"></i>Prepare email draft</button>
-            <button class="button secondary" type="button" data-copy-inquiry><i data-lucide="copy" aria-hidden="true"></i>Copy inquiry</button>
-            <button class="button secondary" type="button" data-download-inquiry><i data-lucide="download" aria-hidden="true"></i>Download inquiry</button>
-            <button class="text-link" type="button" data-clear-draft><i data-lucide="trash-2" aria-hidden="true"></i>Clear saved draft</button>
+            <button class="button primary" type="submit" disabled><i data-lucide="send" aria-hidden="true"></i>Send inquiry</button>
           </div>
           <p id="inquiry-status" role="status"></p>
-          <a id="email-draft-link" class="button primary" href="mailto:info@levnat.ca" hidden>Continue to email app ${arrow}</a>
-          <p class="field-hint">On a shared device, clear your saved draft when you are finished. If no email app is configured, copy or download your inquiry and email it to info@levnat.ca.</p>
         </form>
       </section>
     `,

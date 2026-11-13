@@ -2,66 +2,85 @@
 // Reads/mutates the shared `galaxy` and `appState` singletons from state.js.
 
 import * as THREE from "../../../vendor/three/three.module.min.js";
+import { GALAXY_SERVICE_BY_ID } from "../../shared/service-catalog.js?v=wow60";
 
 import {
   VISUAL_COLORS,
-  QUALITY_CONFIG,
-  BRIDGE_SEGMENTS
-} from "./data/config.js?v=wow50";
+  QUALITY_CONFIG
+} from "./data/config.js?v=wow60";
 import {
   PLANETS,
   PLANET_IDS,
   QUESTION_FLOW,
-  CHOICE_VISUALS,
-  CHOICE_MOTION_GROUPS,
   SCALE_STAGES,
   ARCHETYPES
-} from "./data/quiz-data.js?v=wow50";
-import { SYSTEM_PRESENTATIONS } from "./data/scene-presentations.js?v=wow50";
-import { appState, galaxy } from "./state.js?v=wow50";
+} from "./data/quiz-data.js?v=wow60&rev=galaxy-seven-quiz1";
+import { SYSTEM_PRESENTATIONS } from "./data/scene-presentations.js?v=wow60";
+import { appState, galaxy } from "./state.js?v=wow60";
 import {
   createSpherePresentation,
-  retargetSpherePresentation,
   updateSpherePresentation
-} from "./scene/sphere-kit.js?v=wow50";
-import { buildSystemModel as buildSemanticSystemModel } from "./scene/system-models/index.js?v=wow50";
+} from "./scene/sphere-kit.js?v=wow60&rev=galaxy-light1";
+import { createConnectionTube, updateConnectionTube } from "./scene/connection-tube.js?v=wow60&rev=galaxy-light1";
+import { createEnergyCoreMaterial, createEnergyHaloMaterial } from "./scene/energy-core.js?v=wow60";
+import { createSphereDive, SPHERE_DIVE_DURATION, updateSphereDive } from "./scene/sphere-dive.js?v=wow60";
+import { createObjectHologram } from "./scene/object-hologram.js?v=wow60&rev=quiz-flow1";
+import { createQuizBurst } from "./scene/quiz-transition.js?v=wow60";
 import {
-  updateChoiceHud,
-  focusPlanet,
-  inferPlanet,
-  findChoiceIndex,
-  canGoBackIn3D,
-  goToPrevious3DQuestion,
-  select3DChoice
-} from "./ui.js?v=wow50";
+  MAX_SERVICE_ORBIT_SCALE,
+  createServiceSpatialGrid,
+  getServiceGridMinimumSeparation,
+  sampleServiceGridPosition,
+  sampleServiceGridTangent,
+  updateServiceSpatialGrid
+} from "./scene/service-spatial-grid.js?v=wow60";
+import { buildSystemModel as buildSemanticSystemModel } from "./scene/system-models/index.js?v=wow60";
+import { updatePqcSignal } from "./scene/system-models/pqc.js?v=wow60";
+import { focusPlanet } from "./ui.js?v=wow60&rev=service-row-dive1";
 
+const LIGHT_GALAXY = document.documentElement.dataset.galaxyTheme === "light";
 const SCENE_DEBUG = createSceneDebugConfig();
+const ORBIT_VIEW_LIMIT = { pitch: 1.22 };
+const SERVICE_DEPTH_RADIUS = { base: 0.65, gain: 0.06, min: 0.46, max: 0.79 };
+const serviceViewDirection = new THREE.Vector3();
+const overviewCanvasSize = new THREE.Vector2();
+const overviewFitNormal = new THREE.Vector3();
+let sphereDive = null;
+let objectHologram = null;
+let hologramTarget = null;
+const hologramPosition = new THREE.Vector3();
+const hologramViewPosition = new THREE.Vector3();
+const hologramCanvasSize = new THREE.Vector2();
+const quizCanvasSize = new THREE.Vector2();
+const serviceRowOrbs = new Map();
+let sceneAnimationFrame = null;
+let sceneInViewport = true;
+let scenePageActive = true;
+let simulationTimer = null;
+const ORBIT_LAYOUTS = {
+  atom: { tilt: -0.49, compactScale: 0.62, narrowScale: 0.60, desktopScale: 0.40, desktopMin: 0.54, desktopMax: 0.69, wireOpacity: 0.035 },
+  planets: { tilt: -0.32, compactScale: 0.67, narrowScale: 0.67, desktopScale: 0.43, desktopMin: 0.59, desktopMax: 0.74, wireOpacity: 0.09 }
+};
 if (SCENE_DEBUG.forceReducedMotion) {
   appState.reducedMotion = true;
   document.documentElement.classList.add("is-reduced-motion");
 }
 
-const DEFAULT_CHOICE_POSE = Object.freeze({
-  scale: 1,
-  detailScale: 1,
-  tiltX: 0,
-  tiltZ: 0,
-  yaw: 0,
-  yawRange: 0.12
-});
-
-const CHOICE_POSES = Object.freeze({
-  webInterface: { scale: 1.08, detailScale: 1.08, tiltX: -0.04, tiltZ: 0, yaw: 0, yawRange: 0.1 },
-  apiStack: { scale: 1.02, detailScale: 1.04, tiltX: -0.02, tiltZ: 0, yaw: -0.08, yawRange: 0.14 },
-  workflowGear: { scale: 1.08, detailScale: 1.08, tiltX: 0.08, tiltZ: -0.04, yaw: 0, yawRange: 0.08 },
-  dataVault: { scale: 1.04, detailScale: 1.04, tiltX: 0, tiltZ: 0, yaw: 0.08, yawRange: 0.18 },
-  hardwarePort: { scale: 1.08, detailScale: 1.1, tiltX: -0.28, tiltZ: 0.03, yaw: -0.08, yawRange: 0.12 },
-  opsRadar: { scale: 1.1, detailScale: 1.1, tiltX: -0.06, tiltZ: 0, yaw: 0.08, yawRange: 0.14 },
-  deviceFleet: { scale: 1.04, detailScale: 1.05, tiltX: -0.03, tiltZ: 0, yaw: 0, yawRange: 0.12 },
-  logConsole: { scale: 1.06, detailScale: 1.06, tiltX: -0.03, tiltZ: 0, yaw: 0, yawRange: 0.1 },
-  architectureMap: { scale: 1.08, detailScale: 1.1, tiltX: -0.24, tiltZ: 0, yaw: 0, yawRange: 0.08 },
-  monitoringArray: { scale: 1.08, detailScale: 1.08, tiltX: -0.04, tiltZ: 0, yaw: 0, yawRange: 0.16 }
-});
+const FORMATION_DEPTH = 8.25;
+const FORMATION_FLIGHT_MS = 1040;
+const QUIZ_RING_RADIUS = 2.12;
+const formationSlots = new Map();
+let formationFlight = null;
+let formationOrbit = null;
+let formationBurst = null;
+let orbitPausedAt = 0;
+let orbitPauseTotal = 0;
+let quizCenterService = PLANET_IDS[0];
+let quizRingServices = [];
+const formationPosition = new THREE.Vector3();
+const formationScale = new THREE.Vector3();
+const formationRotation = new THREE.Quaternion();
+const formationOrigin = new THREE.Vector3();
 
 function createSceneDebugConfig() {
   const params = new URLSearchParams(window.location.search);
@@ -86,8 +105,8 @@ function installSceneDebugApi() {
     getSnapshot: function () {
       const presentations = {};
       const planetPresentations = {};
-      const choicePresentations = [];
       const targets = {};
+      const orbitTargets = {};
       Object.entries(galaxy.rescueRigObjects).forEach(function ([id, object]) {
         const presentation = object.userData.presentation;
         if (!presentation) return;
@@ -108,28 +127,6 @@ function installSceneDebugApi() {
           fit: presentation.fit
         };
       });
-      galaxy.answerModels.forEach(function (model, index) {
-        const data = model.userData;
-        const presentation = data.presentation;
-        if (!presentation) return;
-        choicePresentations.push({
-          index,
-          id: presentation.id,
-          angle: presentation.spinAngle,
-          radius: presentation.radius,
-          innerRadius: presentation.innerRadius,
-          fit: presentation.fit,
-          shellMaterial: presentation.shellMaterial.uuid,
-          shellGeometry: presentation.shell.geometry.uuid,
-          detailDispose: data.lastDetailDispose || null,
-          hierarchySafe: Boolean(
-            isObjectInside(data.semanticHost, presentation.spinPivot)
-            && [data.label, data.frame, data.marker, data.axis, data.collider].every(function (object) {
-              return object && !isObjectInside(object, presentation.spinPivot);
-            })
-          )
-        });
-      });
       if (galaxy.camera && galaxy.renderer) {
         const canvas = galaxy.renderer.domElement;
         const canvasRect = canvas.getBoundingClientRect();
@@ -143,8 +140,69 @@ function installSceneDebugApi() {
             depth: point.z
           };
         });
+        Object.entries(galaxy.rescueRigObjects).forEach(function ([id, planet]) {
+          const point = planet.getWorldPosition(new THREE.Vector3()).project(galaxy.camera);
+          orbitTargets[id] = {
+            x: canvasRect.left + (point.x + 1) * 0.5 * canvasRect.width,
+            y: canvasRect.top + (1 - point.y) * 0.5 * canvasRect.height,
+            depth: point.z
+          };
+        });
       }
+      const coreConnections = Object.fromEntries(galaxy.rescueRigCables.map((tube) => {
+        const id = tube.userData.serviceId;
+        const planet = galaxy.rescueRigObjects[id];
+        const { uStart, uEnd, uEnergyHead, uFlowTime } = tube.material.uniforms;
+        const towardCore = id === "pqc";
+        const coreEnd = towardCore ? uEnd.value : uStart.value;
+        const planetEnd = towardCore ? uStart.value : uEnd.value;
+        const { radius, feedthroughs } = planet.userData.presentation;
+        const outlet = planet.userData.semanticModel.userData.pqc?.outlet ?? feedthroughs[0]?.outlet;
+        const attachmentGap = outlet
+          ? outlet.getWorldPosition(new THREE.Vector3()).applyMatrix4(galaxy.scratch.rigWorldInverse).distanceTo(planetEnd)
+          : Math.abs(planetEnd.distanceTo(planet.position) - radius * planet.scale.x);
+        return [id, {
+          coreEnd: coreEnd.toArray(),
+          planetEnd: planetEnd.toArray(),
+          planetCenter: planet.position.toArray(),
+          energyHead: uEnergyHead.value,
+          flowTime: uFlowTime.value,
+          attachmentGap
+        }];
+      }));
       const render = galaxy.renderer ? galaxy.renderer.info.render : null;
+      const pqcModel = galaxy.rescueRigObjects.pqc?.userData.semanticModel;
+      const pqcCable = galaxy.rescueRigCables.find((cable) => cable.userData.serviceId === "pqc");
+      let pqcSignal = null;
+      if (pqcModel && pqcCable && galaxy.camera && galaxy.renderer) {
+        const { outlet, stage } = pqcModel.userData.pqc;
+        const outletPosition = galaxy.rescueRig.worldToLocal(outlet.getWorldPosition(new THREE.Vector3()));
+        const { uStart, uPacketHead } = pqcCable.material.uniforms;
+        const canvas = galaxy.renderer.domElement.getBoundingClientRect();
+        const point = pqcModel.getWorldPosition(new THREE.Vector3()).project(galaxy.camera);
+        pqcSignal = {
+          stage,
+          packetHead: uPacketHead.value,
+          outletGap: outletPosition.distanceTo(uStart.value),
+          x: canvas.left + (point.x + 1) * 0.5 * canvas.width,
+          y: canvas.top + (1 - point.y) * 0.5 * canvas.height
+        };
+      }
+      const spatialGrid = galaxy.rescueRigGrid ? {
+        capacity: galaxy.rescueRigGrid.capacity,
+        occupied: galaxy.rescueRigGrid.assignments.size,
+        reserved: galaxy.rescueRigGrid.capacity - galaxy.rescueRigGrid.assignments.size,
+        orbitSpeed: galaxy.rescueRigGrid.orbitSpeed,
+        minimumSeparation: getServiceGridMinimumSeparation(
+          galaxy.rescueRigGrid,
+          PLANET_IDS,
+          Number.isFinite(SCENE_DEBUG.fixedElapsed) ? SCENE_DEBUG.fixedElapsed : galaxy.clock.elapsedTime,
+          {
+            reducedMotion: appState.reducedMotion,
+            scale: galaxy.rescueRigGrid.scale
+          }
+        )
+      } : null;
       return {
         webglReady: appState.webglReady,
         reducedMotion: appState.reducedMotion,
@@ -158,13 +216,21 @@ function installSceneDebugApi() {
           points: render.points
         } : null,
         interactions: {
-          planetMeshes: galaxy.planetMeshes.length,
-          answerMeshes: galaxy.answerMeshes.length
+          planetMeshes: galaxy.planetMeshes.length
         },
         targets,
+        orbitTargets,
+        orbitView: { ...galaxy.orbitView },
+        layout: galaxy.layout,
+        dive: sphereDive ? { serviceId: sphereDive.serviceId, progress: sphereDive.progress } : null,
+        quizTransition: formationOrbit?.mode === "quiz" ? formationFlightSnapshot() : null,
+        serviceRowMode: Boolean(appState.serviceRowMode),
+        serviceRowTransition: formationOrbit?.mode === "service-row" ? formationFlightSnapshot() : null,
+        coreConnections,
         presentations,
         planetPresentations,
-        choicePresentations
+        spatialGrid,
+        pqcSignal
       };
     },
     setPhase: function (value) {
@@ -193,30 +259,20 @@ function installSceneDebugApi() {
   };
 }
 
-function isObjectInside(object, ancestor) {
-  let current = object;
-  while (current) {
-    if (current === ancestor) return true;
-    current = current.parent;
-  }
-  return false;
-}
-
 // ---------- Scene init ----------
 
 export function initGalaxyScene() {
   const canvas = document.getElementById("galaxy-canvas");
   const hero = document.querySelector(".galaxy-hero");
+  const loading = document.getElementById("galaxy-loading");
 
   if (!canvas || !window.WebGLRenderingContext || SCENE_DEBUG.forceFallback) {
-    if (hero) hero.classList.add("webgl-failed");
+    hero?.classList.remove("is-loading");
+    hero?.classList.add("webgl-failed");
+    if (loading) loading.hidden = true;
     installSceneDebugApi();
     return;
   }
-
-  if (hero) hero.classList.add("is-loading");
-  const loading = document.getElementById("galaxy-loading");
-  if (loading) loading.hidden = false;
 
   galaxy.scene = new THREE.Scene();
   galaxy.scene.fog = new THREE.FogExp2(0x080a0f, 0.026);
@@ -260,18 +316,26 @@ export function initGalaxyScene() {
   createSystemPlanets();
   createRescueRig();
   createLightBridges();
-  createSignalParticles();
   createAnomalies();
   createInteractionLayer();
-  createAnswerDeck();
+  for (const orb of document.querySelectorAll(".galaxy-service-row [data-galaxy-service-link] .galaxy-service-row-orb")) {
+    serviceRowOrbs.set(orb.closest("[data-galaxy-service-link]").dataset.galaxyServiceLink, orb);
+  }
+  if (serviceRowOrbs.size || document.getElementById("quiz-console")) createAnswerDeck();
   resizeGalaxy();
 
   window.addEventListener("resize", resizeGalaxy);
   bindCanvasInteraction(canvas);
+  bindGalaxyLayoutControl();
   appState.webglReady = true;
   installSceneDebugApi();
   if (hero) hero.classList.add("webgl-ready");
-  animateGalaxy();
+  galaxy.scene.onAfterRender = function () {
+    hero?.classList.remove("is-loading");
+    if (loading) loading.hidden = true;
+    this.onAfterRender = THREE.Scene.prototype.onAfterRender;
+  };
+  bindSceneActivity(canvas);
   if (SCENE_DEBUG.forceContextLoss) {
     window.setTimeout(function () {
       if (galaxy.renderer && typeof galaxy.renderer.forceContextLoss === "function") {
@@ -280,33 +344,84 @@ export function initGalaxyScene() {
     }, 320);
   }
   scheduleIdleGeometry();
-  const clearLoading = function () {
-    if (hero) hero.classList.remove("is-loading");
-    if (loading) loading.hidden = true;
-  };
-  requestAnimationFrame(clearLoading);
-  window.setTimeout(clearLoading, 420);
 }
 
 function bindWebGLContextLifecycle(canvas, hero, loading) {
   canvas.addEventListener("webglcontextlost", function (event) {
     event.preventDefault();
+    if (formationOrbit) finishFormationFlight("exit");
     appState.webglReady = false;
+    updateSceneActivity();
     appState.threeDMode = false;
-    appState.hoveredBack = false;
-    appState.hoveredChoice = null;
+    appState.serviceRowMode = false;
     canvas.classList.remove("is-targeting");
     if (hero) {
-      hero.classList.remove("webgl-ready", "is-loading", "is-3d-mode", "is-launching");
+      hero.classList.remove("webgl-ready", "is-loading", "is-3d-mode", "is-service-row", "is-launching");
       hero.classList.add("webgl-failed");
     }
     if (loading) loading.hidden = true;
-    updateChoiceHud();
   });
 
   canvas.addEventListener("webglcontextrestored", function () {
     window.location.reload();
   });
+}
+
+function bindSceneActivity(canvas) {
+  function updateViewport() {
+    const bounds = canvas.getBoundingClientRect();
+    sceneInViewport = bounds.bottom > 0 && bounds.top < window.innerHeight &&
+      bounds.right > 0 && bounds.left < window.innerWidth;
+    updateSceneActivity();
+  }
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      sceneInViewport = entries[0].isIntersecting;
+      updateSceneActivity();
+    }).observe(canvas);
+  } else {
+    window.addEventListener("scroll", updateViewport, { passive: true });
+    window.addEventListener("resize", updateViewport);
+  }
+
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(resizeGalaxy);
+    observer.observe(canvas);
+  }
+
+  document.addEventListener("visibilitychange", updateSceneActivity);
+  window.addEventListener("pagehide", function () {
+    scenePageActive = false;
+    updateSceneActivity();
+  });
+  window.addEventListener("pageshow", function () {
+    scenePageActive = true;
+    updateViewport();
+  });
+  updateViewport();
+}
+
+function updateSceneActivity() {
+  const active = sceneInViewport && scenePageActive && !document.hidden && appState.webglReady;
+  if (!active) {
+    if (formationFlight) finishFormationFlight(formationFlight.direction);
+    if (sceneAnimationFrame !== null) {
+      cancelAnimationFrame(sceneAnimationFrame);
+      sceneAnimationFrame = null;
+    }
+    if (galaxy.clock.running) galaxy.clock.stop();
+    return;
+  }
+
+  if (!galaxy.clock.running) {
+    const elapsed = galaxy.clock.elapsedTime;
+    galaxy.clock.start();
+    galaxy.clock.elapsedTime = elapsed;
+  }
+  if (sceneAnimationFrame === null) {
+    sceneAnimationFrame = requestAnimationFrame(animateGalaxy);
+  }
 }
 
 function scheduleIdleGeometry() {
@@ -408,7 +523,7 @@ function createMathematicalGrid() {
   const material = new THREE.LineBasicMaterial({
     color: 0x6fb6d6,
     transparent: true,
-    opacity: 0.07
+    opacity: 0.045
   });
   const grid = new THREE.LineSegments(geometry, material);
   grid.rotation.x = -0.05;
@@ -428,7 +543,7 @@ function createMathematicalGrid() {
     new THREE.LineBasicMaterial({
       color: VISUAL_COLORS.accent,
       transparent: true,
-      opacity: 0.16
+      opacity: 0.035
     })
   );
   group.add(axis);
@@ -466,35 +581,32 @@ function createVectorField() {
 }
 
 function createProductStar() {
-  const starGeometry = new THREE.OctahedronGeometry(0.38, 2);
-  const starMaterial = new THREE.MeshStandardMaterial({
-    color: VISUAL_COLORS.text,
-    emissive: VISUAL_COLORS.accent,
-    emissiveIntensity: 1.65,
-    roughness: 0.22,
-    metalness: 0.28
-  });
-  galaxy.star = new THREE.Mesh(starGeometry, starMaterial);
+  for (const [layout, config] of Object.entries(ORBIT_LAYOUTS)) {
+    galaxy.overviewLayouts[layout] = {
+      baseView: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), config.tilt),
+      coreMaterial: createEnergyCoreMaterial(layout),
+      haloMaterial: createEnergyHaloMaterial(layout)
+    };
+  }
+  const { coreMaterial, haloMaterial } = galaxy.overviewLayouts[galaxy.layout];
+  const starGeometry = new THREE.IcosahedronGeometry(0.43, 3);
+  galaxy.star = new THREE.Mesh(starGeometry, coreMaterial);
   galaxy.star.position.set(0.04, 0.12, -0.18);
   galaxy.root.add(galaxy.star);
 
-  const wireGeometry = new THREE.OctahedronGeometry(0.43, 1);
+  const wireGeometry = new THREE.OctahedronGeometry(0.46, 1);
   const wireMaterial = new THREE.MeshBasicMaterial({
     color: VISUAL_COLORS.text,
     wireframe: true,
     transparent: true,
-    opacity: 0.22
+    opacity: ORBIT_LAYOUTS[galaxy.layout].wireOpacity,
+    depthWrite: false
   });
   const wire = new THREE.Mesh(wireGeometry, wireMaterial);
   galaxy.star.add(wire);
+  galaxy.star.userData.wire = wire;
 
-  const haloGeometry = new THREE.SphereGeometry(0.78, 40, 24);
-  const haloMaterial = new THREE.MeshBasicMaterial({
-    color: VISUAL_COLORS.accent,
-    transparent: true,
-    opacity: 0.055,
-    depthWrite: false
-  });
+  const haloGeometry = new THREE.SphereGeometry(0.88, 32, 16);
   const halo = new THREE.Mesh(haloGeometry, haloMaterial);
   halo.position.copy(galaxy.star.position);
   galaxy.starHalo = halo;
@@ -530,6 +642,7 @@ function createProductStar() {
   });
   galaxy.shell = new THREE.Mesh(shellGeometry, shellMaterial);
   galaxy.shell.position.copy(galaxy.star.position);
+  galaxy.shell.visible = false;
   galaxy.root.add(galaxy.shell);
 }
 
@@ -642,172 +755,34 @@ function createEnergyEffects() {
   });
 }
 
-function createHeroShowcaseEffect() {
-  galaxy.heroShowcase = new THREE.Group();
-  galaxy.heroShowcase.position.set(3.4, -0.28, -0.65);
-  galaxy.heroShowcase.rotation.set(-0.18, -0.22, 0.08);
-  galaxy.heroShowcaseParts = [];
-
-  const core = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.86, 4),
-    new THREE.MeshBasicMaterial({
-      color: VISUAL_COLORS.text,
-      transparent: true,
-      opacity: 0.96,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    })
-  );
-  core.userData.heroRole = "core";
-  galaxy.heroShowcaseParts.push(core);
-  galaxy.heroShowcase.add(core);
-
-  const glow = new THREE.Mesh(
-    new THREE.SphereGeometry(1.42, 64, 32),
-    new THREE.MeshBasicMaterial({
-      color: VISUAL_COLORS.accent,
-      transparent: true,
-      opacity: 0.14,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    })
-  );
-  glow.userData.heroRole = "glow";
-  galaxy.heroShowcaseParts.push(glow);
-  galaxy.heroShowcase.add(glow);
-
-  [
-    { radius: 1.65, tube: 0.012, color: VISUAL_COLORS.accent, opacity: 0.74, x: 1.34, y: 0.12, speed: 0.014 },
-    { radius: 2.18, tube: 0.01, color: VISUAL_COLORS.soft, opacity: 0.48, x: 1.08, y: -0.42, speed: -0.011 },
-    { radius: 2.72, tube: 0.008, color: VISUAL_COLORS.warning, opacity: 0.34, x: 1.62, y: 0.62, speed: 0.008 },
-    { radius: 3.18, tube: 0.006, color: VISUAL_COLORS.muted, opacity: 0.24, x: 1.2, y: 0.84, speed: -0.006 }
-  ].forEach(function (config, index) {
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(config.radius, config.tube, 8, 220),
-      new THREE.MeshBasicMaterial({
-        color: config.color,
-        transparent: true,
-        opacity: config.opacity,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      })
-    );
-    ring.rotation.x = config.x;
-    ring.rotation.y = config.y;
-    ring.userData = {
-      heroRole: "ring",
-      speed: config.speed,
-      baseOpacity: config.opacity,
-      phase: index * 0.7
-    };
-    galaxy.heroShowcaseParts.push(ring);
-    galaxy.heroShowcase.add(ring);
-  });
-
-  const beamPositions = [];
-  const beamCount = 30;
-  for (let i = 0; i < beamCount; i += 1) {
-    const angle = (i / beamCount) * Math.PI * 2;
-    const inner = 1.1 + (i % 3) * 0.16;
-    const outer = 3.25 + (i % 5) * 0.18;
-    beamPositions.push(
-      Math.cos(angle) * inner,
-      Math.sin(angle * 2) * 0.22,
-      Math.sin(angle) * inner * 0.72,
-      Math.cos(angle) * outer,
-      Math.sin(angle * 2 + 0.8) * 0.34,
-      Math.sin(angle) * outer * 0.72
-    );
-  }
-  const beamGeometry = new THREE.BufferGeometry();
-  beamGeometry.setAttribute("position", new THREE.Float32BufferAttribute(beamPositions, 3));
-  const beams = new THREE.LineSegments(
-    beamGeometry,
-    new THREE.LineBasicMaterial({
-      color: VISUAL_COLORS.accent,
-      transparent: true,
-      opacity: 0.28,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    })
-  );
-  beams.userData = {
-    heroRole: "beams",
-    baseOpacity: 0.28
-  };
-  galaxy.heroShowcaseParts.push(beams);
-  galaxy.heroShowcase.add(beams);
-
-  galaxy.scene.add(galaxy.heroShowcase);
-}
-
 function createSystemPlanets() {
   Object.entries(PLANETS).forEach(function ([id, config]) {
-    const orbit = createOrbit(config.radius, config.inclination, config.color);
-    galaxy.orbits[id] = orbit;
-    galaxy.root.add(orbit);
-
-    const ticks = createOrbitTicks(config.radius, config.inclination, config.color);
-    galaxy.orbitTicks.push(ticks);
-    galaxy.root.add(ticks);
-
     const planet = new THREE.Group();
-    planet.userData = { id, base: config, ticks, visualMaterials: [] };
-
-    const visual = createSystemModel(id, config.color);
-    visual.traverse(function (child) {
-      if (!child.material) return;
-      child.material.userData.planetBaseOpacity = child.material.opacity === undefined ? 1 : child.material.opacity;
-      planet.userData.visualMaterials.push(child.material);
-    });
-    const presentationConfig = SYSTEM_PRESENTATIONS[id];
-    const sphereRadius = config.size * presentationConfig.planetRadiusMultiplier;
-    const presentation = createSpherePresentation({
-      id,
-      context: "planet",
-      color: config.color,
-      model: visual,
-      config: presentationConfig,
-      radius: sphereRadius,
-      compact: window.innerWidth < 760
-    });
-    planet.userData.visual = visual;
-    planet.userData.presentation = presentation;
-    planet.add(presentation.root);
-
-    const collider = new THREE.Mesh(
-      new THREE.SphereGeometry(sphereRadius, 18, 12),
-      new THREE.MeshBasicMaterial({
-        transparent: true,
-        opacity: 0.001,
-        depthWrite: false
-      })
-    );
-    collider.userData.planetId = id;
-    planet.userData.collider = collider;
-    planet.add(collider);
-
-    const marker = new THREE.Mesh(
-      new THREE.TorusGeometry(config.size * 1.85, 0.008, 8, 72),
-      new THREE.MeshBasicMaterial({
+    planet.userData.id = id;
+    if (SCENE_DEBUG.enabled) {
+      const model = createSystemModel(id, config.color);
+      const visualMaterials = [];
+      model.traverse(function (child) {
+        if (!child.material) return;
+        child.material.userData.planetBaseOpacity = child.material.opacity ?? 1;
+        visualMaterials.push(child.material);
+      });
+      const presentationConfig = SYSTEM_PRESENTATIONS[id];
+      const presentation = createSpherePresentation({
+        id,
+        context: "planet",
         color: config.color,
-        transparent: true,
-        opacity: 0.45
-      })
-    );
-    marker.rotation.x = Math.PI / 2;
-    planet.userData.marker = marker;
-    planet.add(marker);
-
-    const label = createLabelSprite(config.short, config.color);
-    label.position.set(0, config.size + 0.54, 0);
-    label.scale.multiplyScalar(0.88);
-    planet.userData.label = label;
-    planet.add(label);
-
-    presentation.root.visible = false;
-    marker.visible = false;
-    label.visible = false;
+        model,
+        config: presentationConfig,
+        radius: config.size * presentationConfig.planetRadiusMultiplier,
+        compact: window.innerWidth < 760,
+        lightTheme: LIGHT_GALAXY
+      });
+      planet.userData.presentation = presentation;
+      planet.userData.visualMaterials = visualMaterials;
+      presentation.root.visible = false;
+      planet.add(presentation.root);
+    }
 
     galaxy.planets[id] = planet;
     galaxy.root.add(planet);
@@ -818,51 +793,10 @@ function createSystemModel(id, color) {
   return buildSemanticSystemModel(id, color, getSystemModelKit()).root;
 }
 
-function createOrbit(radius, inclination, color) {
-  const points = [];
-  const segments = 320;
-  for (let i = 0; i <= segments; i += 1) {
-    const angle = (i / segments) * Math.PI * 2;
-    points.push(new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius));
-  }
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-  const material = new THREE.LineBasicMaterial({
-    color,
-    transparent: true,
-    opacity: 0.18
-  });
-  const line = new THREE.LineLoop(geometry, material);
-  line.rotation.x = inclination;
-  return line;
-}
-
-function createOrbitTicks(radius, inclination, color) {
-  const positions = [];
-  const count = 64;
-  for (let i = 0; i < count; i += 1) {
-    const angle = (i / count) * Math.PI * 2;
-    const inner = radius - (i % 5 === 0 ? 0.16 : 0.07);
-    const outer = radius + (i % 5 === 0 ? 0.16 : 0.07);
-    positions.push(Math.cos(angle) * inner, 0, Math.sin(angle) * inner);
-    positions.push(Math.cos(angle) * outer, 0, Math.sin(angle) * outer);
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  const material = new THREE.LineBasicMaterial({
-    color,
-    transparent: true,
-    opacity: 0.16
-  });
-  const ticks = new THREE.LineSegments(geometry, material);
-  ticks.rotation.x = inclination;
-  return ticks;
-}
-
 function createRescueRig() {
   galaxy.rescueRig = new THREE.Group();
-  galaxy.rescueRig.position.set(0.18, 0.24, 0.12);
-  galaxy.rescueRig.rotation.x = 0.04;
-  galaxy.rescueRig.rotation.z = -0.03;
+  galaxy.rescueRig.position.copy(galaxy.star.position);
+  galaxy.rescueRig.quaternion.copy(galaxy.root.quaternion).invert();
   galaxy.root.add(galaxy.rescueRig);
 
   galaxy.rescueRigCore = new THREE.Group();
@@ -901,33 +835,54 @@ function createRescueRig() {
     galaxy.rescueRigCore.add(ring);
   });
 
-  const configs = [
-    { id: "firmware", position: [-2.55, 0.42, 0.34], rotation: [-0.04, 0.12, -0.03], color: PLANETS.firmware.color },
-    { id: "backend", position: [-1.08, 1.2, -0.26], rotation: [0, -0.1, 0.02], color: PLANETS.backend.color },
-    { id: "automation", position: [1.12, 1.08, -0.16], rotation: [0.02, 0.06, -0.02], color: PLANETS.automation.color },
-    { id: "data", position: [2.52, 0.12, 0.22], rotation: [0, 0.12, 0], color: PLANETS.data.color },
-    { id: "hardware", position: [1.05, -1.28, 0.5], rotation: [-0.22, -0.08, 0.03], color: PLANETS.hardware.color },
-    { id: "ops", position: [-1.42, -1.18, 0.2], rotation: [-0.04, 0.1, 0], color: PLANETS.ops.color }
-  ];
+  const serviceColors = {};
+  PLANET_IDS.forEach(function (serviceId) {
+    serviceColors[serviceId] = PLANETS[serviceId].color;
+  });
+  for (const [layout, assets] of Object.entries(galaxy.overviewLayouts)) {
+    assets.grid = createServiceSpatialGrid({ layout, serviceIds: PLANET_IDS, colors: serviceColors });
+  }
+  setGalaxyLayout(galaxy.layout);
+  const initialGridScale = galaxy.rescueRigGrid.scale;
 
-  configs.forEach(function (config) {
-    const built = buildSemanticSystemModel(config.id, config.color, getSystemModelKit());
+  const rotations = {
+    firmware: [-0.04, 0.12, -0.03],
+    backend: [0, -0.1, 0.02],
+    automation: [0.02, 0.06, -0.02],
+    pqc: [0.08, 0.14, 0],
+    data: [0, 0.12, 0],
+    hardware: [-0.22, -0.08, 0.03],
+    ops: [-0.04, 0.1, 0]
+  };
+
+  PLANET_IDS.forEach(function (id) {
+    const { color } = PLANETS[id];
+    const built = buildSemanticSystemModel(id, color, getSystemModelKit());
     const semanticModel = built.root;
     const presentation = createSpherePresentation({
-      id: config.id,
+      id,
       context: "rescue",
-      color: config.color,
+      color,
       model: semanticModel,
-      config: SYSTEM_PRESENTATIONS[config.id],
-      compact: window.innerWidth < 760
+      config: SYSTEM_PRESENTATIONS[id],
+      compact: window.innerWidth < 760,
+      lightTheme: LIGHT_GALAXY
     });
     const object = presentation.root;
+    object.scale.setScalar(initialGridScale * SERVICE_DEPTH_RADIUS.base / presentation.radius);
+    if (id === "pqc") presentation.posePivot.rotation.order = "ZYX";
+    sampleServiceGridPosition(
+      galaxy.rescueRigGrid,
+      id,
+      0,
+      object.position,
+      { compact: window.innerWidth < 760, reducedMotion: true }
+    );
     object.userData.semanticModel = semanticModel;
-    object.position.set(config.position[0], config.position[1], config.position[2]);
-    object.userData.id = config.id;
-    object.userData.basePosition = new THREE.Vector3(config.position[0], config.position[1], config.position[2]);
-    object.userData.baseRotation = new THREE.Euler(config.rotation[0], config.rotation[1], config.rotation[2]);
-    object.userData.color = config.color;
+    object.userData.id = id;
+    const [pitch, yaw, roll] = rotations[id];
+    object.userData.baseRotation = new THREE.Euler(SYSTEM_PRESENTATIONS[id].tiltX ?? pitch, yaw, roll);
+    object.userData.color = color;
     object.userData.semanticRole = built.semanticRole;
     object.userData.mechanicalParts = built.mechanicalParts;
     object.userData.materials = [];
@@ -941,23 +896,22 @@ function createRescueRig() {
       object.userData.materials.push(child.material);
     });
     const collider = new THREE.Mesh(
-      new THREE.SphereGeometry(presentation.radius * 1.12, 18, 12),
+      new THREE.SphereGeometry(presentation.radius, 18, 12),
       new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0.001,
         depthWrite: false
       })
     );
-    collider.userData.planetId = config.id;
+    collider.userData.planetId = id;
     object.userData.collider = collider;
     object.add(collider);
     galaxy.planetMeshes.push(collider);
-    galaxy.rescueRigObjects[config.id] = object;
+    galaxy.rescueRigObjects[id] = object;
     galaxy.rescueRig.add(object);
   });
 
   createRescueRigCables();
-  createRescueRigSignals();
 }
 
 function createRigMaterial(color, opacity = 0.72, emissiveIntensity = 0.18) {
@@ -992,80 +946,26 @@ function createRigBasicMaterial(color, opacity = 0.6) {
 }
 
 function createRescueRigCables() {
-  const pairs = [
-    ["firmware", "backend"],
-    ["backend", "automation"],
-    ["automation", "data"],
-    ["data", "hardware"],
-    ["hardware", "ops"],
-    ["ops", "firmware"]
-  ];
-  galaxy.rescueRigCables = pairs.map(function (pair, index) {
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(18), 3));
-    const line = new THREE.Line(
-      geometry,
-      new THREE.LineBasicMaterial({
-        color: index % 3 === 0 ? VISUAL_COLORS.accent : index % 3 === 1 ? VISUAL_COLORS.text : VISUAL_COLORS.warning,
-        transparent: true,
-        opacity: 0.18,
-        depthWrite: false
-      })
-    );
-    line.userData.pair = pair;
-    line.frustumCulled = false;
-    galaxy.rescueRig.add(line);
-    return line;
+  galaxy.rescueRigCables = PLANET_IDS.map(function (serviceId) {
+    const tube = createConnectionTube(0.14, {
+      protectedSignal: serviceId === "pqc",
+      lightTheme: LIGHT_GALAXY
+    });
+    tube.userData.serviceId = serviceId;
+    tube.userData.opacity = 0.4;
+    galaxy.rescueRig.add(tube);
+    return tube;
   });
+  refreshConnectionObstacles();
 }
 
-function createRescueRigSignals() {
-  const geometry = new THREE.SphereGeometry(0.045, 10, 6);
-  for (let i = 0; i < 8; i += 1) {
-    const signal = new THREE.Mesh(
-      geometry,
-      createRigBasicMaterial(i % 4 === 0 ? VISUAL_COLORS.warning : i % 2 ? VISUAL_COLORS.accent : VISUAL_COLORS.text, 0.82)
-    );
-    signal.userData.cableIndex = i % galaxy.rescueRigCables.length;
-    signal.userData.progress = Math.random();
-    signal.userData.speed = 0.12 + Math.random() * 0.2;
-    galaxy.rescueRigSignals.push(signal);
-    galaxy.rescueRig.add(signal);
+function refreshConnectionObstacles() {
+  const lanes = galaxy.rescueRigGrid.assignments;
+  for (const tube of galaxy.rescueRigCables) {
+    const trackRadius = lanes.get(tube.userData.serviceId).orbit.radius;
+    tube.userData.innerPlanets = PLANET_IDS.filter((id) => lanes.get(id).orbit.radius < trackRadius)
+      .map((id) => galaxy.rescueRigObjects[id]);
   }
-}
-
-function createLabelSprite(text, color) {
-  const scale = QUALITY_CONFIG.labelScale;
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024 * scale;
-  canvas.height = 256 * scale;
-  const ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
-  ctx.clearRect(0, 0, 1024, 256);
-  ctx.fillStyle = "rgba(6, 10, 16, 0.72)";
-  ctx.strokeStyle = "rgba(180, 222, 255, 0.45)";
-  ctx.lineWidth = 2;
-  ctx.fillRect(64, 54, 896, 148);
-  ctx.strokeRect(64, 54, 896, 148);
-  ctx.font = "700 82px Oxanium, monospace";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "#" + color.toString(16).padStart(6, "0");
-  ctx.fillText(text, 512, 128);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.generateMipmaps = true;
-  texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
-  const material = new THREE.SpriteMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0.72,
-    depthWrite: false
-  });
-  const sprite = new THREE.Sprite(material);
-  sprite.scale.set(1.34, 0.5, 1);
-  return sprite;
 }
 
 function createLightBridges() {
@@ -1081,38 +981,12 @@ function createLightBridges() {
     ["firmware", "ops"]
   ];
   galaxy.bridges = pairs.map(function (pair) {
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array((BRIDGE_SEGMENTS + 1) * 3), 3));
-    const material = new THREE.LineBasicMaterial({
-      color: VISUAL_COLORS.accentSoft,
-      transparent: true,
-      opacity: 0.34
-    });
-    const line = new THREE.Line(geometry, material);
-    line.userData = { pair };
-    line.frustumCulled = false;
-    galaxy.root.add(line);
-    return line;
+    const tube = createConnectionTube(0.025, { carriesSignal: false });
+    tube.userData.pair = pair;
+    tube.visible = false;
+    galaxy.rescueRig.add(tube);
+    return tube;
   });
-}
-
-function createSignalParticles() {
-  const particleGeometry = new THREE.SphereGeometry(0.045, 12, 8);
-  const material = new THREE.MeshBasicMaterial({
-    color: VISUAL_COLORS.text,
-    transparent: true,
-    opacity: 0.72
-  });
-  for (let i = 0; i < 36; i += 1) {
-    const particle = new THREE.Mesh(particleGeometry, material.clone());
-    particle.userData = {
-      bridgeIndex: i % galaxy.bridges.length,
-      progress: Math.random(),
-      speed: 0.13 + Math.random() * 0.16
-    };
-    galaxy.particles.push(particle);
-    galaxy.root.add(particle);
-  }
 }
 
 function createAnomalies() {
@@ -1125,7 +999,8 @@ function createAnomalies() {
     })
   );
   galaxy.blackHole.rotation.x = Math.PI / 2;
-  galaxy.root.add(galaxy.blackHole);
+  galaxy.blackHole.visible = false;
+  galaxy.rescueRig.add(galaxy.blackHole);
 
   [0.78, 1.02, 1.32].forEach(function (radius, index) {
     const ring = new THREE.Mesh(
@@ -1138,8 +1013,9 @@ function createAnomalies() {
     );
     ring.rotation.x = Math.PI / 2 + index * 0.18;
     ring.rotation.y = index * 0.22;
+    ring.visible = false;
     galaxy.accretionRings.push(ring);
-    galaxy.root.add(ring);
+    galaxy.rescueRig.add(ring);
   });
 
   const debrisGroup = new THREE.Group();
@@ -1161,43 +1037,22 @@ function createAnomalies() {
     debrisGroup.add(mesh);
   }
   galaxy.debris = debrisGroup;
-  galaxy.root.add(debrisGroup);
+  debrisGroup.visible = false;
+  galaxy.rescueRig.add(debrisGroup);
 }
 
 function createInteractionLayer() {
-  galaxy.focusHalo = new THREE.Group();
-  galaxy.focusHaloRings = [];
-
-  [0.56, 0.82, 1.12].forEach(function (radius, index) {
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(radius, 0.012 - index * 0.0015, 10, 144),
-      new THREE.MeshBasicMaterial({
-        color: index === 0 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft,
-        transparent: true,
-        opacity: 0,
-        depthWrite: false
-      })
-    );
-    ring.rotation.x = Math.PI / 2 + index * 0.16;
-    ring.rotation.y = index * 0.2;
-    ring.userData.baseOpacity = index === 0 ? 0.58 : 0.32 - index * 0.05;
-    galaxy.focusHaloRings.push(ring);
-    galaxy.focusHalo.add(ring);
-  });
-
-  const focusCore = new THREE.Mesh(
-    new THREE.SphereGeometry(0.055, 24, 16),
+  galaxy.focusHalo = new THREE.Mesh(
+    new THREE.TorusGeometry(1, 0.017, 8, 96),
     new THREE.MeshBasicMaterial({
-      color: VISUAL_COLORS.text,
+      color: VISUAL_COLORS.accent,
       transparent: true,
-      opacity: 0,
+      opacity: 0.42,
       depthWrite: false
     })
   );
-  focusCore.userData.baseOpacity = 0.78;
-  galaxy.focusHaloRings.push(focusCore);
-  galaxy.focusHalo.add(focusCore);
-  galaxy.root.add(galaxy.focusHalo);
+  galaxy.focusHalo.visible = false;
+  galaxy.rescueRig.add(galaxy.focusHalo);
 
   const beamGeometry = new THREE.BufferGeometry();
   beamGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(6), 3));
@@ -1206,992 +1061,27 @@ function createInteractionLayer() {
     new THREE.LineBasicMaterial({
       color: VISUAL_COLORS.accent,
       transparent: true,
-      opacity: 0,
+      opacity: 0.018,
       depthWrite: false
     })
   );
   galaxy.focusBeam.frustumCulled = false;
-  galaxy.root.add(galaxy.focusBeam);
+  galaxy.focusBeam.visible = false;
+  galaxy.rescueRig.add(galaxy.focusBeam);
 }
 
-// ---------- Choice deck (3D-mode question carousel) ----------
+// ---------- Staging slots for the reversible scene formation ----------
 
 function createAnswerDeck() {
   galaxy.answerDeck = new THREE.Group();
   galaxy.answerDeck.visible = false;
-  galaxy.answerDeck.position.set(0, 1.65, 4.7);
   galaxy.scene.add(galaxy.answerDeck);
 
-  const deckLight = new THREE.PointLight(VISUAL_COLORS.text, 1.35, 9);
-  deckLight.position.set(0, 1.2, 1.6);
-  galaxy.answerDeck.add(deckLight);
-
-  createBackPortal();
-
-  for (let i = 0; i < 5; i += 1) {
-    const model = createChoiceModel(i);
-    galaxy.answerModels.push(model);
-    galaxy.answerDeck.add(model);
-
-    const beamGeometry = new THREE.BufferGeometry();
-    beamGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(9), 3));
-    const beam = new THREE.Line(
-      beamGeometry,
-      new THREE.LineBasicMaterial({
-        color: VISUAL_COLORS.accent,
-        transparent: true,
-        opacity: 0
-      })
-    );
-    beam.frustumCulled = false;
-    galaxy.choiceBeams.push(beam);
-    galaxy.scene.add(beam);
+  for (const id of PLANET_IDS) {
+    const slot = new THREE.Group();
+    formationSlots.set(id, slot);
+    galaxy.answerDeck.add(slot);
   }
-
-  syncAnswerDeck(true);
-}
-
-function createBackPortal() {
-  const portal = new THREE.Group();
-  portal.visible = false;
-  portal.userData.materials = [];
-  portal.userData.particles = [];
-
-  const makeMaterial = function (color, opacity, options = {}) {
-    const material = new THREE.MeshBasicMaterial({
-      color,
-      transparent: true,
-      opacity,
-      depthWrite: false,
-      depthTest: false,
-      side: options.side || THREE.DoubleSide,
-      blending: options.blending || THREE.NormalBlending
-    });
-    material.userData.baseOpacity = opacity;
-    portal.userData.materials.push(material);
-    return material;
-  };
-
-  const core = new THREE.Mesh(
-    new THREE.CircleGeometry(0.48, 128),
-    new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      opacity: 0.98,
-      depthWrite: false,
-      depthTest: false,
-      side: THREE.DoubleSide
-    })
-  );
-  core.userData.backPortal = true;
-  portal.userData.core = core;
-  portal.add(core);
-
-  const innerRim = new THREE.Mesh(
-    new THREE.RingGeometry(0.42, 0.51, 128),
-    makeMaterial(0x111820, 0.96)
-  );
-  innerRim.userData.backPortal = true;
-  portal.add(innerRim);
-
-  const lens = new THREE.Mesh(
-    new THREE.RingGeometry(0.46, 0.7, 160),
-    makeMaterial(VISUAL_COLORS.accent, 0.3, { blending: THREE.AdditiveBlending })
-  );
-  lens.userData.backPortal = true;
-  portal.userData.lens = lens;
-  portal.add(lens);
-
-  const halo = new THREE.Mesh(
-    new THREE.RingGeometry(0.72, 0.92, 160),
-    makeMaterial(VISUAL_COLORS.soft, 0.12, { blending: THREE.AdditiveBlending })
-  );
-  halo.userData.backPortal = true;
-  portal.userData.halo = halo;
-  portal.add(halo);
-
-  [0.52, 0.68, 0.86, 1.0].forEach(function (radius, index) {
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(radius, 0.018 - index * 0.0025, 14, 192),
-      makeMaterial(index === 0 ? VISUAL_COLORS.accentSoft : index === 1 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft, index === 0 ? 0.64 : 0.42 - index * 0.05, { blending: THREE.AdditiveBlending })
-    );
-    ring.rotation.x = index * 0.1;
-    ring.rotation.y = index * 0.18;
-    ring.userData.backPortal = true;
-    ring.userData.speed = index % 2 ? -0.036 - index * 0.004 : 0.03 + index * 0.006;
-    portal.add(ring);
-  });
-
-  const particleGeometry = new THREE.SphereGeometry(0.022, 12, 8);
-  for (let i = 0; i < 32; i += 1) {
-    const particle = new THREE.Mesh(
-      particleGeometry,
-      makeMaterial(i % 3 === 0 ? VISUAL_COLORS.accentSoft : i % 2 ? VISUAL_COLORS.accent : VISUAL_COLORS.soft, 0.58, { blending: THREE.AdditiveBlending })
-    );
-    particle.userData.backPortal = true;
-    particle.userData.portalParticle = true;
-    particle.userData.angle = (i / 32) * Math.PI * 2;
-    particle.userData.radius = 0.52 + (i % 5) * 0.075;
-    particle.userData.speed = 0.55 + (i % 7) * 0.035;
-    particle.userData.depth = (i % 4 - 1.5) * 0.035;
-    portal.userData.particles.push(particle);
-    portal.add(particle);
-  }
-
-  const label = createBackPortalLabelSprite();
-  label.position.set(0, 1.16, 0.04);
-  portal.userData.label = label;
-  portal.add(label);
-
-  const collider = new THREE.Mesh(
-    new THREE.SphereGeometry(1.02, 28, 18),
-    new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.001,
-      depthWrite: false,
-      depthTest: false
-    })
-  );
-  collider.userData.backPortal = true;
-  portal.add(collider);
-
-  galaxy.backPortal = portal;
-  galaxy.backPortalMeshes.push(collider, core, lens);
-  galaxy.answerDeck.add(portal);
-}
-
-function createChoiceModel(index) {
-  const model = new THREE.Group();
-  model.visible = false;
-  model.userData = { choiceIndex: index, currentValue: null };
-
-  const semanticHost = new THREE.Group();
-  semanticHost.name = `choice-${index}-semantic-host`;
-
-  const core = new THREE.Mesh(
-    createChoiceGeometry("webInterface"),
-    new THREE.MeshStandardMaterial({
-      color: VISUAL_COLORS.accent,
-      emissive: VISUAL_COLORS.accent,
-      emissiveIntensity: 0.38,
-      roughness: 0.3,
-      metalness: 0.52,
-      transparent: true,
-      opacity: 0.52,
-      depthWrite: false
-    })
-  );
-  core.userData.choiceIndex = index;
-  semanticHost.add(core);
-
-  const wire = new THREE.Mesh(
-    createChoiceGeometry("webInterface"),
-    new THREE.MeshBasicMaterial({
-      color: VISUAL_COLORS.text,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.16,
-      depthWrite: false
-    })
-  );
-  wire.scale.setScalar(1.06);
-  wire.userData.choiceIndex = index;
-  semanticHost.add(wire);
-
-  const initialConfig = SYSTEM_PRESENTATIONS.firmware;
-  const presentation = createSpherePresentation({
-    id: "firmware",
-    context: "choice",
-    color: VISUAL_COLORS.accent,
-    model: semanticHost,
-    config: initialConfig,
-    radius: initialConfig.choiceRadius,
-    compact: window.innerWidth < 700
-  });
-  presentation.root.name = `choice-${index}-presentation`;
-  model.add(presentation.root);
-
-  const marker = new THREE.Mesh(
-    new THREE.TorusGeometry(0.58, 0.01, 12, 96),
-    new THREE.MeshBasicMaterial({
-      color: VISUAL_COLORS.accent,
-      transparent: true,
-      opacity: 0.34,
-      depthWrite: false
-    })
-  );
-  marker.rotation.x = Math.PI / 2;
-  marker.position.y = -0.48;
-  marker.userData.choiceIndex = index;
-  model.add(marker);
-
-  const axis = createChoiceAxis(VISUAL_COLORS.accent);
-  axis.position.y = -0.48;
-  axis.userData.choiceIndex = index;
-  model.add(axis);
-
-  const frame = createChoiceFrame(VISUAL_COLORS.accent, index);
-  model.add(frame);
-
-  const collider = new THREE.Mesh(
-    new THREE.BoxGeometry(1.9, 2.25, 1.35),
-    new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.001,
-      depthWrite: false
-    })
-  );
-  collider.position.y = 0.24;
-  collider.userData.choiceIndex = index;
-  model.add(collider);
-
-  model.userData.core = core;
-  model.userData.wire = wire;
-  model.userData.semanticHost = semanticHost;
-  model.userData.presentation = presentation;
-  model.userData.marker = marker;
-  model.userData.axis = axis;
-  model.userData.frame = frame;
-  model.userData.collider = collider;
-  model.userData.lastDetailDispose = null;
-  galaxy.answerMeshes.push(core, wire, marker, collider);
-  return model;
-}
-
-export function getChoiceVisual(value, planetId) {
-  return CHOICE_VISUALS[value] || {
-    kind: planetId === "firmware"
-      ? "webInterface"
-      : planetId === "backend"
-        ? "apiStack"
-        : planetId === "automation"
-          ? "workflowGear"
-          : planetId === "data"
-            ? "dataVault"
-            : planetId === "hardware"
-              ? "hardwarePort"
-              : "opsRadar",
-    accent: PLANETS[planetId].color,
-    labelY: 1
-  };
-}
-
-function getChoicePose(kind) {
-  return CHOICE_POSES[kind] || DEFAULT_CHOICE_POSE;
-}
-
-function createChoiceGeometry(kind) {
-  if (kind === "webInterface") return new THREE.BoxGeometry(0.92, 0.64, 0.1, 8, 6, 2);
-  if (kind === "firmwareChip") return new THREE.BoxGeometry(0.82, 0.12, 0.62, 16, 4, 12);
-  if (kind === "apiStack") return new THREE.BoxGeometry(0.7, 0.88, 0.5, 8, 10, 6);
-  if (kind === "workflowGear") return new THREE.TorusGeometry(0.39, 0.1, 18, 72);
-  if (kind === "dataVault") return new THREE.CylinderGeometry(0.4, 0.4, 0.78, 36, 6);
-  if (kind === "opsRadar") return new THREE.CylinderGeometry(0.22, 0.34, 0.18, 32, 2);
-  if (kind === "hardwarePort") return new THREE.BoxGeometry(0.82, 0.12, 0.58, 8, 2, 6);
-  if (kind === "contractBridge") {
-    const geometry = new THREE.CylinderGeometry(0.16, 0.16, 0.86, 48, 8);
-    geometry.rotateZ(Math.PI / 2);
-    return geometry;
-  }
-  if (kind === "incidentBeacon") return new THREE.ConeGeometry(0.34, 0.72, 64, 8);
-  if (kind === "processRail") return new THREE.BoxGeometry(0.86, 0.2, 0.42, 12, 4, 8);
-  if (kind === "ownershipCompass") return new THREE.IcosahedronGeometry(0.48, 3);
-  if (kind === "userCluster") return new THREE.SphereGeometry(0.42, 64, 32);
-  if (kind === "deviceFleet") return new THREE.BoxGeometry(0.54, 0.62, 0.32, 8, 12, 6);
-  if (kind === "manualStack") return new THREE.BoxGeometry(0.7, 0.18, 0.54, 10, 3, 8);
-  if (kind === "integrationHub") return new THREE.DodecahedronGeometry(0.48, 2);
-  if (kind === "incidentFlare") return new THREE.ConeGeometry(0.46, 0.78, 64, 10);
-  if (kind === "logConsole") return new THREE.BoxGeometry(0.78, 0.42, 0.18, 12, 8, 3);
-  if (kind === "memoryNode") return new THREE.SphereGeometry(0.46, 64, 32);
-  if (kind === "retryLoop") return new THREE.TorusGeometry(0.38, 0.09, 24, 128);
-  if (kind === "layerPatch") return new THREE.BoxGeometry(0.72, 0.16, 0.56, 12, 3, 10);
-  if (kind === "debateOrbit") return new THREE.TorusKnotGeometry(0.32, 0.08, 128, 18);
-  if (kind === "architectureMap") return new THREE.BoxGeometry(0.82, 0.12, 0.58, 12, 2, 8);
-  if (kind === "stableHandoff") {
-    const geometry = new THREE.CylinderGeometry(0.18, 0.18, 0.92, 64, 8);
-    geometry.rotateZ(Math.PI / 2);
-    return geometry;
-  }
-  if (kind === "opsQueue") return new THREE.BoxGeometry(0.78, 0.18, 0.46, 12, 3, 8);
-  if (kind === "monitoringArray") return new THREE.SphereGeometry(0.42, 64, 32);
-  if (kind === "ownerCrown") return new THREE.CylinderGeometry(0.46, 0.34, 0.46, 6, 4);
-  return new THREE.IcosahedronGeometry(0.5, 3);
-}
-
-function createChoiceAxis(color) {
-  const positions = [
-    -0.62, 0, 0, 0.62, 0, 0,
-    0, 0, -0.62, 0, 0, 0.62,
-    -0.36, 0, -0.36, 0.36, 0, 0.36,
-    -0.36, 0, 0.36, 0.36, 0, -0.36
-  ];
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  return new THREE.LineSegments(
-    geometry,
-    new THREE.LineBasicMaterial({
-      color,
-      transparent: true,
-      opacity: 0.18
-    })
-  );
-}
-
-function createChoiceFrame(color, choiceIndex) {
-  const frame = new THREE.Group();
-  frame.userData.accentMaterials = [];
-  frame.userData.softMaterials = [];
-
-  const makeBasic = function (materialColor, opacity) {
-    const material = new THREE.MeshBasicMaterial({
-      color: materialColor,
-      transparent: true,
-      opacity,
-      depthWrite: false
-    });
-    material.userData.baseOpacity = opacity;
-    return material;
-  };
-  const add = function (mesh, bucket) {
-    mesh.userData.choiceIndex = choiceIndex;
-    frame.add(mesh);
-    if (bucket === "accent") frame.userData.accentMaterials.push(mesh.material);
-    if (bucket === "soft") frame.userData.softMaterials.push(mesh.material);
-    return mesh;
-  };
-
-  const base = add(new THREE.Mesh(
-    new THREE.CylinderGeometry(0.58, 0.66, 0.035, 28, 1),
-    makeBasic(0x111821, 0.34)
-  ), "soft");
-  base.position.y = -0.62;
-  base.scale.z = 0.74;
-
-  const ring = add(new THREE.Mesh(
-    new THREE.TorusGeometry(0.57, 0.008, 8, 88),
-    makeBasic(color, 0.34)
-  ), "accent");
-  ring.rotation.x = Math.PI / 2;
-  ring.position.y = -0.59;
-
-  [-0.34, 0, 0.34].forEach(function (x, index) {
-    const tick = add(new THREE.Mesh(
-      new THREE.BoxGeometry(index === choiceIndex % 3 ? 0.16 : 0.1, 0.012, 0.025),
-      makeBasic(index === choiceIndex % 3 ? color : VISUAL_COLORS.text, index === choiceIndex % 3 ? 0.64 : 0.2)
-    ), index === choiceIndex % 3 ? "accent" : "soft");
-    tick.position.set(x, -0.565, 0.4);
-  });
-
-  return frame;
-}
-
-function createChoiceDetailGroup(visual, planetColor, choiceIndex) {
-  const group = new THREE.Group();
-  group.userData.kind = visual.kind;
-  group.userData.choiceIndex = choiceIndex;
-  const accent = visual.accent || planetColor;
-  const pale = VISUAL_COLORS.text;
-  const addMesh = function (geometry, material, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) {
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(position[0], position[1], position[2]);
-    mesh.rotation.set(rotation[0], rotation[1], rotation[2]);
-    mesh.scale.set(scale[0], scale[1], scale[2]);
-    mesh.userData.choiceIndex = choiceIndex;
-    group.add(mesh);
-    return mesh;
-  };
-  const addBox = function (size, position, color = pale, opacity = 0.55, rotation = [0, 0, 0]) {
-    return addMesh(
-      new THREE.BoxGeometry(size[0], size[1], size[2], 2, 2, 2),
-      createDetailMaterial(color, opacity),
-      position,
-      rotation
-    );
-  };
-  const addCylinder = function (radiusTop, radiusBottom, height, position, color = pale, opacity = 0.58, rotation = [0, 0, 0], segments = 32) {
-    return addMesh(
-      new THREE.CylinderGeometry(radiusTop, radiusBottom, height, segments, 4),
-      createDetailMaterial(color, opacity),
-      position,
-      rotation
-    );
-  };
-  const addSphere = function (radius, position, color = pale, opacity = 0.58) {
-    return addMesh(
-      new THREE.SphereGeometry(radius, 24, 16),
-      createDetailMaterial(color, opacity),
-      position
-    );
-  };
-  const addRing = function (radius, tube, position, color = accent, opacity = 0.46, rotation = [Math.PI / 2, 0, 0]) {
-    return addMesh(
-      new THREE.TorusGeometry(radius, tube, 12, 72),
-      createDetailMaterial(color, opacity),
-      position,
-      rotation
-    );
-  };
-  const addLine = function (points, color = accent, opacity = 0.6) {
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const line = new THREE.Line(
-      geometry,
-      new THREE.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false })
-    );
-    line.userData.choiceIndex = choiceIndex;
-    group.add(line);
-    return line;
-  };
-  switch (visual.kind) {
-    case "webInterface":
-      addBox([1.06, 0.76, 0.055], [0, 0.08, -0.075], accent, 0.42);
-      addBox([0.94, 0.64, 0.035], [0, 0.08, 0.075], 0x101821, 0.92);
-      addBox([0.9, 0.075, 0.03], [0, 0.35, 0.1], accent, 0.76);
-      [-0.38, -0.3, -0.22].forEach(function (x, index) {
-        addSphere(0.022, [x, 0.35, 0.13], index === 1 ? VISUAL_COLORS.automation : index === 2 ? VISUAL_COLORS.hardware : accent, 0.94);
-      });
-      addBox([0.22, 0.42, 0.025], [-0.31, 0.04, 0.105], accent, 0.32);
-      addBox([0.48, 0.055, 0.025], [0.17, 0.19, 0.105], pale, 0.68);
-      addBox([0.42, 0.04, 0.025], [0.14, 0.06, 0.105], accent, 0.76);
-      addBox([0.3, 0.04, 0.025], [0.08, -0.07, 0.105], pale, 0.46);
-      addBox([0.24, 0.1, 0.04], [0.26, -0.18, 0.11], accent, 0.86);
-      addBox([0.09, 0.24, 0.09], [0, -0.42, 0], pale, 0.56);
-      addBox([0.52, 0.06, 0.28], [0, -0.56, 0], accent, 0.62);
-      break;
-    case "firmwareChip":
-      addBox([0.64, 0.05, 0.46], [0, 0.12, 0], pale, 0.5);
-      addBox([0.52, 0.035, 0.08], [0, 0.18, -0.17], accent, 0.74);
-      addBox([0.5, 0.03, 0.045], [0, 0.2, -0.04], pale, 0.58);
-      addBox([0.2, 0.03, 0.05], [-0.15, 0.215, 0.08], pale, 0.5);
-      addBox([0.18, 0.03, 0.05], [0.18, 0.215, 0.08], pale, 0.5);
-      addBox([0.18, 0.045, 0.09], [0.22, 0.235, 0.19], accent, 0.84);
-      for (let i = -3; i <= 3; i += 1) {
-        addBox([0.035, 0.1, 0.13], [i * 0.095, 0.02, -0.42], accent, 0.74);
-        addBox([0.035, 0.1, 0.13], [i * 0.095, 0.02, 0.42], accent, 0.74);
-      }
-      addLine([new THREE.Vector3(-0.31, 0.245, -0.17), new THREE.Vector3(0.18, 0.245, 0.18)], accent, 0.86);
-      addSphere(0.035, [-0.31, 0.25, -0.17], pale, 0.86);
-      addSphere(0.035, [0.18, 0.25, 0.18], accent, 0.9);
-      break;
-    case "apiStack":
-      addBox([0.78, 0.96, 0.54], [0, 0.02, -0.04], 0x111821, 0.78);
-      [-0.32, -0.1, 0.12, 0.34].forEach(function (offset, layerIndex) {
-        addBox([0.66, 0.16, 0.055], [0, offset, 0.27], layerIndex === 1 ? accent : 0x30414f, layerIndex === 1 ? 0.88 : 0.72);
-        addSphere(0.024, [-0.25, offset + 0.025, 0.315], accent, 0.94);
-        addSphere(0.022, [-0.17, offset + 0.025, 0.315], VISUAL_COLORS.hardware, 0.8);
-        addBox([0.24, 0.02, 0.025], [0.14, offset + 0.025, 0.315], pale, 0.5);
-      });
-      addBox([0.045, 0.94, 0.05], [-0.36, 0.02, 0.29], accent, 0.58);
-      addBox([0.045, 0.94, 0.05], [0.36, 0.02, 0.29], accent, 0.58);
-      addBox([0.86, 0.06, 0.62], [0, 0.54, -0.02], accent, 0.52);
-      break;
-    case "workflowGear":
-      for (let i = 0; i < 10; i += 1) {
-        const angle = (i / 10) * Math.PI * 2;
-        addBox([0.13, 0.19, 0.16], [Math.cos(angle) * 0.48, Math.sin(angle) * 0.48, 0], accent, 0.76, [0, 0, angle]);
-      }
-      addCylinder(0.11, 0.11, 0.18, [0, 0, 0], pale, 0.9, [Math.PI / 2, 0, 0], 24);
-      addRing(0.24, 0.065, [0.34, -0.3, 0.08], pale, 0.72, [0, 0, 0]);
-      for (let i = 0; i < 8; i += 1) {
-        const angle = (i / 8) * Math.PI * 2;
-        addBox([0.09, 0.14, 0.12], [0.34 + Math.cos(angle) * 0.31, -0.3 + Math.sin(angle) * 0.31, 0.08], pale, 0.58, [0, 0, angle]);
-      }
-      [-0.36, 0, 0.36].forEach(function (offset, i) {
-        addBox([0.18, 0.08, 0.14], [offset, -0.52, 0.02], i === 1 ? accent : pale, i === 1 ? 0.82 : 0.52);
-      });
-      addLine([new THREE.Vector3(-0.45, -0.52, 0.02), new THREE.Vector3(0, -0.52, 0.02), new THREE.Vector3(0.45, -0.52, 0.02)], accent, 0.74);
-      break;
-    case "dataVault":
-      [-0.3, -0.06, 0.18, 0.38].forEach(function (offset, i) {
-        addRing(0.42 - i * 0.018, 0.012, [0, offset, 0], i === 2 ? accent : pale, i === 2 ? 0.68 : 0.48);
-      });
-      addBox([0.08, 0.82, 0.025], [0.28, 0, 0.28], pale, 0.48);
-      addBox([0.08, 0.82, 0.025], [-0.28, 0, -0.28], pale, 0.48);
-      [-0.2, 0, 0.2].forEach(function (offset, i) {
-        addBox([0.06, 0.22 + i * 0.1, 0.06], [offset, 0.04 + i * 0.06, 0.08], accent, 0.72);
-      });
-      break;
-    case "opsRadar":
-      addCylinder(0.3, 0.4, 0.14, [0, -0.48, 0], 0x171c25, 0.88);
-      addBox([0.08, 0.58, 0.08], [0, -0.15, 0], accent, 0.72);
-      addRing(0.46, 0.018, [0, 0.3, 0], accent, 0.88, [-0.58, 0, 0]);
-      addRing(0.25, 0.01, [0, 0.3, 0.01], pale, 0.5, [-0.58, 0, 0]);
-      {
-        const radarSweep = addLine([new THREE.Vector3(0, 0.3, 0.04), new THREE.Vector3(0.39, 0.38, 0.12)], accent, 0.94);
-        radarSweep.userData.radarSweep = true;
-      }
-      addSphere(0.052, [0.4, 0.39, 0.13], pale, 0.95);
-      addSphere(0.045, [-0.24, -0.38, 0.18], VISUAL_COLORS.warning, 0.86);
-      break;
-    case "hardwarePort":
-      addBox([0.9, 0.07, 0.62], [0, 0.02, 0], 0x183329, 0.86);
-      addBox([0.38, 0.17, 0.3], [0, 0.14, 0], accent, 0.92);
-      [-0.3, -0.18, -0.06, 0.06, 0.18, 0.3].forEach(function (offset, index) {
-        addBox([0.035, 0.045, 0.17], [offset, 0.07, 0.4], pale, 0.68);
-        addBox([0.035, 0.045, 0.17], [offset, 0.07, -0.4], pale, 0.68);
-        if (index % 2 === 0) addBox([0.022, 0.018, 0.25], [offset, 0.075, index === 0 ? -0.14 : 0.16], accent, 0.66);
-      });
-      addBox([0.2, 0.18, 0.22], [-0.33, 0.13, -0.18], pale, 0.66);
-      addBox([0.18, 0.14, 0.18], [0.34, 0.11, -0.2], accent, 0.72);
-      addSphere(0.055, [0.34, 0.2, 0.2], VISUAL_COLORS.warning, 0.94);
-      break;
-    case "contractBridge":
-      addBox([0.25, 0.42, 0.54], [-0.56, 0, 0], accent, 0.6);
-      addBox([0.25, 0.42, 0.54], [0.56, 0, 0], planetColor, 0.58);
-      [-0.16, 0.04, 0.24].forEach(function (height, i) {
-        addLine([new THREE.Vector3(-0.4, height, -0.08 + i * 0.08), new THREE.Vector3(0.4, height, 0.08 - i * 0.08)], i === 1 ? accent : pale, i === 1 ? 0.86 : 0.64);
-      });
-      addSphere(0.05, [0, 0.04, 0], accent, 0.88);
-      break;
-    case "incidentBeacon":
-      addRing(0.46, 0.012, [0, -0.28, 0], accent, 0.72);
-      addRing(0.64, 0.01, [0, -0.3, 0], VISUAL_COLORS.warning, 0.5);
-      addCylinder(0.16, 0.28, 0.42, [0, 0.03, 0], accent, 0.5);
-      addSphere(0.075, [0, 0.48, 0], VISUAL_COLORS.warning, 0.88);
-      addLine([new THREE.Vector3(-0.32, 0.28, 0), new THREE.Vector3(0, 0.48, 0), new THREE.Vector3(0.32, 0.28, 0)], VISUAL_COLORS.warning, 0.72);
-      break;
-    case "processRail":
-      addBox([1.0, 0.045, 0.055], [0, 0.16, -0.24], pale, 0.64);
-      addBox([1.0, 0.045, 0.055], [0, 0.16, 0.24], pale, 0.64);
-      [-0.32, 0, 0.32].forEach(function (offset) {
-        addBox([0.2, 0.2, 0.2], [offset, 0.29, 0], accent, 0.68);
-        addSphere(0.04, [offset, 0.45, 0], pale, 0.76);
-      });
-      addLine([new THREE.Vector3(-0.42, 0.38, 0), new THREE.Vector3(0, 0.45, 0), new THREE.Vector3(0.42, 0.38, 0)], accent, 0.78);
-      break;
-    case "ownershipCompass":
-      addRing(0.58, 0.014, [0, 0, 0], accent, 0.64);
-      addRing(0.36, 0.01, [0, 0.04, 0], pale, 0.4);
-      addLine([new THREE.Vector3(-0.66, 0, 0), new THREE.Vector3(0.66, 0, 0)], pale, 0.68);
-      addLine([new THREE.Vector3(0, 0, -0.66), new THREE.Vector3(0, 0, 0.66)], pale, 0.68);
-      addMesh(new THREE.ConeGeometry(0.09, 0.26, 24, 4), createDetailMaterial(accent, 0.9), [0.68, 0, 0], [0, 0, -Math.PI / 2]);
-      addSphere(0.055, [0, 0.05, 0], pale, 0.86);
-      break;
-    case "userCluster":
-      [[-0.26, 0.08, 0.12], [0, 0.18, 0], [0.28, 0.06, -0.12], [-0.1, -0.18, -0.2], [0.18, -0.16, 0.2]].forEach(function (pos, i) {
-        addSphere(i === 1 ? 0.13 : 0.09, pos, i === 1 ? accent : pale, i === 1 ? 0.88 : 0.72);
-        addCylinder(0.045, 0.065, 0.16, [pos[0], pos[1] - 0.13, pos[2]], i === 1 ? accent : pale, 0.54);
-      });
-      addLine([new THREE.Vector3(-0.26, 0.08, 0.12), new THREE.Vector3(0, 0.18, 0), new THREE.Vector3(0.28, 0.06, -0.12)], accent, 0.58);
-      break;
-    case "deviceFleet":
-      [[-0.24, 0.1, 0], [0.04, 0, 0.08], [0.3, -0.08, -0.06]].forEach(function (pos, i) {
-        addBox([0.2, 0.34, 0.05], pos, i === 0 ? accent : pale, i === 0 ? 0.72 : 0.58);
-        addBox([0.13, 0.035, 0.018], [pos[0], pos[1] + 0.08, pos[2] + 0.04], i === 0 ? pale : accent, 0.76);
-        addSphere(0.02, [pos[0], pos[1] - 0.13, pos[2] + 0.045], accent, 0.9);
-      });
-      addLine([new THREE.Vector3(-0.24, 0.1, 0), new THREE.Vector3(0.04, 0, 0.08), new THREE.Vector3(0.3, -0.08, -0.06)], accent, 0.64);
-      break;
-    case "manualStack":
-      [-0.18, 0, 0.18].forEach(function (offset, i) {
-        addBox([0.64, 0.055, 0.44], [offset * 0.24, 0.18 + i * 0.065, offset], i === 2 ? accent : pale, i === 2 ? 0.66 : 0.48);
-        addBox([0.34, 0.018, 0.035], [offset * 0.24 - 0.08, 0.215 + i * 0.065, offset + 0.17], accent, 0.56);
-      });
-      addBox([0.09, 0.28, 0.09], [0.34, 0.31, 0.24], accent, 0.68);
-      addSphere(0.04, [0.34, 0.48, 0.24], pale, 0.86);
-      break;
-    case "integrationHub":
-      addSphere(0.12, [0, 0, 0], accent, 0.92);
-      [[0.52, 0, 0], [-0.46, 0.14, 0.1], [0.12, -0.08, 0.52], [-0.12, 0.18, -0.5]].forEach(function (pos) {
-        addSphere(0.075, pos, pale, 0.82);
-        addBox([0.12, 0.04, 0.12], [pos[0], pos[1] - 0.12, pos[2]], accent, 0.46);
-        addLine([new THREE.Vector3(0, 0, 0), new THREE.Vector3(pos[0], pos[1], pos[2])], accent, 0.66);
-      });
-      addRing(0.42, 0.01, [0, -0.02, 0], pale, 0.42, [Math.PI / 2.4, 0, 0.3]);
-      break;
-    case "incidentFlare":
-      addRing(0.46, 0.012, [0, -0.28, 0], VISUAL_COLORS.warning, 0.68);
-      addRing(0.66, 0.009, [0, -0.31, 0], VISUAL_COLORS.soft, 0.38);
-      addCylinder(0.1, 0.24, 0.44, [0, 0.02, 0], VISUAL_COLORS.warning, 0.46);
-      [0, 1, 2].forEach(function (i) {
-        const angle = i * Math.PI * 0.66;
-        addLine([new THREE.Vector3(0, 0.34, 0), new THREE.Vector3(Math.cos(angle) * 0.36, 0.64, Math.sin(angle) * 0.36)], VISUAL_COLORS.warning, 0.76);
-        addSphere(0.026, [Math.cos(angle) * 0.36, 0.64, Math.sin(angle) * 0.36], pale, 0.8);
-      });
-      break;
-    case "logConsole":
-      addBox([0.72, 0.07, 0.42], [0, 0.04, 0], pale, 0.44);
-      [-0.24, -0.08, 0.08, 0.24].forEach(function (offset, i) {
-        addBox([0.065, 0.05 + i * 0.055, 0.04], [offset, 0.15 + i * 0.03, 0.18], accent, 0.76);
-      });
-      [-0.17, 0, 0.17].forEach(function (offset) {
-        addBox([0.46, 0.018, 0.03], [0, 0.23 + offset * 0.2, -0.12 + offset], pale, 0.5);
-      });
-      addLine([new THREE.Vector3(-0.34, -0.12, 0.18), new THREE.Vector3(0.34, 0.2, 0.18)], pale, 0.72);
-      break;
-    case "memoryNode":
-      addRing(0.54, 0.012, [0, 0, 0], accent, 0.6, [Math.PI / 2.6, 0, 0.4]);
-      addSphere(0.08, [-0.32, 0.12, 0.18], pale, 0.82);
-      addSphere(0.07, [0.34, -0.06, -0.12], accent, 0.9);
-      addSphere(0.055, [0.05, 0.24, 0.08], pale, 0.72);
-      addLine([new THREE.Vector3(-0.32, 0.12, 0.18), new THREE.Vector3(0.05, 0.24, 0.08), new THREE.Vector3(0.34, -0.06, -0.12)], accent, 0.68);
-      break;
-    case "retryLoop":
-      addMesh(new THREE.ConeGeometry(0.09, 0.26, 24, 4), createDetailMaterial(accent, 0.86), [0.38, 0.04, 0.04], [0, 0, -0.85]);
-      addRing(0.52, 0.011, [0, 0, 0], pale, 0.52, [Math.PI / 2, 0.15, 0]);
-      addRing(0.34, 0.009, [0, 0.02, 0], accent, 0.42, [Math.PI / 2.2, -0.3, 0.2]);
-      addBox([0.18, 0.1, 0.18], [-0.18, 0.05, 0.14], pale, 0.54);
-      break;
-    case "layerPatch":
-      addBox([0.68, 0.045, 0.46], [0, 0.12, 0], pale, 0.36);
-      addBox([0.58, 0.052, 0.09], [0, 0.25, -0.18], accent, 0.66);
-      addBox([0.58, 0.052, 0.09], [0, 0.25, 0.18], accent, 0.66);
-      addBox([0.09, 0.052, 0.42], [-0.23, 0.26, 0], pale, 0.56);
-      addBox([0.09, 0.052, 0.42], [0.23, 0.26, 0], pale, 0.56);
-      addSphere(0.04, [0, 0.34, 0], accent, 0.88);
-      break;
-    case "debateOrbit":
-      addSphere(0.1, [-0.34, 0.12, 0], accent, 0.88);
-      addSphere(0.1, [0.34, -0.12, 0], VISUAL_COLORS.warning, 0.78);
-      addRing(0.48, 0.01, [0, 0, 0], pale, 0.4, [Math.PI / 2.3, 0, -0.6]);
-      addLine([new THREE.Vector3(-0.26, 0.1, 0), new THREE.Vector3(0.26, -0.1, 0)], pale, 0.68);
-      addBox([0.14, 0.08, 0.16], [0, 0.04, 0.18], accent, 0.5);
-      break;
-    case "architectureMap":
-      addBox([0.76, 0.04, 0.5], [0, 0.09, 0], pale, 0.38);
-      addLine([new THREE.Vector3(-0.34, 0.18, -0.2), new THREE.Vector3(-0.06, 0.25, 0.1), new THREE.Vector3(0.32, 0.18, -0.02)], accent, 0.86);
-      addSphere(0.05, [-0.34, 0.18, -0.2], pale, 0.84);
-      addSphere(0.05, [-0.06, 0.25, 0.1], accent, 0.88);
-      addSphere(0.05, [0.32, 0.18, -0.02], pale, 0.84);
-      addBox([0.15, 0.05, 0.12], [-0.34, 0.13, -0.2], accent, 0.44);
-      addBox([0.15, 0.05, 0.12], [0.32, 0.13, -0.02], pale, 0.4);
-      break;
-    case "stableHandoff":
-      addBox([0.24, 0.38, 0.46], [-0.54, 0, 0], accent, 0.58);
-      addBox([0.24, 0.38, 0.46], [0.54, 0, 0], planetColor, 0.58);
-      addRing(0.2, 0.014, [-0.28, 0, 0], pale, 0.62, [0, Math.PI / 2, 0]);
-      addRing(0.2, 0.014, [0.28, 0, 0], pale, 0.62, [0, Math.PI / 2, 0]);
-      addLine([new THREE.Vector3(-0.38, 0.18, 0.1), new THREE.Vector3(0, 0.28, 0), new THREE.Vector3(0.38, 0.18, -0.1)], accent, 0.78);
-      addSphere(0.045, [0, 0.28, 0], pale, 0.9);
-      break;
-    case "opsQueue":
-      [-0.34, -0.12, 0.1, 0.32].forEach(function (offset, i) {
-        addBox([0.18, 0.14, 0.32], [offset, 0.19 + i * 0.03, 0], i === 3 ? accent : pale, i === 3 ? 0.7 : 0.52);
-        addSphere(0.025, [offset, 0.31 + i * 0.03, 0.18], i === 3 ? pale : accent, 0.78);
-      });
-      addLine([new THREE.Vector3(-0.44, -0.02, 0.24), new THREE.Vector3(0.44, -0.02, 0.24)], accent, 0.72);
-      addBox([0.88, 0.03, 0.05], [0, 0.08, 0.25], pale, 0.42);
-      break;
-    case "monitoringArray":
-      [0.28, 0.46, 0.64].forEach(function (radius, i) {
-        addRing(radius, 0.009, [0, 0, 0], i === 2 ? accent : pale, i === 2 ? 0.64 : 0.38);
-      });
-      addLine([new THREE.Vector3(0, 0.03, 0), new THREE.Vector3(0.56, 0.08, 0.2)], accent, 0.9);
-      addSphere(0.05, [0.56, 0.08, 0.2], pale, 0.9);
-      [-0.18, 0, 0.18].forEach(function (offset, i) {
-        addBox([0.055, 0.14 + i * 0.08, 0.055], [offset, 0.12 + i * 0.04, -0.2], accent, 0.62);
-      });
-      break;
-    case "ownerCrown":
-      [-0.26, 0, 0.26].forEach(function (offset, i) {
-        addMesh(new THREE.ConeGeometry(0.085, 0.36, 24, 4), createDetailMaterial(i === 1 ? accent : pale, 0.84), [offset, 0.36, i === 1 ? 0 : 0.08]);
-        addSphere(0.035, [offset, 0.58, i === 1 ? 0 : 0.08], i === 1 ? pale : accent, 0.88);
-      });
-      addRing(0.42, 0.014, [0, 0.05, 0], accent, 0.72);
-      addBox([0.64, 0.09, 0.18], [0, 0.18, 0], pale, 0.42);
-      break;
-    default:
-      addRing(0.48, 0.01, [0, 0, 0], accent, 0.46);
-  }
-
-  return group;
-}
-
-function createDetailMaterial(color, opacity) {
-  const solid = opacity >= 0.82;
-  const solidOpacity = solid ? 1 : Math.max(0.18, opacity);
-  return new THREE.MeshStandardMaterial({
-    color,
-    emissive: color,
-    emissiveIntensity: 0.08,
-    roughness: 0.28,
-    metalness: 0.42,
-    transparent: !solid,
-    opacity: solidOpacity,
-    depthWrite: solid
-  });
-}
-
-function disposeObject3D(object) {
-  const disposedGeometries = new Set();
-  const disposedMaterials = new Set();
-  const stats = { geometries: 0, materials: 0 };
-  const disposeGeometry = function (geometry) {
-    if (!geometry || geometry.userData.sharedResource || disposedGeometries.has(geometry)) return;
-    disposedGeometries.add(geometry);
-    stats.geometries += 1;
-    geometry.dispose();
-  };
-  const disposeMaterial = function (material) {
-    if (!material || material.userData.sharedResource || disposedMaterials.has(material)) return;
-    disposedMaterials.add(material);
-    stats.materials += 1;
-    material.dispose();
-  };
-  object.traverse(function (child) {
-    disposeGeometry(child.geometry);
-    if (child.material) {
-      if (Array.isArray(child.material)) {
-        child.material.forEach(disposeMaterial);
-      } else {
-        disposeMaterial(child.material);
-      }
-    }
-  });
-  return stats;
-}
-
-export function syncAnswerDeck(force = false) {
-  if (!galaxy.answerDeck) return;
-  const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
-  if (!force && galaxy.answerDeck.userData.questionId === question.id) return;
-  galaxy.answerDeck.userData.questionId = question.id;
-
-  galaxy.answerModels.forEach(function (model, index) {
-    const choice = question.choices[index];
-    if (!choice) {
-      model.visible = false;
-      return;
-    }
-    updateChoiceModel(model, choice);
-    model.visible = appState.threeDMode;
-  });
-
-  const selectedValue = appState.answers[question.id];
-  appState.selectedChoice = selectedValue ? findChoiceIndex(question.id, selectedValue) : null;
-}
-
-function updateChoiceModel(model, choice) {
-  const planetId = inferPlanet(choice.value);
-  const planet = PLANETS[planetId];
-  const visual = getChoiceVisual(choice.value, planetId);
-  const color = visual.accent || planet.color;
-  const data = model.userData;
-
-  if (data.currentValue !== choice.value) {
-    data.core.geometry.dispose();
-    data.wire.geometry.dispose();
-    data.core.geometry = createChoiceGeometry(visual.kind);
-    data.wire.geometry = createChoiceGeometry(visual.kind);
-
-    if (data.detailGroup) {
-      data.semanticHost.remove(data.detailGroup);
-      data.lastDetailDispose = disposeObject3D(data.detailGroup);
-    }
-    data.detailGroup = createChoiceDetailGroup(visual, planet.color, model.userData.choiceIndex);
-    data.detailGroup.scale.setScalar(getChoicePose(visual.kind).detailScale);
-    data.semanticHost.add(data.detailGroup);
-
-    if (data.label) {
-      model.remove(data.label);
-      data.label.material.map.dispose();
-      data.label.material.dispose();
-    }
-    data.label = createChoiceLabelSprite(choice, color);
-    data.label.position.set(0, visual.labelY || 0.98, 0);
-    model.add(data.label);
-    data.currentValue = choice.value;
-    data.planetId = planetId;
-    data.visualKind = visual.kind;
-    const presentationConfig = SYSTEM_PRESENTATIONS[planetId];
-    retargetSpherePresentation(data.presentation, {
-      id: planetId,
-      color,
-      config: presentationConfig,
-      radius: presentationConfig.choiceRadius
-    });
-  }
-
-  data.core.material.color.setHex(color);
-  data.core.material.emissive.setHex(color);
-  data.wire.material.color.setHex(VISUAL_COLORS.text);
-  data.marker.material.color.setHex(color);
-  data.axis.material.color.setHex(color);
-  updateChoiceFrameColors(data.frame, color);
-}
-
-function updateChoiceFrameColors(frame, color) {
-  if (!frame) return;
-  frame.userData.accentMaterials.forEach(function (material) {
-    material.color.setHex(color);
-    if (material.emissive) material.emissive.setHex(color);
-  });
-  frame.userData.softMaterials.forEach(function (material) {
-    material.color.setHex(VISUAL_COLORS.text);
-    if (material.emissive) material.emissive.setHex(VISUAL_COLORS.text);
-  });
-}
-
-function updateChoiceFrameState(frame, selected, hovered, dimmed) {
-  if (!frame) return;
-  const opacityBoost = selected ? 1.25 : hovered ? 1.08 : dimmed ? 0.34 : 0.82;
-  const scale = selected ? 1.08 : hovered ? 1.03 : 1;
-  frame.scale.lerp(galaxy.scratch.detailScale.set(scale, scale, scale), 0.1);
-  frame.traverse(function (child) {
-    if (!child.material || child.material.userData.baseOpacity === undefined) return;
-    const baseOpacity = child.material.userData.baseOpacity;
-    const targetOpacity = Math.min(0.96, baseOpacity * opacityBoost);
-    child.material.opacity += (targetOpacity - child.material.opacity) * 0.12;
-  });
-}
-
-function createChoiceLabelSprite(choice, color) {
-  const scale = QUALITY_CONFIG.labelScale;
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024 * scale;
-  canvas.height = 512 * scale;
-  const ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
-  ctx.clearRect(0, 0, 1024, 512);
-  drawCanvasRoundRect(ctx, 56, 72, 912, 274, 18);
-  ctx.fillStyle = "rgba(7, 10, 15, 0.84)";
-  ctx.fill();
-  ctx.strokeStyle = "rgba(213, 227, 237, 0.34)";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  const colorHex = "#" + color.toString(16).padStart(6, "0");
-  ctx.fillStyle = colorHex;
-  ctx.fillRect(92, 102, 840, 5);
-  ctx.fillRect(92, 320, 120, 4);
-  ctx.fillRect(812, 320, 120, 4);
-
-  ctx.strokeStyle = colorHex;
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  ctx.moveTo(86, 132);
-  ctx.lineTo(86, 96);
-  ctx.lineTo(122, 96);
-  ctx.moveTo(938, 132);
-  ctx.lineTo(938, 96);
-  ctx.lineTo(902, 96);
-  ctx.moveTo(86, 286);
-  ctx.lineTo(86, 322);
-  ctx.lineTo(122, 322);
-  ctx.moveTo(938, 286);
-  ctx.lineTo(938, 322);
-  ctx.lineTo(902, 322);
-  ctx.stroke();
-
-  ctx.font = "700 58px Oxanium, monospace";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "#f4f8fb";
-  wrapChoiceText(choice.label, 18).forEach(function (line, lineIndex, lines) {
-    const y = lines.length === 1 ? 212 : 176 + lineIndex * 72;
-    ctx.fillText(line.toUpperCase(), 512, y);
-  });
-
-  ctx.fillStyle = colorHex;
-  ctx.font = "700 34px Share Tech Mono, monospace";
-  drawCanvasRoundRect(ctx, 424, 388, 176, 48, 12);
-  ctx.fillStyle = "rgba(7, 10, 15, 0.78)";
-  ctx.fill();
-  ctx.strokeStyle = colorHex;
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.fillStyle = colorHex;
-  ctx.fillText(choice.tag.toUpperCase(), 512, 413);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.generateMipmaps = true;
-  texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
-  const material = new THREE.SpriteMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0.92,
-    depthWrite: false,
-    depthTest: false
-  });
-  const sprite = new THREE.Sprite(material);
-  sprite.renderOrder = 20;
-  sprite.scale.set(1.04, 0.54, 1);
-  return sprite;
-}
-
-function createBackPortalLabelSprite() {
-  const scale = QUALITY_CONFIG.labelScale;
-  const canvas = document.createElement("canvas");
-  canvas.width = 1024 * scale;
-  canvas.height = 256 * scale;
-  const ctx = canvas.getContext("2d");
-  ctx.scale(scale, scale);
-  ctx.clearRect(0, 0, 1024, 256);
-  drawCanvasRoundRect(ctx, 116, 58, 792, 140, 20);
-  ctx.fillStyle = "rgba(3, 5, 9, 0.9)";
-  ctx.fill();
-  ctx.strokeStyle = "rgba(93, 231, 255, 0.72)";
-  ctx.lineWidth = 3;
-  ctx.stroke();
-
-  ctx.fillStyle = "rgba(93, 231, 255, 0.18)";
-  ctx.fillRect(156, 82, 708, 4);
-  ctx.fillRect(156, 172, 708, 3);
-
-  ctx.strokeStyle = "rgba(93, 231, 255, 0.88)";
-  ctx.lineWidth = 6;
-  ctx.beginPath();
-  ctx.moveTo(196, 128);
-  ctx.lineTo(262, 88);
-  ctx.moveTo(196, 128);
-  ctx.lineTo(262, 168);
-  ctx.moveTo(204, 128);
-  ctx.lineTo(328, 128);
-  ctx.stroke();
-
-  ctx.font = "700 58px Oxanium, monospace";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "#f4f8fb";
-  ctx.fillText("PREVIOUS", 588, 128);
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.generateMipmaps = true;
-  texture.anisotropy = galaxy.renderer ? Math.min(8, galaxy.renderer.capabilities.getMaxAnisotropy()) : 1;
-  const material = new THREE.SpriteMaterial({
-    map: texture,
-    transparent: true,
-    opacity: 0,
-    depthWrite: false,
-    depthTest: false
-  });
-  material.userData.baseOpacity = 0.92;
-  const sprite = new THREE.Sprite(material);
-  sprite.renderOrder = 24;
-  sprite.scale.set(1.9, 0.5, 1);
-  return sprite;
-}
-
-function drawCanvasRoundRect(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.lineTo(x + width - radius, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-  ctx.lineTo(x + width, y + height - radius);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-  ctx.lineTo(x, y + radius);
-  ctx.quadraticCurveTo(x, y, x + radius, y);
-  ctx.closePath();
-}
-
-function wrapChoiceText(text, maxLength) {
-  const words = text.split(" ");
-  const lines = [];
-  let current = "";
-  words.forEach(function (word) {
-    const next = current ? current + " " + word : word;
-    if (next.length > maxLength && current) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = next;
-    }
-  });
-  if (current) lines.push(current);
-  return lines.slice(0, 2);
 }
 
 // ---------- Resize, pointer, micro-pulse ----------
@@ -2203,8 +1093,12 @@ export function resizeGalaxy() {
   const height = canvas.clientHeight || window.innerHeight;
   galaxy.camera.aspect = width / Math.max(height, 1);
   galaxy.camera.updateProjectionMatrix();
-  galaxy.renderer.setPixelRatio(getRenderPixelRatio());
-  galaxy.renderer.setSize(width, height, false);
+  const size = galaxy.renderer.getSize(new THREE.Vector2());
+  const pixelRatio = getRenderPixelRatio();
+  if (size.x !== width || size.y !== height || galaxy.renderer.getPixelRatio() !== pixelRatio) {
+    galaxy.renderer.setPixelRatio(pixelRatio);
+    galaxy.renderer.setSize(width, height, false);
+  }
   applyHeroGalaxyComposition();
 }
 
@@ -2212,78 +1106,409 @@ function applyHeroGalaxyComposition() {
   if (!galaxy.root) return;
   const compact = window.innerWidth < 760;
   const trueMobile = window.innerWidth < QUALITY_CONFIG.trueMobileWidth;
-  galaxy.root.position.set(
-    compact ? 0.15 : 2.55,
-    compact ? -0.25 : -0.1,
-    compact ? -0.2 : 0
-  );
   galaxy.root.scale.setScalar(trueMobile ? 1.28 : compact ? 1.12 : 1.18);
   if (galaxy.scene && galaxy.scene.fog) {
     galaxy.scene.fog.density = compact ? 0.034 : 0.024;
   }
 }
 
+function getOverviewRigScale() {
+  const width = window.innerWidth;
+  const config = ORBIT_LAYOUTS[galaxy.layout];
+  if (width <= 340) return config.narrowScale;
+  if (width < 760) return config.compactScale;
+  return THREE.MathUtils.clamp(galaxy.camera.aspect * config.desktopScale, config.desktopMin, config.desktopMax);
+}
+
+function setGalaxyLayout(layout) {
+  const assets = galaxy.overviewLayouts[layout];
+  if (!assets?.grid || galaxy.rescueRigGrid === assets.grid) return;
+  hideObjectHologram();
+  galaxy.rescueRigGrid?.root.removeFromParent();
+  galaxy.layout = layout;
+  galaxy.rescueRigGrid = assets.grid;
+  const compact = window.innerWidth < 760;
+  assets.grid.scale = compact ? assets.grid.compactScale : 1;
+  assets.grid.root.scale.setScalar(assets.grid.scale);
+  galaxy.rescueRig.add(assets.grid.root);
+  galaxy.rescueRig.scale.setScalar(getOverviewRigScale());
+  galaxy.star.material = assets.coreMaterial;
+  galaxy.starHalo.material = assets.haloMaterial;
+  galaxy.star.userData.wire.material.opacity = ORBIT_LAYOUTS[layout].wireOpacity;
+  refreshConnectionObstacles();
+  applyHeroGalaxyComposition();
+}
+
+function bindGalaxyLayoutControl() {
+  const controls = document.getElementById("galaxy-layout");
+  if (!controls) return;
+  for (const input of controls.querySelectorAll('input[name="galaxy-layout"]')) {
+    input.checked = input.value === galaxy.layout;
+  }
+  controls.addEventListener("change", function (event) {
+    const { value, name, checked } = event.target;
+    if (name !== "galaxy-layout" || !checked || !Object.hasOwn(ORBIT_LAYOUTS, value)) return;
+    setGalaxyLayout(value);
+    syncGalaxyNavigationLinks();
+    const url = new URL(window.location.href);
+    url.searchParams.set("layout", value);
+    window.history.replaceState(window.history.state, "", url);
+  });
+}
+
+export function syncGalaxyNavigationLinks() {
+  const focus = appState.selectedPlanet;
+  document.querySelectorAll("a[data-galaxy-service-link], a[data-galaxy-context-link]").forEach(function (link) {
+    const service = GALAXY_SERVICE_BY_ID[link.dataset.galaxyServiceLink];
+    const url = new URL(service?.path ?? link.href, window.location.href);
+    url.searchParams.set("from", "galaxy");
+    url.searchParams.set("layout", galaxy.layout);
+    if (LIGHT_GALAXY && url.pathname !== "/" && url.pathname !== "/explore.html") {
+      url.searchParams.set("theme", "light");
+    }
+    if (link.hasAttribute("data-galaxy-context-link")) {
+      if (Object.hasOwn(PLANETS, focus)) url.searchParams.set("focus", focus);
+      else url.searchParams.delete("focus");
+    }
+    link.href = url.href;
+  });
+}
+
+function clearSphereDive() {
+  if (!sphereDive) return null;
+  const { opener } = sphereDive;
+  window.clearTimeout(sphereDive.timer);
+  galaxy.camera.position.copy(sphereDive.startPosition);
+  galaxy.camera.quaternion.copy(sphereDive.startRotation);
+  galaxy.camera.updateMatrixWorld();
+  sphereDive.overlay.remove();
+  sphereDive = null;
+  const hero = galaxy.renderer.domElement.closest(".galaxy-hero");
+  hero?.classList.remove("is-diving");
+  hero?.dispatchEvent(new Event("galaxy:sphere-dive-end"));
+  return opener;
+}
+
+function openGalaxyService(link, fromCanvas = false) {
+  const serviceId = link.dataset.galaxyServiceLink;
+  if (sphereDive || !Object.hasOwn(PLANETS, serviceId)) return;
+  hideObjectHologram();
+  const url = new URL(link.href);
+  const current = new URL(window.location.href);
+  current.searchParams.set("focus", serviceId);
+  window.history.replaceState(window.history.state, "", current);
+  focusPlanet(serviceId, { fromCanvas });
+
+  const target = galaxy.rescueRigObjects[serviceId];
+  if (!appState.webglReady || appState.reducedMotion || appState.threeDMode ||
+      formationFlight || !target) {
+    window.location.assign(url);
+    return;
+  }
+  const canvas = galaxy.renderer.domElement;
+  const bounds = canvas.getBoundingClientRect();
+  if (Math.min(bounds.bottom, window.innerHeight) - Math.max(bounds.top, 0) < 100) {
+    window.location.assign(url);
+    return;
+  }
+  sphereDive = createSphereDive(galaxy.camera, target, target.userData.presentation.radius, PLANETS[serviceId].color);
+  sphereDive.serviceId = serviceId;
+  sphereDive.opener = document.activeElement === link ? link : null;
+  sphereDive.timer = window.setTimeout(() => window.location.assign(url), SPHERE_DIVE_DURATION + 45);
+  canvas.closest(".galaxy-hero")?.classList.add("is-diving");
+}
+
+export function bindGalaxyServiceLinks() {
+  const focus = new URLSearchParams(window.location.search).get("focus");
+  if (Object.hasOwn(PLANETS, focus)) focusPlanet(focus);
+  else syncGalaxyNavigationLinks();
+  for (const services of document.querySelectorAll(".galaxy-service-links, .galaxy-service-row")) {
+    services.addEventListener("click", function (event) {
+      const link = event.target.closest("[data-galaxy-service-link]");
+      if (!link || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      openGalaxyService(link);
+    });
+  }
+  window.addEventListener("pageshow", clearSphereDive);
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape" || !sphereDive) return;
+    event.preventDefault();
+    clearSphereDive()?.focus({ preventScroll: true });
+  });
+}
+
 function bindCanvasInteraction(canvas) {
+  objectHologram = createObjectHologram(canvas.parentElement);
+  const controls = document.getElementById("galaxy-orbit-controls");
+  const toggle = document.getElementById("galaxy-orbit-toggle");
+  const done = document.getElementById("galaxy-orbit-done");
+  const reset = document.getElementById("galaxy-orbit-reset");
+  let gesture = null;
+  let suppressClick = false;
+  let touchActivation = false;
+  let touchOrbit = false;
+
+  function canRotateOverview() {
+    return appState.webglReady && !appState.threeDMode && !appState.serviceRowMode &&
+      !sphereDive && !formationFlight;
+  }
+
+  function rotateOverview(yaw, pitch) {
+    const view = galaxy.orbitView;
+    view.yaw += yaw;
+    if (view.yaw > Math.PI || view.yaw < -Math.PI) {
+      view.yaw = THREE.MathUtils.euclideanModulo(view.yaw + Math.PI, Math.PI * 2) - Math.PI;
+    }
+    view.pitch = THREE.MathUtils.clamp(view.pitch + pitch, -ORBIT_VIEW_LIMIT.pitch, ORBIT_VIEW_LIMIT.pitch);
+  }
+
+  function resetView() {
+    galaxy.orbitView.yaw = 0;
+    galaxy.orbitView.pitch = 0;
+    clearHover();
+  }
+
+  function setTouchOrbit(enabled) {
+    if (touchOrbit === enabled) return;
+    touchOrbit = enabled;
+    canvas.classList.toggle("is-touch-orbiting", enabled);
+    toggle?.setAttribute("aria-pressed", String(enabled));
+    if (done) {
+      const returnFocus = !enabled && done === document.activeElement;
+      done.hidden = !enabled;
+      if (returnFocus && canRotateOverview()) toggle?.focus({ preventScroll: true });
+    }
+    if (gesture?.touch) endGesture(gesture.id);
+  }
+
+  function clearHover() {
+    appState.pointer.x = 0;
+    appState.pointer.y = 0;
+    appState.hoveredPlanet = null;
+    hideObjectHologram();
+    canvas.classList.remove("is-targeting");
+  }
+
+  function endGesture(pointerId) {
+    if (gesture?.id !== pointerId) return;
+    gesture = null;
+    canvas.classList.remove("is-orbit-dragging");
+    if (canvas.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId);
+  }
+
+  canvas.addEventListener("pointerdown", function (event) {
+    if (gesture || !event.isPrimary || event.button !== 0) return;
+    touchActivation = event.pointerType === "touch";
+    suppressClick = false;
+    if (!canRotateOverview()) return;
+    const touch = event.pointerType === "touch";
+    gesture = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      touch,
+      twoAxes: !touch || touchOrbit,
+      mode: "pending"
+    };
+  });
+
   canvas.addEventListener("pointermove", function (event) {
+    if (!canRotateOverview()) return;
+    if (gesture?.id === event.pointerId) {
+      if (!canRotateOverview()) {
+        endGesture(event.pointerId);
+        return;
+      }
+      if (gesture.mode === "scroll") return;
+      const dx = event.clientX - gesture.x;
+      const dy = event.clientY - gesture.y;
+      if (gesture.mode === "pending") {
+        const threshold = gesture.touch ? 9 : 5;
+        if (Math.hypot(dx, dy) < threshold) return;
+        suppressClick = true;
+        clearHover();
+        if (!gesture.twoAxes && Math.abs(dy) >= Math.abs(dx)) {
+          gesture.mode = "scroll";
+          return;
+        }
+        gesture.mode = "drag";
+        canvas.setPointerCapture(event.pointerId);
+        canvas.classList.add("is-orbit-dragging");
+      }
+      const sensitivity = gesture.touch ? 0.009 : 0.006;
+      rotateOverview(dx * sensitivity, gesture.twoAxes ? dy * sensitivity : 0);
+      gesture.x = event.clientX;
+      gesture.y = event.clientY;
+      return;
+    }
+    if (gesture || event.pointerType === "touch") return;
     updatePointerFromEvent(canvas, event);
 
     const hit = getCanvasHit();
     const now = performance.now();
-    canvas.classList.toggle("is-targeting", Boolean(hit));
+    canvas.classList.toggle("is-targeting", Boolean(hit && hit.type !== "core" && hit.type !== "anomaly"));
+    if (hit) showObjectHologram(hit, false);
+    else hideObjectHologram();
 
-    if (hit && hit.type === "back") {
-      const changedBack = !appState.hoveredBack;
-      appState.hoveredBack = true;
-      appState.hoveredChoice = null;
-      appState.hoveredPlanet = null;
-      if (changedBack) updateChoiceHud();
-    } else if (hit && hit.type === "choice") {
-      const changedChoice = appState.hoveredChoice !== hit.choiceIndex;
-      appState.hoveredBack = false;
-      appState.hoveredChoice = hit.choiceIndex;
-      appState.hoveredPlanet = null;
-      if (changedChoice) updateChoiceHud();
-    } else if (hit && hit.type === "planet" && hit.planetId !== appState.hoveredPlanet && now - appState.lastPointerFocus > 90) {
-      appState.hoveredBack = false;
-      appState.hoveredChoice = null;
+    if (hit?.type === "planet" && hit.planetId !== appState.hoveredPlanet && now - appState.lastPointerFocus > 90) {
       appState.hoveredPlanet = hit.planetId;
       appState.lastPointerFocus = now;
       focusPlanet(hit.planetId, { fromCanvas: true });
       runMicroPulse(hit.planetId, { preserveInsight: true });
-      updateChoiceHud();
-    } else if (!hit) {
-      const hadChoice = appState.hoveredChoice !== null;
-      const hadBack = appState.hoveredBack;
-      appState.hoveredBack = false;
-      appState.hoveredChoice = null;
+    } else if (hit?.type !== "planet") {
       appState.hoveredPlanet = null;
-      if (hadChoice || hadBack) updateChoiceHud();
     }
   });
 
-  canvas.addEventListener("pointerleave", function () {
-    appState.pointer.x = 0;
-    appState.pointer.y = 0;
-    appState.hoveredBack = false;
-    appState.hoveredChoice = null;
-    appState.hoveredPlanet = null;
-    canvas.classList.remove("is-targeting");
-    updateChoiceHud();
+  canvas.addEventListener("pointerleave", function (event) {
+    if (gesture?.mode === "drag" || !event.isPrimary || event.pointerType === "touch") return;
+    endGesture(event.pointerId);
+    clearHover();
+  });
+
+  for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
+    canvas.addEventListener(type, function (event) {
+      if (event.type === "pointercancel") {
+        touchActivation = false;
+        clearHover();
+      }
+      endGesture(event.pointerId);
+    });
+  }
+
+  canvas.addEventListener("webglcontextlost", function () {
+    if (gesture) endGesture(gesture.id);
+    setTouchOrbit(false);
+    clearHover();
   });
 
   canvas.addEventListener("click", function (event) {
+    const touch = event.pointerType === "touch" || touchActivation;
+    touchActivation = false;
+    if (!canRotateOverview()) return;
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
     updatePointerFromEvent(canvas, event);
-    const hit = getCanvasHit();
-    if (!hit) return;
-    if (hit.type === "back") {
-      goToPrevious3DQuestion();
-    } else if (hit.type === "choice") {
-      select3DChoice(hit.choiceIndex);
-    } else if (hit.type === "planet") {
-      focusPlanet(hit.planetId, { fromCanvas: true, clicked: true });
-      runMicroPulse(hit.planetId);
+    const hit = getCanvasHit(touch);
+    if (!hit) {
+      clearHover();
+      return;
+    }
+    if (hit.type === "core" || hit.type === "anomaly") {
+      showObjectHologram(hit, touch);
+      return;
+    }
+    if (touch && hit.type === "planet" && showObjectHologram(hit, true)) {
+      focusPlanet(hit.planetId, { fromCanvas: true });
+      runMicroPulse(hit.planetId, { preserveInsight: true });
+      return;
+    }
+    hideObjectHologram();
+    if (hit.type === "planet") {
+      const link = document.querySelector(`.galaxy-service-links [data-galaxy-service-link="${hit.planetId}"]`);
+      if (link) openGalaxyService(link, true);
     }
   });
+
+  document.addEventListener("pointerdown", function (event) {
+    if (event.target !== canvas) hideObjectHologram();
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") hideObjectHologram();
+  });
+  window.addEventListener("pageshow", hideObjectHologram);
+
+  toggle?.addEventListener("click", function () {
+    if (canRotateOverview()) setTouchOrbit(!touchOrbit);
+  });
+  done?.addEventListener("click", function () {
+    setTouchOrbit(false);
+  });
+  reset?.addEventListener("click", function () {
+    if (canRotateOverview()) resetView();
+  });
+  const hero = canvas.closest(".galaxy-hero");
+  if (hero) {
+    new MutationObserver(function () {
+      if (!canRotateOverview()) setTouchOrbit(false);
+    }).observe(hero, { attributes: true, attributeFilter: ["class"] });
+  }
+
+  const keyTurns = {
+    ArrowLeft: [-0.12, 0],
+    ArrowRight: [0.12, 0],
+    ArrowUp: [0, -0.12],
+    ArrowDown: [0, 0.12]
+  };
+  controls?.addEventListener("keydown", function (event) {
+    if (!canRotateOverview() || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    if (event.key === "Home") {
+      resetView();
+    } else if (event.key === "Escape" && touchOrbit) {
+      setTouchOrbit(false);
+    } else if (Object.hasOwn(keyTurns, event.key)) {
+      rotateOverview(...keyTurns[event.key]);
+      clearHover();
+    } else {
+      return;
+    }
+    event.preventDefault();
+  });
+}
+
+function showObjectHologram(hit, touch) {
+  let object, radius, label, color;
+  if (hit.type === "planet") {
+    object = galaxy.rescueRigObjects[hit.planetId];
+    radius = object.userData.presentation.radius;
+    ({ label, color } = PLANETS[hit.planetId]);
+  } else if (hit.type === "anomaly") {
+    object = galaxy.blackHole;
+    radius = object.geometry.parameters.radius;
+    label = "API latency";
+    color = VISUAL_COLORS.warning;
+  } else {
+    object = galaxy.star;
+    radius = object.geometry.parameters.radius;
+    label = "Core";
+    color = VISUAL_COLORS.accent;
+  }
+
+  if (hologramTarget?.object === object && hologramTarget.touch === touch) return false;
+  hologramTarget = { object, radius, touch };
+  objectHologram.show(label, "#" + color.toString(16).padStart(6, "0"));
+  updateObjectHologram();
+  return true;
+}
+
+function hideObjectHologram() {
+  if (!hologramTarget) return;
+  hologramTarget = null;
+  objectHologram.hide();
+}
+
+function updateObjectHologram() {
+  if (!hologramTarget) return;
+  const { object, radius } = hologramTarget;
+  if (appState.threeDMode || appState.serviceRowMode || !object.visible) {
+    hideObjectHologram();
+    return;
+  }
+  const { camera, renderer } = galaxy;
+  const center = object.getWorldPosition(hologramPosition);
+  const viewDepth = -hologramViewPosition.copy(center).applyMatrix4(camera.matrixWorldInverse).z;
+  const projected = center.project(camera);
+  if (viewDepth <= 0 || Math.abs(projected.x) > 1 || Math.abs(projected.y) > 1) {
+    hideObjectHologram();
+    return;
+  }
+  const { x: width, y: height } = renderer.getSize(hologramCanvasSize);
+  const worldRadius = radius * object.getWorldScale(hologramViewPosition).x;
+  const screenRadius = worldRadius * camera.projectionMatrix.elements[5] * height / (2 * viewDepth);
+  objectHologram.update((projected.x + 1) * width / 2, (1 - projected.y) * height / 2, screenRadius, width, height);
 }
 
 function updatePointerFromEvent(canvas, event) {
@@ -2295,78 +1520,51 @@ function updatePointerFromEvent(canvas, event) {
   galaxy.pointerVector.set(appState.pointer.x, appState.pointer.y);
 }
 
-function getCanvasHit() {
-  if (!galaxy.raycaster || !galaxy.camera) return null;
+function getCanvasHit(touch = false) {
+  if (!appState.webglReady || !galaxy.raycaster || !galaxy.camera) return null;
   galaxy.raycaster.setFromCamera(galaxy.pointerVector, galaxy.camera);
 
-  if (appState.threeDMode && galaxy.answerMeshes.length > 0) {
-    if (canGoBackIn3D() && galaxy.backPortal && galaxy.backPortal.visible) {
-      galaxy.hitBuffer.length = 0;
-      galaxy.raycaster.intersectObjects(galaxy.backPortalMeshes, false, galaxy.hitBuffer);
-      if (galaxy.hitBuffer.length) {
-        return { type: "back" };
-      }
-      if (getBackPortalFromPointerProximity()) {
-        return { type: "back" };
-      }
-    }
-
-    galaxy.hitBuffer.length = 0;
-    galaxy.raycaster.intersectObjects(galaxy.answerMeshes, false, galaxy.hitBuffer);
-    if (galaxy.hitBuffer.length) {
-      return { type: "choice", choiceIndex: galaxy.hitBuffer[0].object.userData.choiceIndex };
-    }
-    const nearbyChoice = getChoiceFromPointerProximity();
-    if (nearbyChoice !== null) {
-      return { type: "choice", choiceIndex: nearbyChoice };
-    }
+  const hit = getOverviewPointerHit();
+  // Core blocks nearby service targets and has a label but no navigation action.
+  if (hit?.object === galaxy.star) return { type: "core" };
+  const planetId = hit ? hit.object.userData.planetId : touch ? getPlanetFromTouchProximity() : null;
+  if (planetId) return { type: "planet", planetId };
+  if (galaxy.blackHole.visible && galaxy.raycaster.intersectObject(galaxy.blackHole, false).length) {
+    return { type: "anomaly" };
   }
-
-  const planetId = getPlanetFromPointer();
-  return planetId ? { type: "planet", planetId } : null;
+  return null;
 }
 
-function getChoiceFromPointerProximity() {
-  if (!appState.threeDMode || !galaxy.camera || galaxy.answerModels.length === 0) return null;
-  const compact = window.innerWidth < 700;
-  const threshold = compact ? 0.32 : 0.22;
-  let bestIndex = null;
-  let bestScore = threshold * threshold;
-
-  galaxy.answerModels.forEach(function (model, index) {
-    if (!model.visible) return;
-    model.getWorldPosition(galaxy.scratch.screenPosition);
-    galaxy.scratch.screenPosition.project(galaxy.camera);
-    if (galaxy.scratch.screenPosition.z < -1 || galaxy.scratch.screenPosition.z > 1) return;
-    const dx = galaxy.pointerVector.x - galaxy.scratch.screenPosition.x;
-    const dy = galaxy.pointerVector.y - galaxy.scratch.screenPosition.y;
-    const score = dx * dx + dy * dy * 0.85;
-    if (score < bestScore) {
-      bestScore = score;
-      bestIndex = index;
-    }
-  });
-
-  return bestIndex;
-}
-
-function getBackPortalFromPointerProximity() {
-  if (!canGoBackIn3D() || !galaxy.backPortal || !galaxy.backPortal.visible || !galaxy.camera) return false;
-  const compact = window.innerWidth < 700;
-  const threshold = compact ? 0.24 : 0.16;
-  galaxy.backPortal.getWorldPosition(galaxy.scratch.screenPosition);
-  galaxy.scratch.screenPosition.project(galaxy.camera);
-  if (galaxy.scratch.screenPosition.z < -1 || galaxy.scratch.screenPosition.z > 1) return false;
-  const dx = galaxy.pointerVector.x - galaxy.scratch.screenPosition.x;
-  const dy = galaxy.pointerVector.y - galaxy.scratch.screenPosition.y;
-  return dx * dx + dy * dy * 0.85 < threshold * threshold;
-}
-
-function getPlanetFromPointer() {
-  if (!galaxy.raycaster || !galaxy.camera || galaxy.planetMeshes.length === 0) return null;
+function getOverviewPointerHit() {
   galaxy.hitBuffer.length = 0;
   galaxy.raycaster.intersectObjects(galaxy.planetMeshes, false, galaxy.hitBuffer);
-  return galaxy.hitBuffer.length ? galaxy.hitBuffer[0].object.userData.planetId : null;
+  galaxy.raycaster.intersectObject(galaxy.star, false, galaxy.hitBuffer);
+  return galaxy.hitBuffer[0];
+}
+
+function getPlanetFromTouchProximity() {
+  const canvas = galaxy.renderer.domElement;
+  const bounds = canvas.getBoundingClientRect();
+  let nearest = null;
+  let nearestDistance = 22 * 22;
+  for (const collider of galaxy.planetMeshes) {
+    collider.getWorldPosition(galaxy.scratch.screenPosition);
+    const point = galaxy.scratch.screenPosition.project(galaxy.camera);
+    if (point.z < -1 || point.z > 1) continue;
+    const dx = (galaxy.pointerVector.x - point.x) * bounds.width / 2;
+    const dy = (galaxy.pointerVector.y - point.y) * bounds.height / 2;
+    const distance = dx * dx + dy * dy;
+    if (distance > nearestDistance) continue;
+
+    // A nearby tap must not select a sphere hidden behind Core or another service.
+    galaxy.raycaster.setFromCamera(point, galaxy.camera);
+    const id = collider.userData.planetId;
+    if (getOverviewPointerHit()?.object.userData.planetId !== id) continue;
+    nearest = id;
+    nearestDistance = distance;
+  }
+  galaxy.raycaster.setFromCamera(galaxy.pointerVector, galaxy.camera);
+  return nearest;
 }
 
 export function runMicroPulse(planetId, options = {}) {
@@ -2382,10 +1580,188 @@ export function runMicroPulse(planetId, options = {}) {
   }
 }
 
+export function isGalaxyQuizTransitioning() {
+  return formationOrbit?.mode === "quiz" && formationFlight !== null;
+}
+
+export function startGalaxyQuizTransition(direction) {
+  return startGalaxyFormation("quiz", direction);
+}
+
+export function isGalaxyServiceRowTransitioning() {
+  return formationOrbit?.mode === "service-row" && formationFlight !== null;
+}
+
+export function startGalaxyServiceRowTransition(direction) {
+  if (!PLANET_IDS.every((id) => serviceRowOrbs.has(id))) return false;
+  return startGalaxyFormation("service-row", direction);
+}
+
+function formationFlightSnapshot() {
+  return formationFlight ? { direction: formationFlight.direction, progress: formationFlight.progress } : null;
+}
+
+function startGalaxyFormation(mode, direction) {
+  if (!appState.webglReady || !galaxy.answerDeck || sphereDive) return false;
+  if (formationFlight || (direction === "enter" ? Boolean(formationOrbit) : formationOrbit?.mode !== mode)) return false;
+  const { camera, renderer } = galaxy;
+  const canvas = renderer.domElement;
+  const bounds = canvas.getBoundingClientRect();
+  const headerBottom = document.querySelector(".site-header")?.getBoundingClientRect().bottom ?? 0;
+  const animate = !appState.reducedMotion && sceneInViewport && scenePageActive && !document.hidden &&
+    bounds.bottom > headerBottom && bounds.top < window.innerHeight;
+  const corePosition = galaxy.star.getWorldPosition(new THREE.Vector3());
+  const coreRadius = galaxy.star.geometry.parameters.radius * galaxy.star.getWorldScale(formationScale).x;
+  if (direction === "enter") {
+    if (mode === "quiz") {
+      quizCenterService = appState.selectedPlanet;
+      quizRingServices = PLANET_IDS.filter((id) => id !== quizCenterService);
+    }
+    orbitPausedAt = galaxy.clock.elapsedTime;
+    formationOrbit = {
+      mode,
+      focus: appState.selectedPlanet,
+      poses: new Map(PLANET_IDS.map((id) => {
+        const sphere = galaxy.rescueRigObjects[id];
+        return [id, {
+          position: sphere.position.clone(),
+          rotation: sphere.quaternion.clone(),
+          scale: sphere.scale.clone()
+        }];
+      }))
+    };
+  }
+  hideObjectHologram();
+  if (!animate) {
+    if (direction === "enter") updateFormationSlots();
+    finishFormationFlight(direction);
+    return true;
+  }
+  if (direction === "exit") updateFormationSlots();
+  galaxy.answerDeck.visible = false;
+
+  const actors = PLANET_IDS.map(function (id) {
+    const sphere = galaxy.rescueRigObjects[id];
+    const position = sphere.getWorldPosition(new THREE.Vector3());
+    const rotation = sphere.getWorldQuaternion(new THREE.Quaternion());
+    const scale = sphere.getWorldScale(new THREE.Vector3());
+    const origin = projectFormationOrigin(position, camera, bounds);
+    galaxy.scene.attach(sphere);
+    return { id, sphere, origin, rotation, scale };
+  });
+  formationFlight = {
+    direction,
+    actors,
+    started: null,
+    progress: 0,
+    core: projectFormationOrigin(corePosition, camera, bounds),
+    coreRadius,
+    startFocalPixels: camera.projectionMatrix.elements[5] * bounds.height
+  };
+  formationBurst ??= createQuizBurst(THREE, galaxy.scene);
+  canvas.closest(".galaxy-hero")?.classList.add(`is-${mode}-transitioning`);
+  return true;
+}
+
+function projectFormationOrigin(position, camera, bounds) {
+  const point = position.project(camera);
+  return new THREE.Vector3(
+    bounds.left + (point.x + 1) * bounds.width / 2,
+    bounds.top + (1 - point.y) * bounds.height / 2,
+    point.z
+  );
+}
+
+function unprojectFormationOrigin(origin, bounds, target) {
+  return target.set(
+    (origin.x - bounds.left) * 2 / bounds.width - 1,
+    1 - (origin.y - bounds.top) * 2 / bounds.height,
+    origin.z
+  ).unproject(galaxy.camera);
+}
+
+function finishFormationFlight(direction) {
+  const { mode } = formationOrbit;
+  for (const id of PLANET_IDS) {
+    const sphere = galaxy.rescueRigObjects[id];
+    if (direction === "enter") {
+      formationSlots.get(id).add(sphere);
+      sphere.position.set(0, 0, 0);
+      sphere.quaternion.identity();
+      sphere.scale.setScalar(1);
+    } else {
+      const orbit = formationOrbit.poses.get(id);
+      galaxy.rescueRig.add(sphere);
+      sphere.position.copy(orbit.position);
+      sphere.quaternion.copy(orbit.rotation);
+      sphere.scale.copy(orbit.scale);
+    }
+  }
+  galaxy.answerDeck.visible = direction === "enter" && mode === "service-row";
+  if (direction === "exit") {
+    orbitPauseTotal += Math.max(0, galaxy.clock.elapsedTime - orbitPausedAt);
+    const focus = formationOrbit.focus;
+    formationOrbit = null;
+    focusPlanet(focus);
+    galaxy.root.visible = true;
+  }
+  formationFlight = null;
+  formationBurst?.hide();
+  const hero = galaxy.renderer.domElement.closest(".galaxy-hero");
+  const transitionClass = `is-${mode}-transitioning`;
+  if (hero?.classList.contains(transitionClass)) {
+    hero.classList.remove(transitionClass);
+    hero.dispatchEvent(new Event(`galaxy:${mode}-transition-end`));
+  }
+}
+
+function updateFormationFlight() {
+  if (!formationFlight) return;
+  const { direction, actors, startFocalPixels } = formationFlight;
+  const now = performance.now();
+  formationFlight.started ??= now;
+  const progress = Math.min(1, (now - formationFlight.started) / FORMATION_FLIGHT_MS);
+  formationFlight.progress = progress;
+  if (progress >= 1 || appState.reducedMotion) {
+    finishFormationFlight(direction);
+    return;
+  }
+  const entering = direction === "enter";
+  const bounds = galaxy.renderer.domElement.getBoundingClientRect();
+  const scaleRatio = startFocalPixels / (galaxy.camera.projectionMatrix.elements[5] * bounds.height);
+  const core = entering
+    ? unprojectFormationOrigin(formationFlight.core, bounds, formationOrigin)
+    : galaxy.star.getWorldPosition(formationOrigin);
+  formationBurst.update(core, formationFlight.coreRadius * (entering ? scaleRatio : 1), progress, direction);
+  for (const [index, actor] of actors.entries()) {
+    const { id, sphere, origin, rotation, scale } = actor;
+    const delay = entering ? 0.075 + index * 0.013 : index * 0.011;
+    const movement = THREE.MathUtils.smootherstep(progress, delay, 0.96);
+    const parent = entering ? formationSlots.get(id) : galaxy.rescueRig;
+    const orbit = formationOrbit.poses.get(id);
+    const targetPosition = entering ? formationPosition.set(0, 0, 0) : formationPosition.copy(orbit.position);
+    parent.localToWorld(targetPosition);
+    unprojectFormationOrigin(origin, bounds, sphere.position).lerp(targetPosition, movement);
+    // Stagger curved paths so the seven spheres remain distinct through the burst.
+    sphere.position.y += Math.sin(Math.PI * movement) * (0.16 + (index % 3) * 0.09);
+    parent.getWorldQuaternion(formationRotation);
+    if (!entering) formationRotation.multiply(orbit.rotation);
+    sphere.quaternion.copy(rotation).slerp(formationRotation, movement);
+    parent.getWorldScale(formationScale);
+    if (!entering) formationScale.multiply(orbit.scale);
+    sphere.scale.copy(scale).multiplyScalar(scaleRatio).lerp(formationScale, movement);
+  }
+}
+
 // ---------- Frame loop + per-frame updaters ----------
 
 function animateGalaxy() {
-  requestAnimationFrame(animateGalaxy);
+  sceneAnimationFrame = null;
+  if (!sceneInViewport || !scenePageActive || document.hidden || !appState.webglReady) {
+    updateSceneActivity();
+    return;
+  }
+  sceneAnimationFrame = requestAnimationFrame(animateGalaxy);
   const clockDelta = Math.min(galaxy.clock.getDelta(), 0.05);
   if (!galaxy.renderer || !galaxy.scene || !galaxy.camera || !appState.webglReady) return;
   const fixedTime = Number.isFinite(SCENE_DEBUG.fixedElapsed);
@@ -2393,48 +1769,118 @@ function animateGalaxy() {
   const elapsed = fixedTime ? SCENE_DEBUG.fixedElapsed : galaxy.clock.elapsedTime;
   const motionDelta = appState.reducedMotion ? 0 : delta;
   const motionElapsed = appState.reducedMotion ? 0 : elapsed;
-  const archetype = ARCHETYPES[appState.archetype];
+  const orbitElapsed = fixedTime || appState.reducedMotion ? motionElapsed : Math.max(0, motionElapsed - orbitPauseTotal);
   const visual = appState.galaxyState || refreshGalaxyState();
 
-  galaxy.root.visible = !appState.threeDMode;
-  if (galaxy.heroShowcase) galaxy.heroShowcase.visible = !appState.threeDMode;
+  galaxy.root.visible = formationFlight
+    ? formationFlight.direction === "enter" ? formationFlight.progress < 0.08 : formationFlight.progress > 0.87
+    : !formationOrbit;
 
-  if (appState.reducedMotion) galaxy.root.rotation.y = 0;
-  else galaxy.root.rotation.y += motionDelta * (0.045 + visual.pressure * 0.035);
+  if (!formationOrbit) {
+    if (appState.reducedMotion) galaxy.root.rotation.y = 0;
+    else galaxy.root.rotation.y += motionDelta * (0.045 + visual.pressure * 0.035);
 
-  updatePlanets(elapsed, motionDelta, visual);
-  updateBridges(motionElapsed, visual);
-  updateParticles(motionDelta, visual);
-  updateVectorField(motionElapsed, visual);
-  updateAnomalies(motionElapsed, motionDelta, visual);
-  updateEnergyEffects(motionElapsed, motionDelta, visual);
-  updateHeroShowcaseEffect(motionElapsed, motionDelta, visual);
-  updateInteractionLayer(motionElapsed, motionDelta, visual);
-  updateRescueRig(motionElapsed, motionDelta, visual);
-  updateAnswerDeck(motionElapsed, motionDelta, visual);
+    updatePlanets(elapsed, motionDelta, visual);
+    updateVectorField(orbitElapsed, visual);
+    updateAnomalies(orbitElapsed, motionDelta, visual);
+    updateEnergyEffects(orbitElapsed, motionDelta, visual);
+  }
+
+  if (!sphereDive) updateGalaxyCamera(elapsed, visual);
+
+  if (!formationOrbit) {
+    updateRescueRig(orbitElapsed, motionDelta, visual);
+    updateBridges(orbitElapsed, visual);
+    updateAutomationDebris(orbitElapsed, visual);
+    updateHandoffAnomaly(orbitElapsed, motionDelta, visual);
+    updateInteractionLayer(orbitElapsed, motionDelta, visual);
+  }
 
   if (appState.reducedMotion) galaxy.star.rotation.set(0, 0, 0);
   else {
     galaxy.star.rotation.y += motionDelta * 0.22;
     galaxy.star.rotation.x += motionDelta * 0.1;
   }
-  galaxy.star.material.emissiveIntensity = 1.15 + Math.sin(motionElapsed * 2.4) * 0.18;
+  galaxy.star.material.uniforms.uTime.value = motionElapsed;
 
-  const targetPlanet = galaxy.planets[archetype.focus];
-  const target = targetPlanet ? targetPlanet.position : galaxy.scratch.lookAt;
+  if (sphereDive) {
+    updateSphereDive(sphereDive, galaxy.camera, galaxy.renderer.domElement);
+    renderGalaxyFrame();
+    return;
+  }
+
+  updateOverviewProjection();
+  if (formationOrbit) {
+    galaxy.camera.updateMatrixWorld();
+    if (formationFlight?.direction !== "exit") updateFormationSlots();
+  }
+  if (formationFlight) {
+    updateFormationFlight();
+  }
+  renderGalaxyFrame();
+  updateObjectHologram();
+}
+
+function updateOverviewProjection() {
+  const { camera, renderer, rescueRig, rescueRigGrid } = galaxy;
+  let zoom = 1;
+  if (!appState.threeDMode && !appState.serviceRowMode) {
+    const { x: width, y: height } = renderer.getSize(overviewCanvasSize);
+    // Leave room for the layout switch and rotation controls above and below the scene.
+    const tangent = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    const horizontal = tangent * Math.max(1, width - 32) / height;
+    const vertical = tangent * Math.max(1, height - 132) / height;
+    const distance = camera.position.distanceTo(galaxy.scratch.lookAt) /
+      (galaxy.root.scale.x * rescueRig.scale.x * rescueRigGrid.scale);
+    let low = 0;
+    let high = 2.5;
+    // Fit the entire orbital paths so ordinary motion cannot cause the camera to zoom in and out.
+    for (let step = 0; step < 11; step += 1) {
+      const candidate = (low + high) / 2;
+      if (fitsOverviewFrustum(horizontal / candidate, vertical / candidate, distance)) low = candidate;
+      else high = candidate;
+    }
+    zoom = low;
+  }
+  if (zoom === camera.zoom) return;
+  camera.zoom = zoom;
+  camera.updateProjectionMatrix();
+}
+
+function fitsOverviewFrustum(horizontal, vertical, distance) {
+  const { camera, rescueRigGrid, scratch } = galaxy;
+  for (const [axis, slope] of [horizontal, vertical].entries()) {
+    const limit = distance * slope / Math.hypot(1, slope);
+    for (const sign of [-1, 1]) {
+      const normal = overviewFitNormal.set(axis === 0 ? sign : 0, axis === 1 ? sign : 0, slope)
+        .applyQuaternion(camera.quaternion).transformDirection(scratch.rigWorldInverse);
+      for (const orbit of rescueRigGrid.tracks) {
+        const reach = Math.hypot(normal.dot(orbit.axisX), normal.dot(orbit.axisY));
+        if (reach + SERVICE_DEPTH_RADIUS.max > limit) return false;
+      }
+    }
+  }
+  return true;
+}
+
+function updateGalaxyCamera(elapsed, visual) {
+  const formationMode = appState.threeDMode || appState.serviceRowMode;
+  const target = galaxy.planets[ARCHETYPES[appState.archetype].focus]?.position;
+  const overviewCenter = formationMode ? null : galaxy.star.getWorldPosition(galaxy.scratch.lookAt);
   const revealing = appState.revealUntil > elapsed;
   const revealBoost = revealing ? 1 : 0;
   const compact = window.innerWidth < 760;
   const trueMobile = window.innerWidth < QUALITY_CONFIG.trueMobileWidth;
-  const desiredX = appState.threeDMode
+  const desiredX = formationMode
     ? appState.pointer.x * 0.18
-    : target.x * (0.08 + revealBoost * 0.12) + appState.pointer.x * 0.55 + (compact ? 0 : 0.55);
-  const desiredY = appState.threeDMode
+    : overviewCenter.x + (target?.x ?? 0) * (0.08 + revealBoost * 0.12) + appState.pointer.x * 0.55 + (compact ? 0 : 0.55);
+  const desiredY = formationMode
     ? compact ? 6.15 : 5.75
-    : (trueMobile ? 6.4 : compact ? 6.8 : 7.0) + Math.abs(target.y) * 0.05 + appState.pointer.y * 0.22 - revealBoost * 0.85;
-  const desiredZ = appState.threeDMode
+    : overviewCenter.y + (trueMobile ? 6.4 : compact ? 6.8 : 7.0) + Math.abs(target?.y ?? 0) * 0.05 + appState.pointer.y * 0.22 - revealBoost * 0.85;
+  const revealZoom = trueMobile ? 0.24 : compact ? 0.65 : 2.2;
+  const desiredZ = formationMode
     ? compact ? 12.2 : 11.55
-    : (trueMobile ? 11.2 : compact ? 11.8 : 11.55) + (visual.opsShadow * 0.9) - revealBoost * 2.2;
+    : overviewCenter.z + (trueMobile ? 11.2 : compact ? 11.8 : 11.55) + (visual.opsShadow * 0.9) - revealBoost * revealZoom;
   if (appState.reducedMotion) {
     galaxy.camera.position.set(desiredX, desiredY, desiredZ);
   } else {
@@ -2442,13 +1888,20 @@ function animateGalaxy() {
     galaxy.camera.position.y += (desiredY - galaxy.camera.position.y) * 0.025;
     galaxy.camera.position.z += (desiredZ - galaxy.camera.position.z) * 0.025;
   }
-  if (appState.threeDMode) {
+  if (formationMode) {
     galaxy.camera.lookAt(0, 1.1, 2.35);
   } else {
-    galaxy.camera.lookAt(0, 0, 0);
+    galaxy.camera.lookAt(overviewCenter);
   }
+}
 
-  galaxy.renderer.render(galaxy.scene, galaxy.camera);
+function renderGalaxyFrame() {
+  try {
+    galaxy.renderer.render(galaxy.scene, galaxy.camera);
+  } catch (error) {
+    // WebGL can invalidate shader queries before the canvas loss handler runs.
+    if (!galaxy.renderer.getContext().isContextLost()) throw error;
+  }
 }
 
 function updateVectorField(elapsed, visual) {
@@ -2485,7 +1938,6 @@ function computeGalaxyState(archetypeId, answerCount, scaleStage) {
   const pressure = SCALE_STAGES[scaleStage].pressure;
   return {
     handoffWarp: Math.min(1.45, (archetypeId === "handoff" ? 1 : 0.2 * completeness) + pressure * 0.34),
-    ghostShell: Math.min(1.25, (archetypeId === "ghost" ? 1 : 0) + pressure * 0.18),
     automationDebris: Math.min(1.4, (archetypeId === "spreadsheet" ? 1 : 0) + pressure * 0.42),
     benchGlow: Math.min(1.35, (archetypeId === "bench" ? 1 : 0) + pressure * 0.16),
     hardwarePulse: Math.min(1.45, (archetypeId === "hardware" ? 1 : 0) + pressure * 0.22),
@@ -2528,125 +1980,74 @@ function updatePlanets(elapsed, delta, visual) {
     const selected = appState.selectedPlanet === id || ARCHETYPES[appState.archetype].focus === id;
     const hovered = appState.hoveredPlanet === id;
     const active = selected || hovered;
-    const pulse = planet.userData.pulseUntil && planet.userData.pulseUntil > elapsed
-      ? Math.sin((planet.userData.pulseUntil - elapsed) * 10) * 0.12
-      : 0;
-    const pressureScale = visual.pressure * (id === "backend" || id === "automation" ? 0.18 : 0.08);
-    const scale = (active ? 1.42 : 1 + visual.benchGlow * (id === "firmware" ? 0.38 : 0)) + pressureScale + Math.max(pulse, 0);
-    galaxy.scratch.scale.set(scale, scale, scale);
-    planet.scale.lerp(galaxy.scratch.scale, 0.08);
-    updateSpherePresentation(planet.userData.presentation, {
-      delta,
-      elapsed,
-      selected,
-      hovered,
-      reducedMotion: appState.reducedMotion,
-      debugPhase: SCENE_DEBUG.fixedPhase
-    });
-    planet.userData.visualMaterials.forEach(function (material) {
-      const baseOpacity = material.userData.planetBaseOpacity === undefined ? 1 : material.userData.planetBaseOpacity;
-      const shadow = id === "ops" ? 1 - visual.opsShadow * 0.22 : 1;
-      const targetOpacity = baseOpacity * (active ? 1 : 0.68) * shadow;
-      material.opacity += (targetOpacity - material.opacity) * 0.1;
-      if (material.emissive) {
-        material.emissiveIntensity += ((active ? 0.58 : 0.14) - material.emissiveIntensity) * 0.08;
-      }
-    });
-    planet.userData.marker.material.opacity += ((active ? 0.68 : 0.2) - planet.userData.marker.material.opacity) * 0.1;
-    if (planet.userData.label) {
-      const labelOpacity = active ? 1 : 0.46;
-      planet.userData.label.material.opacity += (labelOpacity - planet.userData.label.material.opacity) * 0.1;
+    if (planet.userData.presentation) {
+      const pulse = planet.userData.pulseUntil && planet.userData.pulseUntil > elapsed
+        ? Math.sin((planet.userData.pulseUntil - elapsed) * 10) * 0.12
+        : 0;
+      const pressureScale = visual.pressure * (id === "backend" || id === "automation" ? 0.18 : 0.08);
+      const scale = (active ? 1.42 : 1 + visual.benchGlow * (id === "firmware" ? 0.38 : 0)) + pressureScale + Math.max(pulse, 0);
+      galaxy.scratch.scale.set(scale, scale, scale);
+      planet.scale.lerp(galaxy.scratch.scale, 0.08);
+      updateSpherePresentation(planet.userData.presentation, {
+        delta,
+        elapsed,
+        selected,
+        hovered,
+        reducedMotion: appState.reducedMotion,
+        debugPhase: SCENE_DEBUG.fixedPhase
+      });
+      planet.userData.visualMaterials.forEach(function (material) {
+        const baseOpacity = material.userData.planetBaseOpacity === undefined ? 1 : material.userData.planetBaseOpacity;
+        const shadow = id === "ops" ? 1 - visual.opsShadow * 0.22 : 1;
+        const targetOpacity = baseOpacity * (active ? 1 : 0.68) * shadow;
+        material.opacity += (targetOpacity - material.opacity) * 0.1;
+        if (material.emissive) {
+          material.emissiveIntensity += ((active ? 0.58 : 0.14) - material.emissiveIntensity) * 0.08;
+        }
+      });
     }
-
-    const orbit = galaxy.orbits[id];
-    orbit.rotation.x = inclination;
-    orbit.material.opacity = active ? 0.3 : 0.08;
-    planet.userData.ticks.rotation.x = inclination;
-    planet.userData.ticks.material.opacity = active ? 0.24 : 0.06;
   });
 }
 
 function updateBridges(elapsed, visual) {
+  const showScenarioBridges = galaxy.layout === "planets" && Boolean(appState.simulation) && !sphereDive;
+  const scratch = galaxy.scratch;
   galaxy.bridges.forEach(function (bridge) {
+    bridge.visible = showScenarioBridges;
+    if (!showScenarioBridges) return;
     const [a, b] = bridge.userData.pair;
-    const start = galaxy.planets[a].position;
-    const end = galaxy.planets[b].position;
-    let middleX = (start.x + end.x) * 0.5;
-    let middleY = (start.y + end.y) * 0.5;
-    let middleZ = (start.z + end.z) * 0.5;
+    const source = galaxy.rescueRigObjects[a];
+    const destination = galaxy.rescueRigObjects[b];
+    const direction = scratch.portDirection.copy(destination.position).sub(source.position).normalize();
+    const startRadius = source.userData.presentation.radius * source.scale.x;
+    const endRadius = destination.userData.presentation.radius * destination.scale.x;
+    const start = scratch.beamStart.copy(source.position).addScaledVector(direction, startRadius);
+    const end = scratch.beamEnd.copy(destination.position).addScaledVector(direction, -endRadius);
+    const control = scratch.beamMiddle.copy(start).lerp(end, 0.5);
+    control.y += Math.min(start.distanceTo(end) * 0.12, 1.15);
 
     if ((a === "firmware" && b === "backend") || (a === "backend" && b === "ops")) {
-      middleY += visual.handoffWarp * Math.sin(elapsed * 2.2) * 0.7;
-      middleX += visual.handoffWarp * 0.45;
+      control.y += visual.handoffWarp * Math.sin(elapsed * 2.2) * 0.7;
+      control.x += visual.handoffWarp * 0.45;
     }
 
-    if (a === "backend" && b === "automation") {
-      middleY += visual.automationDebris * 0.9;
-    }
-
-    const position = bridge.geometry.getAttribute("position");
-    for (let i = 0; i <= BRIDGE_SEGMENTS; i += 1) {
-      const t = i / BRIDGE_SEGMENTS;
-      const inv = 1 - t;
-      position.setXYZ(
-        i,
-        inv * inv * start.x + 2 * inv * t * middleX + t * t * end.x,
-        inv * inv * start.y + 2 * inv * t * middleY + t * t * end.y,
-        inv * inv * start.z + 2 * inv * t * middleZ + t * t * end.z
-      );
-    }
-    position.needsUpdate = true;
-    bridge.material.opacity = 0.18 + visual.completeness * 0.18 + visual.pressure * 0.08;
-    bridge.material.color.setHex(visual.handoffWarp > 0.8 && a === "firmware" ? VISUAL_COLORS.soft : VISUAL_COLORS.accentSoft);
-  });
-}
-
-function updateParticles(delta, visual) {
-  galaxy.particles.forEach(function (particle) {
-    const bridge = galaxy.bridges[particle.userData.bridgeIndex];
-    const positionAttr = bridge.geometry.getAttribute("position");
-    if (!positionAttr) return;
-
-    particle.userData.progress = (particle.userData.progress + delta * particle.userData.speed * (1 + visual.pressure * 0.8)) % 1;
-    if (visual.automationDebris > 0 && particle.userData.bridgeIndex === 2) {
-      particle.userData.progress = (particle.userData.progress + delta * 0.08) % 1;
-      particle.material.color.setHex(VISUAL_COLORS.soft);
-    } else if (visual.opsShadow > 0 && particle.userData.bridgeIndex === 4) {
-      particle.material.color.setHex(VISUAL_COLORS.dim);
-    } else {
-      particle.material.color.setHex(VISUAL_COLORS.text);
-    }
-
-    const index = Math.floor(particle.userData.progress * (positionAttr.count - 1));
-    particle.position.set(
-      positionAttr.getX(index),
-      positionAttr.getY(index),
-      positionAttr.getZ(index)
-    );
-    particle.visible = visual.completeness > 0.05 || particle.userData.progress < 0.45;
+    const automationFlow = a === "backend" && b === "automation" ? visual.automationDebris : 0;
+    control.y += automationFlow * 0.9;
+    const signalLoss = a === "hardware" && b === "data" ? visual.opsShadow : 0;
+    const opacity = (0.044 + visual.completeness * 0.08 + visual.pressure * 0.04) * (1 - signalLoss * 0.36);
+    const tint = visual.handoffWarp > 0.8 && a === "firmware" ? VISUAL_COLORS.soft : VISUAL_COLORS.accent;
+    updateConnectionTube(bridge, start, end, control, tint, opacity, 0);
   });
 }
 
 function updateAnomalies(elapsed, delta, visual) {
-  const firmware = galaxy.planets.firmware.position;
-  const backend = galaxy.planets.backend.position;
-  galaxy.blackHole.position.set(
-    (firmware.x + backend.x) * 0.5,
-    (firmware.y + backend.y) * 0.5,
-    (firmware.z + backend.z) * 0.5
-  );
-  galaxy.blackHole.scale.setScalar(1 + visual.handoffWarp * 0.6);
-  galaxy.blackHole.rotation.z += delta * 60 * (0.025 + visual.handoffWarp * 0.04);
-  galaxy.blackHole.material.opacity += ((visual.handoffWarp > 0.85 ? 0.75 : 0.08) - galaxy.blackHole.material.opacity) * 0.08;
-  galaxy.accretionRings.forEach(function (ring, index) {
-    ring.position.copy(galaxy.blackHole.position);
-    ring.scale.setScalar(1 + visual.handoffWarp * (0.3 + index * 0.18));
-    ring.rotation.z += delta * 60 * (0.018 + index * 0.012 + visual.handoffWarp * 0.02);
-    ring.material.opacity += ((visual.handoffWarp > 0.85 ? 0.42 - index * 0.08 : 0.03) - ring.material.opacity) * 0.08;
-  });
-
-  galaxy.shell.material.opacity += ((visual.ghostShell ? 0.34 : 0) - galaxy.shell.material.opacity) * 0.08;
-  galaxy.shell.rotation.y += delta * 0.6;
+  galaxy.shell.visible = appState.simulation === "ghost" && !sphereDive;
+  if (galaxy.shell.visible) {
+    galaxy.shell.material.opacity += (0.34 - galaxy.shell.material.opacity) * 0.08;
+    galaxy.shell.rotation.y += delta * 0.6;
+  } else {
+    galaxy.shell.material.opacity = 0;
+  }
   if (galaxy.starRings) {
     galaxy.starRings.children.forEach(function (ring, index) {
       ring.rotation.z += delta * 60 * (0.006 + index * 0.003);
@@ -2654,18 +2055,8 @@ function updateAnomalies(elapsed, delta, visual) {
     });
   }
 
-  const automation = galaxy.planets.automation.position;
-  galaxy.debris.position.copy(automation);
-  galaxy.debris.children.forEach(function (mesh) {
-    const data = mesh.userData;
-    const angle = data.angle + elapsed * data.speed;
-    mesh.position.set(Math.cos(angle) * data.radius, Math.sin(angle * 1.7) * 0.12, Math.sin(angle) * data.radius);
-    mesh.material.opacity += ((visual.automationDebris ? Math.min(0.92, 0.55 + visual.automationDebris * 0.3) : 0) - mesh.material.opacity) * 0.08;
-  });
-
   if (appState.simulation) {
     const pulse = 0.5 + Math.sin(elapsed * (9 + visual.pressure * 5)) * 0.5;
-    galaxy.blackHole.material.opacity = Math.max(galaxy.blackHole.material.opacity, pulse * 0.7);
     galaxy.star.scale.setScalar(1 + pulse * 0.09);
   } else if (appState.revealUntil > galaxy.clock.elapsedTime) {
     const revealPulse = 0.5 + Math.sin(elapsed * 7) * 0.5;
@@ -2676,12 +2067,53 @@ function updateAnomalies(elapsed, delta, visual) {
   }
 }
 
+function updateAutomationDebris(elapsed, visual) {
+  const debris = galaxy.debris;
+  debris.visible = appState.simulation === "automation" && !sphereDive;
+  if (!debris.visible) return;
+  const automation = galaxy.rescueRigObjects.automation;
+  const shellRadius = automation.userData.presentation.radius * automation.scale.x;
+  const opacity = Math.min(0.92, 0.55 + visual.automationDebris * 0.3);
+  debris.position.copy(automation.position);
+  for (const mesh of debris.children) {
+    const { angle, radius, speed } = mesh.userData;
+    const phase = angle + elapsed * speed;
+    const distance = shellRadius * (0.65 + radius);
+    mesh.position.set(Math.cos(phase) * distance, Math.sin(phase * 1.7) * shellRadius * 0.16,
+      Math.sin(phase) * distance);
+    mesh.material.opacity = opacity;
+  }
+}
+
+function updateHandoffAnomaly(elapsed, delta, visual) {
+  const anomaly = galaxy.blackHole;
+  const visible = appState.simulation === "handoff" && !sphereDive;
+  anomaly.visible = visible;
+  if (visible) {
+    const { firmware, backend } = galaxy.rescueRigObjects;
+    anomaly.position.copy(firmware.position).lerp(backend.position, 0.5);
+    anomaly.scale.setScalar(1 + visual.handoffWarp * 0.6);
+    anomaly.rotation.z += delta * 60 * (0.025 + visual.handoffWarp * 0.04);
+  }
+
+  const strength = window.innerWidth < QUALITY_CONFIG.trueMobileWidth ? 0.18 : 1;
+  const pulse = 0.5 + Math.sin(elapsed * (9 + visual.pressure * 5)) * 0.5;
+  anomaly.material.opacity = visible ? (0.22 + 0.48 * pulse) * strength : 0;
+  galaxy.accretionRings.forEach(function (ring, index) {
+    ring.visible = visible;
+    if (!visible) return;
+    ring.position.copy(anomaly.position);
+    ring.scale.setScalar(1 + visual.handoffWarp * (0.3 + index * 0.18));
+    ring.rotation.z += delta * 60 * (0.018 + index * 0.012 + visual.handoffWarp * 0.02);
+    ring.material.opacity = (0.2 - index * 0.04) * strength;
+  });
+}
+
 function updateEnergyEffects(elapsed, delta, visual) {
   const intensity = 0.62 + visual.completeness * 0.52 + visual.pressure * 0.36;
   if (galaxy.starHalo) {
     const haloPulse = 0.5 + Math.sin(elapsed * 1.9) * 0.5;
-    const targetOpacity = 0.065 + haloPulse * 0.03 + visual.completeness * 0.055;
-    galaxy.starHalo.material.opacity += (Math.min(0.18, targetOpacity) - galaxy.starHalo.material.opacity) * 0.06;
+    galaxy.starHalo.material.uniforms.uGlow.value = 0.23 + haloPulse * 0.05 + visual.completeness * 0.05;
     galaxy.starHalo.scale.setScalar(1 + haloPulse * 0.045 + visual.pressure * 0.06);
   }
 
@@ -2698,6 +2130,7 @@ function updateEnergyEffects(elapsed, delta, visual) {
 
   if (galaxy.shockwaves && galaxy.shockwaves.length) {
     galaxy.shockwaves.forEach(function (ring, index) {
+      ring.visible = galaxy.layout === "planets";
       const cycle = (elapsed * (0.14 + index * 0.018) + ring.userData.phase + visual.completeness * 0.12) % 1;
       const waveScale = 0.82 + cycle * (1.55 + visual.pressure * 0.45);
       ring.scale.setScalar(waveScale);
@@ -2709,75 +2142,41 @@ function updateEnergyEffects(elapsed, delta, visual) {
   }
 }
 
-function updateHeroShowcaseEffect(elapsed, delta, visual) {
-  if (!galaxy.heroShowcase) return;
-  const compact = window.innerWidth < 760;
-  const heroVisible = appState.threeDMode ? 0.08 : 1;
-  galaxy.heroShowcase.position.x += ((compact ? 0.2 : 3.35) - galaxy.heroShowcase.position.x) * 0.06;
-  galaxy.heroShowcase.position.y += ((compact ? -0.72 : -0.28) - galaxy.heroShowcase.position.y) * 0.06;
-  galaxy.heroShowcase.position.z += ((compact ? -0.8 : -0.65) - galaxy.heroShowcase.position.z) * 0.06;
-  galaxy.heroShowcase.scale.setScalar(compact ? 0.68 : 1);
-  galaxy.heroShowcase.rotation.y += delta * 60 * (0.006 + visual.pressure * 0.004);
-  galaxy.heroShowcase.rotation.z = 0.08 + Math.sin(elapsed * 0.48) * 0.05;
-
-  galaxy.heroShowcaseParts.forEach(function (part, index) {
-    const role = part.userData.heroRole;
-    const pulse = 0.5 + Math.sin(elapsed * (1.8 + index * 0.18) + index) * 0.5;
-    if (role === "core") {
-      part.rotation.x += delta * 0.36;
-      part.rotation.y += delta * 0.6;
-      part.material.opacity += ((0.82 + pulse * 0.18) * heroVisible - part.material.opacity) * 0.08;
-      part.scale.setScalar(1 + pulse * 0.08 + visual.completeness * 0.08);
-    } else if (role === "glow") {
-      part.material.opacity += ((0.12 + pulse * 0.06 + visual.completeness * 0.08) * heroVisible - part.material.opacity) * 0.08;
-      part.scale.setScalar(1 + pulse * 0.16 + visual.pressure * 0.08);
-    } else if (role === "ring") {
-      part.rotation.z += part.userData.speed * delta * 60;
-      const targetOpacity = part.userData.baseOpacity * (0.74 + pulse * 0.32 + visual.completeness * 0.28) * heroVisible;
-      part.material.opacity += (Math.min(0.86, targetOpacity) - part.material.opacity) * 0.08;
-    } else if (role === "beams") {
-      part.rotation.y += delta * 0.18;
-      part.material.opacity += ((part.userData.baseOpacity + pulse * 0.08 + visual.completeness * 0.12) * heroVisible - part.material.opacity) * 0.08;
-    }
-  });
-}
-
 function updateInteractionLayer(elapsed, delta, visual) {
   if (galaxy.ribbons) {
+    const guideStrength = appState.activeScenario || appState.simulation ? 1 : 0.38;
     galaxy.ribbons.children.forEach(function (ribbon, index) {
       ribbon.rotation.z += ribbon.userData.speed * delta * 60 * (1 + visual.pressure * 0.45);
-      ribbon.material.opacity += ((ribbon.userData.baseOpacity + visual.completeness * 0.04) - ribbon.material.opacity) * 0.04;
+      ribbon.material.opacity += ((ribbon.userData.baseOpacity + visual.completeness * 0.04) * guideStrength - ribbon.material.opacity) * 0.04;
       ribbon.position.y = Math.sin(elapsed * 0.32 + index) * 0.03;
     });
   }
 
-  if (!galaxy.focusHalo || !galaxy.focusBeam) return;
+  const { focusHalo, focusBeam } = galaxy;
   const focusId = appState.hoveredPlanet || appState.selectedPlanet || ARCHETYPES[appState.archetype].focus;
-  const targetPlanet = galaxy.planets[focusId];
-  if (!targetPlanet) return;
+  const targetPlanet = galaxy.rescueRigObjects[focusId];
+  focusHalo.visible = Boolean(targetPlanet?.visible && !sphereDive);
+  focusBeam.visible = false;
+  if (!focusHalo.visible) return;
 
-  galaxy.focusHalo.position.lerp(targetPlanet.position, 0.16);
-  const focusConfig = PLANETS[focusId];
+  const radius = targetPlanet.userData.presentation.radius * targetPlanet.scale.x;
+  const color = PLANETS[focusId].color;
   const pulseLeft = Math.max(0, appState.focusPulseUntil - galaxy.clock.elapsedTime);
   const pulse = !appState.reducedMotion && pulseLeft ? Math.sin(pulseLeft * 9) * 0.18 + 0.22 : 0;
-  const activeBoost = appState.threeDMode ? 0.2 : 0;
-  galaxy.focusHaloRings.forEach(function (item, index) {
-    const ringPulse = 1 + pulse + Math.sin(elapsed * (1.8 + index * 0.4)) * 0.035;
-    item.scale.setScalar(ringPulse + index * 0.04);
-    if (appState.reducedMotion) item.rotation.z = index * 0.18;
-    else item.rotation.z += delta * 60 * (0.01 + index * 0.006 + activeBoost * 0.01);
-    item.material.color.setHex(index === 0 ? focusConfig.color : VISUAL_COLORS.soft);
-    const targetOpacity = (item.userData.baseOpacity || 0.4) * (0.48 + activeBoost + visual.completeness * 0.28 + pulse);
-    item.material.opacity += (Math.min(0.9, targetOpacity) - item.material.opacity) * 0.1;
-  });
+  focusHalo.position.copy(targetPlanet.position);
+  focusHalo.scale.setScalar(radius * 1.06);
+  focusHalo.lookAt(galaxy.camera.position);
+  focusHalo.material.color.setHex(color);
+  focusHalo.material.opacity = 0.42 + pulse;
 
-  const position = galaxy.focusBeam.geometry.getAttribute("position");
-  position.setXYZ(0, 0, 0, 0);
-  position.setXYZ(1, targetPlanet.position.x, targetPlanet.position.y, targetPlanet.position.z);
+  focusBeam.visible = galaxy.layout === "planets" && Boolean(pulseLeft || appState.simulation);
+  if (!focusBeam.visible) return;
+  const end = galaxy.scratch.beamEnd.copy(targetPlanet.position);
+  end.setLength(Math.max(0, end.length() - radius));
+  const position = focusBeam.geometry.getAttribute("position");
+  position.setXYZ(1, end.x, end.y, end.z);
   position.needsUpdate = true;
-  galaxy.focusBeam.material.color.setHex(focusConfig.color);
-  const beamOpacity = 0.16 + visual.completeness * 0.16 + activeBoost * 0.24 + pulse * 0.42;
-  galaxy.focusBeam.material.opacity += (Math.min(0.72, beamOpacity) - galaxy.focusBeam.material.opacity) * 0.1;
+  focusBeam.material.color.setHex(color);
 }
 
 function updateRescueRig(elapsed, delta, visual) {
@@ -2787,12 +2186,28 @@ function updateRescueRig(elapsed, delta, visual) {
   const activeFocus = appState.hoveredPlanet || appState.selectedPlanet || ARCHETYPES[appState.archetype].focus;
   const completeBoost = visual.completeness;
   const threeDModeDimming = appState.threeDMode ? 0.26 : 1;
-  const targetScale = compact ? 1.05 : 1;
+  const targetScale = getOverviewRigScale();
   galaxy.scratch.scale.set(targetScale, targetScale, targetScale);
   if (appState.reducedMotion) galaxy.rescueRig.scale.copy(galaxy.scratch.scale);
   else galaxy.rescueRig.scale.lerp(galaxy.scratch.scale, 0.06);
-  galaxy.rescueRig.rotation.y += delta * (0.06 + visual.pressure * 0.04) * motionFactor;
-  galaxy.rescueRig.position.y = 0.28 + Math.sin(elapsed * 0.85) * 0.05 * motionFactor;
+  // Tilt the whole orbital system together while the background turns independently.
+  const { pitch, yaw } = galaxy.orbitView;
+  const view = galaxy.scratch.orbitViewRotation.setFromEuler(galaxy.scratch.orbitViewEuler.set(pitch, yaw, 0));
+  const { baseView } = galaxy.overviewLayouts[galaxy.layout];
+  galaxy.rescueRig.quaternion.copy(galaxy.root.quaternion).invert().multiply(baseView).multiply(view);
+  galaxy.rescueRig.position.copy(galaxy.star.position);
+  galaxy.rescueRig.updateWorldMatrix(true, false);
+  galaxy.scratch.rigWorldInverse.copy(galaxy.rescueRig.matrixWorld).invert();
+  galaxy.camera.getWorldDirection(serviceViewDirection)
+    .transformDirection(galaxy.scratch.rigWorldInverse).negate();
+
+  if (galaxy.rescueRigGrid) {
+    updateServiceSpatialGrid(galaxy.rescueRigGrid, {
+      activeId: activeFocus,
+      opacityScale: threeDModeDimming,
+      compact
+    });
+  }
 
   if (galaxy.rescueRigCore) {
     galaxy.rescueRigCore.rotation.y -= delta * 0.22 * motionFactor;
@@ -2813,6 +2228,7 @@ function updateRescueRig(elapsed, delta, visual) {
     });
   }
 
+  const gridScale = galaxy.rescueRigGrid.scale;
   Object.entries(galaxy.rescueRigObjects).forEach(function ([id, object], index) {
     const selected = id === activeFocus;
     const hovered = id === appState.hoveredPlanet;
@@ -2824,19 +2240,38 @@ function updateRescueRig(elapsed, delta, visual) {
       ? Math.sin((galaxy.planets[id].userData.pulseUntil - galaxy.clock.elapsedTime) * 11) * 0.16 + 0.22
       : 0;
     const hardwareBoost = id === "hardware" ? visual.hardwarePulse * 0.22 : 0;
-    const targetObjectScale = (selected ? 1.12 : 0.94) + pulse * 0.72 + completeBoost * 0.05 + hardwareBoost;
-    galaxy.scratch.modelScale.set(targetObjectScale, targetObjectScale, targetObjectScale);
-    if (appState.reducedMotion) object.scale.copy(galaxy.scratch.modelScale);
-    else object.scale.lerp(galaxy.scratch.modelScale, 0.09);
-    object.position.y = object.userData.basePosition.y
-      + Math.sin(elapsed * (1.4 + index * 0.14) + index) * 0.055 * motionFactor
-      + (selected ? 0.08 : 0);
+    sampleServiceGridPosition(
+      galaxy.rescueRigGrid,
+      id,
+      elapsed,
+      object.position,
+      {
+        reducedMotion: appState.reducedMotion,
+        scale: gridScale
+      }
+    );
+    if (!sphereDive) {
+      // Measure depth from Core toward the camera in unscaled orbit units.
+      const depth = object.position.dot(serviceViewDirection) / gridScale;
+      const radius = THREE.MathUtils.clamp(
+        SERVICE_DEPTH_RADIUS.base + depth * SERVICE_DEPTH_RADIUS.gain,
+        SERVICE_DEPTH_RADIUS.min,
+        SERVICE_DEPTH_RADIUS.max
+      );
+      const { bodyScale } = galaxy.rescueRigGrid.assignments.get(id);
+      const maxScale = MAX_SERVICE_ORBIT_SCALE * bodyScale;
+      object.scale.setScalar(gridScale * Math.min(radius / presentation.radius, maxScale));
+    }
     poseObject.rotation.y = object.userData.baseRotation.y
       + Math.sin(elapsed * 0.72 + index) * 0.065 * motionFactor
       + (selected ? appState.pointer.x * 0.08 * motionFactor : 0);
     poseObject.rotation.x = object.userData.baseRotation.x
       + Math.sin(elapsed * 0.5 + index * 0.7) * 0.025 * motionFactor;
     poseObject.rotation.z = object.userData.baseRotation.z;
+    if (id === "pqc") {
+      // The bridge rolls around its own axis, while its outlet stays on the core-facing side.
+      poseObject.rotation.z = Math.atan2(-object.position.y, -object.position.x);
+    }
     if (presentation) {
       updateSpherePresentation(presentation, {
         delta,
@@ -2846,6 +2281,14 @@ function updateRescueRig(elapsed, delta, visual) {
         reducedMotion: appState.reducedMotion,
         debugPhase: SCENE_DEBUG.fixedPhase
       });
+    }
+    const port = presentation?.feedthroughs[0]?.mount ?? semanticModel.userData.pqc?.outlet;
+    if (port) {
+      // Keep actual connectors facing Core through each inclined orbit.
+      const direction = port.getWorldPosition(galaxy.scratch.portDirection)
+        .applyMatrix4(galaxy.scratch.rigWorldInverse).sub(object.position).normalize();
+      const inward = galaxy.scratch.portInward.copy(object.position).negate().normalize();
+      poseObject.quaternion.premultiply(galaxy.scratch.portAlignment.setFromUnitVectors(direction, inward));
     }
     const visitedMaterials = new Set();
     semanticModel.traverse(function (child) {
@@ -2878,344 +2321,150 @@ function updateRescueRig(elapsed, delta, visual) {
   });
 
   updateRescueRigCables(elapsed, visual, activeFocus, threeDModeDimming, motionFactor);
-  updateRescueRigSignals(elapsed, delta, visual, threeDModeDimming, motionFactor);
 }
 
 function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motionFactor) {
+  const coreRadius = galaxy.star.geometry.parameters.radius * galaxy.star.scale.x / galaxy.rescueRig.scale.x;
+  const scratch = galaxy.scratch;
+  const showCoreFlows = galaxy.layout === "planets";
+
   galaxy.rescueRigCables.forEach(function (cable, index) {
-    const [a, b] = cable.userData.pair;
-    const startObject = galaxy.rescueRigObjects[a];
-    const endObject = galaxy.rescueRigObjects[b];
-    if (!startObject || !endObject) return;
-    const start = getRescueRigCableAnchor(startObject, endObject.position, galaxy.scratch.beamStart);
-    const end = getRescueRigCableAnchor(endObject, startObject.position, galaxy.scratch.beamEnd);
-    const active = a === activeFocus || b === activeFocus;
-    const height = 0.32 + Math.sin(elapsed * 1.2 + index) * 0.08 * motionFactor + visual.completeness * 0.26;
-    const position = cable.geometry.getAttribute("position");
-    for (let i = 0; i < 6; i += 1) {
-      const t = i / 5;
-      const inv = 1 - t;
-      const curve = Math.sin(t * Math.PI) * height;
-      position.setXYZ(
-        i,
-        inv * start.x + t * end.x,
-        inv * start.y + t * end.y + curve,
-        inv * start.z + t * end.z + Math.sin(t * Math.PI + index) * 0.12
-      );
-    }
-    position.needsUpdate = true;
-    const targetOpacity = (active ? 0.68 : 0.18 + visual.completeness * 0.32) * opacityScale;
-    cable.material.opacity += (Math.min(0.86, targetOpacity) - cable.material.opacity) * 0.08;
-    cable.material.color.setHex(active ? PLANETS[activeFocus].color : index % 3 === 2 ? VISUAL_COLORS.warning : VISUAL_COLORS.accentSoft);
-  });
-}
-
-function getRescueRigCableAnchor(object, toward, target) {
-  const radius = object.userData.sphereRadius || 0;
-  if (radius <= 0) return target.copy(object.position);
-  target.copy(toward).sub(object.position);
-  if (target.lengthSq() < 0.000001) return target.copy(object.position);
-  return target
-    .normalize()
-    .multiplyScalar(radius * object.scale.x * 0.94)
-    .add(object.position);
-}
-
-function updateRescueRigSignals(elapsed, delta, visual, opacityScale, motionFactor) {
-  galaxy.rescueRigSignals.forEach(function (signal, index) {
-    const cable = galaxy.rescueRigCables[signal.userData.cableIndex];
-    if (!cable) return;
-    const positionAttr = cable.geometry.getAttribute("position");
-    const max = positionAttr.count - 1;
-    signal.userData.progress = (
-      signal.userData.progress
-      + delta * signal.userData.speed * (1 + visual.completeness * 1.8 + visual.hardwarePulse * 0.8) * motionFactor
-    ) % 1;
-    const exact = signal.userData.progress * max;
-    const low = Math.floor(exact);
-    const high = Math.min(max, low + 1);
-    const t = exact - low;
-    const x = positionAttr.getX(low) * (1 - t) + positionAttr.getX(high) * t;
-    const y = positionAttr.getY(low) * (1 - t) + positionAttr.getY(high) * t;
-    const z = positionAttr.getZ(low) * (1 - t) + positionAttr.getZ(high) * t;
-    signal.position.set(x, y, z);
-    const pulse = 0.7 + Math.sin(elapsed * 8 + index) * 0.3 * motionFactor;
-    signal.scale.setScalar(0.72 + pulse * 0.55 + visual.completeness * 0.45);
-    signal.material.opacity += ((0.28 + visual.completeness * 0.58 + visual.hardwarePulse * 0.18) * opacityScale - signal.material.opacity) * 0.08;
-  });
-}
-
-function updateAnswerDeck(elapsed, delta, visual) {
-  if (!galaxy.answerDeck) return;
-  syncAnswerDeck();
-  const active = appState.threeDMode && appState.webglReady;
-  galaxy.answerDeck.visible = active;
-
-  if (!active) {
-    updateBackPortal(elapsed, delta, visual, false);
-    galaxy.choiceBeams.forEach(function (beam) {
-      beam.material.opacity += (0 - beam.material.opacity) * 0.16;
-    });
-    return;
-  }
-
-  const compact = window.innerWidth < 700;
-  const spread = compact ? 1.35 : 2.75;
-  const deckY = compact ? 1.72 : 1.58;
-  const deckZ = compact ? 5.0 : 4.65;
-  const hasSelectedChoice = appState.selectedChoice !== null;
-  const motionFactor = appState.reducedMotion ? 0 : 1;
-  const targetDeckX = appState.pointer.x * 0.18 * motionFactor;
-  if (appState.reducedMotion) {
-    galaxy.answerDeck.position.set(targetDeckX, deckY, deckZ);
-  } else {
-    galaxy.answerDeck.position.x += (targetDeckX - galaxy.answerDeck.position.x) * 0.08;
-    galaxy.answerDeck.position.y += (deckY - galaxy.answerDeck.position.y) * 0.08;
-    galaxy.answerDeck.position.z += (deckZ - galaxy.answerDeck.position.z) * 0.08;
-  }
-  updateBackPortal(elapsed, delta, visual, true);
-
-  const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
-  galaxy.answerModels.forEach(function (model, index) {
-    const choice = question.choices[index];
-    if (!choice) return;
-    const data = model.userData;
-    const hovered = appState.hoveredChoice === index;
-    const selected = appState.selectedChoice === index;
-    const pose = getChoicePose(data.visualKind);
-    const pulse = !appState.reducedMotion && appState.choicePulseUntil > galaxy.clock.elapsedTime
-      ? Math.sin(elapsed * 18) * 0.08 + 0.08
-      : 0;
-    const mobileLayout = [
-      [-spread, 0.38],
-      [0, 0.38],
-      [spread, 0.38],
-      [-spread * 0.5, -1.32],
-      [spread * 0.5, -1.32]
-    ];
-    let x = compact ? mobileLayout[index][0] : (index - 2) * spread;
-    let y = compact ? mobileLayout[index][1] : (index % 2 === 0 ? 0.2 : -0.22);
-    let z = hovered ? 0.78 : 0;
-    let targetScale = compact ? hovered ? 0.76 : 0.68 : hovered ? 1.04 : 0.9;
-
-    if (hasSelectedChoice) {
-      if (selected) {
-        x = appState.pointer.x * 0.1;
-        y = compact ? 0.65 : 0.88;
-        z = compact ? 1.42 : 1.78;
-        targetScale = (compact ? 0.82 : 1.16) + pulse;
-      } else {
-        const nonSelected = [0, 1, 2, 3, 4].filter(function (choiceIndex) {
-          return choiceIndex !== appState.selectedChoice;
-        });
-        const slot = nonSelected.indexOf(index);
-        const desktopSlots = [-4.2, -1.4, 1.4, 4.2];
-        const compactSlots = [
-          [-1.55, 0],
-          [-1.55, -1.45],
-          [1.55, -1.45],
-          [1.55, 0]
-        ];
-        x = compact ? compactSlots[slot][0] : desktopSlots[slot];
-        y = compact ? compactSlots[slot][1] : -0.94;
-        z = -0.92;
-        targetScale = compact ? hovered ? 0.38 : 0.3 : hovered ? 0.7 : 0.56;
-      }
-    }
-
-    targetScale *= pose.scale;
-    const dimmed = hasSelectedChoice && !selected && !hovered;
-    setChoiceModelRenderPriority(model, selected ? 18 : hovered ? 12 : dimmed ? 4 : 8);
-    galaxy.scratch.modelPosition.set(x, y, z);
-    galaxy.scratch.modelScale.set(targetScale, targetScale, targetScale);
-    if (appState.reducedMotion) {
-      model.position.copy(galaxy.scratch.modelPosition);
-      model.scale.copy(galaxy.scratch.modelScale);
-    } else {
-      model.position.lerp(galaxy.scratch.modelPosition, 0.12);
-      model.scale.lerp(galaxy.scratch.modelScale, 0.12);
-    }
-    model.rotation.y = pose.yaw + (
-      Math.sin(elapsed * (0.52 + index * 0.025) + index) * pose.yawRange
-      + appState.pointer.x * 0.08
-    ) * motionFactor;
-    model.rotation.x = pose.tiltX + Math.sin(elapsed * 0.48 + index) * 0.022 * motionFactor;
-    model.rotation.z = pose.tiltZ;
-
-    data.core.material.emissiveIntensity += ((selected ? 1.65 : hovered ? 0.9 : 0.36) - data.core.material.emissiveIntensity) * 0.1;
-    data.core.material.opacity += ((selected ? 0.76 : hovered ? 0.62 : dimmed ? 0.2 : 0.46) - data.core.material.opacity) * 0.1;
-    data.wire.material.opacity += ((selected ? 0.5 : hovered ? 0.36 : dimmed ? 0.06 : 0.14) - data.wire.material.opacity) * 0.1;
-    data.marker.material.opacity += ((selected ? 0.72 : hovered ? 0.46 : dimmed ? 0.06 : 0.22) - data.marker.material.opacity) * 0.1;
-    if (motionFactor) {
-      data.marker.rotation.z += delta * (1.08 + visual.completeness * 0.72);
-    } else {
-      data.marker.rotation.z = index * 0.18;
-    }
-    data.axis.material.opacity += ((selected ? 0.84 : hovered ? 0.72 : dimmed ? 0.12 : 0.28) - data.axis.material.opacity) * 0.1;
-    updateChoiceFrameState(data.frame, selected, hovered, dimmed);
-    if (data.label) {
-      data.label.material.opacity += ((selected ? 1 : hovered ? 0.92 : dimmed ? 0.36 : 0.78) - data.label.material.opacity) * 0.1;
-      const labelX = compact ? 0.96 : 1.18;
-      const labelY = compact ? 0.46 : 0.58;
-      const labelBoost = selected ? 0.22 : hovered ? 0.08 : 0;
-      galaxy.scratch.labelScale.set(labelX + labelBoost, labelY + labelBoost * 0.45, 1);
-      if (appState.reducedMotion) data.label.scale.copy(galaxy.scratch.labelScale);
-      else data.label.scale.lerp(galaxy.scratch.labelScale, 0.12);
-    }
-    updateSpherePresentation(data.presentation, {
-      delta,
+    cable.visible = showCoreFlows;
+    const serviceId = cable.userData.serviceId;
+    const service = galaxy.rescueRigObjects[serviceId];
+    const direction = scratch.portDirection.copy(service.position).normalize();
+    const corePort = scratch.beamStart.copy(direction).multiplyScalar(coreRadius * 0.98);
+    const pqcModel = serviceId === "pqc" ? service.userData.semanticModel : null;
+    const presentation = service.userData.presentation;
+    const outlet = pqcModel?.userData.pqc.outlet ?? presentation.feedthroughs[0]?.outlet;
+    const servicePort = outlet
+      ? outlet.getWorldPosition(scratch.beamEnd).applyMatrix4(scratch.rigWorldInverse)
+      : scratch.beamEnd.copy(service.position).addScaledVector(direction, -presentation.radius * service.scale.x);
+    const start = pqcModel ? servicePort : corePort;
+    const end = pqcModel ? corePort : servicePort;
+    const active = serviceId === activeFocus;
+    const bend = Math.min(start.distanceTo(end) * 0.24, 0.38);
+    const control = scratch.beamMiddle.copy(start).lerp(end, 0.5);
+    control.z += bend * (0.85 + Math.sin(elapsed * 1.2 + index) * 0.17 * motionFactor);
+    sampleServiceGridTangent(
+      galaxy.rescueRigGrid,
+      serviceId,
       elapsed,
-      selected,
-      hovered,
-      reducedMotion: appState.reducedMotion,
-      debugPhase: SCENE_DEBUG.fixedPhase
-    });
-    updateChoiceModelMotion(data, elapsed, delta, selected, hovered);
-
-    updateChoiceBeam(index, choice, selected, hovered, visual);
+      scratch.orbitTangent,
+      { reducedMotion: appState.reducedMotion }
+    );
+    control.addScaledVector(scratch.orbitTangent, bend * 1.12);
+    bendConnectionAroundPlanets(start, end, control, cable.userData.innerPlanets, scratch.orbitTangent);
+    const targetOpacity = (active ? 0.96 : 0.79 + visual.completeness * 0.12) * opacityScale;
+    cable.userData.opacity += (targetOpacity - cable.userData.opacity) * 0.08;
+    const tint = PLANETS[serviceId].color;
+    const flowTime = elapsed + index * 0.19;
+    const packetHead = pqcModel ? updatePqcSignal(pqcModel, elapsed, appState.reducedMotion) : undefined;
+    updateConnectionTube(cable, start, end, control, tint, cable.userData.opacity, flowTime, packetHead, appState.reducedMotion);
   });
 }
 
-function updateBackPortal(elapsed, delta, visual, deckActive) {
-  if (!galaxy.backPortal) return;
-  const enabled = deckActive && canGoBackIn3D();
-  const portal = galaxy.backPortal;
-  portal.visible = enabled;
-  if (!enabled) {
-    appState.hoveredBack = false;
+function bendConnectionAroundPlanets(start, end, control, innerPlanets, fallbackDirection) {
+  for (let pass = 0; pass < 3; pass += 1) {
+    let adjusted = false;
+    for (const planet of innerPlanets) {
+      const center = planet.position;
+      const clearance = planet.userData.presentation.radius * planet.scale.x + 0.23;
+      let nearestSquared = clearance * clearance;
+      let influence = 0;
+      let nearestX, nearestY, nearestZ;
+
+      for (let step = 1; step < 40; step += 1) {
+        const t = step / 40;
+        const a = (1 - t) ** 2;
+        const b = 2 * t * (1 - t);
+        const c = t ** 2;
+        const x = a * start.x + b * control.x + c * end.x - center.x;
+        const y = a * start.y + b * control.y + c * end.y - center.y;
+        const z = a * start.z + b * control.z + c * end.z - center.z;
+        const distanceSquared = x * x + y * y + z * z;
+        if (distanceSquared >= nearestSquared) continue;
+        nearestSquared = distanceSquared;
+        influence = b;
+        nearestX = x;
+        nearestY = y;
+        nearestZ = z;
+      }
+
+      if (!influence) continue;
+      // Push away from the actual 3D sphere. A projected crossing can stay in place.
+      const distance = Math.sqrt(nearestSquared);
+      const offset = (clearance - distance) / influence;
+      if (distance > 1e-6) {
+        const scale = offset / distance;
+        control.x += nearestX * scale;
+        control.y += nearestY * scale;
+        control.z += nearestZ * scale;
+      } else {
+        control.addScaledVector(fallbackDirection, offset);
+      }
+      adjusted = true;
+    }
+    if (!adjusted) return;
+  }
+}
+
+function updateFormationSlots() {
+  if (formationOrbit.mode === "service-row") {
+    updateServiceRowSlots();
     return;
   }
+  const { camera, renderer } = galaxy;
+  const { x: width, y: height } = renderer.getSize(quizCanvasSize);
+  const unitsPerPixel = 2 * FORMATION_DEPTH / (camera.projectionMatrix.elements[5] * height);
+  const frameScale = Math.min(width / (width < 700 ? 7.6 : 9.2), height / 7.3, 105) * unitsPerPixel;
+  camera.localToWorld(galaxy.answerDeck.position.set(0, 0, -FORMATION_DEPTH));
 
-  const compact = window.innerWidth < 700;
-  const pulseLeft = Math.max(0, appState.backPortalPulseUntil - galaxy.clock.elapsedTime);
-  const pulse = !appState.reducedMotion && pulseLeft ? Math.sin(pulseLeft * 11) * 0.14 + 0.18 : 0;
-  const hoverBoost = appState.hoveredBack ? 0.14 : 0;
-  const targetScale = (compact ? 0.34 : 0.36) + hoverBoost * (compact ? 0.7 : 0.45) + pulse * 0.28;
-  const targetX = compact ? 0 : -6.2;
-  const targetY = compact ? -2.35 : -1.15;
-  const targetZ = compact ? -0.2 : -0.15;
-
-  galaxy.scratch.modelPosition.set(targetX, targetY + Math.sin(elapsed * 2.8) * 0.035, targetZ);
-  galaxy.scratch.modelScale.set(targetScale, targetScale, targetScale);
-  if (appState.reducedMotion) {
-    portal.position.copy(galaxy.scratch.modelPosition);
-    portal.scale.copy(galaxy.scratch.modelScale);
-  } else {
-    portal.position.lerp(galaxy.scratch.modelPosition, 0.14);
-    portal.scale.lerp(galaxy.scratch.modelScale, 0.14);
-  }
-  portal.lookAt(galaxy.camera.position);
-  portal.renderOrder = 26;
-
-  portal.children.forEach(function (child, index) {
-    if (child.userData && child.userData.portalParticle) {
-      const data = child.userData;
-      const angle = data.angle + elapsed * data.speed * (1 + hoverBoost);
-      const radius = data.radius + Math.sin(elapsed * 1.7 + index) * 0.035;
-      child.position.set(
-        Math.cos(angle) * radius,
-        Math.sin(angle) * radius * 0.48,
-        data.depth + Math.sin(angle * 2 + elapsed) * 0.025
-      );
-      child.scale.setScalar(1 + hoverBoost * 1.4 + pulse * 0.7);
-    }
-    if (child.userData && child.userData.speed && !child.userData.portalParticle) {
-      child.rotation.z += child.userData.speed * delta * 60 * (1 + hoverBoost * 2 + visual.pressure * 0.2);
-    }
-    if (!child.material) return;
-    child.renderOrder = child.type === "Sprite" ? 34 : 26 + index;
-    if (child.material.userData.baseOpacity === undefined) return;
-    const baseOpacity = child.material.userData.baseOpacity;
-    const targetOpacity = Math.min(1, baseOpacity * (1 + hoverBoost + pulse));
-    child.material.opacity += (targetOpacity - child.material.opacity) * 0.14;
-  });
-
-  if (portal.userData.lens && portal.userData.lens.material) {
-    const lensOpacity = 0.34 + hoverBoost * 0.32 + pulse * 0.42;
-    portal.userData.lens.material.opacity += (Math.min(0.9, lensOpacity) - portal.userData.lens.material.opacity) * 0.12;
-  }
-  if (portal.userData.halo && portal.userData.halo.material) {
-    const haloScale = 1.05 + Math.sin(elapsed * 2.4) * 0.035 + hoverBoost * 0.12;
-    portal.userData.halo.scale.setScalar(haloScale);
-    portal.userData.halo.material.opacity += ((0.16 + hoverBoost * 0.18 + pulse * 0.28) - portal.userData.halo.material.opacity) * 0.12;
-  }
-  if (portal.userData.core && portal.userData.core.material) {
-    portal.userData.core.scale.setScalar(1 + hoverBoost * 0.06 + pulse * 0.05);
-    portal.userData.core.material.opacity += ((appState.hoveredBack ? 1 : 0.94) - portal.userData.core.material.opacity) * 0.12;
+  for (const id of PLANET_IDS) {
+    const slot = formationSlots.get(id);
+    const centered = id === quizCenterService;
+    const angle = Math.PI / 2 - quizRingServices.indexOf(id) * Math.PI / 3;
+    slot.position.set(
+      centered ? 0 : Math.cos(angle) * QUIZ_RING_RADIUS,
+      centered ? 0 : Math.sin(angle) * QUIZ_RING_RADIUS,
+      0
+    ).multiplyScalar(frameScale).applyQuaternion(camera.quaternion);
+    slot.scale.setScalar(frameScale * 0.88);
   }
 }
 
-function setChoiceModelRenderPriority(model, priority) {
-  model.renderOrder = priority;
-  model.traverse(function (child) {
-    if (!child.material) return;
-    child.renderOrder = child.type === "Sprite" ? priority + 6 : priority;
-  });
-}
+function updateServiceRowSlots() {
+  const { camera, renderer, rescueRigObjects } = galaxy;
+  const bounds = renderer.domElement.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
+  const unitsPerPixel = 2 * FORMATION_DEPTH / (camera.projectionMatrix.elements[5] * bounds.height);
+  camera.localToWorld(galaxy.answerDeck.position.set(0, 0, -FORMATION_DEPTH));
 
-function updateChoiceModelMotion(data, elapsed, delta, selected, hovered) {
-  const group = data.detailGroup;
-  if (!group) return;
-  const kind = data.visualKind || group.userData.kind;
-  const intensity = selected ? 1 : hovered ? 0.72 : 0.28;
-  const choiceIndex = group.userData.choiceIndex;
-
-  if (appState.reducedMotion) {
-    group.position.set(0, 0, 0);
-    group.rotation.set(0, 0.18 + choiceIndex * 0.11, 0);
+  for (const [id, orb] of serviceRowOrbs) {
+    const { left, top, width, height } = orb.getBoundingClientRect();
+    const slot = formationSlots.get(id);
+    slot.position.set(
+      (left + width / 2 - bounds.left - bounds.width / 2) * unitsPerPixel,
+      (bounds.top + bounds.height / 2 - top - height / 2) * unitsPerPixel,
+      0
+    ).applyQuaternion(camera.quaternion);
+    slot.quaternion.copy(camera.quaternion);
+    const radius = rescueRigObjects[id].userData.presentation.radius;
+    slot.scale.setScalar(Math.min(width, height) * unitsPerPixel * 0.46 / radius);
   }
-
-  group.traverse(function (child) {
-    if (child.userData && child.userData.radarSweep) {
-      child.rotation.z = appState.reducedMotion
-        ? 0.72
-        : elapsed * (0.7 + intensity * 1.4);
-    }
-  });
-
-  if (appState.reducedMotion) return;
-
-  if (CHOICE_MOTION_GROUPS.spin.has(kind)) {
-    group.rotation.z += delta * (0.72 + intensity * 2.7);
-  } else if (CHOICE_MOTION_GROUPS.sweep.has(kind)) {
-    group.rotation.y = Math.sin(elapsed * 1.2) * 0.045 * intensity;
-    group.rotation.z = 0;
-  } else if (CHOICE_MOTION_GROUPS.orbit.has(kind)) {
-    group.rotation.y += delta * (0.36 + intensity * 1.08);
-  } else if (CHOICE_MOTION_GROUPS.incident.has(kind)) {
-    group.rotation.y += delta * (1.08 + intensity * 1.56);
-    group.position.y = Math.sin(elapsed * 5.2) * 0.05 * intensity;
-  } else if (CHOICE_MOTION_GROUPS.stack.has(kind)) {
-    group.position.y = Math.sin(elapsed * 3.6 + choiceIndex) * 0.035 * intensity;
-    group.rotation.x = Math.sin(elapsed * 1.3) * 0.05 * intensity;
-  } else if (CHOICE_MOTION_GROUPS.bridge.has(kind)) {
-    group.rotation.z = Math.sin(elapsed * 2.2 + choiceIndex) * 0.08 * intensity;
-  } else if (kind === "ownerCrown") {
-    group.position.y = 0.04 + Math.sin(elapsed * 3.4) * 0.045 * intensity;
-    group.rotation.y += delta * (0.48 + intensity * 0.9);
-  } else if (CHOICE_MOTION_GROUPS.cluster.has(kind)) {
-    group.rotation.y += delta * (0.42 + intensity * 0.72);
-    group.position.y = Math.sin(elapsed * 2.6 + choiceIndex) * 0.025 * intensity;
-  } else {
-    group.rotation.y += delta * (0.48 + intensity * 0.6);
-  }
-}
-
-function updateChoiceBeam(index) {
-  const beam = galaxy.choiceBeams[index];
-  if (!beam) return;
-  beam.material.opacity += (0 - beam.material.opacity) * 0.18;
 }
 
 // ---------- Cinematic helpers ----------
 
 export function runWhatIfSimulation(type) {
+  window.clearTimeout(simulationTimer);
   appState.simulation = type || "handoff";
   const insight = document.getElementById("live-insight");
   if (insight) {
     insight.textContent = "Adding motion layer: " + appState.simulation + ". Watch the map settle into a stronger constellation.";
   }
-  window.setTimeout(function () {
+  simulationTimer = window.setTimeout(function () {
     appState.simulation = null;
+    simulationTimer = null;
   }, appState.reducedMotion ? 800 : 4200);
 }

@@ -9,6 +9,7 @@ import {
 } from "./state.js";
 import { createBuildCard } from "./card.js";
 import { refreshIcons } from "../icons.js";
+import { DAYBOOK_DEMO_PATH } from "../start-route.js";
 
 const modeInfo = {
   build: ["01 / Build", "An idea becomes something usable."],
@@ -257,7 +258,7 @@ export function initSystemLab() {
     dispatch({ type: "RESET" });
   });
   root.querySelector("[data-lab-share]").addEventListener("click", async () => {
-    const url = new URL("/", location.origin);
+    const url = new URL(DAYBOOK_DEMO_PATH, location.origin);
     url.search = serializeLabConfig(state);
     url.hash = "system-workbench";
     shareField.value = url.href;

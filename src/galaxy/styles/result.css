@@ -30,7 +30,7 @@
 .archetype-name {
   margin: 10px 0 14px;
   color: var(--tint-bright);
-  font-family: "Oxanium", sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(34px, 5vw, 60px);
   line-height: 0.98;
   letter-spacing: 0;
@@ -153,7 +153,7 @@
 
 .share-badge-ring span {
   color: var(--gold);
-  font-family: "Oxanium", sans-serif;
+  font-family: var(--font-heading);
   font-size: 36px;
   font-weight: 700;
   line-height: 0.95;
@@ -162,7 +162,7 @@
 .share-badge-ring small,
 .share-badge-copy span {
   color: var(--muted);
-  font-family: "Share Tech Mono", "Courier New", monospace;
+  font-family: var(--font-status);
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -175,7 +175,7 @@
 
 .share-badge-copy strong {
   color: var(--text);
-  font-family: "Oxanium", sans-serif;
+  font-family: var(--font-heading);
   font-size: 20px;
 }
 

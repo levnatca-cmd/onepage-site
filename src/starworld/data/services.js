@@ -18,7 +18,7 @@ const worlds = [
     brief: "I need help defining or improving a software product.",
   },
   {
-    name: "Websites & apps",
+    name: GALAXY_SERVICE_BY_ID.firmware.heading,
     type: "SOFTWARE DEVELOPMENT",
     position: [-9, 0, 1.5],
     radius: 1.18,

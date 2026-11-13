@@ -1,5 +1,16 @@
 // Shared wording for the reviewable inquiry, saved summary and share action.
-import { QUESTION_FLOW } from "./data/quiz-data.js?v=wow50";
+import { QUESTION_FLOW, SCORE_MAP } from "./data/quiz-data.js?v=wow60&rev=galaxy-seven-quiz1";
+
+export function getProjectArchetypeKey(answers = {}) {
+  const totals = { handoff: 0, ghost: 0, spreadsheet: 0, bench: 0, hardware: 0, ops: 0 };
+  for (const answer of Object.values(answers)) {
+    for (const [key, points] of Object.entries(SCORE_MAP[answer] || {})) {
+      totals[key] += points;
+    }
+  }
+  // The existing order above breaks ties consistently across the two quiz interfaces.
+  return Object.entries(totals).sort((a, b) => b[1] - a[1])[0][0];
+}
 
 export function getProjectAnswers(answers = {}) {
   return QUESTION_FLOW.flatMap(function (question) {

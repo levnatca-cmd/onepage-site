@@ -1,7 +1,9 @@
 // DOM-side handlers: form binding, HUD readouts, 3D-mode lifecycle, result rendering,
 // scenarios, scale slider, share/copy/toast. No Three.js code here.
 
-import { CONTACT_CONFIG } from "./data/config.js?v=wow50";
+import { bindSecureInquiry } from "/src/shared/secure-inquiry.js?v=wow60&rev=pqc1";
+import { sanitizeInquiry } from "/src/studio/inquiry.js";
+import { CONTACT_CONFIG } from "./data/config.js?v=wow60";
 import {
   PLANETS,
   QUESTION_FLOW,
@@ -9,32 +11,27 @@ import {
   SCALE_STAGES,
   SCENARIOS,
   ARCHETYPES
-} from "./data/quiz-data.js?v=wow50";
-import { appState, galaxy } from "./state.js?v=wow50";
-import { buildProjectSummary, buildProjectShare, getProjectAnswers } from "./project-summary.js?v=wow50";
+} from "./data/quiz-data.js?v=wow60&rev=galaxy-seven-quiz1";
+import { appState, galaxy } from "./state.js?v=wow60";
+import { buildProjectSummary, buildProjectShare, getProjectAnswers, getProjectArchetypeKey } from "./project-summary.js?v=wow60&rev=galaxy-seven-quiz1";
 import {
   resizeGalaxy,
-  syncAnswerDeck,
   refreshGalaxyState,
   runWhatIfSimulation,
   runMicroPulse,
-  getChoiceVisual
-} from "./galaxy.js?v=wow50";
+  syncGalaxyNavigationLinks,
+  startGalaxyServiceRowTransition,
+  isGalaxyServiceRowTransitioning,
+  startGalaxyQuizTransition,
+  isGalaxyQuizTransitioning
+} from "./galaxy.js?v=wow60&rev=service-row-dive1";
 
-let threeDInvoker = null;
+let reviewing3DAnswer = false;
+let questionHologramOpen = false;
+let answerFlight = null;
+let resultRevealTimer = null;
 
 // ---------- Contact links + copyright ----------
-
-export function hydrateContactLinks() {
-  setLink("[data-contact='email']", CONTACT_CONFIG.email, "mailto:" + CONTACT_CONFIG.email);
-}
-
-function setLink(selector, text, href) {
-  document.querySelectorAll(selector).forEach(function (el) {
-    el.textContent = text;
-    el.setAttribute("href", href);
-  });
-}
 
 export function updateCopyrightYear() {
   const yearEl = document.getElementById("copyright-year");
@@ -46,42 +43,7 @@ export function updateCopyrightYear() {
 // ---------- Control wiring ----------
 
 export function bindControls() {
-  document.querySelectorAll("[data-start-3d]").forEach(function (button) {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      start3DFingerprintMode(button);
-    });
-  });
-
-  const choiceOptions = document.getElementById("choice-options");
-  if (choiceOptions) {
-    choiceOptions.addEventListener("click", function (event) {
-      const button = event.target.closest("[data-choice-index]");
-      if (!button || !choiceOptions.contains(button)) return;
-      select3DChoice(Number(button.dataset.choiceIndex));
-    });
-    choiceOptions.addEventListener("keydown", function (event) {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      const button = event.target.closest("[data-choice-index]");
-      if (!button || !choiceOptions.contains(button)) return;
-      event.preventDefault();
-      select3DChoice(Number(button.dataset.choiceIndex));
-    });
-  }
-
-  const exit3DButton = document.querySelector("[data-exit-3d]");
-  if (exit3DButton) {
-    exit3DButton.addEventListener("click", function () {
-      exit3DFingerprintMode();
-    });
-  }
-
-  const prev3DButton = document.querySelector("[data-prev-3d]");
-  if (prev3DButton) {
-    prev3DButton.addEventListener("click", function () {
-      goToPrevious3DQuestion();
-    });
-  }
+  if (document.getElementById("quiz-console")) bindQuizControls();
 
   document.querySelectorAll("[data-planet]").forEach(function (button) {
     button.addEventListener("mouseenter", function () {
@@ -92,20 +54,17 @@ export function bindControls() {
     });
   });
 
-  document.querySelectorAll("input[type='radio']").forEach(function (input) {
-    input.addEventListener("change", function () {
-      setFingerprintAnswer(input.name, input.value);
-    });
-  });
-
   const fingerprintForm = document.getElementById("fingerprint-form");
   if (fingerprintForm) {
-    fingerprintForm.addEventListener("click", function (event) {
-      const option = event.target.closest(".answer-option");
-      const input = option ? option.querySelector("input[type='radio']") : null;
-      if (!input) return;
+    const applyRadioAnswer = function (event) {
+      const input = event.target;
+      if (!input.matches("input[type='radio']")) return;
+      // Native changes arrive after the click. A click only handles reselecting the current answer.
+      if (event.type === "click" && appState.answers[input.name] !== input.value) return;
       setFingerprintAnswer(input.name, input.value);
-    });
+    };
+    fingerprintForm.addEventListener("change", applyRadioAnswer);
+    fingerprintForm.addEventListener("click", applyRadioAnswer);
   }
 
   document.querySelectorAll("[data-simulate]").forEach(function (button) {
@@ -173,229 +132,507 @@ export function bindControls() {
   bindContactForm();
 }
 
+function bindQuizControls() {
+  document.getElementById("choice-options").addEventListener("click", function (event) {
+    const button = event.target.closest("[data-choice-index]");
+    if (button) commitQuestionAnswer(Number(button.dataset.choiceIndex));
+  });
+  buildQuestionField();
+  document.querySelector("[data-close-question]").addEventListener("click", closeQuestionHologram);
+  document.getElementById("quiz-answer-row").addEventListener("click", function (event) {
+    const token = event.target.closest("[data-question-index]");
+    if (!token || token.disabled || answerFlight) return;
+    openQuestionHologram(Number(token.dataset.questionIndex), { focus: true });
+  });
+  document.getElementById("quiz-core-trigger").addEventListener("click", openRecommendation);
+}
+
 function bindContactForm() {
   const form = document.getElementById("contact-form");
-  const textarea = document.getElementById("contact-message");
-  const copyBtn = document.getElementById("contact-copy");
-  if (!form || !textarea) return;
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    const body = textarea.value.trim();
-    if (!body) {
-      textarea.focus();
-      showToast("Describe your project before opening the email draft.");
-      return;
-    }
-    const subject = encodeURIComponent("Project inquiry");
-    const inquiry = buildSummaryText() + "\n\nPlease help me clarify the scope and next steps.";
-    const mailto = "mailto:" + CONTACT_CONFIG.email + "?subject=" + subject + "&body=" + encodeURIComponent(inquiry);
-    window.location.href = mailto;
-  });
-
-  if (copyBtn) {
-    copyBtn.addEventListener("click", function () {
-      const body = textarea.value.trim();
-      if (!body) {
-        textarea.focus();
-        showToast("Nothing to copy yet");
-        return;
+  if (!form) return;
+  const services = {
+    firmware: "websites",
+    backend: "integrations",
+    automation: "integrations",
+    pqc: "security",
+    data: "integrations",
+    hardware: "support",
+    ops: "support"
+  };
+  bindSecureInquiry(form, {
+    status: document.getElementById("contact-status"),
+    read: function () {
+      const fields = new FormData(form);
+      const notes = String(fields.get("description") || "").trim();
+      if (!document.getElementById("fingerprint-form")) {
+        return sanitizeInquiry({ email: fields.get("email"), description: notes });
       }
-      copyText(buildSummaryText() + "\n\nPlease help me clarify the scope and next steps.");
-    });
-  }
-
-  textarea.addEventListener("input", function () {
-    updateMailto();
-    document.getElementById("slack-message").textContent = buildSummaryText();
+      const summary = buildSummaryText().slice(0, Math.max(0, 3998 - notes.length));
+      return sanitizeInquiry({
+        email: fields.get("email"),
+        service: services[appState.answers.q1],
+        description: notes.length >= 20 && summary ? notes + "\n\n" + summary : notes
+      });
+    }
   });
 }
 
 // ---------- 3D mode lifecycle + per-question advancement ----------
 
-function start3DFingerprintMode(invoker) {
+export function bindGalaxyStageOffsets() {
   const hero = document.querySelector(".galaxy-hero");
-  if (invoker instanceof HTMLElement) threeDInvoker = invoker;
+  const header = document.querySelector(".site-header");
+  const intro = hero?.querySelector(".hero-copy");
+  if (!hero) return;
+
+  function updateStageOffsets() {
+    hero.style.setProperty("--galaxy-header-height", (header?.offsetHeight ?? 0) + "px");
+    hero.style.setProperty("--galaxy-intro-height", (intro?.offsetHeight ?? 0) + "px");
+  }
+
+  window.addEventListener("resize", updateStageOffsets);
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver(updateStageOffsets);
+    if (header) observer.observe(header);
+    if (intro) observer.observe(intro);
+  }
+  updateStageOffsets();
+}
+
+export function bindGalaxyServiceRow() {
+  const row = document.querySelector(".galaxy-service-row");
+  const boundary = document.getElementById("service-row");
+  const hero = row?.closest(".galaxy-hero");
+  const launch = hero?.querySelector(".hero-actions a[href='#services']");
+  const header = document.querySelector(".site-header");
+  const canvas = document.getElementById("galaxy-canvas");
+  if (!hero || !boundary || !launch || !canvas) return;
+
+  function fallBackToCatalog() {
+    if (location.hash === "#service-row") {
+      history.replaceState(history.state, "", "#services");
+      document.getElementById("services").scrollIntoView({ behavior: "instant" });
+    }
+  }
+
   if (!appState.webglReady) {
-    if (hero && hero.classList.contains("webgl-failed")) {
-      if (appState.launchTimer) return;
-      hero.classList.add("is-launching", "css-3d-mode");
-      hero.scrollIntoView({ behavior: appState.reducedMotion ? "auto" : "smooth", block: "start" });
-      appState.launchTimer = window.setTimeout(function () {
-        hero.classList.remove("is-launching");
-        appState.launchTimer = null;
-        openFingerprintFallback();
-      }, appState.reducedMotion ? 80 : 620);
+    fallBackToCatalog();
+    return;
+  }
+
+  let wantsRow = false;
+  let scrollFrame = null;
+  let focusRow = false;
+
+  function updateControls() {
+    const transitioning = isGalaxyServiceRowTransitioning();
+    const settled = appState.serviceRowMode && !transitioning;
+    row.hidden = !appState.serviceRowMode && !transitioning;
+    row.inert = !settled;
+    if (settled && focusRow) {
+      focusRow = false;
+      row.querySelector("[data-galaxy-service-link]")?.focus({ preventScroll: true });
+    }
+  }
+
+  function syncMode() {
+    if (!appState.webglReady || wantsRow === appState.serviceRowMode || isGalaxyServiceRowTransitioning()) return;
+    if (wantsRow) row.hidden = false;
+    if (startGalaxyServiceRowTransition(wantsRow ? "enter" : "exit")) {
+      appState.serviceRowMode = wantsRow;
+      hero.classList.toggle("is-service-row", wantsRow);
+      canvas.classList.remove("is-targeting");
+    }
+    updateControls();
+  }
+
+  function readBoundary() {
+    scrollFrame = null;
+    const offset = boundary.getBoundingClientRect().top - (header?.getBoundingClientRect().bottom ?? 0);
+    if (offset < -12) wantsRow = true;
+    else if (offset > 12) {
+      wantsRow = false;
+      focusRow = false;
+    }
+    syncMode();
+  }
+
+  function scheduleRead() {
+    scrollFrame ??= requestAnimationFrame(readBoundary);
+  }
+
+  function openRow(event) {
+    if (!appState.webglReady || event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    wantsRow = true;
+    focusRow = event.detail === 0;
+    if (location.hash !== "#service-row") history.pushState(history.state, "", "#service-row");
+    boundary.scrollIntoView({ behavior: "instant" });
+    syncMode();
+    updateControls();
+  }
+
+  function returnToGalaxy() {
+    wantsRow = false;
+    focusRow = false;
+    hero.scrollIntoView({ behavior: "instant" });
+    syncMode();
+    launch.focus({ preventScroll: true });
+  }
+
+  launch.addEventListener("click", openRow);
+  row.querySelector("[data-exit-service-row]").addEventListener("click", function (event) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (location.hash !== "#top") history.pushState(history.state, "", "#top");
+    returnToGalaxy();
+  });
+  row.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape" || hero.classList.contains("is-diving")) return;
+    event.preventDefault();
+    if (location.hash === "#service-row") history.replaceState(history.state, "", "#top");
+    returnToGalaxy();
+  });
+  hero.addEventListener("galaxy:service-row-transition-end", function () {
+    updateControls();
+    scheduleRead();
+  });
+  hero.addEventListener("galaxy:sphere-dive-end", scheduleRead);
+  canvas.addEventListener("webglcontextlost", function () {
+    appState.serviceRowMode = false;
+    hero.classList.remove("is-service-row", "is-service-row-transitioning");
+    updateControls();
+    fallBackToCatalog();
+  });
+  window.addEventListener("scroll", scheduleRead, { passive: true });
+  window.addEventListener("resize", scheduleRead);
+  window.addEventListener("pageshow", scheduleRead);
+  if (location.hash === "#service-row") boundary.scrollIntoView({ behavior: "instant" });
+  scheduleRead();
+}
+
+export function bindQuizNavigation() {
+  const hero = document.querySelector(".galaxy-hero");
+  const boundary = document.getElementById("project-quiz");
+  const header = document.querySelector(".site-header");
+  const launcher = hero?.querySelector("[data-start-3d]");
+  if (!hero || !boundary || !launcher) return;
+  const fallback = document.querySelector(".galaxy-quiz-fallback");
+  const canvas = document.getElementById("galaxy-canvas");
+
+  let wantsQuiz = false;
+  let scrollFrame = null;
+  let focusOnEntry = false;
+  const margin = 12;
+
+  function updateAvailability() {
+    fallback.hidden = appState.webglReady;
+    fallback.querySelector("[data-quiz-text]").hidden = false;
+    if (!appState.webglReady) {
+      questionHologramOpen = false;
+      answerFlight?.cancel();
+    }
+    updateChoiceHud();
+  }
+
+  function focusQuizEntry() {
+    if (!focusOnEntry || isGalaxyQuizTransitioning() || !appState.threeDMode) return;
+    focusOnEntry = false;
+    focusNextQuizControl();
+  }
+
+  function syncView() {
+    if (!appState.webglReady || wantsQuiz === appState.threeDMode || isGalaxyQuizTransitioning()) return;
+    if (!startGalaxyQuizTransition(wantsQuiz ? "enter" : "exit")) return;
+    appState.threeDMode = wantsQuiz;
+    hero.classList.toggle("is-3d-mode", wantsQuiz);
+    if (wantsQuiz) {
+      reviewing3DAnswer = false;
+      appState.activeQuestionIndex = getNextQuestionIndex();
+    } else {
+      questionHologramOpen = false;
+      answerFlight?.cancel();
+      cancelCinematicReveal();
+      canvas.classList.remove("is-targeting");
+    }
+    resizeGalaxy();
+    updateChoiceHud();
+    focusQuizEntry();
+  }
+
+  function readBoundary() {
+    scrollFrame = null;
+    const offset = boundary.getBoundingClientRect().top - (header?.getBoundingClientRect().bottom ?? 0);
+    if (offset < -margin) wantsQuiz = true;
+    else if (offset > margin) {
+      wantsQuiz = false;
+      focusOnEntry = false;
+    }
+    syncView();
+  }
+
+  function scheduleBoundaryRead() {
+    scrollFrame ??= requestAnimationFrame(readBoundary);
+  }
+
+  function navigateTo(target, focus, useHistory = true) {
+    const hash = "#" + target.id;
+    if (useHistory && location.hash !== hash) history.pushState(history.state, "", hash);
+    target.scrollIntoView({ behavior: "instant", block: "start" });
+    focus.focus({ preventScroll: true });
+  }
+
+  function isPlainClick(event) {
+    return !event.defaultPrevented && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+  }
+
+  launcher.addEventListener("click", function (event) {
+    if (!isPlainClick(event)) return;
+    event.preventDefault();
+    if (!appState.webglReady) {
+      openFingerprintFallback();
       return;
     }
-    openFingerprintFallback();
-    return;
+    wantsQuiz = true;
+    focusOnEntry = true;
+    navigateTo(boundary, launcher);
+    syncView();
+    focusQuizEntry();
+  });
+
+  for (const link of document.querySelectorAll('[data-exit-3d], [data-back-to-galaxy], a[href="#top"]')) {
+    link.addEventListener("click", function (event) {
+      if (!isPlainClick(event) || !appState.threeDMode) return;
+      event.preventDefault();
+      wantsQuiz = false;
+      focusOnEntry = false;
+      syncView();
+      navigateTo(hero, launcher);
+    });
   }
 
-  if (appState.launchTimer) return;
-
-  if (hero && !appState.threeDMode && !appState.reducedMotion) {
-    hero.classList.add("is-launching");
-    hero.scrollIntoView({ behavior: "smooth", block: "start" });
-    appState.launchTimer = window.setTimeout(function () {
-      hero.classList.remove("is-launching");
-      appState.launchTimer = null;
-      enter3DFingerprintMode(hero);
-    }, 820);
-    return;
+  document.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented || event.key !== "Escape" || !wantsQuiz || !appState.webglReady) return;
+    event.preventDefault();
+    if (questionHologramOpen) {
+      closeQuestionHologram();
+      return;
+    }
+    wantsQuiz = false;
+    focusOnEntry = false;
+    syncView();
+    navigateTo(hero, launcher, false);
+    if (location.hash === "#project-quiz") history.replaceState(history.state, "", "#top");
+  });
+  hero.addEventListener("galaxy:quiz-transition-end", function () {
+    updateChoiceHud();
+    focusQuizEntry();
+    scheduleBoundaryRead();
+  });
+  canvas.addEventListener("webglcontextlost", updateAvailability);
+  window.addEventListener("scroll", scheduleBoundaryRead, { passive: true });
+  window.addEventListener("resize", scheduleBoundaryRead);
+  window.addEventListener("pageshow", scheduleBoundaryRead);
+  if ("ResizeObserver" in window) {
+    if (header) new ResizeObserver(scheduleBoundaryRead).observe(header);
   }
-
-  enter3DFingerprintMode(hero);
-}
-
-function enter3DFingerprintMode(hero) {
-  if (appState.choiceAdvanceTimer) {
-    window.clearTimeout(appState.choiceAdvanceTimer);
-    appState.choiceAdvanceTimer = null;
+  updateAvailability();
+  scheduleBoundaryRead();
+  if (location.hash === "#project-quiz" && appState.webglReady) {
+    boundary.scrollIntoView({ behavior: "instant", block: "start" });
   }
-
-  appState.threeDMode = true;
-  appState.hoveredBack = false;
-  appState.hoveredChoice = null;
-  appState.activeQuestionIndex = getNextQuestionIndex();
-  syncAnswerDeck(true);
-  updateChoiceHud();
-  if (hero) {
-    hero.classList.remove("is-launching");
-    hero.classList.add("is-3d-mode");
-    requestAnimationFrame(resizeGalaxy);
-    hero.scrollIntoView({ behavior: appState.reducedMotion ? "auto" : "smooth", block: "start" });
-  }
-  focusChoiceOption();
-}
-
-function exit3DFingerprintMode() {
-  const hero = document.querySelector(".galaxy-hero");
-  if (appState.launchTimer) {
-    window.clearTimeout(appState.launchTimer);
-    appState.launchTimer = null;
-  }
-  appState.threeDMode = false;
-  appState.hoveredBack = false;
-  appState.hoveredChoice = null;
-  if (hero) hero.classList.remove("is-3d-mode", "is-launching");
-  requestAnimationFrame(resizeGalaxy);
-  const canvas = document.getElementById("galaxy-canvas");
-  if (canvas) canvas.classList.remove("is-targeting");
-  window.setTimeout(function () {
-    const fallbackTarget = document.querySelector(".hero-actions [data-start-3d]");
-    const target = isFocusableOnScreen(threeDInvoker) ? threeDInvoker : fallbackTarget;
-    if (target) target.focus({ preventScroll: true });
-  }, 60);
 }
 
 function openFingerprintFallback() {
   const fingerprint = document.getElementById("fingerprint");
   if (!fingerprint) return;
-  fingerprint.scrollIntoView({ behavior: appState.reducedMotion ? "auto" : "smooth", block: "start" });
+  const questionIndex = getNextQuestionIndex();
+  const selector = "input[name='" + QUESTION_FLOW[questionIndex].id + "']";
+  const target = fingerprint.querySelector(selector + ":checked") || fingerprint.querySelector(selector);
+  const scrollTarget = questionIndex > 0 && target ? target : fingerprint;
+  scrollTarget.scrollIntoView({
+    behavior: appState.reducedMotion ? "auto" : "smooth",
+    block: scrollTarget === fingerprint ? "start" : "center"
+  });
   showToast("3D is unavailable. Opening the project questions.");
   window.setTimeout(function () {
-    const firstInput = fingerprint.querySelector("input, button, select, textarea, a[href]");
-    if (firstInput) firstInput.focus({ preventScroll: true });
+    target?.focus({ preventScroll: true });
   }, appState.reducedMotion ? 0 : 420);
 }
 
-function isFocusableOnScreen(element) {
-  return Boolean(element && element.isConnected && element.getClientRects().length);
+function focusCurrentQuestion() {
+  document.getElementById("choice-question").focus({ preventScroll: true });
 }
 
-function focusChoiceOption(preferredIndex = 0) {
-  requestAnimationFrame(function () {
-    const options = document.querySelectorAll("#choice-options [data-choice-index]");
-    const target = options[preferredIndex] || options[0];
-    if (target) target.focus({ preventScroll: true });
+function hasCompletedQuestions() {
+  return QUESTION_FLOW.every(({ id }) => Boolean(appState.answers[id]));
+}
+
+function buildQuestionField() {
+  const field = document.getElementById("quiz-question-field");
+  QUESTION_FLOW.forEach(function ({ prompt }, index) {
+    const slot = document.createElement("div");
+    slot.className = "quiz-question-slot";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quiz-question-trigger";
+    button.dataset.pendingQuestion = String(index);
+    button.setAttribute("aria-controls", "choice-hud");
+    button.setAttribute("aria-label", "Question " + (index + 1) + " · " + prompt);
+    const sphere = createQuizSphere(index);
+    const number = document.createElement("span");
+    number.className = "quiz-pending-number";
+    number.textContent = String(index + 1);
+    number.setAttribute("aria-hidden", "true");
+    button.append(sphere, number);
+    button.addEventListener("pointerenter", function (event) {
+      if (event.pointerType !== "mouse") return;
+      if (document.getElementById("choice-hud").contains(document.activeElement)) return;
+      openQuestionHologram(index);
+    });
+    button.addEventListener("click", function () {
+      openQuestionHologram(index, { focus: true });
+    });
+    slot.append(button);
+    field.append(slot);
   });
 }
 
-export function goToPrevious3DQuestion() {
-  if (!appState.threeDMode || appState.activeQuestionIndex <= 0) return;
-
-  if (appState.choiceAdvanceTimer) {
-    window.clearTimeout(appState.choiceAdvanceTimer);
-    appState.choiceAdvanceTimer = null;
-  }
-
-  appState.activeQuestionIndex -= 1;
-  appState.hoveredBack = false;
-  appState.hoveredChoice = null;
-  appState.backPortalPulseUntil = galaxy.clock.elapsedTime + 0.9;
-  syncAnswerDeck(true);
-  updateChoiceHud();
-
-  const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
-  const selectedValue = appState.answers[question.id];
-  if (selectedValue) {
-    focusPlanet(inferPlanet(selectedValue), { fromCanvas: true });
-  }
-
-  const insight = document.getElementById("live-insight");
-  if (insight) {
-    insight.textContent = "Reviewing: " + question.prompt + " Your choices stay saved while you adjust the system.";
-  }
+function createQuizSphere(index) {
+  const sphere = document.createElement("span");
+  sphere.className = "quiz-question-sphere";
+  sphere.setAttribute("aria-hidden", "true");
+  sphere.style.setProperty("--quiz-answer-hue", index * 28 + "deg");
+  return sphere;
 }
 
-export function select3DChoice(choiceIndex) {
-  const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
-  const choice = question.choices[choiceIndex];
+function getPendingQuestion(index) {
+  return document.querySelector('[data-pending-question="' + index + '"]');
+}
+
+function openQuestionHologram(index, { focus = false } = {}) {
+  if (!appState.threeDMode || isGalaxyQuizTransitioning() || answerFlight) return;
+  appState.activeQuestionIndex = index;
+  reviewing3DAnswer = Boolean(appState.answers[QUESTION_FLOW[index].id]);
+  questionHologramOpen = true;
+  updateChoiceHud();
+  if (focus) focusCurrentQuestion();
+}
+
+function closeQuestionHologram() {
+  const previousIndex = appState.activeQuestionIndex;
+  const wasReviewing = reviewing3DAnswer;
+  questionHologramOpen = false;
+  reviewing3DAnswer = false;
+  appState.activeQuestionIndex = getNextQuestionIndex();
+  updateChoiceHud();
+  const trigger = wasReviewing
+    ? document.querySelector('[data-question-index="' + previousIndex + '"]')
+    : getPendingQuestion(previousIndex);
+  trigger?.focus({ preventScroll: true });
+}
+
+function commitQuestionAnswer(choiceIndex) {
+  if (!appState.threeDMode || !questionHologramOpen || answerFlight) return;
+  const questionIndex = appState.activeQuestionIndex;
+  const question = QUESTION_FLOW[questionIndex];
+  const choice = question?.choices[choiceIndex];
   if (!choice) return;
 
-  if (appState.choiceAdvanceTimer) {
-    window.clearTimeout(appState.choiceAdvanceTimer);
+  const wasReviewing = reviewing3DAnswer;
+  questionHologramOpen = false;
+  document.getElementById("choice-hud").hidden = true;
+  if (!wasReviewing) {
+    const source = getPendingQuestion(questionIndex).querySelector(".quiz-question-sphere");
+    const row = document.getElementById("quiz-answer-row");
+    const slot = row.children[Object.keys(appState.answers).length];
+    const origin = source.getBoundingClientRect();
+    const destination = slot.querySelector(".quiz-question-sphere").getBoundingClientRect();
+    if (!appState.reducedMotion && origin.width && destination.width && source.animate) {
+      animateAnswerFlight(source, slot, origin, destination);
+    }
   }
 
-  appState.selectedChoice = choiceIndex;
-  appState.choicePulseUntil = galaxy.clock.elapsedTime + 0.9;
+  reviewing3DAnswer = false;
   setFingerprintAnswer(question.id, choice.value, { from3D: true, deferSimulation: true });
-  runMicroPulse(inferPlanet(choice.value), { preserveInsight: true });
+  appState.activeQuestionIndex = getNextQuestionIndex();
+  updateChoiceHud();
+  if (wasReviewing) document.querySelector('[data-question-index="' + questionIndex + '"]').focus({ preventScroll: true });
+  else if (!answerFlight) focusNextQuizControl();
+}
 
-  const complete = Object.keys(appState.answers).length === QUESTION_FLOW.length;
-  appState.choiceAdvanceTimer = window.setTimeout(function () {
-    appState.choiceAdvanceTimer = null;
-    if (complete) {
-      updateChoiceHud();
-      runWhatIfSimulation(ARCHETYPES[appState.archetype].simulation);
-      startCinematicReveal();
-      return;
-    }
+function animateAnswerFlight(source, slot, origin, destination) {
+  const consoleEl = document.getElementById("quiz-console");
+  const bounds = consoleEl.getBoundingClientRect();
+  const sphere = source.cloneNode(true);
+  sphere.classList.add("quiz-flight-sphere");
+  Object.assign(sphere.style, {
+    left: origin.left - bounds.left + "px",
+    top: origin.top - bounds.top + "px",
+    width: origin.width + "px",
+    height: origin.height + "px"
+  });
+  consoleEl.append(sphere);
+  slot.classList.add("is-landing");
 
-    appState.activeQuestionIndex = getNextQuestionIndex(appState.activeQuestionIndex + 1);
-    appState.hoveredBack = false;
-    appState.hoveredChoice = null;
-    appState.selectedChoice = null;
-    syncAnswerDeck(true);
+  const x = destination.left + (destination.width - origin.width) / 2 - origin.left;
+  const y = destination.top + (destination.height - origin.height) / 2 - origin.top;
+  const scale = destination.width / origin.width;
+  const animation = sphere.animate([
+    { transform: "translate(0, 0) scale(1)", opacity: 1 },
+    { transform: "translate(" + x * 0.28 + "px, " + (y * 0.25 - 12) + "px) scale(0.84)", offset: 0.25 },
+    { transform: "translate(" + x + "px, " + y + "px) scale(" + scale + ")", opacity: 1 }
+  ], { duration: 540, easing: "cubic-bezier(.32,.12,.2,1)", fill: "forwards" });
+
+  answerFlight = animation;
+  const finish = function (completed) {
+    sphere.remove();
+    slot.classList.remove("is-landing");
+    answerFlight = null;
     updateChoiceHud();
-    focusChoiceOption();
-  }, appState.reducedMotion ? 420 : 1150);
+    if (completed && appState.threeDMode) focusNextQuizControl();
+  };
+  animation.finished.then(() => finish(true), () => finish(false));
+}
+
+function focusNextQuizControl() {
+  const trigger = hasCompletedQuestions()
+    ? document.getElementById("quiz-core-trigger")
+    : getPendingQuestion(getNextQuestionIndex());
+  trigger?.focus({ preventScroll: true });
+}
+
+function openRecommendation() {
+  if (!appState.threeDMode || !hasCompletedQuestions() || answerFlight) return;
+  questionHologramOpen = false;
+  reviewing3DAnswer = false;
+  updateChoiceHud();
+  const result = document.getElementById("result-title");
+  result.setAttribute("tabindex", "-1");
+  document.getElementById("result").scrollIntoView({ behavior: "instant", block: "start" });
+  result.focus({ preventScroll: true });
 }
 
 // ---------- Form + scoring + result rendering ----------
 
 function setFingerprintAnswer(questionId, value, options = {}) {
+  const questionIndex = getQuestionIndex(questionId);
+  const choiceIndex = findChoiceIndex(questionId, value);
+  const choice = QUESTION_FLOW[questionIndex]?.choices[choiceIndex];
+  if (!choice) return;
+
   appState.answers[questionId] = value;
   const input = document.querySelector("input[name='" + questionId + "'][value='" + value + "']");
   if (input) input.checked = true;
 
-  const firstScore = SCORE_MAP[value] || {};
-  const firstPlanet = inferPlanet(value);
-  focusPlanet(firstPlanet, { fromCanvas: Boolean(options.from3D) });
-  appState.archetype = classifyArchetype();
+  focusPlanet(choice.serviceId, { fromCanvas: Boolean(options.from3D) });
+  appState.archetype = getProjectArchetypeKey(appState.answers);
   refreshGalaxyState();
 
-  const activeIndex = getQuestionIndex(questionId);
-  if (activeIndex === appState.activeQuestionIndex) {
-    const index = findChoiceIndex(questionId, value);
-    appState.selectedChoice = index > -1 ? index : null;
-  }
-
-  updateCompletion();
+  if (!options.from3D && !reviewing3DAnswer) appState.activeQuestionIndex = getNextQuestionIndex();
+  updateCompletion({ celebrate: !options.from3D });
   renderResult();
-  updateMailto();
-  updateLiveInsight(firstScore, value);
+  updateLiveInsight(SCORE_MAP[value], choice.label);
   updateChoiceHud();
 
   if (Object.keys(appState.answers).length === QUESTION_FLOW.length && !options.deferSimulation) {
@@ -409,7 +646,7 @@ function getQuestionIndex(questionId) {
   });
 }
 
-export function findChoiceIndex(questionId, value) {
+function findChoiceIndex(questionId, value) {
   const question = QUESTION_FLOW[getQuestionIndex(questionId)];
   if (!question) return -1;
   return question.choices.findIndex(function (choice) {
@@ -417,74 +654,89 @@ export function findChoiceIndex(questionId, value) {
   });
 }
 
-function getNextQuestionIndex(startIndex = 0) {
-  for (let i = startIndex; i < QUESTION_FLOW.length; i += 1) {
-    if (!appState.answers[QUESTION_FLOW[i].id]) return i;
-  }
-  for (let i = 0; i < QUESTION_FLOW.length; i += 1) {
-    if (!appState.answers[QUESTION_FLOW[i].id]) return i;
-  }
-  return QUESTION_FLOW.length - 1;
-}
-
-export function canGoBackIn3D() {
-  return appState.threeDMode && appState.activeQuestionIndex > 0;
+function getNextQuestionIndex() {
+  const next = QUESTION_FLOW.findIndex(({ id }) => !appState.answers[id]);
+  return next === -1 ? QUESTION_FLOW.length - 1 : next;
 }
 
 export function updateChoiceHud() {
+  const consoleEl = document.getElementById("quiz-console");
+  if (!consoleEl) return;
+  const panel = document.getElementById("choice-hud");
+  const core = document.getElementById("quiz-core-trigger");
+  const visible = appState.webglReady && appState.threeDMode && !isGalaxyQuizTransitioning();
+  const answeredIds = Object.keys(appState.answers);
+  const complete = hasCompletedQuestions();
+  const panelVisible = visible && questionHologramOpen;
+  consoleEl.hidden = !visible;
+  panel.hidden = !panelVisible;
+  consoleEl.classList.toggle("is-quiz-complete", complete);
+  document.querySelectorAll("[data-pending-question]").forEach(function (button, index) {
+    button.hidden = Boolean(appState.answers[QUESTION_FLOW[index].id]);
+    button.disabled = Boolean(answerFlight);
+    const expanded = panelVisible && !reviewing3DAnswer && index === appState.activeQuestionIndex;
+    button.setAttribute("aria-expanded", String(expanded));
+  });
+  core.disabled = !complete || Boolean(answerFlight);
+  const coreAction = core.querySelector(".quiz-core-action");
+  coreAction.textContent = complete ? "View recommendation" : "After all 5 answers";
   const progress = document.getElementById("choice-progress");
-  const questionEl = document.getElementById("choice-question");
-  const objectEl = document.getElementById("choice-object");
-  const archetypeEl = document.getElementById("choice-archetype");
-  const backButton = document.getElementById("choice-back");
-  const optionsEl = document.getElementById("choice-options");
-  if (!progress || !questionEl || !archetypeEl) return;
+  const progressText = complete ? "Quiz complete" : answeredIds.length + " / " + QUESTION_FLOW.length + " answered";
+  if (progress.textContent !== progressText) progress.textContent = progressText;
+  const question = QUESTION_FLOW[appState.activeQuestionIndex];
+  const coreStatus = document.getElementById("quiz-core-status");
+  coreStatus.textContent = complete ? "All five questions answered." : "Answer all five questions to activate Core.";
 
-  const complete = Object.keys(appState.answers).length === QUESTION_FLOW.length;
-  const question = QUESTION_FLOW[appState.activeQuestionIndex] || QUESTION_FLOW[0];
-  updateChoiceOptions(optionsEl, question);
-  if (backButton) {
-    const canGoBack = canGoBackIn3D();
-    backButton.disabled = !canGoBack;
-    backButton.setAttribute("aria-disabled", String(!canGoBack));
+  updateAnswerRow(answeredIds, panelVisible);
+  if (!panelVisible) return;
+  const questionEl = document.getElementById("choice-question");
+  questionEl.textContent = question.prompt;
+  const options = document.getElementById("choice-options");
+  if (options.dataset.questionId !== question.id) options.scrollTop = 0;
+  updateChoiceOptions(options, question);
+}
+
+function updateAnswerRow(answeredIds, panelVisible) {
+  const row = document.getElementById("quiz-answer-row");
+  if (!row.childElementCount) {
+    QUESTION_FLOW.forEach(function (_, index) {
+      const slot = document.createElement("li");
+      slot.className = "quiz-answer-slot";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "quiz-answer-token";
+      button.setAttribute("aria-controls", "choice-hud");
+      const sphere = createQuizSphere(index);
+      const number = document.createElement("span");
+      number.className = "quiz-token-number";
+      number.setAttribute("aria-hidden", "true");
+      button.append(sphere, number);
+      slot.append(button);
+      row.append(slot);
+    });
   }
-  progress.textContent = complete
-    ? "Project mission complete"
-    : "Project mission " + (appState.activeQuestionIndex + 1) + " / " + QUESTION_FLOW.length;
-  questionEl.textContent = complete ? "Your initial recommendation" : question.prompt;
-  if (objectEl) {
-    if (appState.hoveredBack) {
-      const prevIndex = Math.max(0, appState.activeQuestionIndex - 1);
-      const prevQuestion = QUESTION_FLOW[prevIndex];
-      const prevValue = prevQuestion ? appState.answers[prevQuestion.id] : null;
-      const prevChoice = prevValue && prevQuestion
-        ? prevQuestion.choices.find(function (c) { return c.value === prevValue; })
-        : null;
-      objectEl.textContent = prevChoice
-        ? "Go back: step " + (prevIndex + 1) + " — your answer: " + prevChoice.label
-        : "Go back: step " + (prevIndex + 1) + " — no answer yet";
-      archetypeEl.textContent = "Choices stay saved while you review step " + (prevIndex + 1);
-      return;
-    }
-    const focusIndex = appState.hoveredChoice !== null
-      ? appState.hoveredChoice
-      : appState.selectedChoice !== null
-        ? appState.selectedChoice
-        : null;
-    const focusChoice = focusIndex !== null ? question.choices[focusIndex] : null;
-    if (focusChoice) {
-      const focusPlanetId = inferPlanet(focusChoice.value);
-      const focusVisual = getChoiceVisual(focusChoice.value, focusPlanetId);
-      objectEl.textContent = "3D choice: " + focusChoice.label + " / " + formatVisualKind(focusVisual.kind);
-    } else {
-      objectEl.textContent = complete ? "Recommendation ready to review" : "Choose the closest answer";
-    }
+  for (const [index, slot] of Array.from(row.children).entries()) {
+    const button = slot.firstElementChild;
+    const questionIndex = getQuestionIndex(answeredIds[index]);
+    const question = QUESTION_FLOW[questionIndex];
+    const selected = question?.choices.find(({ value }) => value === appState.answers[question.id]);
+    const reviewing = panelVisible && reviewing3DAnswer && questionIndex === appState.activeQuestionIndex;
+    slot.classList.toggle("is-answered", Boolean(selected));
+    slot.classList.toggle("is-reviewing", reviewing);
+    button.disabled = !selected || Boolean(answerFlight);
+    if (selected) button.dataset.questionIndex = String(questionIndex);
+    else delete button.dataset.questionIndex;
+    button.setAttribute("aria-expanded", String(reviewing));
+    button.setAttribute("aria-label", selected
+      ? "Edit question " + (questionIndex + 1) + " · " + selected.label
+      : "Empty answer slot " + (index + 1));
+    button.querySelector(".quiz-question-sphere").style.setProperty("--quiz-answer-hue", questionIndex * 28 + "deg");
+    button.querySelector(".quiz-token-number").textContent = selected ? String(questionIndex + 1) : "";
+    button.title = selected?.label ?? "";
   }
-  archetypeEl.textContent = "Initial direction: " + ARCHETYPES[appState.archetype].name;
 }
 
 function updateChoiceOptions(container, question) {
-  if (!container) return;
   if (container.dataset.questionId !== question.id) {
     const fragment = document.createDocumentFragment();
     question.choices.forEach(function (choice, index) {
@@ -498,53 +750,21 @@ function updateChoiceOptions(container, question) {
     });
     container.replaceChildren(fragment);
     container.dataset.questionId = question.id;
-    container.setAttribute("aria-label", question.prompt);
   }
 
-  const selectedValue = appState.answers[question.id];
+  const selectedIndex = findChoiceIndex(question.id, appState.answers[question.id]);
   container.querySelectorAll("[data-choice-index]").forEach(function (button) {
-    const choice = question.choices[Number(button.dataset.choiceIndex)];
-    const selected = Boolean(choice && choice.value === selectedValue);
+    const selected = Number(button.dataset.choiceIndex) === selectedIndex;
     button.classList.toggle("is-selected", selected);
     button.setAttribute("aria-pressed", String(selected));
   });
-}
-
-function formatVisualKind(kind) {
-  const labels = {
-    firmwareChip: "interface model",
-    apiStack: "backend/API model",
-    workflowGear: "work-saving model",
-    dataVault: "data/log model",
-    opsRadar: "monitoring model",
-    hardwarePort: "hardware debug port",
-    contractBridge: "interface/API bridge",
-    incidentBeacon: "support beacon",
-    processRail: "process rail",
-    ownershipCompass: "clear-plan compass",
-    userCluster: "customer cluster",
-    deviceFleet: "device fleet",
-    manualStack: "admin stack",
-    integrationHub: "tools hub",
-    incidentFlare: "tracking signal",
-    logConsole: "customer activity",
-    memoryNode: "team knowledge",
-    retryLoop: "manual-step loop",
-    layerPatch: "first-version layer",
-    debateOrbit: "responsibility orbit",
-    architectureMap: "site-plan model",
-    stableHandoff: "customer-journey bridge",
-    opsQueue: "admin-relief queue",
-    monitoringArray: "monitoring array",
-    ownerCrown: "design-partner model"
-  };
-  return labels[kind] || "3D model";
 }
 
 // ---------- Planet focus + readouts ----------
 
 export function focusPlanet(planetId, options = {}) {
   appState.selectedPlanet = planetId;
+  syncGalaxyNavigationLinks();
   syncRescueRigFocus(planetId);
   document.querySelectorAll("[data-planet]").forEach(function (button) {
     const isActive = button.dataset.planet === planetId;
@@ -622,7 +842,6 @@ function runScenario(scenarioId) {
   if (readout) readout.textContent = scenario.label;
   if (insight) insight.textContent = scenario.copy;
   renderResult();
-  updateMailto();
   runWhatIfSimulation(scenario.simulation);
 }
 
@@ -640,7 +859,16 @@ function stressSelectedLayer() {
   runMicroPulse(planet);
 }
 
+function cancelCinematicReveal() {
+  if (resultRevealTimer === null) return;
+  window.clearTimeout(resultRevealTimer);
+  resultRevealTimer = null;
+  appState.revealUntil = 0;
+  document.querySelector(".galaxy-hero")?.classList.remove("is-revealing");
+}
+
 function startCinematicReveal() {
+  cancelCinematicReveal();
   const hero = document.querySelector(".galaxy-hero");
   const revealName = document.getElementById("reveal-archetype");
   const revealScore = document.getElementById("reveal-score");
@@ -653,45 +881,21 @@ function startCinematicReveal() {
   appState.revealUntil = galaxy.clock.elapsedTime + (appState.reducedMotion ? 0.6 : 2.4);
   if (hero) hero.classList.add("is-revealing");
   runWhatIfSimulation(archetype.simulation);
-  window.setTimeout(function () {
-    if (hero) hero.classList.remove("is-revealing");
+  resultRevealTimer = window.setTimeout(function () {
+    cancelCinematicReveal();
     document.getElementById("result").scrollIntoView({ behavior: appState.reducedMotion ? "auto" : "smooth" });
   }, appState.reducedMotion ? 650 : 2200);
 }
 
 // ---------- Scoring + result text ----------
 
-export function inferPlanet(value) {
-  if (["firmware", "map"].includes(value)) return "firmware";
-  if (["backend", "firmwareBackend", "backendOps", "integrations", "handoff", "patch"].includes(value)) return "backend";
-  if (["automation", "businessAutomation", "manual", "retry", "manualOps"].includes(value)) return "automation";
-  if (["data", "logs", "person"].includes(value)) return "data";
-  if (["hardware", "hardwareFirmware", "devices", "hardwareCare"].includes(value)) return "hardware";
-  return "ops";
-}
-
-function classifyArchetype() {
-  const totals = { handoff: 0, ghost: 0, spreadsheet: 0, bench: 0, hardware: 0, ops: 0 };
-  Object.values(appState.answers).forEach(function (answer) {
-    const scores = SCORE_MAP[answer] || {};
-    Object.entries(scores).forEach(function ([key, value]) {
-      totals[key] += value;
-    });
-  });
-
-  return Object.entries(totals)
-    .sort(function (a, b) {
-      return b[1] - a[1];
-    })[0][0];
-}
-
-export function updateCompletion() {
+export function updateCompletion({ celebrate = true } = {}) {
   const count = Object.keys(appState.answers).length;
   const status = document.getElementById("completion-status");
   if (status) {
     status.textContent = count + " / 5";
   }
-  updateMissionStats({ announce: true });
+  updateMissionStats({ announce: celebrate });
 }
 
 function getMissionStats() {
@@ -730,9 +934,6 @@ function setText(id, value) {
 
 function updateMissionStats(options = {}) {
   const stats = getMissionStats();
-  setText("hero-score", formatScore(stats.score));
-  setText("hero-rank", stats.rank);
-  setText("hero-combo", String(stats.count));
   setText("mission-score", formatScore(stats.score));
   setText("mission-rank", stats.rank);
   setText("mission-combo", stats.count + " of " + QUESTION_FLOW.length + " answered");
@@ -763,12 +964,10 @@ function updateMissionStats(options = {}) {
 function pulseScoreSurface(stats) {
   const meter = document.querySelector(".mission-meter");
   const shareBadge = document.getElementById("share-badge");
-  document.body.classList.add("score-pulse");
   if (meter) meter.classList.add("is-hot");
   if (shareBadge) shareBadge.classList.add("is-hot");
   spawnScorePop(stats);
   window.setTimeout(function () {
-    document.body.classList.remove("score-pulse");
     if (meter) meter.classList.remove("is-hot");
     if (shareBadge) shareBadge.classList.remove("is-hot");
   }, 760);
@@ -843,30 +1042,22 @@ function showScoreReveal(stats) {
   }, appState.reducedMotion ? 1450 : 2300);
 }
 
-function updateLiveInsight(score, value) {
+function updateLiveInsight(score, choiceLabel) {
   const insight = document.getElementById("live-insight");
   const archetype = ARCHETYPES[appState.archetype];
   if (!insight) return;
   const keys = Object.keys(score || {});
   insight.textContent = keys.length
-    ? "Answer added: " + getChoiceLabel(value) + ". Initial direction: " + archetype.name + "."
+    ? "Answer added: " + choiceLabel + ". Initial direction: " + archetype.name + "."
     : "Answer added. Continue to explore your initial project direction.";
 }
 
-function getChoiceLabel(value) {
-  for (let i = 0; i < QUESTION_FLOW.length; i += 1) {
-    const match = QUESTION_FLOW[i].choices.find(function (choice) {
-      return choice.value === value;
-    });
-    if (match) return match.label;
-  }
-  return "selected choice";
-}
-
 export function renderResult() {
+  const name = document.getElementById("archetype-name");
+  if (!name) return;
   const archetype = ARCHETYPES[appState.archetype];
   const hasAnswers = getProjectAnswers(appState.answers).length > 0;
-  document.getElementById("archetype-name").textContent = hasAnswers ? archetype.name : "Explore a project direction";
+  name.textContent = hasAnswers ? archetype.name : "Explore a project direction";
   document.getElementById("archetype-summary").textContent = hasAnswers
     ? archetype.summary
     : "Answer the questions for an initial recommendation, or describe your project directly.";
@@ -918,20 +1109,8 @@ function buildBadgeText() {
 function buildSummaryText() {
   return buildProjectSummary({
     answers: appState.answers,
-    archetype: ARCHETYPES[appState.archetype],
-    notes: document.getElementById("contact-message")?.value || ""
+    archetype: ARCHETYPES[appState.archetype]
   });
-}
-
-export function updateMailto() {
-  const link = document.getElementById("email-map");
-  if (!link) return;
-  const archetype = ARCHETYPES[appState.archetype];
-  const subject = getProjectAnswers(appState.answers).length
-    ? "Project planning session inquiry: " + archetype.name
-    : "Project planning session inquiry";
-  const body = encodeURIComponent(buildSummaryText() + "\n\nI would like to discuss a CAD $500 project planning session (90 minutes, preparation and follow-up notes). Please confirm availability and scope.");
-  link.href = "mailto:" + CONTACT_CONFIG.email + "?subject=" + encodeURIComponent(subject) + "&body=" + body;
 }
 
 // ---------- Reset + toast/copy + download ----------
@@ -964,25 +1143,29 @@ function resetGalaxy() {
   if (answeredCount > 0 && !window.confirm("Reset " + answeredCount + " answer" + (answeredCount === 1 ? "" : "s") + " and start over?")) {
     return;
   }
-  if (appState.choiceAdvanceTimer) {
-    window.clearTimeout(appState.choiceAdvanceTimer);
-    appState.choiceAdvanceTimer = null;
-  }
+  cancelCinematicReveal();
+  reviewing3DAnswer = false;
+  questionHologramOpen = false;
+  reviewing3DAnswer = false;
+  answerFlight?.cancel();
   appState.answers = {};
   appState.archetype = "handoff";
   appState.selectedPlanet = "firmware";
+  appState.hoveredPlanet = null;
+  appState.focusPulseUntil = 0;
   appState.activeQuestionIndex = 0;
-  appState.hoveredBack = false;
-  appState.hoveredChoice = null;
-  appState.selectedChoice = null;
-  appState.choicePulseUntil = 0;
-  appState.backPortalPulseUntil = 0;
   appState.lastAnswerCount = Object.keys(appState.answers).length;
   appState.hasCelebratedCompletion = false;
-  document.querySelectorAll("input[type='radio']").forEach(function (input) {
+  document.querySelectorAll("#fingerprint-form input[type='radio']").forEach(function (input) {
     input.checked = false;
   });
+  const url = new URL(window.location.href);
+  if (url.searchParams.has("focus")) {
+    url.searchParams.delete("focus");
+    window.history.replaceState(window.history.state, "", url);
+  }
   appState.activeScenario = null;
+  appState.simulation = null;
   appState.scaleStage = 0;
   appState.revealUntil = 0;
   refreshGalaxyState();
@@ -998,12 +1181,12 @@ function resetGalaxy() {
   updateCompletion();
   updateScaleReadout();
   renderResult();
-  updateMailto();
-  syncAnswerDeck(true);
   updateChoiceHud();
   const insight = document.getElementById("live-insight");
   if (insight) {
-    insight.textContent = "Answers reset. Choose a service or answer the first project question.";
+    insight.textContent = document.getElementById("fingerprint-form")
+      ? "Answers reset. Choose a service or answer the first project question."
+      : "System preview reset. Choose a service to explore how it fits.";
   }
 }
 

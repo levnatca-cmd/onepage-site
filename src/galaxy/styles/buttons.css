@@ -3,6 +3,8 @@
 .nav-cta,
 .btn {
   display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
   min-height: 44px;
   align-items: center;
   justify-content: center;
@@ -12,11 +14,13 @@
   border-radius: var(--radius);
   color: var(--text);
   background: rgba(244, 248, 251, 0.055);
-  font-family: "Oxanium", sans-serif;
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
+  white-space: normal;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05) inset;
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
 }

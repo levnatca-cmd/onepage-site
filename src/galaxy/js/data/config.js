@@ -25,9 +25,8 @@ export const VISUAL_COLORS = {
   warning: 0xff7373,
   api: 0x9fb4ff,
   automation: 0xffc66d,
+  pqc: 0x3dffdf,
   data: 0xff7f8f,
   hardware: 0x8bffc4,
   ops: 0xc6a7ff
 };
-
-export const BRIDGE_SEGMENTS = 32;

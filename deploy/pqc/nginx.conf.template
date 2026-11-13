@@ -1,0 +1,159 @@
+worker_processes 1;
+pid "@@RUN_DIR@@/nginx.pid";
+error_log stderr crit;
+
+events {
+    worker_connections 512;
+}
+
+http {
+    types {
+        text/html html;
+        text/css css;
+        text/plain txt;
+        application/javascript js mjs;
+        application/json json;
+        application/xml xml;
+        image/svg+xml svg;
+        image/png png;
+        image/jpeg jpg jpeg;
+        image/webp webp;
+        image/avif avif;
+        image/x-icon ico;
+        font/woff2 woff2;
+    }
+    default_type application/octet-stream;
+    charset utf-8;
+    server_tokens off;
+    access_log off;
+    sendfile on;
+    index index.html;
+    absolute_redirect off;
+
+    ssl_protocols TLSv1.3;
+    ssl_ecdh_curve X25519MLKEM768;
+    ssl_conf_command Ciphersuites TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256;
+    ssl_session_cache off;
+    ssl_session_tickets off;
+    ssl_early_data off;
+
+    client_header_timeout 10s;
+    client_body_timeout 10s;
+    keepalive_timeout 20s;
+    send_timeout 15s;
+    client_body_temp_path "@@RUN_DIR@@/body";
+    proxy_temp_path "@@RUN_DIR@@/proxy";
+    fastcgi_temp_path "@@RUN_DIR@@/fastcgi";
+    uwsgi_temp_path "@@RUN_DIR@@/uwsgi";
+    scgi_temp_path "@@RUN_DIR@@/scgi";
+    limit_req_zone $binary_remote_addr zone=inquiries_per_client:1m rate=12r/m;
+    map "$ssl_curve:$ssl_session_reused" $strict_pqc {
+        default 0;
+        "X25519MLKEM768:." 1;
+    }
+
+    upstream inquiry_intake {
+        server "unix:@@INQUIRY_SOCKET@@";
+    }
+
+    server {
+        listen @@HTTPS_LISTEN@@ ssl default_server;
+        server_name _;
+        ssl_reject_handshake on;
+    }
+
+    server {
+        listen @@HTTPS_LISTEN@@ ssl;
+        http2 on;
+        server_name @@PUBLIC_HOST@@;
+        ssl_certificate "@@CERT_FILE@@";
+        ssl_certificate_key "@@KEY_FILE@@";
+
+        root "@@WEB_ROOT@@";
+        disable_symlinks on from=$document_root;
+
+        add_header Content-Security-Policy "@@CSP@@" always;
+        add_header Cross-Origin-Resource-Policy same-origin always;
+        add_header X-Content-Type-Options nosniff always;
+        add_header X-Frame-Options DENY always;
+        add_header Referrer-Policy no-referrer always;
+        add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()" always;
+        @@HSTS@@
+
+        if ($ssl_server_name != "@@PUBLIC_HOST@@") { return 421; }
+        if ($http_host != "@@PUBLIC_AUTHORITY@@") { return 421; }
+        if ($strict_pqc = 0) { return 403; }
+
+        location = /api/inquiries/ready {
+            if ($request_method != GET) { return 405; }
+            add_header_inherit merge;
+            add_header Cache-Control "no-store" always;
+            add_header X-Inquiry-Transport strict-pqc-v1;
+            return 204;
+        }
+
+        location = /api/inquiries {
+            if ($request_method != POST) { return 405; }
+            if ($args != "") { return 400; }
+            client_max_body_size 16k;
+            client_body_buffer_size 16k;
+            limit_req zone=inquiries_per_client burst=6 nodelay;
+            limit_req_status 429;
+            add_header_inherit merge;
+            add_header Cache-Control "no-store" always;
+            proxy_pass http://inquiry_intake;
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host "@@PUBLIC_AUTHORITY@@";
+            proxy_set_header X-Forwarded-Proto https;
+            proxy_set_header X-Forwarded-Host "";
+            proxy_set_header X-Forwarded-For "";
+            proxy_set_header X-Real-IP "";
+            proxy_set_header Forwarded "";
+            proxy_set_header Origin $http_origin;
+            proxy_hide_header Access-Control-Allow-Origin;
+            proxy_hide_header Access-Control-Allow-Credentials;
+            proxy_hide_header Cache-Control;
+            proxy_connect_timeout 2s;
+            proxy_read_timeout 10s;
+            proxy_send_timeout 10s;
+            proxy_buffering off;
+            proxy_request_buffering off;
+            proxy_next_upstream off;
+        }
+
+        location = / {
+            limit_except GET { deny all; }
+            try_files /index.html =404;
+        }
+
+        location ~ ^/(?:index\.html|explore\.html|starworld\.html|robots\.txt|sitemap\.xml|og-card\.png)$ {
+            limit_except GET { deny all; }
+            try_files $uri =404;
+        }
+
+        location ~ ^/(?:home|services|contact|approach|work)(?:/[a-z0-9-]+)*(?:/index\.html|/)?$ {
+            limit_except GET { deny all; }
+            try_files $uri $uri/ =404;
+        }
+
+        location ~ ^/assets/(?:fonts|images)/(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.(?:woff2|txt|svg|png|jpe?g|webp|avif|ico)$ {
+            limit_except GET { deny all; }
+            try_files $uri =404;
+        }
+
+        location ~ ^/src/(?:studio|galaxy|shared)/(?:[a-z0-9_-]+/)*[a-z0-9_-][a-z0-9_.-]*\.(?:js|mjs|css)$ {
+            limit_except GET { deny all; }
+            try_files $uri =404;
+        }
+
+        location ~ ^/vendor/(?:three/three\.module\.min\.js|lucide/icons\.js|lucide-LICENSE\.txt)$ {
+            limit_except GET { deny all; }
+            try_files $uri =404;
+        }
+
+        location / { return 404; }
+    }
+
+    @@HTTPS_ALIAS_SERVER@@
+}

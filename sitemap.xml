@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://levnat.ca/</loc>
+    <loc>https://levnat.ca/home/</loc>
     <lastmod>2026-11-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -10,8 +10,15 @@
   <url><loc>https://levnat.ca/services/websites-apps/</loc></url>
   <url><loc>https://levnat.ca/services/integrations/</loc></url>
   <url><loc>https://levnat.ca/services/support/</loc></url>
+  <url><loc>https://levnat.ca/services/backend-api/</loc></url>
+  <url><loc>https://levnat.ca/services/automation/</loc></url>
+  <url><loc>https://levnat.ca/services/post-quantum-security/</loc></url>
+  <url><loc>https://levnat.ca/services/data-logs/</loc></url>
+  <url><loc>https://levnat.ca/services/hardware/</loc></url>
+  <url><loc>https://levnat.ca/services/monitoring/</loc></url>
   <url><loc>https://levnat.ca/work/</loc></url>
   <url><loc>https://levnat.ca/work/daybook/</loc></url>
+  <url><loc>https://levnat.ca/work/daybook/demo/</loc></url>
   <url><loc>https://levnat.ca/approach/</loc></url>
   <url><loc>https://levnat.ca/contact/</loc></url>
 </urlset>

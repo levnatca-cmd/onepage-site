@@ -14,7 +14,12 @@
     box-sizing: border-box;
   }
 
-  .hero-copy,
+  .galaxy-hero.webgl-ready:not(.webgl-failed) .hero-overlay {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+  }
+
   .rescue-rig,
   .layer-strip,
   .vector-hud,
@@ -85,10 +90,6 @@
     transform: scale(1.06);
   }
 
-  .hero-copy {
-    order: 1;
-  }
-
   .vector-hud {
     order: 3;
   }
@@ -138,7 +139,11 @@
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
+  .hero-copy {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .nav {
     align-items: center;
     flex-direction: row;
@@ -184,55 +189,30 @@
     border-color: transparent;
     font-weight: 700;
   }
+}
 
+@media (max-width: 760px) {
   .galaxy-hero,
   .hero-overlay {
     min-height: auto;
   }
 
-  .galaxy-canvas {
-    height: 42vh;
-    min-height: 330px;
+  .hero-copy {
+    gap: 10px;
+    padding-block: 14px;
   }
 
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) {
-    display: flex;
-    flex-direction: column;
+  .hero-actions {
+    column-gap: 8px;
   }
 
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .hero-overlay {
-    order: 1;
-  }
-
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .galaxy-canvas {
-    position: relative;
-    inset: auto;
-    order: 2;
-    flex: 0 0 auto;
-    width: 100%;
-    height: min(100vw, 430px);
-    min-height: 350px;
-    margin-top: -36px;
-  }
-
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .mission-stats,
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .hero-outcome-rail,
-  .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .hero-price {
-    display: none;
+  .hero-actions .btn {
+    padding-inline: 10px;
+    font-size: 11px;
   }
 
   .galaxy-hero.webgl-ready:not(.webgl-failed):not(.is-3d-mode) .rescue-rig {
     display: none;
-  }
-
-  .galaxy-hero.is-3d-mode {
-    height: calc(var(--viewport-height) - 70px);
-    min-height: calc(var(--viewport-height) - 70px);
-  }
-
-  .galaxy-hero.is-3d-mode .galaxy-canvas {
-    height: 100%;
-    min-height: 0;
   }
 
   .hero-overlay {
@@ -251,14 +231,6 @@
 
   .launch-beam {
     top: 28%;
-  }
-
-  .hero-copy {
-    order: 0;
-    width: min(362px, calc(100vw - 28px));
-    max-width: min(362px, calc(100vw - 28px));
-    margin-inline: 0 auto;
-    padding: 18px;
   }
 
   .rescue-rig {
@@ -315,9 +287,12 @@
     bottom: 18%;
   }
 
-  .rescue-rig .rig-cable,
-  .rescue-rig .rig-signal {
+  .rig-spokes-layout--wide {
     display: none;
+  }
+
+  .rig-spokes-layout--compact {
+    display: inline;
   }
 
   .rescue-rig .rig-core {
@@ -335,40 +310,18 @@
 
   .galaxy-hero.webgl-failed .rescue-rig,
   .galaxy-hero.css-3d-mode .rescue-rig {
-    margin-top: -48px;
     transform: scale(0.98);
   }
 
-  .hero-proof-strip {
-    gap: 5px;
+  .galaxy-hero.css-3d-mode .rescue-rig {
+    margin-top: -48px;
   }
 
-  .hero-proof-strip span {
-    font-size: 9px;
-  }
-
-  .hero-outcome-rail {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .hero-outcome-rail span {
-    min-height: auto;
-    grid-template-columns: max-content 1fr;
-    align-items: center;
-  }
-
-  .mission-stats {
-    gap: 6px;
-  }
-
-  .mission-stats span {
-    min-height: 58px;
-    padding: 9px 8px;
-  }
-
-  .mission-stats b {
-    font-size: 15px;
+  .galaxy-hero.webgl-failed .galaxy-fallback {
+    position: relative;
+    inset: auto;
+    width: calc(100% - 28px);
+    margin: 0 auto 24px;
   }
 
   .layer-strip {
@@ -400,44 +353,6 @@
 
   .galaxy-hero.is-3d-mode .rescue-rig {
     display: none;
-  }
-
-  .choice-hud {
-    left: 4vw;
-    right: 4vw;
-    top: 116px;
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .choice-hud-actions {
-    width: 100%;
-    display: grid;
-    grid-column: 1;
-    grid-row: auto;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .choice-options {
-    grid-row: auto;
-    width: 100%;
-    display: flex;
-    gap: 7px;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: thin;
-  }
-
-  .choice-option {
-    flex: 0 0 154px;
-    min-height: 44px;
-  }
-
-  .hero-title {
-    font-size: clamp(32px, 10vw, 46px);
-    overflow-wrap: anywhere;
   }
 
   .vector-hud {
@@ -549,7 +464,6 @@
 
 .is-reduced-motion .hero-atmosphere,
 .is-reduced-motion .hero-atmosphere *,
-.is-reduced-motion .hero-copy::after,
 .is-reduced-motion .rescue-rig,
 .is-reduced-motion .rescue-rig *,
 .is-reduced-motion .btn-primary::after,
@@ -560,6 +474,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .rig-spokes-pulse {
+    display: none;
+  }
+
   html {
     scroll-behavior: auto;
   }
@@ -568,7 +486,6 @@
   .nav-cta,
   .toast,
   .reveal-overlay,
-  .galaxy-hero.is-3d-mode .hero-copy,
   .galaxy-hero.is-3d-mode .rescue-rig,
   .galaxy-hero.is-3d-mode .layer-strip,
   .galaxy-hero.is-3d-mode .vector-hud,
@@ -576,7 +493,6 @@
     transition: none !important;
   }
 
-  .choice-hud::after,
   .share-badge::after,
   .wow-score-card,
   .wow-score-card::after,
@@ -584,14 +500,11 @@
   .score-pop,
   .rescue-rig,
   .rescue-rig *,
-  .hero-copy::after,
-  .mission-stats span::after,
   .share-badge-ring,
   .completion-burst span,
   .btn-primary::after,
   .scroll-hint::after,
   .sys-status-led,
-  .hero-title .accent,
   .brand-mark,
   body::after {
     animation: none !important;

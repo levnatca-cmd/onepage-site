@@ -14,21 +14,22 @@ function makeScene() {
   const scene = new T.Scene();
   scene.fog = new T.FogExp2(0x080612, 0.011);
   const camera = new T.PerspectiveCamera(44, 1, 0.1, 180);
-  let angle = 0.12,
-    targetAngle = 0.12,
-    tilt = 0.55,
-    targetTilt = 0.55,
-    distance = 35,
-    targetDistance = 35,
+  const home = { angle: -1.02, tilt: 0.44, distance: 23 };
+  let angle = home.angle,
+    targetAngle = home.angle,
+    tilt = home.tilt,
+    targetTilt = home.tilt,
+    distance = home.distance,
+    targetDistance = home.distance,
     targetX = 0,
     lookX = 0,
     targetZ = 0,
     lookZ = 0;
-  scene.add(new T.AmbientLight(0x897ac9, 2.0));
-  const key = new T.DirectionalLight(0x8af5ff, 2.9);
+  scene.add(new T.AmbientLight(0x8997c9, 1.35));
+  const key = new T.DirectionalLight(0xbacfff, 2.4);
   key.position.set(-8, 12, 9);
   scene.add(key);
-  const light = new T.PointLight(0xff3c9d, 30, 24);
+  const light = new T.PointLight(0x8472ff, 16, 24);
   light.position.set(2, 4, 5);
   scene.add(light);
   const root = new T.Group();
@@ -41,22 +42,29 @@ function makeScene() {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  for (let i = 0; i < 1250; i++) {
+  for (let i = 0; i < 620; i++) {
     starPositions.push((rand() - 0.5) * 150, (rand() - 0.4) * 85, (rand() - 0.5) * 150);
     const b = 0.3 + rand() * 0.6;
-    starColors.push(i % 3 === 0 ? b : b * 0.42, i % 3 === 0 ? b * 0.35 : b, b);
+    starColors.push(b * 0.67, b * 0.72, b);
   }
   starsGeometry.setAttribute("position", new T.Float32BufferAttribute(starPositions, 3));
   starsGeometry.setAttribute("color", new T.Float32BufferAttribute(starColors, 3));
   const stars = new T.Points(
     starsGeometry,
-    new T.PointsMaterial({ size: 0.045, vertexColors: true, transparent: true, opacity: 0.8 }),
+    new T.PointsMaterial({
+      size: 0.052,
+      vertexColors: true,
+      transparent: true,
+      depthWrite: false,
+      opacity: 0.52,
+    }),
   );
   scene.add(stars);
-  const grid = new T.GridHelper(70, 70, 0x882b7a, 0x262447);
+  const grid = new T.GridHelper(70, 35, 0x4b499c, 0x30325e);
   grid.position.y = -4.2;
   grid.material.transparent = true;
-  grid.material.opacity = 0.24;
+  grid.material.depthWrite = false;
+  grid.material.opacity = 0.03;
   root.add(grid);
   // Real geometry: low polygon scan terrain beneath the orbital plane.
   const terrainGeometry = new T.PlaneGeometry(59, 44, 52, 40);
@@ -71,10 +79,16 @@ function makeScene() {
   terrainGeometry.computeVertexNormals();
   const terrain = new T.Mesh(
     terrainGeometry,
-    new T.MeshBasicMaterial({ color: 0xa140a7, wireframe: true, transparent: true, opacity: 0.1 }),
+    new T.MeshBasicMaterial({
+      color: 0x6050aa,
+      wireframe: true,
+      transparent: true,
+      depthWrite: false,
+      opacity: 0.019,
+    }),
   );
   root.add(terrain);
-  function orbit(radius, opacity = 0.3) {
+  function orbit(radius, opacity) {
     const points = [];
     for (let i = 0; i <= 180; i++) {
       const a = (i / 180) * Math.PI * 2;
@@ -84,107 +98,181 @@ function makeScene() {
     const line = new T.Line(
       geometry,
       new T.LineBasicMaterial({
-        color: radius === 9.2 || radius === 16 ? 0xff3c9d : 0x43f5ff,
+        color: 0x777bd9,
         transparent: true,
+        depthWrite: false,
         opacity,
       }),
     );
     root.add(line);
-    return line;
   }
-  orbit(6, 0.42);
-  orbit(9.2, 0.25);
-  orbit(12, 0.21);
-  orbit(16, 0.09);
-  const tickPositions = [];
-  for (let i = 0; i < 120; i++) {
-    const a = (i / 120) * Math.PI * 2,
-      r = 6.3,
-      rr = r + (i % 5 === 0 ? 0.32 : 0.1);
-    tickPositions.push(
-      Math.cos(a) * r,
-      -0.5,
-      Math.sin(a) * r,
-      Math.cos(a) * rr,
-      -0.5,
-      Math.sin(a) * rr,
-    );
-  }
-  const ticksGeo = new T.BufferGeometry();
-  ticksGeo.setAttribute("position", new T.Float32BufferAttribute(tickPositions, 3));
-  root.add(
-    new T.LineSegments(
-      ticksGeo,
-      new T.LineBasicMaterial({ color: 0xff63b5, transparent: true, opacity: 0.55 }),
-    ),
-  );
-  const axesGeo = new T.BufferGeometry().setFromPoints([
-    new T.Vector3(-23, -0.5, 0),
-    new T.Vector3(23, -0.5, 0),
-    new T.Vector3(0, -0.5, -23),
-    new T.Vector3(0, -0.5, 23),
-  ]);
-  const axes = new T.LineSegments(
-    axesGeo,
-    new T.LineDashedMaterial({
-      color: 0x6450a4,
-      dashSize: 0.2,
-      gapSize: 0.3,
-      transparent: true,
-      opacity: 0.2,
-    }),
-  );
-  axes.computeLineDistances();
-  root.add(axes);
+  orbit(9.2, 0.13);
+  orbit(12, 0.08);
+  orbit(16, 0.035);
   const nodes = [],
     pickables = [];
-  const globeVertex = `varying vec3 vNormal;varying vec3 vPosition;varying vec3 vWorld;void main(){vNormal=normalize(normalMatrix*normal);vPosition=position;vec4 p=modelViewMatrix*vec4(position,1.);vWorld=-p.xyz;gl_Position=projectionMatrix*p;}`;
-  const globeFragment = `precision mediump float;varying vec3 vNormal;varying vec3 vPosition;varying vec3 vWorld;uniform float uTime;uniform vec3 uColor;float noise(vec3 p){return sin(p.x*2.1+sin(p.z*2.4))*cos(p.y*2.3+sin(p.x*1.8))*.5+.5;}void main(){vec3 p=normalize(vPosition);float n=noise(p*2.2)+noise(p*4.)*.28;float land=smoothstep(.62,.70,n);float lat=abs(sin(asin(clamp(p.y,-1.,1.))*52.));float lon=abs(sin(atan(p.z,p.x)*48.));float grid=(1.-smoothstep(.035,.08,min(lat,lon)))*.18;float fres=pow(1.-abs(dot(normalize(vNormal),normalize(vWorld))),2.8);float light=clamp(dot(normalize(vNormal),normalize(vec3(-.7,.8,1.))),0.,1.);float dots=step(.82,sin(p.x*165.)*sin(p.y*150.)*sin(p.z*180.));vec3 color=vec3(.018,.010,.032)+uColor*(land*(.10+light*.17)+grid+fres*.72+land*dots*.55);gl_FragColor=vec4(color,1.);}`;
+  const globeVertex = `
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    varying vec3 vView;
+    void main() {
+      vNormal = normalize(normalMatrix * normal);
+      vPosition = position;
+      vec4 point = modelViewMatrix * vec4(position, 1.0);
+      vView = -point.xyz;
+      gl_Position = projectionMatrix * point;
+    }
+  `;
+  const coreFragment = `
+    varying vec3 vNormal;
+    varying vec3 vPosition;
+    varying vec3 vView;
+
+    float band(float coordinate, float center, float width) {
+      float offset = (coordinate - center) / width;
+      return exp(-offset * offset);
+    }
+
+    void main() {
+      vec3 normal = normalize(vNormal);
+      vec3 view = normalize(vView);
+      vec3 local = normalize(vPosition);
+      float facing = clamp(dot(normal, view), 0.0, 1.0);
+      float rim = 1.0 - facing;
+
+      // Folded light through the body and reflections on the outer glass.
+      float fold = local.y + 0.42 * sin(local.x * 2.6 - local.z * 2.1 + 0.8)
+        + 0.15 * sin(local.z * 4.7 + local.x * 1.8);
+      float veil = band(fold, -0.1, 0.38);
+      float thread = band(fold + 0.065 * sin(local.x * 6.0 + local.z * 3.0), -0.075, 0.028);
+      float echo = band(fold + 0.12 * sin(local.z * 3.6 - local.x * 4.2), 0.17, 0.022);
+      float echoFade = smoothstep(0.12, 0.84, local.y + local.z * 0.35 + 0.35);
+      float depth = 0.35 + 0.65 * smoothstep(-0.9, 0.8, local.z - local.y * 0.25);
+      vec3 blue = vec3(0.12, 0.35, 1.0);
+      vec3 violet = vec3(0.56, 0.22, 0.99);
+      vec3 tint = mix(blue, violet, smoothstep(-0.55, 0.8, normal.x - normal.y * 0.5));
+      vec3 color = vec3(0.035, 0.035, 0.12) + tint * (0.09 + veil * depth * 0.40);
+      color += vec3(0.38, 0.67, 1.0) * thread * depth * smoothstep(0.12, 0.56, facing) * 0.52;
+      color += vec3(0.68, 0.47, 1.0) * echo * depth * echoFade * 0.3;
+
+      float topLight = max(dot(normal, normalize(vec3(-0.62, 0.74, 0.38))), 0.0);
+      float bottomLight = max(dot(normal, normalize(vec3(0.55, -0.72, 0.42))), 0.0);
+      color += vec3(0.22, 0.48, 1.0) * pow(topLight, 4.0) * 0.42;
+      color += vec3(0.48, 0.25, 0.95) * pow(bottomLight, 7.0) * 0.35;
+      color += vec3(0.62, 0.76, 1.0) * pow(topLight, 30.0) * 0.62;
+      color += tint * pow(rim, 2.5) * 0.92;
+      color += vec3(0.67, 0.72, 1.0) * pow(rim, 7.0) * 0.86;
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `;
+  const globeFragment = `
+    varying vec3 vNormal;
+    varying vec3 vView;
+    uniform vec3 uColor;
+    void main() {
+      vec3 normal = normalize(vNormal);
+      float facing = clamp(dot(normal, normalize(vView)), 0.0, 1.0);
+      float light = max(dot(normal, normalize(vec3(-0.7, 0.65, 0.6))), 0.0);
+      float rim = pow(1.0 - facing, 2.4);
+      vec3 tint = mix(uColor, vec3(0.25, 0.3, 0.6), 0.30);
+      gl_FragColor = vec4(vec3(0.027, 0.028, 0.075) + tint * (0.3 * light + 0.42 * rim), 1.0);
+    }
+  `;
+  const glowVertex = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `;
+  const coreRadius = worlds[0].radius;
+  const coreHalo = new T.Mesh(
+    new T.PlaneGeometry(coreRadius * 4.1, coreRadius * 4.1),
+    new T.ShaderMaterial({
+      vertexShader: glowVertex,
+      fragmentShader: `
+        varying vec2 vUv;
+        void main() {
+          vec2 point = vUv * 2.0 - 1.0;
+          float radius = length(point);
+          float glow = exp(-radius * radius * 3.5) * (1.0 - smoothstep(0.38, 1.0, radius));
+          vec3 tint = mix(vec3(0.14, 0.22, 0.7), vec3(0.4, 0.16, 0.72), vUv.x);
+          gl_FragColor = vec4(tint, glow * 0.39);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+      blending: T.AdditiveBlending,
+    }),
+  );
+  coreHalo.position.set(...worlds[0].position);
+  root.add(coreHalo);
+
+  const coreRibbon = new T.Mesh(
+    new T.RingGeometry(coreRadius * 1.38, coreRadius * 1.63, 128),
+    new T.ShaderMaterial({
+      vertexShader: glowVertex,
+      fragmentShader: `
+        varying vec2 vUv;
+        void main() {
+          vec2 point = vUv * 2.0 - 1.0;
+          float radius = length(point);
+          float angle = atan(point.y, point.x);
+          float sweep = 0.24 + 0.76 * pow(0.5 + 0.5 * cos(angle + 0.8), 1.8);
+          float band = smoothstep(0.85, 0.92, radius) * (1.0 - smoothstep(0.93, 1.0, radius));
+          float edge = smoothstep(0.91, 0.927, radius) * (1.0 - smoothstep(0.93, 0.947, radius));
+          vec3 tint = mix(vec3(0.23, 0.39, 1.0), vec3(0.74, 0.46, 1.0), 0.5 + 0.5 * sin(angle));
+          gl_FragColor = vec4(tint, sweep * (band * 0.2 + edge * 0.72));
+        }
+      `,
+      transparent: true,
+      side: T.DoubleSide,
+      depthWrite: false,
+      blending: T.AdditiveBlending,
+    }),
+  );
+  coreRibbon.position.copy(coreHalo.position);
+  coreRibbon.rotation.set(-1.38, -0.09, 0.32);
+  root.add(coreRibbon);
+
+  const satelliteNeutral = new T.Color(0x8b98c4);
   worlds.forEach((w, i) => {
     const group = new T.Group();
     group.position.set(...w.position);
     root.add(group);
     const geometry = makeServiceGeometry(T, w, i);
+    const tint = new T.Color(w.color);
+    if (w.model) tint.lerp(satelliteNeutral, 0.35);
     const material = w.model
       ? new T.MeshStandardMaterial({
-          color: 0x19263c,
-          emissive: w.color,
-          emissiveIntensity: 0.15,
+          color: 0x131c35,
+          emissive: tint,
+          emissiveIntensity: 0.085,
           metalness: 0.45,
           roughness: 0.3,
         })
       : new T.ShaderMaterial({
           vertexShader: globeVertex,
-          fragmentShader: globeFragment,
-          uniforms: { uTime: { value: 0 }, uColor: { value: new T.Color(w.color) } },
+          fragmentShader: i === 0 ? coreFragment : globeFragment,
+          uniforms: { uColor: { value: tint } },
         });
     const globe = new T.Mesh(geometry, material);
     group.add(globe);
     globe.userData.id = i;
     pickables.push(globe);
-    const wire = w.model
-      ? new T.LineSegments(
-          new T.EdgesGeometry(geometry, 25),
-          new T.LineBasicMaterial({ color: w.color, transparent: true, opacity: 0.85 }),
-        )
-      : new T.Mesh(
-          new T.IcosahedronGeometry(w.radius * 1.012, i === 0 ? 3 : 2),
-          new T.MeshBasicMaterial({
-            color: w.color,
-            wireframe: true,
-            transparent: true,
-            opacity: i === 0 ? 0.055 : 0.1,
-          }),
-        );
-    group.add(wire);
     if (w.model) {
+      const wire = new T.LineSegments(
+        new T.EdgesGeometry(geometry, 25),
+        new T.LineBasicMaterial({ color: tint, transparent: true, opacity: 0.33 }),
+      );
+      globe.add(wire);
       const r = w.radius,
         front = r * 0.23;
       const emblem = new T.Group();
       if (w.model === "phone") {
         const screen = new T.Mesh(
           new T.PlaneGeometry(r * 0.94, r * 1.47),
-          new T.MeshBasicMaterial({ color: w.color, transparent: true, opacity: 0.22 }),
+          new T.MeshBasicMaterial({ color: tint, transparent: true, opacity: 0.1 }),
         );
         screen.position.z = front;
         emblem.add(screen);
@@ -204,7 +292,7 @@ function makeScene() {
               "position",
               new T.Float32BufferAttribute(vertices, 3),
             ),
-            new T.LineBasicMaterial({ color: w.color }),
+            new T.LineBasicMaterial({ color: tint, transparent: true, opacity: 0.51 }),
           ),
         );
       } else {
@@ -215,20 +303,28 @@ function makeScene() {
               new T.Vector3(-0.08 * r, -0.25 * r, front),
               new T.Vector3(0.38 * r, 0.32 * r, front),
             ]),
-            new T.LineBasicMaterial({ color: w.color }),
+            new T.LineBasicMaterial({ color: tint, transparent: true, opacity: 0.51 }),
           ),
         );
       }
       globe.add(emblem);
     }
 
-    if (!w.model) {
+    if (i === 0) {
       const atmosphere = new T.Mesh(
-        new T.SphereGeometry(w.radius * 1.065, 36, 24),
+        new T.SphereGeometry(w.radius * 1.04, 48, 32),
         new T.ShaderMaterial({
           vertexShader: globeVertex,
-          fragmentShader: `varying vec3 vNormal;varying vec3 vWorld;uniform vec3 uColor;void main(){float f=pow(1.-abs(dot(normalize(vNormal),normalize(vWorld))),3.);gl_FragColor=vec4(uColor,f*.17);}`,
-          uniforms: { uColor: { value: new T.Color(w.color) } },
+          fragmentShader: `
+            varying vec3 vNormal;
+            varying vec3 vView;
+            void main() {
+              vec3 normal = normalize(vNormal);
+              float rim = pow(1.0 - abs(dot(normal, normalize(vView))), 3.2);
+              vec3 tint = mix(vec3(0.20, 0.36, 1.0), vec3(0.59, 0.37, 1.0), normal.x * 0.5 + 0.5);
+              gl_FragColor = vec4(tint, rim * 0.34);
+            }
+          `,
           transparent: true,
           depthWrite: false,
           side: T.FrontSide,
@@ -237,30 +333,7 @@ function makeScene() {
       );
       group.add(atmosphere);
     }
-    const ring = new T.Mesh(
-      new T.RingGeometry(w.radius * 1.28, w.radius * 1.29, 90),
-      new T.MeshBasicMaterial({
-        color: i === 0 ? 0xff3c9d : w.color,
-        transparent: true,
-        opacity: i === 0 ? 0.72 : 0.4,
-        side: T.DoubleSide,
-        depthWrite: false,
-      }),
-    );
-    ring.rotation.x = Math.PI / 2 + 0.17;
-    ring.rotation.z = 0.13;
-    group.add(ring);
-    const lineGeo = new T.BufferGeometry().setFromPoints([
-      new T.Vector3(0, -w.radius, 0),
-      new T.Vector3(0, -w.position[1] - 0.5, 0),
-    ]);
-    group.add(
-      new T.Line(
-        lineGeo,
-        new T.LineBasicMaterial({ color: w.color, transparent: true, opacity: 0.27 }),
-      ),
-    );
-    nodes.push({ group, globe, wire, ring, w });
+    nodes.push({ group, globe, w });
   });
   // Service relationships connect every capability to the central product.
   const centre = new T.Vector3(...worlds[0].position);
@@ -277,26 +350,13 @@ function makeScene() {
         dashSize: 0.16,
         gapSize: 0.12,
         transparent: true,
-        opacity: 0.6,
+        depthWrite: false,
+        opacity: 0.17,
       }),
     );
     connection.computeLineDistances();
     root.add(connection);
   });
-  // Orbiting markers reinforce the connected service map.
-
-  const fragments = new T.Group();
-  for (let i = 0; i < 58; i++) {
-    const a = rand() * Math.PI * 2,
-      r = 6.7 + rand() * 0.5;
-    const m = new T.Mesh(
-      new T.OctahedronGeometry(0.02 + rand() * 0.045),
-      new T.MeshBasicMaterial({ color: 0xe989db, transparent: true, opacity: 0.35 + rand() * 0.5 }),
-    );
-    m.position.set(Math.cos(a) * r, -0.5 + (rand() - 0.5) * 0.15, Math.sin(a) * r);
-    fragments.add(m);
-  }
-  root.add(fragments);
   const selection = new T.Group();
   const sg = new T.BufferGeometry(),
     sv = [];
@@ -312,14 +372,14 @@ function makeScene() {
   selection.add(
     new T.LineSegments(
       sg,
-      new T.LineBasicMaterial({ color: 0xf4fa54, transparent: true, opacity: 0.8 }),
+      new T.LineBasicMaterial({ color: 0xbbbeff, transparent: true, opacity: 0.7 }),
     ),
   );
   scene.add(selection);
   const scanRing = new T.Mesh(
     new T.RingGeometry(0.985, 1, 100),
     new T.MeshBasicMaterial({
-      color: 0xff3c9d,
+      color: 0xa397ff,
       transparent: true,
       opacity: 0,
       side: T.DoubleSide,
@@ -335,8 +395,8 @@ function makeScene() {
   let width = 1,
     height = 1;
   const resize = () => {
-    width = host.clientWidth;
-    height = host.clientHeight;
+    width = Math.max(1, host.clientWidth);
+    height = Math.max(1, host.clientHeight);
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -384,7 +444,7 @@ function makeScene() {
     );
     raycaster.setFromCamera(pointer, camera);
     const hit = raycaster.intersectObjects(pickables, false)[0];
-    if (hit) selectWorld(hit.object.userData.id);
+    if (hit) selectWorld(hit.object.userData.id, { reveal: true });
   });
   const cancel = () => {
     drag = null;
@@ -406,22 +466,20 @@ function makeScene() {
   const labelPoint = new T.Vector3(),
     look = new T.Vector3();
   const labelElements = [...$("world-labels").children];
-  let labelSizes = [],
+  const hudElements = [...document.querySelectorAll(".worlds,.map-tools,.map-corner")];
+  let activeLabel = labelElements[selected],
+    labelSize = null,
     hudBounds = [],
     measureLabels = true;
   const observeLabels = new ResizeObserver(() => {
     measureLabels = true;
   });
-  for (const element of [
-    host,
-    ...labelElements,
-    ...document.querySelectorAll(".worlds,.map-tools,.map-corner"),
-  ])
-    observeLabels.observe(element);
+  for (const element of [host, ...labelElements, ...hudElements]) observeLabels.observe(element);
+  for (const element of labelElements) element.style.visibility = "hidden";
   function measureLayout() {
     const origin = host.getBoundingClientRect();
-    labelSizes = labelElements.map((el) => ({ width: el.offsetWidth, height: el.offsetHeight }));
-    hudBounds = [...document.querySelectorAll(".worlds,.map-tools,.map-corner")]
+    labelSize = { width: activeLabel.offsetWidth, height: activeLabel.offsetHeight };
+    hudBounds = hudElements
       .map((el) => el.getBoundingClientRect())
       .filter((r) => r.width && r.height)
       .map((r) => ({
@@ -432,24 +490,53 @@ function makeScene() {
       }));
     measureLabels = false;
   }
+  function placeSelectedLabel() {
+    if (!labelSize.width || !labelSize.height) return;
+    const node = nodes[selected];
+    labelPoint.copy(node.group.position);
+    labelPoint.y -= node.w.radius + 0.5;
+    labelPoint.project(camera);
+    const inView =
+      labelPoint.z >= -1 &&
+      labelPoint.z <= 1 &&
+      Math.abs(labelPoint.x) <= 1 &&
+      Math.abs(labelPoint.y) <= 1;
+    const box =
+      inView &&
+      placeMapLabel(
+        { x: (labelPoint.x * 0.5 + 0.5) * width, y: (-labelPoint.y * 0.5 + 0.5) * height },
+        labelSize,
+        { width, height },
+        hudBounds,
+      );
+    activeLabel.style.visibility = box ? "visible" : "hidden";
+    if (box) {
+      activeLabel.style.left = `${box.x}px`;
+      activeLabel.style.top = `${box.y}px`;
+    }
+  }
 
   $("render-status").textContent = "3D SERVICE MAP";
   return {
-    select() {},
+    select() {
+      activeLabel.style.visibility = "hidden";
+      activeLabel = labelElements[selected];
+      measureLabels = true;
+    },
     zoom(amount) {
       targetDistance = Math.max(20, Math.min(47, targetDistance + amount));
     },
     reset() {
-      targetAngle = 0.12;
-      targetTilt = 0.55;
-      targetDistance = 35;
+      targetAngle = home.angle;
+      targetTilt = home.tilt;
+      targetDistance = home.distance;
       targetX = 0;
       targetZ = 0;
     },
     jump(id) {
-      targetX = worlds[id].position[0] * 0.2;
-      targetZ = worlds[id].position[2] * 0.2;
-      targetDistance = id === 0 ? 27 : 29;
+      targetX = worlds[id].position[0] * 0.34;
+      targetZ = worlds[id].position[2] * 0.34;
+      targetDistance = id === 0 ? 21 : 22;
     },
     update(dt, time) {
       if (contextLost) return;
@@ -460,63 +547,33 @@ function makeScene() {
       distance += (targetDistance - distance) * ease;
       lookX += (targetX - lookX) * ease;
       lookZ += (targetZ - lookZ) * ease;
-      const mobile = width < 500;
-      const actualDistance = distance * (mobile ? 1.19 : width < 760 ? 1.08 : 1);
+      const actualDistance = distance * Math.min(1.19, Math.max(1, 1 / camera.aspect));
       camera.position.set(
         Math.sin(angle) * actualDistance,
         Math.sin(tilt) * actualDistance,
         Math.cos(angle) * Math.cos(tilt) * actualDistance,
       );
-      look.set(lookX + (mobile ? 0 : -1.1), 0.3, lookZ);
+      look.set(lookX, worlds[0].position[1], lookZ);
       camera.lookAt(look);
       camera.updateMatrixWorld();
-      nodes.forEach((node) => {
-        if (!reduced && !effectivePause()) {
+      coreHalo.quaternion.copy(camera.quaternion);
+      const motionEnabled = !reduced && !effectivePause();
+      if (motionEnabled) {
+        nodes.forEach((node, index) => {
           node.globe.rotation.y = node.w.model
             ? Math.sin(time * 0.25) * 0.18
-            : node.globe.rotation.y + dt * 0.026;
-          node.wire.rotation.y = node.globe.rotation.y;
-        }
-      });
-      const placed = [...hudBounds];
-      for (const i of [selected, ...worlds.map((_, id) => id).filter((id) => id !== selected)]) {
-        const node = nodes[i],
-          el = labelElements[i];
-        labelPoint.copy(node.group.position);
-        labelPoint.y -= node.w.radius + 0.5;
-        labelPoint.project(camera);
-        if (
-          labelPoint.z < -1 ||
-          labelPoint.z > 1 ||
-          Math.abs(labelPoint.x) > 1 ||
-          Math.abs(labelPoint.y) > 1
-        ) {
-          el.style.visibility = "hidden";
-          continue;
-        }
-        const box = placeMapLabel(
-          { x: (labelPoint.x * 0.5 + 0.5) * width, y: (-labelPoint.y * 0.5 + 0.5) * height },
-          labelSizes[i],
-          { width, height },
-          placed,
-        );
-        el.style.visibility = box ? "visible" : "hidden";
-        if (box) {
-          el.style.left = `${box.x}px`;
-          el.style.top = `${box.y}px`;
-          placed.push(box);
-        }
+            : node.globe.rotation.y + dt * (index === 0 ? 0.09 : 0.026);
+        });
       }
-
-      selection.position.copy(nodes[selected].group.position);
-      selection.quaternion.copy(camera.quaternion);
-      const scale = worlds[selected].radius * 1.42;
-      selection.scale.setScalar(scale);
-      selection.rotateZ(reduced ? 0 : time * 0.025);
-      if (!reduced && !effectivePause()) {
-        fragments.rotation.y = time * 0.025;
+      placeSelectedLabel();
+      selection.visible = selected !== 0;
+      if (selection.visible) {
+        selection.position.copy(nodes[selected].group.position);
+        selection.quaternion.copy(camera.quaternion);
+        selection.scale.setScalar(worlds[selected].radius * 1.42);
+        selection.rotateZ(reduced ? 0 : time * 0.025);
       }
-      glyphField.update(dt, rain, !reduced && !effectivePause());
+      glyphField.update(dt, rain, motionEnabled);
       const scanRemaining = scanFxUntil - time;
       if (scanRemaining > 0 && !reduced) {
         scanRing.visible = true;
@@ -526,6 +583,11 @@ function makeScene() {
       renderer.render(scene, camera);
     },
     dispose() {
+      observeLabels.disconnect();
+      for (const effect of [coreHalo, coreRibbon]) {
+        effect.geometry.dispose();
+        effect.material.dispose();
+      }
       glyphField.dispose();
       renderer.dispose();
     },

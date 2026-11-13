@@ -5,6 +5,7 @@ export const SERVICE_LABELS = {
   integrations: "APIs & automation",
   support: "Debugging & ongoing support",
   ios: "Native iOS development",
+  security: "Product security and post-quantum readiness",
   planning: "Project planning session",
 };
 const limits = { name: 120, email: 254, description: 4000, budget: 120, timeline: 120 };
@@ -23,28 +24,4 @@ export function sanitizeInquiry(value = {}) {
         : "";
   }
   return result;
-}
-
-export function buildInquiry(value) {
-  const draft = sanitizeInquiry(value);
-  return [
-    "Project inquiry / LEVNAT",
-    "",
-    `Service: ${SERVICE_LABELS[draft.service]}`,
-    ...(draft.name.trim() ? [`Name: ${draft.name.trim()}`] : []),
-    ...(draft.email.trim() ? [`Reply to: ${draft.email.trim()}`] : []),
-    ...(draft.budget.trim() ? [`Budget: ${draft.budget.trim()}`] : []),
-    ...(draft.timeline.trim() ? [`Target date: ${draft.timeline.trim()}`] : []),
-    "",
-    "What I would like to build or improve:",
-    draft.description.trim(),
-    "",
-    "Please help clarify the scope and next steps. No engagement is confirmed by this inquiry.",
-  ].join("\n");
-}
-
-export function inquiryMailto(value) {
-  const draft = sanitizeInquiry(value);
-  const subject = `Project inquiry: ${SERVICE_LABELS[draft.service]}`;
-  return `mailto:info@levnat.ca?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildInquiry(draft))}`;
 }

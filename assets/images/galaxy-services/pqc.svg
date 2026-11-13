@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" aria-hidden="true">
+  <defs>
+    <radialGradient id="aura">
+      <stop stop-color="#38bf98" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#38bf98" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shell" x1=".12" y1=".18" x2=".9" y2="1">
+      <stop stop-color="#25644f" stop-opacity=".62"/>
+      <stop offset=".56" stop-color="#184238" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#318367" stop-opacity=".56"/>
+    </linearGradient>
+    <linearGradient id="rim" x1=".09" y1=".14" x2=".92" y2=".87">
+      <stop stop-color="#d1ffea"/>
+      <stop offset=".52" stop-color="#57c6a2"/>
+      <stop offset="1" stop-color="#b4ffe4"/>
+    </linearGradient>
+    <linearGradient id="route" x1="105" x2="855" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ed9c65" stop-opacity=".26"/>
+      <stop offset=".22" stop-color="#ffbb81"/>
+      <stop offset=".49" stop-color="#e4ffe8"/>
+      <stop offset=".74" stop-color="#83ffd6"/>
+      <stop offset="1" stop-color="#8bffe0" stop-opacity=".24"/>
+    </linearGradient>
+    <radialGradient id="packet-light">
+      <stop stop-color="#e9fff5" stop-opacity=".81"/>
+      <stop offset=".39" stop-color="#8affd4" stop-opacity=".49"/>
+      <stop offset="1" stop-color="#54d7a9" stop-opacity="0"/>
+    </radialGradient>
+    <path id="envelope" d="M462 101 602 160q13 6 13 20v95c0 66-57 111-151 164-94-53-151-98-151-164v-95q0-14 13-20Z"/>
+    <path id="beam" d="M105 266h167c29 0 34-26 62-26h56c19 0 31 26 54 26h411"/>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        .sealed-light { animation: seal 4.8s ease-in-out infinite; }
+        @keyframes seal {
+          0%, 100% { opacity: .64; }
+          45%, 65% { opacity: 1; }
+        }
+      }
+    </style>
+  </defs>
+  <ellipse cx="479" cy="274" rx="417" ry="222" fill="url(#aura)"/>
+  <g fill="none" stroke="#71d9b5">
+    <ellipse cx="480" cy="405" rx="390" ry="77" opacity=".18" stroke-width="2"/>
+    <ellipse cx="480" cy="405" rx="333" ry="58" opacity=".16" stroke-width="2" stroke-dasharray="3 10"/>
+    <path d="M134 224v-22h22m-22 106v22h22m649-128h22v22m0 84v22h-22" opacity=".4" stroke-width="2"/>
+    <path d="M167 266h642M464 79v379" opacity=".26" stroke-width="2" stroke-dasharray="4 9"/>
+    <path d="M225 252c76-20 105-98 237-133 117-31 213 30 270 130m-507 27c70 16 103 92 237 124 126 30 217-25 270-120" opacity=".38" stroke-width="2.5"/>
+  </g>
+  <use href="#envelope" transform="translate(40 -9)" fill="#1c5c49" fill-opacity=".16" stroke="#75c6a9" stroke-opacity=".47" stroke-width="2.5"/>
+  <path d="m462 101 40-9m100 68 40-9m-27 124 40-9M464 439l40-9m-191-250 40-9" fill="none" stroke="#77d5b1" stroke-opacity=".49" stroke-width="2.5"/>
+  <use href="#envelope" fill="none" stroke="#8effd8" stroke-opacity=".18" stroke-width="18"/>
+  <use href="#envelope" fill="url(#shell)" stroke="url(#rim)" stroke-width="4.4" stroke-linejoin="round"/>
+  <use href="#envelope" transform="translate(88 52) scale(.81)" fill="#18493b" fill-opacity=".39" stroke="#87e5c3" stroke-opacity=".61" stroke-width="3.3" stroke-linejoin="round"/>
+  <use href="#envelope" transform="translate(177 103) scale(.62)" fill="url(#shell)" stroke="url(#rim)" stroke-width="5.5" stroke-linejoin="round"/>
+  <use href="#envelope" transform="translate(269 156) scale(.42)" fill="#1d4d41" fill-opacity=".78" stroke="#b7fce2" stroke-width="5.8" stroke-linejoin="round"/>
+  <path d="M464 140v32m-106 24 26 12m160 0 27-12m-212 107 24-12m160 0 27 12m-106 51v33" fill="none" stroke="#c4ffe9" stroke-opacity=".66" stroke-width="3" stroke-linecap="round"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#beam" stroke="url(#route)" stroke-width="26" opacity=".23"/>
+    <use href="#beam" stroke="url(#route)" stroke-width="7"/>
+    <use href="#beam" stroke="url(#route)" stroke-width="2.5" opacity=".92"/>
+  </g>
+  <circle cx="464" cy="266" r="69" fill="url(#packet-light)" opacity=".8"/>
+  <circle cx="464" cy="266" r="28" fill="#235c4b" stroke="#b4ffe2" stroke-width="3"/>
+  <path d="m464 250 16 16-16 16-16-16Z" fill="#d9fff0" stroke="#f1fff8" stroke-width="2.5"/>
+  <circle cx="190" cy="266" r="18" fill="#553829" stroke="#ffbb84" stroke-width="2.5"/>
+  <circle cx="190" cy="266" r="6" fill="#ffe2be"/>
+  <path d="m274 260 12 6-12 6m376-12 12 6-12 6m139-12 12 6-12 6" fill="#b1ffe0" fill-opacity=".78"/>
+  <g class="sealed-light">
+    <circle cx="735" cy="266" r="68" fill="url(#packet-light)"/>
+    <circle cx="735" cy="266" r="44" fill="none" stroke="#a0ffda" stroke-opacity=".59" stroke-width="2.4" stroke-dasharray="5 6"/>
+  </g>
+  <g stroke="#c8ffe9" stroke-width="2.8" stroke-linejoin="round">
+    <path d="m735 234 29 16v32l-29 17-29-17v-32Z" fill="#326f5d"/>
+    <path d="m735 234 29 16-29 17-29-17Z" fill="#8cf8d0"/>
+    <path d="M735 267v32l29-17v-32Z" fill="#235448"/>
+  </g>
+  <path d="m712 270 5 8 9-11" fill="none" stroke="#dcfff0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

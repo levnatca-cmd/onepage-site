@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080612" />
+    <meta name="theme-color" content="#080910" />
     <meta
       name="description"
       content="Websites, web apps, native iOS, API integrations, hardware/software support and product security reviews. Explore services and prepare a project inquiry."
@@ -14,107 +14,49 @@
     </style>
   </head>
   <body>
-    <a class="skip" href="#service-control">Skip to service details</a>
+    <a class="skip" id="skip-service" href="#service-control">Skip to service details</a>
     <div class="app" id="app">
       <header class="topbar">
-        <div class="brand" aria-label="Systems Engineering">
+        <a class="brand" id="nav-map" href="#app" aria-label="Systems Engineering, back to top">
           <svg viewBox="0 0 40 40" aria-hidden="true">
             <path
               d="m20 3 15 8v18l-15 8-15-8V11Z M20 3v34 M5 11l30 18 M35 11 5 29 M5 20l15-8 15 8-15 8Z"
             />
           </svg>
-          <div>SYSTEMS<small>DEVELOPMENT &amp; SUPPORT</small></div>
-        </div>
+          <span>Systems</span>
+        </a>
         <nav class="topnav" aria-label="Main">
-          <button class="active" id="nav-map" aria-current="page">
-            Service map <span>01</span></button
-          ><button id="nav-service">Services <span>02</span></button
-          ><button id="nav-brief">Project brief <span id="nav-brief-count">0</span></button>
+          <a class="nav-galaxy" id="nav-galaxy" href="https://levnat.ca/explore.html">Galaxy</a>
+          <button id="nav-service" aria-controls="services-panel" aria-expanded="false">
+            Services
+          </button>
+          <button class="nav-brief" id="nav-brief" aria-label="Review project brief">
+            Project brief <span id="nav-brief-count" hidden>0</span>
+          </button>
         </nav>
-        <div class="account">
-          <a class="contact-link" href="mailto:info@levnat.ca">info@levnat.ca ↗</a>
-        </div>
       </header>
-      <div class="workspace">
-        <aside class="rail" aria-label="Quick controls">
-          <button
-            class="icon-button active"
-            id="rail-map"
-            aria-label="Recenter service map"
-            title="Service map"
-          >
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="3" />
-              <ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(-35 12 12)" />
-              <path d="m5 2 1 3M20 17l1 3" />
-            </svg>
-          </button>
-          <button
-            class="icon-button"
-            id="rail-service"
-            aria-label="Show service details"
-            title="Service details"
-          >
-            <svg viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 7h6M9 11h6M9 15h3" /></svg>
-          </button>
-          <button
-            class="icon-button"
-            id="rail-brief"
-            aria-label="Review project brief"
-            title="Project brief"
-          >
-            <svg viewBox="0 0 24 24"><path d="M3 5h18v14H3zM6 9l3 3-3 3M12 15h5" /></svg>
-          </button>
-          <div class="spacer"></div>
-          <span class="rail-mark">BUILD / CONNECT / MAINTAIN</span>
-          <button
-            class="icon-button"
-            id="sound-button"
-            aria-label="Enable sound"
-            aria-pressed="false"
-            title="Enable sound"
-          >
-            <svg viewBox="0 0 24 24"><path d="m11 4-6 5H2v6h3l6 5ZM16 9l6 6m0-6-6 6" /></svg>
-          </button>
-          <button
-            class="icon-button"
-            id="settings-button"
-            aria-label="Open settings"
-            title="Settings"
-          >
-            <svg viewBox="0 0 24 24">
-              <path d="M4 7h16M4 17h16" />
-              <circle cx="8" cy="7" r="3" fill="#080612" />
-              <circle cx="16" cy="17" r="3" fill="#080612" />
-            </svg>
-          </button>
-          <button
-            class="icon-button"
-            id="help-button"
-            aria-label="How to use the service map"
-            title="Map guide"
-          >
-            <svg viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="9" />
-              <path d="M9.5 8.5a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4M12 16h.01" />
-            </svg>
-          </button>
-        </aside>
-        <main class="map-column" id="main-content">
-          <section class="map-stage" id="map-stage" aria-label="Interactive software service map">
+      <main id="main-content">
+        <section class="map-stage" id="map-stage" aria-label="Interactive software service map">
+          <div class="hero">
             <div class="map-heading">
-              <div class="eyebrow">
-                SOFTWARE DEVELOPMENT <span style="color: #b576a4">/</span> SUPPORT
-              </div>
-              <h1>WEBSITES &amp; APPS</h1>
-              <div class="map-sub">
-                <span><i class="dot"></i> &nbsp; ONE CONNECTED PRODUCT</span
-                ><span id="service-count">7 SERVICE AREAS</span>
-              </div>
+              <p class="eyebrow">Software development &amp; support</p>
+              <h1>Websites &amp; apps.<span>Built to last.</span></h1>
               <p class="map-explanation">
-                Build it. Connect it. Support it.<br />Websites, native iOS, integrations and
-                hardware/software support.
+                Build a new product, connect the tools you use, or keep your software running.
               </p>
+              <div class="hero-actions">
+                <button class="button button-solid" id="hero-brief" aria-haspopup="dialog">
+                  Describe your project <span aria-hidden="true">↗</span>
+                </button>
+                <button
+                  class="button button-text"
+                  id="hero-services"
+                  aria-controls="services-panel"
+                  aria-expanded="false"
+                >
+                  Explore services <span aria-hidden="true">↓</span>
+                </button>
+              </div>
             </div>
             <div class="scene-viewport" id="scene-viewport">
               <canvas
@@ -122,50 +64,63 @@
                 tabindex="0"
                 aria-label="Interactive service map. Drag to orbit. Select a service with 1 to 7 while focused here, or use the service list."
               ></canvas>
-              <div class="map-corner">
-                CORE <b>YOUR PRODUCT</b><br />VIEW <b>SERVICE MAP</b><br /><span
-                  style="color: #9a7dab"
-                  >PLAN / BUILD / MAINTAIN</span
-                >
-              </div>
               <div class="label-layer" id="world-labels" aria-hidden="true"></div>
-              <div class="sweep"></div>
-              <div class="map-tools">
-                <button class="icon-button" id="zoom-in" aria-label="Zoom in" title="Zoom in">
-                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></button
-                ><button class="icon-button" id="zoom-out" aria-label="Zoom out" title="Zoom out">
-                  <svg viewBox="0 0 24 24"><path d="M5 12h14" /></svg></button
-                ><button
-                  class="icon-button"
-                  id="recenter"
-                  aria-label="Reset camera"
-                  title="Reset camera · R"
+              <div class="scene-caption">
+                <span id="map-gesture-hint">Drag to orbit · Tap an object to explore</span>
+                <button
+                  class="scene-link"
+                  id="hologram-toggle"
+                  aria-controls="holograms"
+                  aria-expanded="false"
                 >
-                  <svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="6" />
-                    <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
-                  </svg></button
-                ><button
-                  class="icon-button"
-                  id="pause-button"
-                  aria-label="Pause animation"
-                  aria-pressed="false"
-                  title="Pause · P"
-                >
-                  <svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></svg></button
-                ><button
-                  class="icon-button"
-                  id="mobile-settings"
-                  aria-label="Open settings"
-                  title="Settings"
-                >
-                  <svg viewBox="0 0 24 24">
-                    <path d="M4 7h16M4 17h16" />
-                    <circle cx="8" cy="7" r="3" fill="#080612" />
-                    <circle cx="16" cy="17" r="3" fill="#080612" />
-                  </svg>
+                  View selection
                 </button>
               </div>
+              <details class="scene-controls" id="scene-controls">
+                <summary class="icon-button" aria-label="Scene controls" title="Scene controls">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="5" cy="12" r="1" />
+                    <circle cx="12" cy="12" r="1" />
+                    <circle cx="19" cy="12" r="1" />
+                  </svg>
+                </summary>
+                <div class="map-tools">
+                  <button class="icon-button" id="zoom-in" aria-label="Zoom in" title="Zoom in">
+                    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></button
+                  ><button class="icon-button" id="zoom-out" aria-label="Zoom out" title="Zoom out">
+                    <svg viewBox="0 0 24 24"><path d="M5 12h14" /></svg></button
+                  ><button
+                    class="icon-button"
+                    id="recenter"
+                    aria-label="Reset camera"
+                    title="Reset camera · R"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="6" />
+                      <path d="M12 2v4m0 12v4M2 12h4m12 0h4" />
+                    </svg></button
+                  ><button
+                    class="icon-button"
+                    id="pause-button"
+                    aria-label="Pause animation"
+                    aria-pressed="false"
+                    title="Pause · P"
+                  >
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" /></svg></button
+                  ><button
+                    class="icon-button"
+                    id="mobile-settings"
+                    aria-label="Open settings"
+                    title="Settings"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="M4 7h16M4 17h16" />
+                      <circle cx="8" cy="7" r="3" fill="#080612" />
+                      <circle cx="16" cy="17" r="3" fill="#080612" />
+                    </svg>
+                  </button>
+                </div>
+              </details>
               <div id="fallback" class="fallback-map" hidden>
                 <svg viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="25" />
@@ -178,123 +133,125 @@
                 </p>
               </div>
             </div>
-            <div class="worlds">
-              <div class="worlds-title">
-                SOFTWARE &amp; SUPPORT
-                <span id="service-count-badge" style="color: #ab729b">[ 07 ]</span>
-              </div>
+          </div>
+          <section
+            class="worlds content-section"
+            id="services-panel"
+            aria-labelledby="catalog-title"
+            hidden
+          >
+            <button
+              class="icon-button panel-close"
+              id="services-toggle"
+              aria-label="Close services"
+              title="Close · Esc"
+            >
+              ×
+            </button>
+            <div id="services-content" hidden>
+              <h2 id="catalog-title" tabindex="-1">Explore services</h2>
+              <p>Pick a starting point. You can combine services in your brief.</p>
               <div id="world-list"></div>
             </div>
-            <div class="map-hint">
-              <div>
-                <svg viewBox="0 0 24 24">
-                  <rect x="6" y="2" width="12" height="20" rx="6" />
-                  <path d="M12 2v7" /></svg
-                ><span id="map-gesture-hint">DRAG TO ORBIT · + / − TO ZOOM</span>
-              </div>
-              <div class="hint-auto">CONCEPTUAL PRODUCT MAP</div>
-              <button id="hint-help" style="font: inherit; color: var(--accent); padding: 4px">
-                [ ? ] GUIDE
-              </button>
-            </div>
           </section>
-          <section class="map-bottom" aria-label="Selected service">
-            <div class="selection-info">
-              <div class="selection-icon">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="7" />
-                  <ellipse cx="12" cy="12" rx="3" ry="7" />
-                  <path d="M5 12h14M6.5 8.5h11M6.5 15.5h11" />
-                </svg>
+          <section class="holograms" id="holograms" aria-label="Selected service" hidden>
+            <button
+              class="icon-button panel-close"
+              id="hologram-close"
+              aria-label="Close service preview"
+              title="Close · Esc"
+            >
+              ×
+            </button>
+            <article class="hologram-window hologram-primary" aria-labelledby="hologram-title">
+              <div class="hologram-body">
+                <p class="hologram-path" id="hologram-path"></p>
+                <h2 id="hologram-title"></h2>
+                <p class="hologram-description" id="hologram-description"></p>
+                <div class="hologram-actions">
+                  <button id="hologram-details">View details ↗</button>
+                  <button id="hologram-scope" aria-pressed="false">Add to brief +</button>
+                </div>
               </div>
-              <div>
-                <h2 id="selected-name">Your product</h2>
-                <p id="selected-meta">DISCOVERY &amp; ARCHITECTURE</p>
+            </article>
+            <article
+              class="hologram-window hologram-secondary"
+              aria-labelledby="hologram-scope-title"
+            >
+              <h3 id="hologram-scope-title">Example scope</h3>
+              <div class="hologram-body">
+                <ul class="hologram-modules" id="hologram-modules"></ul>
               </div>
-            </div>
-            <div class="action-buttons">
-              <button class="button button-outline" id="explore-button">
-                <svg viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="8" />
-                  <path d="m12 12 7-7M12 7v5" /></svg
-                ><span>Explore service</span></button
-              ><button class="button button-solid" id="add-button" aria-pressed="false">
-                <span>Add to brief</span
-                ><svg viewBox="0 0 24 24"><path d="M4 12h16m-8-8v16" /></svg>
-              </button>
-            </div>
+            </article>
           </section>
-        </main>
-        <aside
-          class="mission-panel"
+          <p class="sr-only" id="hologram-status" role="status" aria-live="polite"></p>
+        </section>
+        <section
+          class="mission-panel content-section"
           id="service-control"
           tabindex="-1"
           aria-labelledby="service-title"
+          hidden
         >
-          <div class="panel-heading">
-            SERVICE OVERVIEW <svg viewBox="0 0 24 24"><path d="M3 12h3l3-7 5 14 3-7h4" /></svg>
+          <button
+            class="icon-button panel-close"
+            id="overview-toggle"
+            aria-label="Close service details"
+            title="Close · Esc"
+          >
+            ×
+          </button>
+          <div id="overview-content" hidden>
+            <section class="mission-brief">
+              <div class="mission-tag" id="service-tag">01 / DISCOVERY &amp; ARCHITECTURE</div>
+              <h2 class="mission-title" id="service-title">Your product</h2>
+              <p class="mission-description" id="service-description">
+                Define the product, the workflows and the technical decisions before the next build.
+              </p>
+              <div class="mission-meta">
+                <span
+                  >START WITH<strong id="service-trigger"
+                    >An idea or an existing product</strong
+                  ></span
+                ><span
+                  >FOCUS<strong class="accent" id="service-focus">A clear build plan</strong></span
+                >
+              </div>
+            </section>
+            <section class="service-specialism" id="service-specialism" hidden>
+              <h3 id="specialism-title"></h3>
+              <p id="specialism-description"></p>
+              <div class="service-technologies" id="service-technologies"></div>
+              <a id="service-reference" hidden target="_blank" rel="noopener noreferrer"></a>
+            </section>
+            <section class="mission-progress">
+              <div class="objective-heading">
+                <span>EXAMPLE SCOPE</span><span id="service-code">CORE</span>
+              </div>
+              <ul class="service-list" id="service-deliverables"></ul>
+              <p class="scope-note">I agree on scope with you before work starts.</p>
+              <button class="button button-solid mission-action" id="review-button">
+                <span>Review project brief</span
+                ><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
+              </button>
+              <div class="brief-chips" id="brief-chips"></div>
+              <p class="brief-summary" id="brief-summary">
+                Add the services you need, or describe your project in the brief.
+              </p>
+            </section>
           </div>
-          <section class="mission-brief">
-            <div class="mission-art" aria-hidden="true">
-              <span class="art-coordinate">PLAN<br />BUILD<br />SUPPORT</span
-              ><svg viewBox="0 0 100 100">
-                <path
-                  d="m50 7 36 21v43L50 92 14 71V28ZM50 7v85M14 28l72 43M86 28 14 71M14 50l36-21 36 21-36 21Z"
-                />
-                <circle cx="50" cy="50" r="39" stroke-dasharray="1 4" />
-                <path d="M3 3h12M3 3v12M97 3H85M97 3v12M3 97h12M3 97V85M97 97H85M97 97V85" /></svg
-              ><span class="art-label">PRODUCT // ARCHITECTURE</span>
-            </div>
-            <div class="mission-tag" id="service-tag">01 / DISCOVERY &amp; ARCHITECTURE</div>
-            <h2 class="mission-title" id="service-title">Your product</h2>
-            <p class="mission-description" id="service-description">
-              Define the product, the workflows and the technical decisions before the next build.
-            </p>
-            <div class="mission-meta">
-              <span
-                >START WITH<strong id="service-trigger"
-                  >An idea or an existing product</strong
-                ></span
-              ><span
-                >FOCUS<strong class="accent" id="service-focus">A clear build plan</strong></span
-              >
-            </div>
-          </section>
-          <section class="service-specialism" id="service-specialism" hidden>
-            <h3 id="specialism-title"></h3>
-            <p id="specialism-description"></p>
-            <div class="service-technologies" id="service-technologies"></div>
-            <a id="service-reference" hidden target="_blank" rel="noopener noreferrer"></a>
-          </section>
-          <section class="mission-progress">
-            <div class="objective-heading">
-              <span>EXAMPLE SCOPE</span><span id="service-code">CORE</span>
-            </div>
-            <ul class="service-list" id="service-deliverables"></ul>
-            <p class="scope-note">I agree on scope with you before work starts.</p>
-            <button class="button button-solid mission-action" id="review-button">
-              <span>Review project brief</span
-              ><svg viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
-            </button>
-            <div class="brief-chips" id="brief-chips"></div>
-            <p class="brief-summary" id="brief-summary">
-              Add the services you need, or describe your project in the brief.
-            </p>
-          </section>
-          <section class="telemetry">
-            <div class="panel-heading">HOW I WORK <span class="badge">BUILD + SUPPORT</span></div>
-            <div class="telemetry-row"><span>01 / Define</span><b>Goals and scope</b></div>
-            <div class="telemetry-row"><span>02 / Develop</span><b>Build and integrate</b></div>
-            <div class="telemetry-row"><span>03 / Maintain</span><b>Fix and improve</b></div>
-            <p class="scope-note">New software. Existing systems. Ongoing care.</p>
-          </section>
-        </aside>
-      </div>
-      <footer class="system-status">
-        <span><i class="dot"></i> SOFTWARE DEVELOPMENT &amp; SUPPORT</span
-        ><span class="optional">INTERACTIVE SERVICE MAP</span
-        ><span class="right" id="render-status">INITIALIZING 3D</span
-        ><span>SYSTEMS ENGINEERING</span>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <span class="site-signature" id="map-signature">Systems Engineering</span>
+        <a class="site-signature" id="site-services" href="/services/" hidden
+          >All LEVNAT services</a
+        >
+        <a id="device-theme-link" href="/" hidden>Use device theme</a>
+        <a id="site-contact" href="/contact/" hidden>Contact ↗</a>
+        <a id="site-galaxy" href="https://levnat.ca/explore.html">Back to Galaxy</a>
+        <button id="hint-help">Map guide</button>
+        <span class="sr-only" id="render-status" role="status">Initializing 3D</span>
       </footer>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -305,13 +262,14 @@
       </div>
       <div class="dialog-copy">
         <p>
-          The centre is <strong>your product</strong>. The surrounding objects represent web
-          websites and apps, backend services, integrations, software and device support, native iOS
-          apps and product security with post-quantum readiness.
+          The centre is <strong>your product</strong>. The surrounding objects represent websites
+          and apps, backend services, integrations, software and device support, native iOS apps and
+          product security with post-quantum readiness.
         </p>
         <p>
-          Select an object or use the service list to see what it covers. Add relevant services to
-          your brief, describe what you need and review it before opening an email draft.
+          Select an object or use the service list to preview what each service covers. You can add
+          services to your brief or start by describing your project. Review the brief before
+          submitting your inquiry.
         </p>
         <p>This is a conceptual service map. It does not connect to or monitor your systems.</p>
         <p>Keyboard shortcuts work while focus is on the map, service list or service controls.</p>
@@ -320,10 +278,17 @@
           <li><kbd>E</kbd> Explore · <kbd>A</kbd> Add or remove from brief</li>
           <li><kbd>B</kbd> Review brief · <kbd>P</kbd> Pause animation</li>
           <li><kbd>R</kbd> Recenter · <kbd>+</kbd> / <kbd>−</kbd> Zoom</li>
+          <li><kbd>H</kbd> Open service preview · <kbd>Esc</kbd> Close panel</li>
         </ul>
         <p>Drag horizontally to orbit. Use + / − controls on touch screens.</p>
+        <p>
+          Open Services to browse the list. Use View details to read about the selected service.
+          Escape closes the active panel.
+        </p>
       </div>
-      <button class="button button-solid" data-close>Explore services →</button>
+      <button class="button button-solid" id="guide-services">
+        Explore services <span aria-hidden="true">↓</span>
+      </button>
     </dialog>
     <dialog id="settings-dialog" aria-labelledby="settings-dialog-title">
       <div class="dialog-heading">
@@ -332,9 +297,7 @@
       </div>
       <label class="setting">Sound effects <input type="checkbox" id="sound-setting" /></label
       ><label class="setting">Reduced motion <input type="checkbox" id="motion-setting" /></label
-      ><label class="setting"
-        >Digital rain <input type="checkbox" id="rain-setting" checked
-      /></label>
+      ><label class="setting">Digital rain <input type="checkbox" id="rain-setting" /></label>
       <p class="dialog-copy">
         Settings apply until you reload this page. Sound starts only after you enable it.
       </p>
@@ -346,38 +309,50 @@
         <button class="icon-button" data-close aria-label="Close project brief">✕</button>
       </div>
       <div id="brief-items"></div>
-      <label class="brief-label" for="brief-notes"
-        >What exists, and what do you want to build or fix?</label
-      ><textarea
-        class="brief-notes"
-        id="brief-notes"
-        maxlength="1200"
-        aria-describedby="notes-limit draft-save-status"
-        placeholder="For example: We have an internal app and need a new feature, an API integration and help maintaining it."
-      ></textarea>
-      <div class="notes-meta">
-        <span id="notes-limit">Maximum 1,200 characters.</span
-        ><span id="notes-count">0 / 1,200</span>
-      </div>
-      <p class="scope-note" id="draft-save-status"></p>
-      <p class="sr-only" id="brief-status" role="status" aria-live="polite"></p>
-      <div class="brief-actions">
-        <a class="button button-solid" id="email-draft" href="mailto:info@levnat.ca"
-          >Open email draft ↗</a
-        ><button class="button button-outline" id="download-brief">Save brief (.txt)</button>
-      </div>
-      <p class="email-note">
-        Opens a draft addressed to <a href="mailto:info@levnat.ca">info@levnat.ca</a>. Review and
-        send it from your email app. If no email app is configured, save the brief and email it
-        manually. Your brief is kept in this browser tab. Save a copy to keep it after closing the
-        tab.
-      </p>
+      <form id="brief-form" method="post" action="/api/inquiries">
+        <label class="brief-label" for="brief-notes"
+          >What exists, and what do you want to build or fix?</label
+        ><textarea
+          class="brief-notes"
+          id="brief-notes"
+          maxlength="1200"
+          autocomplete="off"
+          aria-describedby="notes-limit brief-privacy"
+          placeholder="For example: We have an internal app and need a new feature, an API integration and help maintaining it."
+        ></textarea>
+        <div class="notes-meta">
+          <span id="notes-limit">Maximum 1,200 characters.</span
+          ><span id="notes-count">0 / 1,200</span>
+        </div>
+        <label class="brief-label" for="brief-email">Email for a reply</label>
+        <input
+          class="brief-email"
+          id="brief-email"
+          type="email"
+          autocomplete="off"
+          maxlength="254"
+          required
+        />
+        <p class="scope-note" id="brief-privacy">
+          Your brief is held on this page. Save a copy to keep it.
+        </p>
+        <p class="sr-only" id="brief-status" role="status" aria-live="polite"></p>
+        <p class="scope-note" id="brief-submit-status" role="status">
+          Protected submission is unavailable on this page.
+        </p>
+        <div class="brief-actions">
+          <button class="button button-solid" id="brief-send" type="submit" disabled>
+            Send inquiry
+          </button>
+          <button class="button button-outline" id="download-brief" type="button">
+            Save brief (.txt)
+          </button>
+        </div>
+      </form>
     </dialog>
     <noscript
       ><p style="padding: 20px; color: #43f5ff">
-        For software development or support, email
-        <a href="mailto:info@levnat.ca">info@levnat.ca</a>. Enable JavaScript to explore services
-        and prepare a project brief.
+        Enable JavaScript to explore services and prepare a project brief.
       </p></noscript
     >
     <!-- STARWORLD_ENGINE -->

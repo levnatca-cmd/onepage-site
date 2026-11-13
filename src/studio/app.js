@@ -1,42 +1,15 @@
-import {
-  DRAFT_KEY,
-  SERVICE_LABELS,
-  sanitizeInquiry,
-  buildInquiry,
-  inquiryMailto,
-} from "./inquiry.js";
+import { DRAFT_KEY, SERVICE_LABELS, sanitizeInquiry } from "./inquiry.js";
+import { bindSecureInquiry } from "/src/shared/secure-inquiry.js?v=pqc1";
 import { refreshIcons } from "./icons.js";
 import { initSystemLab } from "./lab/controller.js";
 
 refreshIcons();
 
-const menu = document.querySelector("[data-menu-toggle]");
-const nav = document.querySelector("#primary-navigation");
-function closeMenu({ focus = false } = {}) {
-  document.body.removeAttribute("data-menu-open");
-  menu?.setAttribute("aria-expanded", "false");
-  menu?.setAttribute("aria-label", "Open menu");
-  if (focus) menu?.focus();
+if (document.body.hasAttribute("data-galaxy-service")) {
+  import("./galaxy-arrival.js?v=wow63")
+    .then(({ initGalaxyArrival }) => initGalaxyArrival())
+    .catch(() => document.documentElement.classList.remove("galaxy-arriving"));
 }
-menu?.addEventListener("click", () => {
-  const open = menu.getAttribute("aria-expanded") !== "true";
-  menu.setAttribute("aria-expanded", String(open));
-  menu.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  document.body.toggleAttribute("data-menu-open", open);
-});
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && menu?.getAttribute("aria-expanded") === "true")
-    closeMenu({ focus: true });
-});
-document.addEventListener("click", (event) => {
-  if (!event.target.closest(".site-header")) closeMenu();
-});
-nav?.addEventListener("click", (event) => {
-  if (event.target.closest("a")) closeMenu();
-});
-matchMedia("(min-width: 769px)").addEventListener("change", (event) => {
-  if (event.matches) closeMenu();
-});
 
 document.querySelectorAll("[data-filter]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -85,85 +58,30 @@ runButton?.addEventListener("click", async () => {
 const form = document.querySelector("#project-form");
 if (form) {
   const status = document.querySelector("#inquiry-status");
-  const emailLink = document.querySelector("#email-draft-link");
-  const read = () => sanitizeInquiry(Object.fromEntries(new FormData(form)));
-  const notice = (message) => {
-    status.textContent = message;
-  };
-  function restore(draft) {
-    for (const [name, value] of Object.entries(sanitizeInquiry(draft))) {
-      if (form.elements.namedItem(name)) form.elements.namedItem(name).value = value;
+  if (location.protocol === "https:") {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY);
+      if (saved) {
+        localStorage.removeItem(DRAFT_KEY);
+        for (const [name, value] of Object.entries(sanitizeInquiry(JSON.parse(saved)))) {
+          if (form.elements.namedItem(name)) form.elements.namedItem(name).value = value;
+        }
+        status.textContent = "Your previous draft is available for this visit.";
+      }
+    } catch {
+      // Storage can be disabled. The live form remains available.
     }
   }
-  try {
-    const saved = localStorage.getItem(DRAFT_KEY);
-    if (saved) {
-      restore(JSON.parse(saved));
-      notice("Your draft was restored from this browser.");
-    }
-  } catch {
-    notice("Browser storage is unavailable. Your draft will not be saved.");
+  const url = new URL(location.href);
+  const selected = url.searchParams.get("service");
+  if (Object.hasOwn(SERVICE_LABELS, selected)) {
+    form.elements.service.value = selected;
+    url.searchParams.delete("service");
+    history.replaceState(history.state, "", url);
   }
-  const selected = new URLSearchParams(location.search).get("service");
-  if (Object.hasOwn(SERVICE_LABELS, selected)) form.elements.service.value = selected;
-  const save = () => {
-    emailLink.hidden = true;
-    try {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(read()));
-      notice("Draft saved in this browser only.");
-    } catch {
-      notice("Draft not saved. You can still copy or download your inquiry.");
-    }
-  };
-  if (selected && Object.hasOwn(SERVICE_LABELS, selected)) {
-    save();
-    const cleanUrl = new URL(location.href);
-    cleanUrl.searchParams.delete("service");
-    history.replaceState(history.state, "", cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
-  }
-  form.addEventListener("input", save);
-  form.addEventListener("change", save);
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    if (!form.reportValidity()) return;
-    emailLink.href = inquiryMailto(read());
-    emailLink.hidden = false;
-    notice(
-      "Your draft is ready. Continue to your email app to review and send it. Nothing has been sent.",
-    );
-    emailLink.focus();
-  });
-  document.querySelector("[data-copy-inquiry]")?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(buildInquiry(read()));
-      notice("Inquiry copied. Paste it into an email to info@levnat.ca.");
-    } catch {
-      notice("Copy unavailable. Download the inquiry or email info@levnat.ca directly.");
-    }
-  });
-  document.querySelector("[data-download-inquiry]")?.addEventListener("click", () => {
-    const url = URL.createObjectURL(
-      new Blob([buildInquiry(read())], { type: "text/plain;charset=utf-8" }),
-    );
-    const link = Object.assign(document.createElement("a"), {
-      href: url,
-      download: "levnat-project-inquiry.txt",
-    });
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    notice("Inquiry downloaded. No message has been sent.");
-  });
-  document.querySelector("[data-clear-draft]")?.addEventListener("click", () => {
-    form.reset();
-    restore({});
-    emailLink.hidden = true;
-    try {
-      localStorage.removeItem(DRAFT_KEY);
-      notice("Draft cleared from this browser.");
-    } catch {
-      notice("Form cleared. Browser storage is unavailable.");
-    }
-    form.elements.description.focus();
+  bindSecureInquiry(form, {
+    read: () => sanitizeInquiry(Object.fromEntries(new FormData(form))),
+    status,
   });
 }
 

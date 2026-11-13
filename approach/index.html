@@ -16,23 +16,27 @@
   <meta property="og:url" content="https://levnat.ca/approach/">
   <link rel="icon" href="/assets/images/favicon.png" type="image/png">
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/src/studio/styles.css?v=living2">
-  <link rel="stylesheet" href="/src/studio/living-system.css?v=living2">
+  <link rel="stylesheet" href="/src/studio/styles.css?v=living2&amp;rev=site-menu1">
+  <link rel="stylesheet" href="/src/studio/living-system.css?v=living2&amp;rev=site-menu1">
   <script>document.documentElement.classList.replace("no-js", "js");</script>
+  <script type="module" src="/src/shared/site-menu.js?v=wow60"></script>
   
 </head>
 <body data-page="approach">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="header-inner container">
-      <a class="brand" href="/"><span class="brand-symbol" aria-hidden="true">L.</span><span>LEVNAT<span class="brand-caption">Development &amp; engineering</span></span></a>
-      <nav id="primary-navigation" class="primary-nav" aria-label="Main navigation">
-        <a href="/services/">Services</a>
-        <a href="/work/">Work</a>
-        <a href="/approach/" aria-current="page">Approach</a>
+      <a class="brand" href="/home/"><span class="brand-symbol" aria-hidden="true">L.</span><span>LEVNAT<span class="brand-caption">Development &amp; engineering</span></span></a>
+      <nav class="site-navigation" aria-label="Main navigation">
+        <a class="header-galaxy button small secondary" href="/explore.html" aria-label="Back to Galaxy" data-studio-galaxy-return>Galaxy</a>
+        <button class="menu-toggle icon-button" type="button" data-menu-toggle data-site-menu-toggle="768" aria-label="Open menu" aria-controls="primary-navigation" aria-expanded="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div id="primary-navigation" class="primary-nav">
+          <a href="/services/">Services</a>
+          <a href="/work/">Work</a>
+          <a href="/approach/" aria-current="page">Process</a>
+        </div>
+        <a class="header-contact button small primary" href="/contact/">Contact <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
       </nav>
-      <a class="header-contact button small primary" href="/contact/">Let's talk <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
-      <button class="menu-toggle icon-button" type="button" data-menu-toggle aria-label="Open menu" aria-controls="primary-navigation" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
     </div>
   </header>
   <main id="main-content" tabindex="-1">
@@ -79,9 +83,41 @@
     </main>
   <footer class="site-footer">
     <div class="container">
-      <div class="footer-bottom"><a class="footer-brand" href="/">LEVNAT<span>Systems Engineering / Toronto &amp; remote</span></a><div class="footer-links"><a href="mailto:info@levnat.ca">Email <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a href="/explore.html">3D explorer <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a href="/starworld.html">Service map <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div><span class="copyright">&copy; 2026 LEVNAT</span></div>
+      <div class="footer-bottom"><a class="footer-brand" href="/home/">LEVNAT<span>Systems Engineering / Toronto &amp; remote</span></a><div class="footer-links"><a href="/contact/">Contact <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a href="/explore.html">Back to Galaxy <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><a href="/starworld.html">Starworld service map <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div><span class="copyright">&copy; 2026 LEVNAT</span></div>
     </div>
   </footer>
-  <script type="module" src="/src/studio/app.js?v=living2"></script>
+  <script>
+  (() => {
+    const params = new URLSearchParams(location.search);
+    const service = document.body.dataset.galaxyService;
+    const requestedLayout = params.get("layout");
+    const hasLayout = requestedLayout === "atom" || requestedLayout === "planets";
+    if (!service && params.get("from") !== "galaxy" && !hasLayout) return;
+
+    const layout = requestedLayout === "planets" ? "planets" : "atom";
+    const requestedFocus = service || params.get("focus");
+    const focus = ["firmware","backend","automation","pqc","data","hardware","ops"].includes(requestedFocus) ? requestedFocus : null;
+    const light = params.get("theme") === "light";
+    const siteRoutes = ["/","/home/","/work/daybook/demo/","/services/","/services/websites-apps/","/services/integrations/","/services/support/","/services/backend-api/","/services/automation/","/services/post-quantum-security/","/services/data-logs/","/services/hardware/","/services/monitoring/","/work/","/work/daybook/","/approach/","/contact/","/starworld.html"];
+    const galaxyServices = ["/services/websites-apps/","/services/backend-api/","/services/automation/","/services/post-quantum-security/","/services/data-logs/","/services/hardware/","/services/monitoring/"];
+
+    for (const link of document.querySelectorAll('a[href^="/"]')) {
+      const destination = new URL(link.href);
+      if (destination.origin !== location.origin) continue;
+      const returning = destination.pathname === "/explore.html";
+      if (!returning && !siteRoutes.includes(destination.pathname)) continue;
+
+      if (returning && light) destination.pathname = "/home/";
+      if (light && !returning && destination.pathname !== "/") destination.searchParams.set("theme", "light");
+      destination.searchParams.set("layout", layout);
+      if (returning || !galaxyServices.includes(destination.pathname)) {
+        if (focus) destination.searchParams.set("focus", focus);
+        if (!returning) destination.searchParams.set("from", "galaxy");
+      }
+      link.setAttribute("href", destination.pathname + destination.search + destination.hash);
+    }
+  })();
+</script>
+  <script type="module" src="/src/studio/app.js?v=living2&amp;rev=site-menu1"></script>
 </body>
 </html>

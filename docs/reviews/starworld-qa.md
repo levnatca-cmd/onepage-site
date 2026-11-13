@@ -47,9 +47,9 @@ The in-app browser did not expose a completed-download event, so saving the `.tx
 From the project root:
 
 ```sh
-node scripts/build-starworld.mjs
-node tests/starworld/check.mjs
-node scripts/prepare-starworld-qa.mjs
+npm run build:starworld
+npm run test:starworld
+npm run qa:starworld
 ```
 
 The main deliverable is `starworld.html`. The diagnostic generator creates local `artifacts/qa/starworld/runtime.html` and `artifacts/qa/starworld/no-webgl.html` copies with visible QA buttons. These copies are excluded from Git and site packaging. No deployment or external publication was performed.
