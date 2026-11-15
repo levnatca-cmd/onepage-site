@@ -39,6 +39,7 @@ for (const name of [
   "robots.txt",
   "sitemap.xml",
   "assets/images/favicon.png",
+  "assets/images/galaxy-core-plasma.webp",
   "vendor/lucide/icons.js",
   "vendor/lucide-LICENSE.txt",
   "vendor/three/three.module.min.js",

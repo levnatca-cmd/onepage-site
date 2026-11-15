@@ -21,6 +21,7 @@ import {
   updateSpherePresentation,
 } from "../../src/galaxy/js/scene/sphere-kit.js";
 import { buildSystemModel } from "../../src/galaxy/js/scene/system-models/index.js";
+import { createCoreObject, updateCoreObject } from "../../src/galaxy/js/scene/core-object.js";
 import { updatePqcSignal } from "../../src/galaxy/js/scene/system-models/pqc.js";
 import { modelParts } from "../../prototypes/galaxy-model-review/parts.js";
 
@@ -1177,6 +1178,34 @@ function checkLiveModelGeometry() {
   );
 }
 
+function checkCoreObject() {
+  const core = createCoreObject();
+  core.updateMatrixWorld(true);
+  const ray = new THREE.Raycaster(new THREE.Vector3(0, 0, 2), new THREE.Vector3(0, 0, -1));
+  const hit = ray.intersectObject(core, false)[0];
+  updateCoreObject(core, 2.5);
+  const movingTime = core.material.uniforms.uTime.value;
+  updateCoreObject(core, 4, true);
+  const reducedTime = core.material.uniforms.uTime.value;
+  const review = readProjectFile("prototypes/galaxy-model-review/review.js");
+  report(
+    core.geometry.parameters.radius === 0.43 &&
+      core.material.uniforms.uRadius.value === 0.43 &&
+      hit?.object === core &&
+      Math.abs(hit.point.z - 0.43) < 0.01 &&
+      core.material.uniforms.uHasDetail.value === false &&
+      movingTime === 2.5 &&
+      reducedTime === 0 &&
+      review.source?.includes('core: "core-idle-plasma.png"') &&
+      existsSync(path.resolve(ROOT, "assets/concepts/system-galaxy/core-idle-plasma.png")) &&
+      existsSync(path.resolve(ROOT, "assets/images/galaxy-core-plasma.webp")),
+    "idle plasma Core",
+    "approved reference, stable picking radius and fixed reduced-motion phase",
+  );
+  core.geometry.dispose();
+  core.material.dispose();
+}
+
 function checkReviewParts() {
   const failures = exactKeyMismatch(Object.keys(modelParts), PLANET_IDS);
   let checked = 0;
@@ -1621,6 +1650,7 @@ function main() {
   checkSharedServiceSphereCover();
   checkServiceSpatialGrid();
   checkLiveModelGeometry();
+  checkCoreObject();
   checkReviewParts();
   checkHardwareFeedthrough();
   checkPqcModel(indexSource);

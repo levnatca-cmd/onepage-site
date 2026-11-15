@@ -5,7 +5,7 @@ import { after, test } from "node:test";
 import { ROOT } from "../../scripts/lib/paths.mjs";
 import { PLANETS, PLANET_IDS } from "../../src/galaxy/js/data/quiz-data.js";
 import { MAX_SERVICE_ORBIT_SCALE } from "../../src/galaxy/js/scene/service-spatial-grid.js";
-import { launchQaBrowser, qaBaseUrl } from "../support/browser.mjs";
+import { changedPixels, launchQaBrowser, qaBaseUrl } from "../support/browser.mjs";
 import { checkProtectedPacket } from "../support/galaxy-pqc.mjs";
 
 const origin = new URL(qaBaseUrl).origin;
@@ -27,6 +27,83 @@ assert.ok(
 );
 const browser = await launchQaBrowser();
 after(() => browser.close());
+
+test("Core review holds the plasma phase when animation stops", async () => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  const canvas = page.locator('#preview[data-service="core"]');
+  const angle = page.locator("#angle");
+  const animate = page.getByRole("checkbox", { name: "Animate" });
+  try {
+    await page.goto(new URL("/prototypes/galaxy-model-review/?service=core", origin).href);
+    await page.locator('#preview[data-service="core"][data-core-detail="ready"]').waitFor();
+    assert.equal(await animate.isChecked(), false);
+    const initial = await canvas.screenshot();
+    assert.deepEqual(await canvas.screenshot(), initial, "The default phase stays fixed");
+
+    await angle.fill("55");
+    const oblique = await canvas.screenshot();
+    assert.ok(
+      changedPixels(initial, oblique) > 0.02,
+      "The textured filaments turn with the sphere",
+    );
+    await angle.fill("90");
+    assert.ok(changedPixels(oblique, await canvas.screenshot()) > 0.02);
+    await angle.fill("0");
+    assert.deepEqual(await canvas.screenshot(), initial, "Changing angle preserves the idle phase");
+
+    await animate.check();
+    await page.waitForTimeout(1800);
+    await animate.uncheck();
+    assert.equal(await angle.inputValue(), "0", "The energy moves with the viewing angle fixed");
+    const paused = await canvas.screenshot();
+    assert.ok(changedPixels(initial, paused) > 0.02, "Pausing must retain the new plasma phase");
+    assert.deepEqual(await canvas.screenshot(), paused, "The paused phase stays fixed");
+
+    const model = page.getByRole("combobox", { name: "Model" });
+    await model.selectOption("hardware");
+    await page.locator('#preview[data-service="hardware"]').waitFor();
+    await model.selectOption("core");
+    await canvas.waitFor();
+    assert.deepEqual(
+      await canvas.screenshot(),
+      initial,
+      "Returning to Core restores its idle pose",
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test("Core review renders and rotates even when the detail texture fails", async () => {
+  const context = await browser.newContext({ reducedMotion: "reduce" });
+  const page = await context.newPage();
+  const canvas = page.locator('#preview[data-service="core"][data-core-detail="procedural"]');
+  try {
+    await page.route("**/assets/images/galaxy-core-plasma.webp", (route) => route.abort());
+    const failedTexture = page.waitForEvent("requestfailed", (request) =>
+      new URL(request.url()).pathname.endsWith("/galaxy-core-plasma.webp"),
+    );
+    await page.goto(new URL("/prototypes/galaxy-model-review/?service=core", origin).href);
+    await failedTexture;
+    await canvas.waitFor();
+    const front = await canvas.screenshot();
+    await page.getByRole("slider", { name: "Angle" }).fill("65");
+    const side = await canvas.screenshot();
+    assert.ok(changedPixels(front, side) > 0.02);
+
+    const animate = page.getByRole("checkbox", { name: "Animate" });
+    await animate.check();
+    await page.waitForTimeout(1500);
+    await animate.uncheck();
+    assert.ok(
+      changedPixels(side, await canvas.screenshot()) > 0.02,
+      "Procedural strands still move",
+    );
+  } finally {
+    await context.close();
+  }
+});
 
 async function connectScene(page) {
   await page.locator(".galaxy-hero.webgl-ready").waitFor({ timeout: 45000 });
@@ -52,7 +129,7 @@ async function sampleScene(page, phase) {
       object.userData.presentation.radius * object.getWorldScale(new THREE.Vector3()).x;
     const focused = galaxy.rescueRigObjects[appState.hoveredPlanet || appState.selectedPlanet];
     const center = world(focused);
-    const core = world(galaxy.rescueRigCore);
+    const core = world(galaxy.star);
     const coreProjection = core.clone().project(galaxy.camera);
     const focusBeam = galaxy.focusBeam;
     const beamEnd = focusBeam.localToWorld(

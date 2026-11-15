@@ -24,7 +24,7 @@ import {
   isGalaxyServiceRowTransitioning,
   startGalaxyQuizTransition,
   isGalaxyQuizTransitioning
-} from "./galaxy.js?v=wow60&rev=service-row-dive1";
+} from "./galaxy.js?v=wow60&rev=core-plasma6";
 
 let reviewing3DAnswer = false;
 let questionHologramOpen = false;

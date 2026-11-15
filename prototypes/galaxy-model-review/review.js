@@ -1,6 +1,7 @@
 import * as THREE from "../../vendor/three/three.module.min.js";
 import { PLANETS } from "../../src/galaxy/js/data/quiz-data.js?v=wow60";
 import { SYSTEM_PRESENTATIONS } from "../../src/galaxy/js/data/scene-presentations.js?v=wow60";
+import { createCoreObject, updateCoreObject } from "../../src/galaxy/js/scene/core-object.js?v=wow60&rev=core-plasma6";
 import { buildSystemModel } from "../../src/galaxy/js/scene/system-models/index.js?v=wow60";
 import { updatePqcSignal } from "../../src/galaxy/js/scene/system-models/pqc.js?v=wow60";
 import { createSpherePresentation, fitModelIntoSphere, updateSpherePresentation } from "../../src/galaxy/js/scene/sphere-kit.js?v=wow60";
@@ -8,6 +9,7 @@ import { updateModelSignalPackets } from "../../src/galaxy/js/scene/system-model
 import { modelParts } from "./parts.js?v=wow60";
 
 const references = {
+  core: "core-idle-plasma.png",
   firmware: "02-interface-app.png",
   backend: "03-backend-api.png",
   automation: "04-automation.png",
@@ -19,6 +21,7 @@ const references = {
 
 // Start each model at the elevation and apparent sphere size of its concept plate.
 const reviewViews = {
+  core: { height: 0, depth: 3.82 },
   firmware: { height: 0.48, depth: 4.32 },
   backend: { height: 1.55, depth: 4.25 },
   automation: { height: 0.28, depth: 4.49 },
@@ -43,12 +46,14 @@ const caption = document.querySelector("#live-caption");
 const comparison = document.querySelector(".comparison");
 const query = new URLSearchParams(location.search);
 const requested = query.get("service");
-for (const id of Object.keys(references)) service.add(new Option(PLANETS[id].label, id));
+const modelLabel = (id) => id === "core" ? "Core · Idle plasma" : PLANETS[id].label;
+for (const id of Object.keys(references)) service.add(new Option(modelLabel(id), id));
 service.value = Object.hasOwn(references, requested) ? requested : "firmware";
 signals.checked = !motionPreference.matches;
 
 function updateParts(requestedPart = "") {
-  const choices = modelParts[service.value];
+  const choices = modelParts[service.value] ?? {};
+  part.parentElement.hidden = service.value === "core";
   part.replaceChildren(new Option("Assembled sphere", ""));
   for (const [id, label] of Object.entries(choices)) part.add(new Option(label, id));
   part.value = Object.hasOwn(choices, requestedPart) ? requestedPart : "";
@@ -56,10 +61,10 @@ function updateParts(requestedPart = "") {
 
 function updateReference() {
   reference.src = `../../assets/concepts/system-galaxy/${references[service.value]}`;
-  reference.alt = `${PLANETS[service.value].label} concept reference`;
+  reference.alt = `${modelLabel(service.value)} concept reference`;
   comparison.dataset.mode = part.value ? "part" : "assembly";
   caption.textContent = part.value ? part.selectedOptions[0].textContent : "Live Three.js model";
-  canvas.setAttribute("aria-label", `${PLANETS[service.value].label} · ${caption.textContent}`);
+  canvas.setAttribute("aria-label", `${modelLabel(service.value)} · ${caption.textContent}`);
 }
 
 updateParts(query.get("part"));
@@ -97,7 +102,7 @@ if (renderer) {
   let current;
   let elapsed = 0;
   let signalElapsed = 0;
-  let previousRotationTime = null;
+  let previousAnimationTime = null;
   let previousSignalTime = null;
   let animationFrame = 0;
   let inView = true;
@@ -114,9 +119,11 @@ if (renderer) {
 
   function render(delta, signalMoving) {
     if (!current) return;
-    const turn = Number(angle.value) * Math.PI / 180 + elapsed * 0.33;
+    const turn = Number(angle.value) * Math.PI / 180 + (current.id === "core" ? 0 : elapsed * 0.33);
     current.posePivot.rotation.y = turn;
-    if (current.part) {
+    if (current.id === "core") {
+      updateCoreObject(current.model, elapsed);
+    } else if (current.part) {
       updateModelSignalPackets(current.modelSignals, signalElapsed, !signalMoving);
     } else {
       updateSpherePresentation(current, {
@@ -130,6 +137,10 @@ if (renderer) {
     }
     if (current.model.userData.pqc?.raw) updatePqcSignal(current.model, signalElapsed, !signalMoving);
     renderer.render(scene, camera);
+    if (current.id === "core") {
+      const detail = current.model.material.uniforms.uHasDetail.value ? "ready" : "procedural";
+      if (canvas.dataset.coreDetail !== detail) canvas.dataset.coreDetail = detail;
+    }
     const { calls, triangles } = renderer.info.render;
     if (Number(canvas.dataset.calls) !== calls) canvas.dataset.calls = calls;
     if (Number(canvas.dataset.triangles) !== triangles) canvas.dataset.triangles = triangles;
@@ -167,7 +178,10 @@ if (renderer) {
         });
       }
     }
-    if (selectedPart || !presentations.has(id)) {
+    if (id === "core" && !presentations.has(id)) {
+      const model = createCoreObject(1, requestRender);
+      presentations.set(id, { id, root: model, posePivot: model, model, modelSignals: [] });
+    } else if (selectedPart || !presentations.has(id)) {
       const { color } = PLANETS[id];
       const config = SYSTEM_PRESENTATIONS[id];
       const { root: model } = buildSystemModel(id, color, { THREE, part: selectedPart || undefined });
@@ -183,6 +197,7 @@ if (renderer) {
     }
     current.hasSignals = Boolean(current.modelSignals.length || current.model.userData.pqc?.raw);
     signalControl.hidden = !current.hasSignals;
+    scene.background.setHex(id === "core" ? 0x030713 : 0x021218);
     scene.add(current.root);
     elapsed = 0;
     signalElapsed = 0;
@@ -234,12 +249,12 @@ if (renderer) {
     animationFrame = 0;
     const visible = inView && !document.hidden;
     const signalMoving = signalsOn();
-    const rotating = animate.checked && visible;
+    const animating = animate.checked && visible;
     const signaling = signalMoving && visible;
-    const moving = rotating || signaling;
-    const delta = rotating && previousRotationTime !== null ? (now - previousRotationTime) / 1000 : 0;
+    const moving = animating || signaling;
+    const delta = animating && previousAnimationTime !== null ? (now - previousAnimationTime) / 1000 : 0;
     if (signaling && previousSignalTime !== null) signalElapsed += (now - previousSignalTime) / 1000;
-    previousRotationTime = rotating ? now : null;
+    previousAnimationTime = animating ? now : null;
     previousSignalTime = signaling ? now : null;
     elapsed += delta;
     if (current && updateSize(moving)) render(delta, signalMoving);
@@ -247,7 +262,7 @@ if (renderer) {
   }
 
   function resetMotionClocks() {
-    previousRotationTime = null;
+    previousAnimationTime = null;
     previousSignalTime = null;
   }
 
@@ -268,8 +283,8 @@ if (renderer) {
   part.addEventListener("change", selectView);
   angle.addEventListener("input", requestRender);
   animate.addEventListener("change", () => {
-    previousRotationTime = null;
-    if (!animate.checked) {
+    previousAnimationTime = null;
+    if (!animate.checked && current?.id !== "core") {
       const degrees = Number(angle.value) + elapsed * 0.33 * 180 / Math.PI;
       angle.value = String(THREE.MathUtils.euclideanModulo(degrees + 180, 360) - 180);
       elapsed = 0;

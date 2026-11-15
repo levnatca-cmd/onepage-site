@@ -22,7 +22,7 @@ import {
   updateSpherePresentation
 } from "./scene/sphere-kit.js?v=wow60&rev=galaxy-light1";
 import { createConnectionTube, updateConnectionTube } from "./scene/connection-tube.js?v=wow60&rev=galaxy-light1";
-import { createEnergyCoreMaterial, createEnergyHaloMaterial } from "./scene/energy-core.js?v=wow60";
+import { createCoreObject, updateCoreObject } from "./scene/core-object.js?v=wow60&rev=core-plasma6";
 import { createSphereDive, SPHERE_DIVE_DURATION, updateSphereDive } from "./scene/sphere-dive.js?v=wow60";
 import { createObjectHologram } from "./scene/object-hologram.js?v=wow60&rev=quiz-flow1";
 import { createQuizBurst } from "./scene/quiz-transition.js?v=wow60";
@@ -36,7 +36,7 @@ import {
 } from "./scene/service-spatial-grid.js?v=wow60";
 import { buildSystemModel as buildSemanticSystemModel } from "./scene/system-models/index.js?v=wow60";
 import { updatePqcSignal } from "./scene/system-models/pqc.js?v=wow60";
-import { focusPlanet } from "./ui.js?v=wow60&rev=service-row-dive1";
+import { focusPlanet } from "./ui.js?v=wow60&rev=core-plasma6";
 
 const LIGHT_GALAXY = document.documentElement.dataset.galaxyTheme === "light";
 const SCENE_DEBUG = createSceneDebugConfig();
@@ -58,8 +58,8 @@ let sceneInViewport = true;
 let scenePageActive = true;
 let simulationTimer = null;
 const ORBIT_LAYOUTS = {
-  atom: { tilt: -0.49, compactScale: 0.62, narrowScale: 0.60, desktopScale: 0.40, desktopMin: 0.54, desktopMax: 0.69, wireOpacity: 0.035 },
-  planets: { tilt: -0.32, compactScale: 0.67, narrowScale: 0.67, desktopScale: 0.43, desktopMin: 0.59, desktopMax: 0.74, wireOpacity: 0.09 }
+  atom: { tilt: -0.49, compactScale: 0.62, narrowScale: 0.60, desktopScale: 0.40, desktopMin: 0.54, desktopMax: 0.69 },
+  planets: { tilt: -0.32, compactScale: 0.67, narrowScale: 0.67, desktopScale: 0.43, desktopMin: 0.59, desktopMax: 0.74 }
 };
 if (SCENE_DEBUG.forceReducedMotion) {
   appState.reducedMotion = true;
@@ -583,55 +583,12 @@ function createVectorField() {
 function createProductStar() {
   for (const [layout, config] of Object.entries(ORBIT_LAYOUTS)) {
     galaxy.overviewLayouts[layout] = {
-      baseView: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), config.tilt),
-      coreMaterial: createEnergyCoreMaterial(layout),
-      haloMaterial: createEnergyHaloMaterial(layout)
+      baseView: new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), config.tilt)
     };
   }
-  const { coreMaterial, haloMaterial } = galaxy.overviewLayouts[galaxy.layout];
-  const starGeometry = new THREE.IcosahedronGeometry(0.43, 3);
-  galaxy.star = new THREE.Mesh(starGeometry, coreMaterial);
+  galaxy.star = createCoreObject();
   galaxy.star.position.set(0.04, 0.12, -0.18);
   galaxy.root.add(galaxy.star);
-
-  const wireGeometry = new THREE.OctahedronGeometry(0.46, 1);
-  const wireMaterial = new THREE.MeshBasicMaterial({
-    color: VISUAL_COLORS.text,
-    wireframe: true,
-    transparent: true,
-    opacity: ORBIT_LAYOUTS[galaxy.layout].wireOpacity,
-    depthWrite: false
-  });
-  const wire = new THREE.Mesh(wireGeometry, wireMaterial);
-  galaxy.star.add(wire);
-  galaxy.star.userData.wire = wire;
-
-  const haloGeometry = new THREE.SphereGeometry(0.88, 32, 16);
-  const halo = new THREE.Mesh(haloGeometry, haloMaterial);
-  halo.position.copy(galaxy.star.position);
-  galaxy.starHalo = halo;
-  galaxy.root.add(halo);
-
-  galaxy.starRings = new THREE.Group();
-  [
-    { radius: 0.62, tube: 0.008, color: VISUAL_COLORS.accent, opacity: 0.3, x: 1.4, y: 0.16 },
-    { radius: 0.82, tube: 0.007, color: VISUAL_COLORS.api, opacity: 0.2, x: 1.08, y: -0.24 },
-    { radius: 1.02, tube: 0.006, color: VISUAL_COLORS.automation, opacity: 0.14, x: 1.72, y: 0.48 }
-  ].forEach(function (ring) {
-    const mesh = new THREE.Mesh(
-      new THREE.TorusGeometry(ring.radius, ring.tube, 10, 160),
-      new THREE.MeshBasicMaterial({
-        color: ring.color,
-        transparent: true,
-        opacity: ring.opacity
-      })
-    );
-    mesh.rotation.x = ring.x;
-    mesh.rotation.y = ring.y;
-    galaxy.starRings.add(mesh);
-  });
-  galaxy.starRings.position.copy(galaxy.star.position);
-  galaxy.root.add(galaxy.starRings);
 
   const shellGeometry = new THREE.SphereGeometry(0.66, 32, 18, 0, Math.PI * 1.25);
   const shellMaterial = new THREE.MeshBasicMaterial({
@@ -798,42 +755,6 @@ function createRescueRig() {
   galaxy.rescueRig.position.copy(galaxy.star.position);
   galaxy.rescueRig.quaternion.copy(galaxy.root.quaternion).invert();
   galaxy.root.add(galaxy.rescueRig);
-
-  galaxy.rescueRigCore = new THREE.Group();
-  galaxy.rescueRig.add(galaxy.rescueRigCore);
-
-  const core = new THREE.Mesh(
-    new THREE.BoxGeometry(0.34, 0.34, 0.34, 2, 2, 2),
-    new THREE.MeshStandardMaterial({
-      color: 0x1b2a34,
-      emissive: VISUAL_COLORS.accent,
-      emissiveIntensity: 0.9,
-      roughness: 0.24,
-      metalness: 0.7,
-      transparent: true,
-      opacity: 0.92
-    })
-  );
-  core.rotation.set(0.42, 0.58, 0.18);
-  galaxy.rescueRigCore.add(core);
-  galaxy.rescueRigCore.userData.core = core;
-
-  [0.56, 0.76, 0.98].forEach(function (radius, index) {
-    const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(radius, 0.012 - index * 0.0015, 8, 96),
-      new THREE.MeshBasicMaterial({
-        color: index === 0 ? VISUAL_COLORS.accent : index === 1 ? VISUAL_COLORS.text : VISUAL_COLORS.warning,
-        transparent: true,
-        opacity: index === 2 ? 0.16 : 0.24,
-        depthWrite: false
-      })
-    );
-    ring.rotation.x = Math.PI / 2 + index * 0.28;
-    ring.rotation.y = index * 0.32;
-    ring.userData.baseOpacity = index === 2 ? 0.16 : 0.24;
-    ring.userData.speed = index % 2 ? -0.018 : 0.024;
-    galaxy.rescueRigCore.add(ring);
-  });
 
   const serviceColors = {};
   PLANET_IDS.forEach(function (serviceId) {
@@ -1132,9 +1053,6 @@ function setGalaxyLayout(layout) {
   assets.grid.root.scale.setScalar(assets.grid.scale);
   galaxy.rescueRig.add(assets.grid.root);
   galaxy.rescueRig.scale.setScalar(getOverviewRigScale());
-  galaxy.star.material = assets.coreMaterial;
-  galaxy.starHalo.material = assets.haloMaterial;
-  galaxy.star.userData.wire.material.opacity = ORBIT_LAYOUTS[layout].wireOpacity;
   refreshConnectionObstacles();
   applyHeroGalaxyComposition();
 }
@@ -1798,10 +1716,10 @@ function animateGalaxy() {
 
   if (appState.reducedMotion) galaxy.star.rotation.set(0, 0, 0);
   else {
-    galaxy.star.rotation.y += motionDelta * 0.22;
-    galaxy.star.rotation.x += motionDelta * 0.1;
+    galaxy.star.rotation.y += motionDelta * 0.09;
+    galaxy.star.rotation.x += motionDelta * 0.04;
   }
-  galaxy.star.material.uniforms.uTime.value = motionElapsed;
+  updateCoreObject(galaxy.star, elapsed, appState.reducedMotion);
 
   if (sphereDive) {
     updateSphereDive(sphereDive, galaxy.camera, galaxy.renderer.domElement);
@@ -2048,13 +1966,6 @@ function updateAnomalies(elapsed, delta, visual) {
   } else {
     galaxy.shell.material.opacity = 0;
   }
-  if (galaxy.starRings) {
-    galaxy.starRings.children.forEach(function (ring, index) {
-      ring.rotation.z += delta * 60 * (0.006 + index * 0.003);
-      ring.material.opacity += ((0.16 + visual.completeness * 0.12 + index * 0.03) - ring.material.opacity) * 0.04;
-    });
-  }
-
   if (appState.simulation) {
     const pulse = 0.5 + Math.sin(elapsed * (9 + visual.pressure * 5)) * 0.5;
     galaxy.star.scale.setScalar(1 + pulse * 0.09);
@@ -2111,12 +2022,6 @@ function updateHandoffAnomaly(elapsed, delta, visual) {
 
 function updateEnergyEffects(elapsed, delta, visual) {
   const intensity = 0.62 + visual.completeness * 0.52 + visual.pressure * 0.36;
-  if (galaxy.starHalo) {
-    const haloPulse = 0.5 + Math.sin(elapsed * 1.9) * 0.5;
-    galaxy.starHalo.material.uniforms.uGlow.value = 0.23 + haloPulse * 0.05 + visual.completeness * 0.05;
-    galaxy.starHalo.scale.setScalar(1 + haloPulse * 0.045 + visual.pressure * 0.06);
-  }
-
   if (galaxy.energyArcs) {
     galaxy.energyArcs.children.forEach(function (arc, index) {
       const speed = arc.userData.speed * delta * 60;
@@ -2206,25 +2111,6 @@ function updateRescueRig(elapsed, delta, visual) {
       activeId: activeFocus,
       opacityScale: threeDModeDimming,
       compact
-    });
-  }
-
-  if (galaxy.rescueRigCore) {
-    galaxy.rescueRigCore.rotation.y -= delta * 0.22 * motionFactor;
-    galaxy.rescueRigCore.rotation.x = Math.sin(elapsed * 0.5) * 0.08 * motionFactor;
-    const corePulse = 1 + Math.sin(elapsed * 2.8) * 0.025 * motionFactor + completeBoost * 0.05;
-    galaxy.rescueRigCore.scale.setScalar(corePulse);
-    const core = galaxy.rescueRigCore.userData.core;
-    if (core && core.material) {
-      core.material.emissiveIntensity += ((1.2 + completeBoost * 1.4 + visual.hardwarePulse * 0.7) - core.material.emissiveIntensity) * 0.08;
-      core.material.opacity += ((0.76 + completeBoost * 0.16) * threeDModeDimming - core.material.opacity) * 0.08;
-    }
-    galaxy.rescueRigCore.children.forEach(function (child) {
-      if (child.userData && child.userData.speed) child.rotation.z += child.userData.speed * delta * 60 * (1 + completeBoost);
-      if (child.material && child.material.userData.baseOpacity !== undefined) {
-        const targetOpacity = child.material.userData.baseOpacity * (0.72 + completeBoost * 0.8) * threeDModeDimming;
-        child.material.opacity += (Math.min(0.9, targetOpacity) - child.material.opacity) * 0.08;
-      }
     });
   }
 

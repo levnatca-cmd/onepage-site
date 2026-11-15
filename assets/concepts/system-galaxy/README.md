@@ -1,5 +1,9 @@
 # System Galaxy Concept Plates
 
+The current Core reference is [Idle Plasma](core-idle-plasma.png). The [Core object](../../../src/galaxy/js/scene/core-object.js) renders the plasma in Galaxy and in the [model review](../../../prototypes/galaxy-model-review/index.html?service=core). Plate 01 is the earlier routing concept.
+
+The renderer uses a [compressed copy](../../images/galaxy-core-plasma.webp) for the fine plasma filaments. The volume shader supplies the glow and fills in the plasma when the texture is unavailable or the sphere is viewed from the side.
+
 1. `01-central-system-core.png` - **CENTRAL SYSTEM CORE**  
    Routes verified signals across every system domain.
 2. `02-interface-app.png` - **INTERFACE / APP**  
@@ -28,7 +32,7 @@ satellite sphere and the central core.
 Work proceeds in short sprints. Each sprint produces a view available in the [interactive review](../../../prototypes/galaxy-model-review/index.html).
 
 1. **Reference breakdown.** Identify the sphere silhouette, main blocks, small details, and connection entry and exit points. For Hardware, the optical sensor, memory, processor, suspended layers, and cable connector were separate tasks. A single view cannot establish depth and hidden surfaces, so those are defined manually. The original guides are stored in the [Hardware specification](06-hardware.json).
-2. **Component sprint.** Build a component from Three.js geometry and open it through **Service → Part**. The [Hardware sensor](../../../prototypes/galaxy-model-review/index.html?service=hardware&part=sensor) and [connector](../../../prototypes/galaxy-model-review/index.html?service=hardware&part=feedthrough) can be inspected separately. The close-up view builds the same component with the same materials and local coordinates. The camera centers the component for inspection.
+2. **Component sprint.** Build a component from Three.js geometry and open it through **Model → Part**. The [Hardware sensor](../../../prototypes/galaxy-model-review/index.html?service=hardware&part=sensor) and [connector](../../../prototypes/galaxy-model-review/index.html?service=hardware&part=feedthrough) can be inspected separately. The close-up view builds the same component with the same materials and local coordinates. The camera centers the component for inspection.
 3. **Connection sprint.** Build routes from port coordinates or existing traces. In Hardware, cool colors flow toward the processor, warm colors flow away from it, and violet marks the lower return route. The [shared signal shader](../../../src/galaxy/js/scene/system-models/signal-packets.js) combines each model's pulses into one mesh. Each pulse has a bright center, a colored envelope, and a fading tail. **Signals** enables motion while the camera stays fixed. PQC uses its own intake, encapsulation, and packet handoff cycle toward Core.
 4. **Assembly sprint.** Switch **Part** to **Assembled sphere**. The same functions build all components in a shared coordinate system and batch static outlines and light points. Compare the assembly with the complete reference and check how components read through the shell at 320 and 390 px.
 5. **Galaxy assembly.** Open the [complete scene](../../../explore.html) and inspect the seven spheres around Core. Check that components fit their shells, that spheres have clearance, and that connections follow changes in viewing angle.
