@@ -1,0 +1,89 @@
+{
+  "checkedAt": "2026-11-13T20:39:35.136Z",
+  "passed": true,
+  "pages": [
+    {
+      "file": "index.html",
+      "headings": 2,
+      "bytes": 260464
+    },
+    {
+      "file": "privacy-policy/index.html",
+      "headings": 1,
+      "bytes": 94593
+    },
+    {
+      "file": "deep-token/index.html",
+      "headings": 1,
+      "bytes": 447457
+    },
+    {
+      "file": "trader-hub/index.html",
+      "headings": 2,
+      "bytes": 171316
+    },
+    {
+      "file": "terms-of-use/index.html",
+      "headings": 1,
+      "bytes": 72122
+    },
+    {
+      "file": "builder-hub/index.html",
+      "headings": 1,
+      "bytes": 997538
+    },
+    {
+      "file": "points/index.html",
+      "headings": 1,
+      "bytes": 1172446
+    }
+  ],
+  "assets": 98,
+  "checkedLocalFiles": 107,
+  "externalLinks": [
+    "https://aftermath.finance/",
+    "https://alphafi.xyz/",
+    "https://app.lotusfinance.io/",
+    "https://app.lotusfinance.io/explore-pools",
+    "https://app.turbos.finance/#/trade?input=0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC&output=0x2::sui::SUI",
+    "https://blog.sui.io/deepbook-demystified-fueling-defi-innovation/",
+    "https://blog.sui.io/deepbook-margin-liquidity-layer-evolution/",
+    "https://blog.sui.io/deepbook-spot-margin-primitives-for-builders/",
+    "https://blog.sui.io/introducing-deepbook-predict/",
+    "https://bluefin.io/",
+    "https://claim.deepbook.tech",
+    "https://commission.europa.eu/publications/publications-standard-contractual-clauses-sccs_en",
+    "https://deeptrade.io/margin",
+    "https://deeptrade.io/margin/SUI_USDC",
+    "https://discord.com/invite/deepbook",
+    "https://discord.gg/deepbook",
+    "https://docs.sui.io/onchain-finance/deepbookv3/deepbook",
+    "https://docs.sui.io/standards/deepbook",
+    "https://flowx.finance/",
+    "https://fullsail.finance/",
+    "https://github.com/MystenLabs/deepbookv3",
+    "https://github.com/sui-foundation/security-audits/blob/main/docs/deepbook_v3_audit_final.pdf",
+    "https://hackenproof.com/programs/sui-protocol",
+    "https://hackenproof.com/programs/sui-protocol?__cf_chl_tk=sh58nUkcb1LlWD1dRZfm383NXkUDUmapAgKrRysADi4-1778594167-1.0.1.1-8LqaapA_g.8TClD04sX8y.FczaiG5qGSJlxKmHZVKjg",
+    "https://optout.aboutads.info/",
+    "https://policies.google.com/technologies/partner-sites",
+    "https://scallop.io/",
+    "https://steamm.fi/",
+    "https://surflux.dev/",
+    "https://thenai.org/glossary/opt-out-mechanism/",
+    "https://tools.google.com/dlpage/gaoptout",
+    "https://twitter.com/DeepBookonSui",
+    "https://waitlist.deepbook.tech/",
+    "https://www.abyssprotocol.xyz/",
+    "https://www.cetus.zone/",
+    "https://www.deepbook.tech/media-kit",
+    "https://www.microsoft.com/sr-cyrl-rs/privacy/privacystatement",
+    "https://www.mmt.finance/",
+    "https://www.sui.io/get-started",
+    "https://www.sui.io/mysticeti",
+    "https://x.com/DeepBookonSui",
+    "https://youradchoices.ca/en/tools",
+    "https://youronlinechoices.eu/"
+  ],
+  "errors": []
+}

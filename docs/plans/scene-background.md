@@ -30,6 +30,6 @@ Completed on 2026-11-05.
 - Live browser verification confirmed successful WebGL shader compilation with no console errors/warnings, a working 3D map, desktop orbit and maximum zoom-out, and a 375 px mobile layout without horizontal overflow. No rectangular background edge was visible in the inspected views.
 - Checked the Digital rain toggle, reduced-motion setting, pause/resume and service selection while paused. The animation clock is gated by visibility and motion state, preserving the last background pose. Initial settings and the normal viewport were restored.
 - Independent source review found no new shader, geometry, picking, motion or disposal regression. The new texture, material and geometry are explicitly disposed.
-- Final screenshot: `artifacts/screenshots/spatial-glyph-background.jpg`. The existing preview tab was refreshed and retained; local package copies match the standalone HTML.
+- Final screenshot: `artifacts/screenshots/starworld/spatial-glyph-background.jpg`. The existing preview tab was refreshed and retained; local package copies match the standalone HTML.
 
 This is a targeted background/rendering check. Physical-device performance and a new full accessibility audit were not performed.

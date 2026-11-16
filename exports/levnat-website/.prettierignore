@@ -1,9 +1,0 @@
-.git/
-node_modules/
-vendor/
-artifacts/
-deploy/
-starworld.html
-src/galaxy/
-prototypes/
-tests/fixtures/

@@ -1,0 +1,13 @@
+Website design preference survey
+
+Five concepts: A, B, C, D, E. Each uses the same company name, offer, navigation and main action.
+
+Show the images without revealing the internal style names. Randomize the presentation order where practical.
+
+Questions:
+1. Which visual direction do you prefer?
+2. What do you think this company offers?
+3. Which version would make you most comfortable discussing a project?
+4. What felt unclear or distracting?
+
+These images are visual concepts rather than implemented websites or client case studies.

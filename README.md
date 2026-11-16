@@ -1,14 +1,121 @@
 # LEVNAT / Systems Engineering websites
 
-This repository contains a multi-page consulting website and two retained interactive experiences:
+## Repository map
 
-- **LEVNAT** (`services/`, `work/`, `approach/`, `contact/`): generated static pages for development, integrations and support. The Daybook booking prototype lives at `/work/daybook/demo/`.
-- **Galaxy** (`/home/`, `/explore.html`): seven interactive service models with direct links to services and Contact, in light and dark themes.
-- **Starworld** (`starworld.html`): a generated, self-contained cyberpunk service map covering software, backend APIs, integrations, support, native iOS/Swift and security/post-quantum readiness.
+```text
+onepage-site/
+├── website/                          LEVNAT, Galaxy, and Daybook
+│   ├── pages/                        Files served at the public site root
+│   │   ├── index.html                Startup page and device-theme selection
+│   │   ├── explore.html              Generated dark Galaxy
+│   │   ├── home/index.html           Generated light Galaxy
+│   │   ├── starworld.html            Legacy address that opens Galaxy
+│   │   ├── services/                 Overview and service pages
+│   │   │   ├── index.html
+│   │   │   ├── automation/
+│   │   │   ├── backend-api/
+│   │   │   ├── data-logs/
+│   │   │   ├── hardware/
+│   │   │   ├── integrations/
+│   │   │   ├── monitoring/
+│   │   │   ├── post-quantum-security/
+│   │   │   ├── support/
+│   │   │   └── websites-apps/
+│   │   ├── work/                     Portfolio, Daybook case and demo
+│   │   │   ├── index.html
+│   │   │   └── daybook/
+│   │   │       ├── index.html
+│   │   │       └── demo/index.html
+│   │   ├── approach/index.html        Delivery process
+│   │   ├── contact/index.html         Inquiry page
+│   │   ├── robots.txt
+│   │   └── sitemap.xml
+│   ├── src/                          Authored website and inquiry code
+│   │   ├── galaxy/
+│   │   │   ├── index.html            Template for both Galaxy themes
+│   │   │   ├── js/
+│   │   │   │   ├── data/             Service and scene definitions
+│   │   │   │   └── scene/            Geometry, motion and service models
+│   │   │   └── styles/               Layout, typography and themes
+│   │   ├── studio/
+│   │   │   ├── pages.js              Studio page content
+│   │   │   ├── app.js                Navigation and demo interactions
+│   │   │   ├── scene.js              Interactive Three.js modules
+│   │   │   ├── styles.css
+│   │   │   ├── living-system.css
+│   │   │   └── lab/                  Daybook state and UI
+│   │   ├── shared/                   Service catalog and inquiry client
+│   │   └── server/                   Private inquiry handler and storage
+│   ├── assets/
+│   │   ├── images/                   Favicon and service illustrations
+│   │   ├── fonts/                    Local fonts and licenses
+│   │   └── concepts/system-galaxy/   Model references and specifications
+│   ├── vendor/
+│   │   ├── lucide/                   Generated subset of icons
+│   │   └── three/                    Retained Three.js distribution
+│   └── prototypes/
+│       ├── galaxy-model-review/      Model and component inspection
+│       └── pqc-motion/               Post-quantum motion studies
+├── projects/
+│   └── deepbook/                     Independent DeepBook static mirror
+│       ├── assets/                   Assets used by the mirror
+│       ├── local/                    Local browser helpers
+│       ├── qa/                       DeepBook verification records
+│       ├── source/                   Captured upstream pages and assets
+│       ├── tests/                    DeepBook checks
+│       ├── tools/                    Mirror, patch and preview scripts
+│       └── index.html                Mirror entry point
+├── tooling/
+│   ├── scripts/                      Main site build, packaging and preview
+│   │   └── lib/                      Paths and source loading
+│   └── tests/
+│       ├── unit/                     Theme, Daybook and inquiry checks
+│       ├── functional/               Browser journeys and interaction checks
+│       ├── verification/             Static contracts, paths and UI/UX audits
+│       ├── support/                  Browser setup and diagnostic tools
+│       ├── fixtures/                 Historical baselines
+│       └── run.mjs                   Default main site test runner
+├── deploy/
+│   ├── pqc/                          HTTPS staging and deployment
+│   └── starworld/                    Separate standalone publishing checkout
+├── docs/
+│   ├── architecture/                 Repository path migration map
+│   ├── research/                     Reusable design and navigation research
+│   ├── plans/                        Implementation plans and premortems
+│   ├── reviews/                      Design reviews and verification records
+│   ├── archive/                      Historical documentation
+│   └── roadmap.md                    Product backlog
+├── artifacts/
+│   ├── screenshots/                  Captures grouped by experience
+│   ├── qa/                           Generated local diagnostics
+│   ├── build/                        Generated static bundles
+│   ├── surveys/                      Design survey materials
+│   └── archives/website/             Saved website exports
+├── agent-rules/
+│   ├── README.md                     Project planning and verification rules
+│   ├── galaxy.md                     Current Galaxy workflow
+│   └── archive/                      Historical agent instructions
+├── .github/workflows/pages.yml        Static GitHub Pages publishing workflow
+├── AGENTS.md                          Entry point for project agent rules
+├── README.md                          Repository map and commands
+├── package.json                       Root build, preview and test commands
+└── package-lock.json                  Locked development dependencies
+```
+
+Repository paths and visitor URLs are distinct. The local server and public bundle expose the files in `website/pages/` at the site root.
+
+| URL                                               | File in the repository                       | What to edit                                                              |
+| ------------------------------------------------- | -------------------------------------------- | ------------------------------------------------------------------------- |
+| `/`                                               | `website/pages/index.html`                   | Startup markup and `website/src/studio/start-route.js`                    |
+| `/home/`                                          | `website/pages/home/index.html`              | `website/src/galaxy/index.html` and `website/src/galaxy/styles/light.css` |
+| `/explore.html`                                   | `website/pages/explore.html`                 | `website/src/galaxy/index.html`                                           |
+| `/starworld.html`                                 | `website/pages/starworld.html`               | Legacy address handled by the Galaxy startup router                       |
+| `/services/`, `/work/`, `/approach/`, `/contact/` | Matching folders under `website/pages/`      | `website/src/studio/pages.js` and the Studio build                        |
+| `/work/daybook/demo/`                             | `website/pages/work/daybook/demo/index.html` | Studio page definition and `website/src/studio/lab/`                      |
 
 ## Quick start
 
-Use Node.js 20 or newer. Runtime code uses the retained local Three.js distribution; it does not require a framework or a dependency install.
+Use Node.js 20 or newer and run these commands from the repository root.
 
 ```sh
 npm ci
@@ -17,138 +124,59 @@ npm test
 npm run dev
 ```
 
-Open `http://127.0.0.1:4173/` to start with your device theme, `/home/` for light Galaxy, `/explore.html` for dark Galaxy or `/starworld.html` for Starworld. Stop the preview with Ctrl+C. Set `PORT` to use a different port.
-
-For source formatting, install the locked development tool first:
-
-```sh
-npm ci
-npm run format:check
-```
-
-## Repository map
-
-```text
-index.html                    Theme-based start page
-home/                         Generated light Galaxy home page
-services/, work/, approach/, contact/
-                              Generated inner pages and the Daybook demo
-explore.html                  Galaxy's maintained HTML entry
-starworld.html                Generated offline Starworld deliverable
-src/
-  studio/
-    pages.js                  Authored page definitions and HTML content
-    styles.css                Retained shared baseline
-    living-system.css         Current responsive visual system
-    app.js, inquiry.js        Navigation, demos and inquiry fields
-    scene.js                  Interactive, state-connected Three.js modules
-    lab/                      Booking state, workbench, controller and public PNG card
-  galaxy/
-    js/                       State, data and UI
-    js/scene/system-models/   3D model builders, including Hardware
-    styles/                   Existing main-site CSS layers
-  starworld/
-    index.html                HTML template and build markers
-    data/services.js          Service descriptions and stable IDs
-    domain/project-brief.js   Service selection, brief text and inquiry fields
-    scene/                    Geometry, label placement and Three.js scene
-    styles/                   Base, theme, service and layout layers
-    app.js                    UI state, events, settings and local agent tools
-assets/images/                First-party images, including the favicon
-assets/fonts/                 Self-hosted Manrope and its OFL license
-vendor/lucide/                Generated small icon subset from the locked dev dependency
-vendor/three/                 Retained Three.js distribution and license header
-scripts/                      Build, preview and local packaging commands
-tests/
-  unit/                       Theme selection and Daybook logic
-  functional/                 Browser journeys and interaction regressions
-  verification/               Static contracts, resources and UI/UX audits
-  support/                    Browser setup and local diagnostic tools
-  fixtures/                   Historical baseline, retained unchanged
-  run.mjs                     Default LEVNAT test runner
-docs/
-  plans/                      Implementation plans and premortems
-  reviews/                    Design and QA findings with verification limits
-  roadmap.md                  Existing product backlog
-  refactor-paths.json         Old-to-new folder mapping
-prototypes/pqc-motion/        English motion study and its preview wrapper
-artifacts/
-  screenshots/                Captured QA evidence
-  qa/                         Generated diagnostic pages; ignored by Git
-deploy/starworld/             Existing publishing checkout and Site identity
-exports/                      Archived copy of the November 6 site
-robots.txt, sitemap.xml       Main-site search-engine entries
-```
+Open [the local preview](http://127.0.0.1:4173/). The startup page uses the device theme to select light or dark Galaxy. Open `/explore.html` directly for dark Galaxy. The Daybook demo is at `/work/daybook/demo/`. Stop the preview with Ctrl+C or set `PORT` to use a different port.
 
 ## Source ownership
 
-Edit the main website in `src/studio/` and run `npm run build:studio` (or the complete `npm run build`). `scripts/build-studio.mjs` owns the shared HTML shell and generates the site pages. Edit the source templates when changing the shared shell. Page navigation uses ordinary URLs and works without JavaScript. Studio, Galaxy and Starworld send inquiries to a same-origin HTTPS API after confirming transport readiness. The private server returns a receipt after saving an encrypted, signed record. See [strict PQC staging and deployment](deploy/pqc/README.md) for the HTTPS preview, tests and operator setup.
-
-Daybook is an independent local prototype, not commissioned client work or a production booking service. Build the interface, submit a sample request before connecting, connect the simulated API, introduce an API/device fault, then repair and replay the queue. Exactly-once handling is enforced by the domain reducer, not the animation. The three 3D modules offer equivalent pointer actions; ordinary form controls remain the primary accessible path. Booking records live only in page memory and reset on reload. Share links and PNG cards serialize seven allowlisted public settings, never guest names, request records, logs or contact drafts. A shared example restores a synthetic guest. The product remains usable without WebGL.
-
-Edit Galaxy's `explore.html` and `src/galaxy/` directly. `npm run build:studio` generates `/home/` from `explore.html` with the light palette from `src/galaxy/styles/light.css`. Its cache-buster values and relative module imports remain coordinated by the Galaxy contract check.
-
-The Hardware concept image and reconstruction specification live under `assets/concepts/system-galaxy/`. The November 6 website snapshot is available through the [export archive](exports/levnat-website/README.md).
-
-Edit Starworld under `src/starworld/`, then run `npm run build`. Do not hand-edit `starworld.html` or the HTML copies under `deploy/starworld/`: they are generated. The build embeds CSS, the retained engine and the explicitly ordered JavaScript fragments into two inline scripts. Fragments share one private closure so the offline file requires no module server, dynamic imports or runtime downloads. `scripts/lib/starworld-source.mjs` declares their order.
-
-The spatial glyph background is owned by `src/starworld/scene/glyph-field.js`. It uses a generated transparent atlas and a distant point field, controlled by the existing Digital rain setting.
-
-The Starworld CSS order is `base.css` for the hero and scene, `panels.css` for the catalog and dialogs, then `holograms.css` for the service preview.
-
-The theme-based start page is `index.html`, with its routing logic in `src/studio/start-route.js`. Dark mode opens `/starworld.html`, and light mode opens `/home/`. The start page offers links to both versions when JavaScript is disabled. Older Daybook links at `/` and `/home/` open `/work/daybook/demo/` with their query and fragment intact. Direct links open the selected page. **Use device theme** in the footer returns to the start page to check the current preference again.
+- **Studio and Daybook.** Edit `website/src/studio/` and run `npm run build:studio`. The shared page shell is in `tooling/scripts/build-studio.mjs`. Daybook is an independent booking prototype using sample data. Booking records stay in page memory. Share links and PNG cards contain only public demo settings.
+- **Galaxy.** Edit `website/src/galaxy/index.html` and its associated source files, then run `npm run build:studio` to regenerate both themes. The seven service identities and routes are in `website/src/shared/service-catalog.js`. Hardware references and specifications are in `website/assets/concepts/system-galaxy/`.
+- **DeepBook.** The mirror has its own tools, sources and tests. Its usage and ownership are documented separately. [DeepBook guide](projects/deepbook/README.md)
+- **Agent rules.** The root `AGENTS.md` points to the dedicated rules folder. [Project rules](agent-rules/README.md) · [Galaxy workflow](agent-rules/galaxy.md)
 
 ## Commands
 
-| Command                        | Result                                                                              |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `npm run build`                | Build the site pages, light Galaxy, standalone Starworld and local packaging copies |
-| `npm run build:studio`         | Generate Studio pages, light Galaxy and local icons                                 |
-| `npm run build:starworld`      | Generate only root `starworld.html`                                                 |
-| `npm run package:starworld`    | Copy the existing generated HTML into the local publishing checkout                 |
-| `npm test`                     | Run the default LEVNAT unit and verification suites                                 |
-| `npm run test:start`           | Run the theme-based start page unit tests                                           |
-| `npm run test:galaxy`          | Check main-site registries, models, cache versions and runtime contracts            |
-| `npm run test:starworld`       | Check every service subset, Unicode, drafts, labels and model picking               |
-| `npm run test:content`         | Check questionnaire text mirrors, offer wording and all 16,807 summary combinations |
-| `npm run test:content:browser` | Verify rendered copy, drafts, downloads, previews and 3D labels in Chromium         |
-| `npm run test:studio`          | Verify multi-page metadata, routes, content and inquiry contracts                   |
-| `npm run test:studio:browser`  | Verify new routes, responsive layout, navigation, demos, inquiries and 3D           |
-| `npm run test:system`          | Verify booking, bounded queue, replay, privacy and workbench contracts              |
-| `npm run test:system:browser`  | Verify real booking journeys, 3D actions, sharing, PNG, recovery and keyboard use   |
-| `npm run qa:starworld`         | Generate WebGL-loss and no-WebGL diagnostic copies under `artifacts/qa/starworld/`  |
-| `npm run qa:uiux`              | Run the browser-based UI/UX audit                                                   |
-| `npm run dev`                  | Serve both sites locally on port 4173                                               |
-| `npm run build:pqc`            | Build a fresh web root containing only public files                                 |
-| `npm run dev:pqc`              | Start the strict HTTPS preview with the configured bundle and NGINX                 |
-| `npm run test:pqc`             | Test the private intake, encryption, signatures, and durable receipts               |
-| `npm run format`               | Format authored Starworld code, tooling, tests and documentation                    |
-| `npm run format:check`         | Check that same formatting scope without modifying files                            |
+| Command                 | Result                                                                      |
+| ----------------------- | --------------------------------------------------------------------------- |
+| `npm run build`         | Generate Studio pages, both Galaxy themes and local icons                   |
+| `npm run build:studio`  | Generate Studio pages, both Galaxy themes and local icons                   |
+| `npm run dev`           | Serve the site locally on port 4173                                         |
+| `npm run build:pages`   | Assemble a public bundle in a fresh folder under `artifacts/build/`         |
+| `npm run build:pqc`     | Build the public bundle for the protected HTTPS server                      |
+| `npm run dev:pqc`       | Start the configured protected HTTPS preview                                |
+| `npm test`              | Run the main site unit and verification suites                              |
+| `npm run test:galaxy`   | Verify scene contracts, service definitions, cache versions and asset paths |
+| `npm run test:content`  | Verify form content, offers and all 16,807 summary combinations             |
+| `npm run test:start`    | Verify device-theme routing                                                 |
+| `npm run test:studio`   | Verify page metadata, routes, content and inquiry contracts                 |
+| `npm run test:system`   | Verify Daybook booking, replay, privacy and controls                        |
+| `npm run test:pqc`      | Verify the private intake, encryption, signatures and durable receipts      |
+| `npm run test:deepbook` | Run DeepBook interaction and markup regression checks                       |
+| `npm run qa:deepbook`   | Verify DeepBook routes and assets and regenerate its static report          |
+| `npm run qa:uiux`       | Run the browser-based UI and UX audit                                       |
+| `npm run format`        | Format the configured source, tools, tests and documentation                |
+| `npm run format:check`  | Check formatting without writing files                                      |
 
-Build and test scripts resolve paths from their own location rather than the caller's current directory. Run `npm run build` before `npm test` after changing Starworld sources. See the [test folder guide](tests/README.md) for the suite layout and browser commands.
-
-`npm test` includes the structured content checks; run `npm ci` first to install their HTML parser. Browser content tests use an isolated Playwright runtime and an already running local preview:
+Browser checks use an installed Chrome and a separate Playwright runtime. Install the runtime once, then keep `npm run dev` running while launching a browser suite from another terminal.
 
 ```sh
 npm install --prefix /private/tmp/onepage-uiux-qa-runtime --no-audit --no-fund playwright pngjs @axe-core/playwright
+QA_BASE_URL=http://127.0.0.1:4173 npm run test:galaxy:browser
 ```
 
-Start `npm run dev`, then run `QA_BASE_URL=http://127.0.0.1:4173 npm run test:content:browser` from another terminal. Set `QA_BASE_URL`, `QA_RUNTIME` or `QA_CHROME` for a different preview URL, dependency directory or Chrome executable. Browser evidence is written under `artifacts/qa/content-update-2026-11-05/`. The HTTP preview disables inquiry submission. Use the strict HTTPS preview for intake tests.
+Set `QA_BASE_URL`, `QA_RUNTIME`, or `QA_CHROME` to use a different preview, runtime directory, or browser executable. The test guide lists the remaining browser commands and output locations. [Test guide](tooling/tests/README.md)
 
-Run `QA_BASE_URL=http://127.0.0.1:4173 npm run test:studio:browser` against the same preview for the multi-page design. Browser QA uses the installed Chrome executable and software WebGL. It does not certify physical-device performance, assistive-technology behavior or email delivery.
+## Hosting
 
-Run `QA_BASE_URL=http://127.0.0.1:4173 npm run test:system:browser` against the same preview for Daybook. `QA_LAB_FILTER` and `QA_STUDIO_FILTER` select a named case; `QA_LAB_OUTPUT` and `QA_STUDIO_OUTPUT` select evidence folders. The redesign plan and verification record are in `docs/plans/living-system-redesign-2026-11-06.md` and `docs/reviews/living-system-verification-2026-11-06.md`.
+Run `npm run build:pages` to export the public site into a fresh folder under `artifacts/build/`. To name the folder yourself, pass a new path such as `npm run build:pages -- artifacts/build/pages`. The local preview also serves the DeepBook mirror and review prototypes.
 
-## Documentation and language
+The GitHub Pages workflow runs on manual dispatch and deploys the public bundle when run from `main`. The first release using the new folder structure requires **Settings → Pages → Build and deployment → Source → GitHub Actions** in the GitHub repository. [Pages workflow](.github/workflows/pages.yml)
 
-Project documentation, code comments, prototype UI and test descriptions are English. Unicode coverage remains in tests through accented characters and emoji. `npm test` rejects accidental Cyrillic text in maintained project files; immutable Git history and installed dependencies are outside that check.
+The protected inquiry API uses a separate Node.js intake process behind NGINX. Static hosting serves the pages. The protected HTTPS server also accepts and stores inquiries. [PQC staging and deployment](deploy/pqc/README.md)
 
-Use the [website design reference](docs/website-design-research.md) for mobile and desktop design reviews and the [website mapping reference](docs/website-mapping-research.md) for navigation and user journeys.
+The `deploy/starworld/` checkout has its own Git repository and hosting configuration, separate from the LEVNAT build.
 
-Start with the [organization plan](docs/plans/repository-organization.md), [Starworld QA history](docs/reviews/starworld-qa.md), [engineering plan](docs/plans/engineering-console.md) or [roadmap](docs/roadmap.md). Historical audit numbers and deferred device checks remain labeled with their original dates. The historical hash fixture is not rewritten to imply a new original baseline.
+## Documentation
 
-## Local publishing checkout
+Start with the [design research](docs/research/website-design-research.md), [navigation research](docs/research/website-mapping-research.md), [repository migration map](docs/architecture/refactor-paths.json), [Starworld QA history](docs/reviews/starworld-qa.md) or [roadmap](docs/roadmap.md). The [saved website export](artifacts/archives/website/README.md) contains the November 6 snapshot.
 
-`deploy/starworld/` retains the pre-existing nested Git repository and `.openai/hosting.json` identity. Local build/package commands only refresh files; they do not commit, push, upload or deploy. Follow the existing publication authorization separately when a hosted release is requested.
-
-The standalone HTML can also be opened directly from disk. The current brief stays in page memory and can be saved locally. Inquiry submission requires the protected HTTPS deployment.
+Project documentation, code comments, prototype UI and test descriptions use English. The tests retain Unicode coverage through accented characters and emoji.

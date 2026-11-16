@@ -49,7 +49,7 @@ Completed on 2026-11-05.
 - Starworld now has six ordered JavaScript fragments and four readable CSS layers. Its shared private closure, stable service IDs, notes logic, settings and actual Three.js scene remain functional.
 - Translated the complete QA report, both PQC motion files (including escaped preview content), two test fixtures and both local skill descriptions into English. Updated relocated source/tool references. The project-language check finds no Cyrillic outside immutable Git history and installed dependencies.
 - Browser smoke verification: Galaxy loads the new module path, applies its styles, initializes a canvas, and updates answer progress from 0/5 to 1/5. Starworld loads the freshly assembled source, renders seven services, selects iOS and opens its named brief dialog with a valid email-draft link. Neither page reported console errors or warnings.
-- Screenshots are retained in `artifacts/screenshots/refactor-galaxy.jpg` and `artifacts/screenshots/refactor-starworld.jpg`. The temporary Galaxy tab was closed; the existing Starworld tab was retained.
+- Screenshots are retained in `artifacts/screenshots/galaxy/refactor-galaxy.jpg` and `artifacts/screenshots/starworld/refactor-starworld.jpg`. The temporary Galaxy tab was closed; the existing Starworld tab was retained.
 - The existing nested Git repository and Site identity were retained. No commit, push, upload, publication or email sending was performed.
 
 The premortem-derived checks above are verified. A new physical-device, screen-reader or complete interaction audit was not required for this structural change; earlier device-specific limitations remain documented in the historical QA report.

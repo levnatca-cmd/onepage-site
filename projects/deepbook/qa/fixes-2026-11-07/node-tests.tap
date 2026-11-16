@@ -1,0 +1,457 @@
+TAP version 13
+# Subtest: deep-token/index.html: generated header is keyboard accessible without changing icon paths
+ok 1 - deep-token/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 33.873041
+  type: 'test'
+  ...
+# Subtest: index.html: generated header is keyboard accessible without changing icon paths
+ok 2 - index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 15.754833
+  type: 'test'
+  ...
+# Subtest: privacy-policy/index.html: generated header is keyboard accessible without changing icon paths
+ok 3 - privacy-policy/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 6.689542
+  type: 'test'
+  ...
+# Subtest: trader-hub/index.html: generated header is keyboard accessible without changing icon paths
+ok 4 - trader-hub/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 10.739375
+  type: 'test'
+  ...
+# Subtest: builder-hub/index.html: generated header is keyboard accessible without changing icon paths
+ok 5 - builder-hub/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 32.457875
+  type: 'test'
+  ...
+# Subtest: terms-of-use/index.html: generated header is keyboard accessible without changing icon paths
+ok 6 - terms-of-use/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 4.158333
+  type: 'test'
+  ...
+# Subtest: points/index.html: generated header is keyboard accessible without changing icon paths
+ok 7 - points/index.html: generated header is keyboard accessible without changing icon paths
+  ---
+  duration_ms: 37.668917
+  type: 'test'
+  ...
+# Subtest: mobile Builder documentation action uses the existing documentation destination
+ok 8 - mobile Builder documentation action uses the existing documentation destination
+  ---
+  duration_ms: 16.210875
+  type: 'test'
+  ...
+# Subtest: Builder disclosures keep original styles without Webflow dropdown event ownership
+ok 9 - Builder disclosures keep original styles without Webflow dropdown event ownership
+  ---
+  duration_ms: 17.391875
+  type: 'test'
+  ...
+# Subtest: Points primary action and Trader filters are native buttons
+ok 10 - Points primary action and Trader filters are native buttons
+  ---
+  duration_ms: 20.578459
+  type: 'test'
+  ...
+# Subtest: legacy disclosure initializers are disabled once and fail closed on unexpected source
+ok 11 - legacy disclosure initializers are disabled once and fail closed on unexpected source
+  ---
+  duration_ms: 0.473875
+  type: 'test'
+  ...
+# Subtest: patch dispatch is scoped, deterministic, idempotent, and syntax-valid
+ok 12 - patch dispatch is scoped, deterministic, idempotent, and syntax-valid
+  ---
+  duration_ms: 36.630125
+  type: 'test'
+  ...
+# Subtest: builder-hub: original inline Swiper survives 390 -> 1024 -> 390 without duplicate listeners
+ok 13 - builder-hub: original inline Swiper survives 390 -> 1024 -> 390 without duplicate listeners
+  ---
+  duration_ms: 23.6335
+  type: 'test'
+  ...
+# Subtest: points: original inline Swiper survives 390 -> 1024 -> 390 without duplicate listeners
+ok 14 - points: original inline Swiper survives 390 -> 1024 -> 390 without duplicate listeners
+  ---
+  duration_ms: 19.506667
+  type: 'test'
+  ...
+# Subtest: Swiper repairs orphaned styles/classes and tolerates missing sliders
+ok 15 - Swiper repairs orphaned styles/classes and tolerates missing sliders
+  ---
+  duration_ms: 19.726542
+  type: 'test'
+  ...
+# Subtest: reveals rebuild unrevealed lines, kill old handles, and retain entered headings after resize
+ok 16 - reveals rebuild unrevealed lines, kill old handles, and retain entered headings after resize
+  ---
+  duration_ms: 1.537458
+  type: 'test'
+  ...
+# Subtest: same-mobile nav resize remeasures the banner; desktop cycles and cleanup are idempotent
+ok 17 - same-mobile nav resize remeasures the banner; desktop cycles and cleanup are idempotent
+  ---
+  duration_ms: 0.9435
+  type: 'test'
+  ...
+# Subtest: zero-width banner cannot allocate infinite clones or leave an empty track
+ok 18 - zero-width banner cannot allocate infinite clones or leave an empty track
+  ---
+  duration_ms: 0.41275
+  type: 'test'
+  ...
+# Subtest: nav fixture retains the original content wrapper and both foreground fade siblings
+ok 19 - nav fixture retains the original content wrapper and both foreground fade siblings
+  ---
+  duration_ms: 6.58925
+  type: 'test'
+  ...
+# Subtest: reduced-first mobile nav supports wrapping, auto height, and unmasked access at larger text sizes
+    # Subtest: 320px
+    ok 1 - 320px
+      ---
+      duration_ms: 1.227542
+      type: 'test'
+      ...
+    # Subtest: 390px
+    ok 2 - 390px
+      ---
+      duration_ms: 0.786833
+      type: 'test'
+      ...
+    # Subtest: 767px
+    ok 3 - 767px
+      ---
+      duration_ms: 0.580625
+      type: 'test'
+      ...
+    1..3
+ok 20 - reduced-first mobile nav supports wrapping, auto height, and unmasked access at larger text sizes
+  ---
+  duration_ms: 3.070333
+  type: 'test'
+  ...
+# Subtest: normal -> reduced -> resize -> normal restores inline values and priorities before marquee measurement
+ok 21 - normal -> reduced -> resize -> normal restores inline values and priorities before marquee measurement
+  ---
+  duration_ms: 5.731416
+  type: 'test'
+  ...
+# Subtest: static nav styles restore across desktop cycles without reopening a dismissed announcement
+ok 22 - static nav styles restore across desktop cycles without reopening a dismissed announcement
+  ---
+  duration_ms: 0.541083
+  type: 'test'
+  ...
+# Subtest: reduced core motion leaves all headings visible with native scrolling and a single nav link
+ok 23 - reduced core motion leaves all headings visible with native scrolling and a single nav link
+  ---
+  duration_ms: 0.556416
+  type: 'test'
+  ...
+# Subtest: switching to reduced motion cleans active reveal splits, triggers, Lenis, and marquee
+ok 24 - switching to reduced motion cleans active reveal splits, triggers, Lenis, and marquee
+  ---
+  duration_ms: 0.485208
+  type: 'test'
+  ...
+# Subtest: Lenis recreation retains scroll subscribers exactly once, including reduced-first load
+ok 25 - Lenis recreation retains scroll subscribers exactly once, including reduced-first load
+  ---
+  duration_ms: 0.522334
+  type: 'test'
+  ...
+# Subtest: Home canvas draws animated original geometry and stops/restarts one RAF
+ok 26 - Home canvas draws animated original geometry and stops/restarts one RAF
+  ---
+  duration_ms: 1.704417
+  type: 'test'
+  ...
+# Subtest: Builder bars keep default timings and own their timelines/blink callbacks
+ok 27 - Builder bars keep default timings and own their timelines/blink callbacks
+  ---
+  duration_ms: 5.526875
+  type: 'test'
+  ...
+# Subtest: Home canvas draws static original geometry and stops/restarts one RAF
+ok 28 - Home canvas draws static original geometry and stops/restarts one RAF
+  ---
+  duration_ms: 0.708791
+  type: 'test'
+  ...
+# Subtest: Builder bars start static and own their timelines/blink callbacks
+ok 29 - Builder bars start static and own their timelines/blink callbacks
+  ---
+  duration_ms: 3.801583
+  type: 'test'
+  ...
+# Subtest: patch is scoped, deterministic, idempotent, and leaves the original file immutable
+ok 30 - patch is scoped, deterministic, idempotent, and leaves the original file immutable
+  ---
+  duration_ms: 4.6375
+  type: 'test'
+  ...
+# Subtest: success exposes loading feedback and guards duplicate in-flight fetches
+ok 31 - success exposes loading feedback and guards duplicate in-flight fetches
+  ---
+  duration_ms: 3.929667
+  type: 'test'
+  ...
+# Subtest: returned numbers and numeric strings retain original rendering, including explicit zero
+    # Subtest: 0
+    ok 1 - 0
+      ---
+      duration_ms: 1.640708
+      type: 'test'
+      ...
+    # Subtest: "0"
+    ok 2 - "0"
+      ---
+      duration_ms: 1.442125
+      type: 'test'
+      ...
+    # Subtest: "0.0000"
+    ok 3 - "0.0000"
+      ---
+      duration_ms: 1.312708
+      type: 'test'
+      ...
+    # Subtest: 123456.789
+    ok 4 - 123456.789
+      ---
+      duration_ms: 1.043792
+      type: 'test'
+      ...
+    # Subtest: "0012345.6700"
+    ok 5 - "0012345.6700"
+      ---
+      duration_ms: 0.730833
+      type: 'test'
+      ...
+    # Subtest: "900719925474099312345678.00"
+    ok 6 - "900719925474099312345678.00"
+      ---
+      duration_ms: 1.034416
+      type: 'test'
+      ...
+    1..6
+ok 32 - returned numbers and numeric strings retain original rendering, including explicit zero
+  ---
+  duration_ms: 7.739834
+  type: 'test'
+  ...
+# Subtest: rejected fetch is visible and retries the connected address without reauthorization
+ok 33 - rejected fetch is visible and retries the connected address without reauthorization
+  ---
+  duration_ms: 0.725125
+  type: 'test'
+  ...
+# Subtest: refresh clears stale success and points before a failed request
+ok 34 - refresh clears stale success and points before a failed request
+  ---
+  duration_ms: 0.563
+  type: 'test'
+  ...
+# Subtest: non-2xx responses fail before reading a zero-valued JSON body
+ok 35 - non-2xx responses fail before reading a zero-valued JSON body
+  ---
+  duration_ms: 0.569167
+  type: 'test'
+  ...
+# Subtest: empty data has a distinct no-data message and can be retried without connecting again
+ok 36 - empty data has a distinct no-data message and can be retried without connecting again
+  ---
+  duration_ms: 0.534583
+  type: 'test'
+  ...
+# Subtest: missing, malformed, or unreadable data never becomes a false zero
+    # Subtest: missing points
+    ok 1 - missing points
+      ---
+      duration_ms: 0.529875
+      type: 'test'
+      ...
+    # Subtest: null points
+    ok 2 - null points
+      ---
+      duration_ms: 0.462375
+      type: 'test'
+      ...
+    # Subtest: empty points
+    ok 3 - empty points
+      ---
+      duration_ms: 0.475
+      type: 'test'
+      ...
+    # Subtest: whitespace points
+    ok 4 - whitespace points
+      ---
+      duration_ms: 0.382541
+      type: 'test'
+      ...
+    # Subtest: boolean points
+    ok 5 - boolean points
+      ---
+      duration_ms: 0.356667
+      type: 'test'
+      ...
+    # Subtest: array points
+    ok 6 - array points
+      ---
+      duration_ms: 0.362875
+      type: 'test'
+      ...
+    # Subtest: nonnumeric points
+    ok 7 - nonnumeric points
+      ---
+      duration_ms: 0.460542
+      type: 'test'
+      ...
+    # Subtest: nonfinite points
+    ok 8 - nonfinite points
+      ---
+      duration_ms: 0.529875
+      type: 'test'
+      ...
+    # Subtest: non-array body
+    ok 9 - non-array body
+      ---
+      duration_ms: 0.418541
+      type: 'test'
+      ...
+    # Subtest: null body
+    ok 10 - null body
+      ---
+      duration_ms: 0.440833
+      type: 'test'
+      ...
+    # Subtest: invalid JSON
+    ok 11 - invalid JSON
+      ---
+      duration_ms: 0.424375
+      type: 'test'
+      ...
+    1..11
+ok 37 - missing, malformed, or unreadable data never becomes a false zero
+  ---
+  duration_ms: 5.239291
+  type: 'test'
+  ...
+# Subtest: missing wallet gives visible installation feedback and supports later registration
+ok 38 - missing wallet gives visible installation feedback and supports later registration
+  ---
+  duration_ms: 1.07175
+  type: 'test'
+  ...
+# Subtest: canceled connection stays usable and reconnects only when requested again
+ok 39 - canceled connection stays usable and reconnects only when requested again
+  ---
+  duration_ms: 0.48125
+  type: 'test'
+  ...
+# Subtest: no returned account is not success and permits a fresh connection attempt
+ok 40 - no returned account is not success and permits a fresh connection attempt
+  ---
+  duration_ms: 0.4835
+  type: 'test'
+  ...
+# Subtest: duplicate clicks cannot open multiple wallet connection requests
+ok 41 - duplicate clicks cannot open multiple wallet connection requests
+  ---
+  duration_ms: 0.502167
+  type: 'test'
+  ...
+# Subtest: generated Builder roots remove Webflow ownership but preserve styled toggle/list children
+ok 42 - generated Builder roots remove Webflow ownership but preserve styled toggle/list children
+  ---
+  duration_ms: 0.571875
+  type: 'test'
+  ...
+# Subtest: local dropdown root reproduces every original base declaration at zero specificity
+ok 43 - local dropdown root reproduces every original base declaration at zero specificity
+  ---
+  duration_ms: 3.491125
+  type: 'test'
+  ...
+# Subtest: legacy-class positive control reproduces the original Webflow mixed-input race
+ok 44 - legacy-class positive control reproduces the original Webflow mixed-input race
+  ---
+  duration_ms: 3.325375
+  type: 'test'
+  ...
+# Subtest: local Builder accordion stays synchronized after "Enter" -> mouse with original Webflow loaded
+ok 45 - local Builder accordion stays synchronized after "Enter" -> mouse with original Webflow loaded
+  ---
+  duration_ms: 1.116375
+  type: 'test'
+  ...
+# Subtest: local Builder accordion stays synchronized after " " -> mouse with original Webflow loaded
+ok 46 - local Builder accordion stays synchronized after " " -> mouse with original Webflow loaded
+  ---
+  duration_ms: 1.010667
+  type: 'test'
+  ...
+# Subtest: Escape from a desktop resource link leaves its disabled disclosure expanded
+ok 47 - Escape from a desktop resource link leaves its disabled disclosure expanded
+  ---
+  duration_ms: 0.783875
+  type: 'test'
+  ...
+# Subtest: the same resource link can close its enabled mobile disclosure and restore toggle focus
+ok 48 - the same resource link can close its enabled mobile disclosure and restore toggle focus
+  ---
+  duration_ms: 1.324958
+  type: 'test'
+  ...
+# Subtest: menu dialog exists only while open and restores original role banner
+ok 49 - menu dialog exists only while open and restores original role banner
+  ---
+  duration_ms: 0.674708
+  type: 'test'
+  ...
+# Subtest: menu dialog exists only while open and restores original role (absent)
+ok 50 - menu dialog exists only while open and restores original role (absent)
+  ---
+  duration_ms: 0.895542
+  type: 'test'
+  ...
+# Subtest: Tab and Shift+Tab visit all visible header controls without leaving the active dialog
+ok 51 - Tab and Shift+Tab visit all visible header controls without leaving the active dialog
+  ---
+  duration_ms: 4.668416
+  type: 'test'
+  ...
+# Subtest: menu close restores prior background inert state and leaves header controls usable
+ok 52 - menu close restores prior background inert state and leaves header controls usable
+  ---
+  duration_ms: 0.841875
+  type: 'test'
+  ...
+# Subtest: 390 -> 1024 -> 390 closes the dialog, focuses visible logo, and can reopen cleanly
+ok 53 - 390 -> 1024 -> 390 closes the dialog, focuses visible logo, and can reopen cleanly
+  ---
+  duration_ms: 0.791
+  type: 'test'
+  ...
+# Subtest: initialization is idempotent and rapid menu close cancels pending initial focus
+ok 54 - initialization is idempotent and rapid menu close cancels pending initial focus
+  ---
+  duration_ms: 0.573417
+  type: 'test'
+  ...
+1..54
+# tests 74
+# suites 0
+# pass 74
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 243.883958

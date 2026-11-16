@@ -1,0 +1,76 @@
+:where(button.db-native-control) {
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  margin: 0;
+  cursor: pointer;
+}
+
+.global_info-grid > .global_info-item {
+  min-width: 0;
+}
+
+:where(.db-dropdown) {
+  text-align: left;
+  z-index: 900;
+  margin-left: auto;
+  margin-right: auto;
+  display: inline-block;
+  position: relative;
+}
+
+html .db-native-control:focus-visible,
+html [data-db-control]:focus-visible,
+html [role="button"]:focus-visible,
+html [role="tab"]:focus-visible,
+html a[href]:focus-visible {
+  outline: 2px solid #1e6ef3;
+  outline-offset: 4px;
+}
+
+[data-db-panel][hidden],
+[nav-banner][hidden] {
+  display: none !important;
+}
+
+[data-db-panel] {
+  transition: none;
+}
+
+[global-dd-toggle][aria-disabled="true"] {
+  cursor: default;
+}
+
+.hamburger-component[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hamburger-component[aria-hidden="false"] {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.th-platforms_button:disabled {
+  cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+  .navbar-pencil_link {
+    flex: none;
+    width: max-content;
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}

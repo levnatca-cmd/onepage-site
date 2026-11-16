@@ -15,7 +15,7 @@ the staged HTML to calculate its CSP hashes.
 
 ```sh
 pqc_bundle_parent="$(mktemp -d)"
-node scripts/build-pqc.mjs "$pqc_bundle_parent/public"
+node tooling/scripts/build-pqc.mjs "$pqc_bundle_parent/public"
 PQC_WEB_ROOT="$pqc_bundle_parent/public" \
 PQC_NGINX_BIN=/absolute/path/to/nginx \
 node deploy/pqc/serve.mjs --local
@@ -53,7 +53,7 @@ path denial.
    Supply its chain as `PQC_TLS_CERT_FILE` and its private key as
    `PQC_TLS_KEY_FILE`. Use a dedicated, non-root service account and grant
    access to the listen port through the host's service manager when needed.
-3. Start `node src/server/inquiries.mjs` under the intake account with:
+3. Start `node website/src/server/inquiries.mjs` under the intake account with:
 
    | Setting                        | Value                                                                     |
    | ------------------------------ | ------------------------------------------------------------------------- |
@@ -85,7 +85,7 @@ Read a stored inquiry only from the private operator account. Set
 `PQC_INQUIRY_DIR`, `PQC_INQUIRY_KEY_FILE`, and `PQC_INQUIRY_VERIFY_KEY_FILE`
 to the corresponding storage directory, encryption key, and ML-DSA public PEM
 key. Derive the public key from the signing key with OpenSSL `pkey -pubout`.
-Run `node src/server/inquiries.mjs read <receipt>` in a private operator
+Run `node website/src/server/inquiries.mjs read <receipt>` in a private operator
 session. The reader verifies the signature before displaying the decrypted
 record. Its output contains the inquiry contents.
 

@@ -3,7 +3,7 @@ node_modules/
 vendor/
 artifacts/
 deploy/
-starworld.html
-src/galaxy/
-prototypes/
-tests/fixtures/
+website/pages/
+website/src/galaxy/
+website/prototypes/
+tooling/tests/fixtures/

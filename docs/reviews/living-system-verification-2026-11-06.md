@@ -31,7 +31,7 @@ Canonical evidence: `artifacts/qa/living-system-studio-2026-11-06/`, `artifacts/
 
 ## Saved Copy
 
-The saved project is current at `exports/levnat-website/` and serves as the root of the preview on port 4175. All 117 allowlisted source/build files were copied and compared byte-for-byte with the canonical workspace. The separate start guide was updated and the original reference brief preserved. No symlinks, Git history, installed dependencies, deployment identity, credentials or QA captures were included. The SHA-256 manifest is `artifacts/qa/living-system-saved-2026-11-06/export-integrity.json`.
+The saved project was previewed from `exports/levnat-website/` on port 4175. Its files are now stored in the [export archive](../../artifacts/archives/website/README.md). All 117 allowlisted source/build files were copied and compared byte-for-byte with the canonical workspace at the time of verification. The separate start guide was updated and the original reference brief preserved. No symlinks, Git history, installed dependencies, deployment identity, credentials or QA captures were included. The SHA-256 manifest is `artifacts/qa/living-system-saved-2026-11-06/export-integrity.json`.
 
 Both full browser suites were rerun against this saved copy: 35/35 Studio cases and 11/11 System Lab cases passed, including the final PNG indicator correction. Saved-copy evidence is in `artifacts/qa/living-system-saved-studio-2026-11-06/` and `artifacts/qa/living-system-saved-2026-11-06/`. The app queued the final browser preview; its URL and an actual saved-copy screenshot accompany the delivery. Documentation was synchronized again after this verification record was finalized.
 

@@ -221,7 +221,7 @@ async function main() {
     if (local) {
       const intake = start(
         process.execPath,
-        [fileURLToPath(new URL("../../src/server/inquiries.mjs", import.meta.url))],
+        [fileURLToPath(new URL("../../website/src/server/inquiries.mjs", import.meta.url))],
         {
           env: {
             ...process.env,

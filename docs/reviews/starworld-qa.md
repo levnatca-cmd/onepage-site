@@ -66,7 +66,7 @@ Verified for this update:
 - In the browser: selection of iOS and Security through the list, keys 6/7 and direct clicks on the new 3D models. Both services appear in the email draft; the address and notes are correct. Selection and notes survive reload. Test data was removed.
 - No horizontal overflow at 320, 375, 1046 or 1280 px. On mobile, the list sits below the scene; checked buttons are at least 44 px. Contextual panels and the long Security title fit within the panel.
 - Fixed camera stretching caused by the long Security text, discovered during visual review: the map size no longer depends on the adjacent panel's height. At tablet widths, ordinary services use the panel's full width without an empty second column.
-- No errors or warnings in the updated page's browser console. The preview viewport was reset. Result screenshot: `artifacts/screenshots/security-ios-preview.jpg`.
+- No errors or warnings in the updated page's browser console. The preview viewport was reset. Result screenshot: `artifacts/screenshots/starworld/security-ios-preview.jpg`.
 - All 28 original main-site files were preserved; the standalone HTML and both local packaging copies are identical. No external publication was performed.
 
 This verifies the new service presentation and brief flows. It does not verify an actual post-quantum cryptography implementation or a native application; those systems were outside this HTML project's scope. A physical iOS device and a screen reader were not tested for this update.
@@ -75,4 +75,4 @@ This verifies the new service presentation and brief flows. It does not verify a
 
 The former 2D glyph wall has been replaced with a sparse 3D glyph field covering orbit directions around the scene. Its atlas is transparent, so neither a rectangular wall nor square glyph tiles appear behind the service models. Existing Digital rain, reduced motion and pause controls remain connected.
 
-Fifteen Starworld checks now pass, including a new shell/camera/far-plane invariant. Browser checks covered real shader rendering, camera rotation, maximum zoom-out, the 375 px layout, effect visibility and paused service selection. No browser errors or warnings were captured. See `docs/plans/scene-background.md` for the premortem and targeted verification, and `artifacts/screenshots/spatial-glyph-background.jpg` for the result.
+Fifteen Starworld checks now pass, including a new shell/camera/far-plane invariant. Browser checks covered real shader rendering, camera rotation, maximum zoom-out, the 375 px layout, effect visibility and paused service selection. No browser errors or warnings were captured. See `docs/plans/scene-background.md` for the premortem and targeted verification, and `artifacts/screenshots/starworld/spatial-glyph-background.jpg` for the result.

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en-CA" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Interactive Project Explorer | Systems Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/png" sizes="any" />
+    <meta
+      name="description"
+      content="Website and app development, API integrations, workflow automation, hardware/software debugging and ongoing support. Explore the services your project needs."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#07090d" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href="https://levnat.ca/" />
+
+    <meta property="og:site_name" content="Systems Engineering" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://levnat.ca/" />
+    <meta property="og:title" content="Websites &amp; Apps | Systems Engineering" />
+    <meta
+      property="og:description"
+      content="Build a new website or app, connect existing tools, or get help debugging and maintaining your product. Explore the services in 3D."
+    />
+    <meta property="og:locale" content="en_CA" />
+
+    <meta property="og:image" content="https://levnat.ca/og-card.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Systems Engineering: websites, apps, integrations, debugging and ongoing support." />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Websites &amp; Apps | Systems Engineering" />
+    <meta
+      name="twitter:description"
+      content="Explore website and app development, integrations and ongoing support in the interactive Galaxy."
+    />
+    <meta name="twitter:image" content="https://levnat.ca/og-card.png" />
+
+    <link rel="modulepreload" href="./vendor/three/three.module.min.js" />
+    <link rel="stylesheet" href="./src/galaxy/styles/fonts.css?v=wow60&amp;rev=typography1" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://levnat.ca/#website",
+          "url": "https://levnat.ca/",
+          "name": "Systems Engineering",
+          "description": "Toronto-based consultant for website and app development, APIs, automation, hardware/software debugging and ongoing support.",
+          "inLanguage": "en-CA",
+          "publisher": { "@id": "https://levnat.ca/#business" }
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://levnat.ca/#business",
+          "name": "Systems Engineering",
+          "alternateName": "Systems Engineering Consultant",
+          "description": "Website and app development, API integrations, workflow automation, hardware/software debugging and ongoing support for founders and business owners.",
+          "url": "https://levnat.ca/",
+          "email": "info@levnat.ca",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Toronto",
+            "addressRegion": "ON",
+            "addressCountry": "CA"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "Toronto" },
+            { "@type": "AdministrativeArea", "name": "Greater Toronto Area" },
+            { "@type": "Country", "name": "Canada" },
+            { "@type": "Place", "name": "Remote" }
+          ],
+          "serviceType": [
+            "Website planning",
+            "Web app development",
+            "Dashboard development",
+            "Business automation",
+            "Product system planning",
+            "Hardware/software debugging",
+            "Maintenance support"
+          ],
+          "makesOffer": {
+            "@type": "Offer",
+            "name": "Hourly engineering services",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "{{hourlyPrice}}",
+              "priceCurrency": "CAD",
+              "unitText": "hour"
+            }
+          }
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="./src/galaxy/styles/tokens.css?v=wow60" />
+    <link rel="stylesheet" href="./src/galaxy/styles/base.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/layout.css?v=wow60" />
+    <link rel="stylesheet" href="./src/galaxy/styles/header.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/buttons.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/sphere-dive.css?v=wow60" />
+    <link rel="stylesheet" href="./src/galaxy/styles/object-hologram.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hud.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/forms.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/result.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/sections.css?v=wow60&amp;rev=contact2" />
+    <link rel="stylesheet" href="./src/galaxy/styles/utility.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/responsive.css?v=wow60&amp;rev=hourly-pricing1" />
+    <script type="module" src="/src/shared/site-menu.js?v=wow60"></script>
+    <noscript>
+      <style>
+        .galaxy-hero { min-height: auto; }
+        .galaxy-stage, .nav-toggle, .inquiry-options { display: none; }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container">
+        <nav class="nav" aria-label="Primary">
+          <a class="brand" href="#top" aria-label="Systems Engineering home">
+            <span class="brand-mark" aria-hidden="true"></span>
+            Systems Engineering
+          </a>
+          <div class="galaxy-theme-toggle" role="group" aria-label="Color theme">
+            <a href="/home/" data-galaxy-context-link>Light</a>
+            <span aria-current="page">Dark</span>
+          </div>
+          <button class="nav-toggle" id="nav-toggle" type="button" data-site-menu-toggle="900" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
+            <span class="nav-toggle-bars" aria-hidden="true"></span>
+          </button>
+          <div class="nav-links" id="nav-links">
+            <a href="#top" aria-current="page">Galaxy</a>
+            <a href="/services/" data-galaxy-context-link>Services</a>
+            <a href="/work/" data-galaxy-context-link>Work</a>
+            <a href="/approach/" data-galaxy-context-link>Process</a>
+            <a href="/contact/" data-galaxy-context-link>Contact</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="galaxy-hero is-loading" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy container">
+          <h1 class="hero-title" id="hero-title">Websites &amp; apps</h1>
+          <div class="hero-actions">
+            <a class="btn btn-secondary" href="#services">Services <span aria-hidden="true">↓</span></a>
+            <a class="btn btn-primary" href="/contact/" data-galaxy-context-link>Discuss your project</a>
+          </div>
+        </div>
+
+        <div class="galaxy-scene-track">
+          <div class="galaxy-stage">
+            <canvas class="galaxy-canvas" id="galaxy-canvas" aria-hidden="true"></canvas>
+            <nav class="galaxy-service-row" aria-labelledby="galaxy-service-row-title" hidden>
+              <div class="galaxy-service-row-heading">
+                <h2 id="galaxy-service-row-title">Services</h2>
+                <a class="btn btn-secondary" href="#top" data-exit-service-row>Back to Galaxy</a>
+              </div>
+              <ul>
+                <li><a href="/services/websites-apps/" data-galaxy-service-link="firmware" aria-label="Websites and apps">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">Web</span><span class="galaxy-service-row-full">Websites &amp; apps</span>
+                </a></li>
+                <li><a href="/services/backend-api/" data-galaxy-service-link="backend" aria-label="Backend and API">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">API</span><span class="galaxy-service-row-full">Backend &amp; API</span>
+                </a></li>
+                <li><a href="/services/automation/" data-galaxy-service-link="automation" aria-label="Workflow automation">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">Auto</span><span class="galaxy-service-row-full">Automation</span>
+                </a></li>
+                <li><a href="/services/post-quantum-security/" data-galaxy-service-link="pqc" aria-label="Post-quantum security">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">PQC</span><span class="galaxy-service-row-full">Post-quantum security</span>
+                </a></li>
+                <li><a href="/services/data-logs/" data-galaxy-service-link="data" aria-label="Data and logs">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">Data</span><span class="galaxy-service-row-full">Data &amp; logs</span>
+                </a></li>
+                <li><a href="/services/hardware/" data-galaxy-service-link="hardware" aria-label="Hardware and device integration">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">Device</span><span class="galaxy-service-row-full">Hardware</span>
+                </a></li>
+                <li><a href="/services/monitoring/" data-galaxy-service-link="ops" aria-label="Monitoring and maintenance">
+                  <span class="galaxy-service-row-orb" aria-hidden="true"></span>
+                  <span class="galaxy-service-row-short">Ops</span><span class="galaxy-service-row-full">Monitoring</span>
+                </a></li>
+              </ul>
+            </nav>
+            <fieldset class="galaxy-layout" id="galaxy-layout">
+              <legend class="sr-only">Galaxy layout</legend>
+              <label class="galaxy-layout-option">
+                <input class="sr-only" type="radio" name="galaxy-layout" value="planets" />
+                <span>Planets</span>
+              </label>
+              <label class="galaxy-layout-option">
+                <input class="sr-only" type="radio" name="galaxy-layout" value="atom" checked />
+                <span>Atom</span>
+              </label>
+            </fieldset>
+            <div class="galaxy-orbit-controls" id="galaxy-orbit-controls" role="group"
+              aria-label="Galaxy view" aria-describedby="galaxy-orbit-keys"
+              aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home Escape">
+              <span class="galaxy-orbit-mouse" aria-hidden="true">Drag to rotate</span>
+              <span class="galaxy-orbit-keys" id="galaxy-orbit-keys">Arrow keys rotate · Home resets · Esc exits touch rotation</span>
+              <button class="galaxy-orbit-toggle" id="galaxy-orbit-toggle" type="button"
+                aria-controls="galaxy-canvas" aria-pressed="false">Rotate in 3D</button>
+              <button id="galaxy-orbit-done" type="button" hidden>Done</button>
+              <button id="galaxy-orbit-reset" type="button">Reset view</button>
+            </div>
+            <div class="hero-atmosphere" aria-hidden="true">
+              <span class="atmosphere-aurora atmosphere-aurora-a"></span>
+              <span class="atmosphere-aurora atmosphere-aurora-b"></span>
+              <span class="atmosphere-grid"></span>
+            </div>
+            <div class="galaxy-loading" id="galaxy-loading" role="status" aria-live="polite">Loading 3D scene</div>
+            <div class="hero-overlay">
+              <div class="launch-sequence" aria-hidden="true">
+                <span class="launch-ring launch-ring-a"></span>
+                <span class="launch-ring launch-ring-b"></span>
+                <span class="launch-beam launch-beam-a"></span>
+                <span class="launch-beam launch-beam-b"></span>
+                <span class="launch-token launch-token-a">SYSTEM LOCK</span>
+                <span class="launch-token launch-token-b">ROUTE MAP</span>
+                <span class="launch-token launch-token-c">LIVE DEBUG</span>
+              </div>
+
+              <div class="rescue-rig" aria-hidden="true">
+                <div class="rig-stage">
+                  <span class="rig-glow rig-glow-a"></span>
+                  <span class="rig-glow rig-glow-b"></span>
+                  <span class="rig-shockwave rig-shockwave-a"></span>
+                  <span class="rig-shockwave rig-shockwave-b"></span>
+                  <span class="rig-orbit rig-orbit-a"></span>
+                  <span class="rig-orbit rig-orbit-b"></span>
+                  <span class="rig-orbit rig-orbit-c"></span>
+                  <svg class="rig-spokes" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+                    <defs>
+                      <g id="rig-spokes-compact">
+                        <path d="M45 34 Q34 30 21 32" pathLength="100" />
+                        <path d="M45 34 Q46 20 53 3" pathLength="100" />
+                        <path d="M45 34 Q64 27 85 29" pathLength="100" />
+                        <path d="M45 34 Q68 47 82 72" pathLength="100" />
+                        <path d="M45 34 Q53 53 51 70" pathLength="100" />
+                        <path d="M45 34 Q26 47 16 72" pathLength="100" />
+                      </g>
+                      <g id="rig-spokes-wide">
+                        <path d="M46 37 Q31 29 11 28" pathLength="100" />
+                        <path d="M46 37 Q43 20 46 2" pathLength="100" />
+                        <path d="M46 37 Q66 27 92 27" pathLength="100" />
+                        <path d="M46 37 Q72 48 88 79" pathLength="100" />
+                        <path d="M46 37 Q55 63 52 83" pathLength="100" />
+                        <path d="M46 37 Q23 53 10 79" pathLength="100" />
+                      </g>
+                    </defs>
+                    <g class="rig-spokes-layout--compact">
+                      <use href="#rig-spokes-compact" />
+                      <use class="rig-spokes-pulse" href="#rig-spokes-compact" />
+                    </g>
+                    <g class="rig-spokes-layout--wide">
+                      <use href="#rig-spokes-wide" />
+                      <use class="rig-spokes-pulse" href="#rig-spokes-wide" />
+                    </g>
+                  </svg>
+                  <div class="rig-core">
+                    <span class="rig-ring rig-ring-a"></span>
+                    <span class="rig-ring rig-ring-b"></span>
+                    <span class="rig-ring rig-ring-c"></span>
+                    <span class="rig-core-cube"></span>
+                  </div>
+                  <div class="rig-node rig-node-web" data-rig-node="firmware">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">WEB / APP</span>
+                    <span class="rig-spin">
+                      <span class="rig-screen"><i></i><i></i><i></i></span>
+                    </span>
+                  </div>
+                  <div class="rig-node rig-node-api" data-rig-node="backend">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">BACKEND / API</span>
+                    <span class="rig-spin">
+                      <span class="rig-stack"><i></i><i></i><i></i></span>
+                    </span>
+                  </div>
+                  <div class="rig-node rig-node-auto" data-rig-node="automation">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">AUTOMATION</span>
+                    <span class="rig-spin">
+                      <span class="rig-gear"><i></i></span>
+                    </span>
+                  </div>
+                  <div class="rig-node rig-node-logs" data-rig-node="data">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">DATA / LOGS</span>
+                    <span class="rig-spin">
+                      <span class="rig-terminal"><i></i><i></i><i></i></span>
+                    </span>
+                  </div>
+                  <div class="rig-node rig-node-hardware" data-rig-node="hardware">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">HARDWARE</span>
+                    <span class="rig-spin">
+                      <span class="rig-board"><i></i></span>
+                    </span>
+                  </div>
+                  <div class="rig-node rig-node-live" data-rig-node="ops">
+                    <span class="rig-node-top" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
+                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
+                    <span class="rig-shell" aria-hidden="true"></span>
+                    <span class="rig-node-label">MONITORING</span>
+                    <span class="rig-spin">
+                      <span class="rig-radar"><i></i></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="vector-hud hud-panel" aria-label="Map focus">
+                <span>Looking at <b id="readout-focus">Website / app</b></span>
+                <span>Orbit <b id="readout-orbit">4.10 AU</b></span>
+                <span>Plane <b id="readout-plane">0.22 RAD</b></span>
+              </div>
+
+              <div class="planet-inspector hud-panel" id="planet-inspector">
+                <div class="inspector-topline">
+                  <strong id="inspector-title">Website / app</strong>
+                  <span class="status-pill" id="inspector-risk">first touch</span>
+                </div>
+                <div class="inspector-meta">
+                  <span>Means <b id="inspector-role">interface people use</b></span>
+                  <span>Connects <b id="inspector-links">Backend/API, Monitoring</b></span>
+                </div>
+                <p class="inspector-copy" id="inspector-copy">
+                  This is the website, app, portal, landing page, or dashboard surface people see and use first.
+                </p>
+                <div class="inspector-actions">
+                  <button class="btn btn-secondary" type="button" data-stress-selected>
+                    Animate this layer
+                  </button>
+                </div>
+              </div>
+
+              <div class="layer-strip hud-panel" aria-label="Preview a layer">
+                <button class="layer-button is-active" type="button" data-planet="firmware" aria-pressed="true">Website/App</button>
+                <button class="layer-button" type="button" data-planet="backend" aria-pressed="false">Backend/API</button>
+                <button class="layer-button" type="button" data-planet="automation" aria-pressed="false">Automation</button>
+                <button class="layer-button" type="button" data-planet="data" aria-pressed="false">Data/Logs</button>
+                <button class="layer-button" type="button" data-planet="hardware" aria-pressed="false">Hardware</button>
+                <button class="layer-button" type="button" data-planet="ops" aria-pressed="false">Monitoring</button>
+                <button class="layer-button" type="button" data-planet="pqc" aria-pressed="false">Security/PQC</button>
+              </div>
+            </div>
+            <div class="galaxy-fallback" role="status" aria-live="polite">
+              <p>3D is unavailable. Open a service below.</p>
+            </div>
+          </div>
+          <span class="galaxy-service-boundary" id="service-row" aria-hidden="true"></span>
+        </div>
+        <nav class="galaxy-service-links" id="services" aria-labelledby="galaxy-services-title">
+          <span class="legacy-service-anchor" id="project-quiz" aria-hidden="true"></span>
+          <span class="legacy-service-anchor" id="quiz-answers" aria-hidden="true"></span>
+          <span class="legacy-service-anchor" id="fingerprint" aria-hidden="true"></span>
+          <span class="legacy-service-anchor" id="result" aria-hidden="true"></span>
+          <span class="legacy-service-anchor" id="service-preview" aria-hidden="true"></span>
+          <div class="galaxy-service-links-heading">
+            <h2 id="galaxy-services-title">Services</h2>
+            <p>Hover or tap once to identify a sphere. Click or tap again to enter.</p>
+          </div>
+          <ul>
+            <li><a href="/services/websites-apps/" data-galaxy-service-link="firmware">
+              <img src="/assets/images/galaxy-services/firmware.svg" width="96" height="54" alt="" />Website / App
+            </a></li>
+            <li><a href="/services/backend-api/" data-galaxy-service-link="backend">
+              <img src="/assets/images/galaxy-services/backend.svg" width="96" height="54" alt="" />Backend / API
+            </a></li>
+            <li><a href="/services/automation/" data-galaxy-service-link="automation">
+              <img src="/assets/images/galaxy-services/automation.svg" width="96" height="54" alt="" />Automation
+            </a></li>
+            <li><a href="/services/post-quantum-security/" data-galaxy-service-link="pqc">
+              <img src="/assets/images/galaxy-services/pqc.svg" width="96" height="54" alt="" />Security / PQC
+            </a></li>
+            <li><a href="/services/data-logs/" data-galaxy-service-link="data">
+              <img src="/assets/images/galaxy-services/data.svg" width="96" height="54" alt="" />Data / Logs
+            </a></li>
+            <li><a href="/services/hardware/" data-galaxy-service-link="hardware">
+              <img src="/assets/images/galaxy-services/hardware.svg" width="96" height="54" alt="" />Hardware
+            </a></li>
+            <li><a href="/services/monitoring/" data-galaxy-service-link="ops">
+              <img src="/assets/images/galaxy-services/ops.svg" width="96" height="54" alt="" />Monitoring
+            </a></li>
+          </ul>
+        </nav>
+      </section>
+
+      <section class="section" id="pricing" aria-labelledby="pricing-title">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" id="pricing-title">Pricing</h2>
+          </div>
+          <div class="pricing-note">
+            <div class="pricing-copy">
+              <p class="price-line">{{hourlyRate}}</p>
+              <p class="pricing-terms">{{billingTerms}}</p>
+              <p class="pricing-exclusions">{{billingExclusions}}</p>
+            </div>
+            <a class="btn btn-primary" href="#contact">Request an estimate</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="process" aria-labelledby="process-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title" id="process-title">How we work</h2>
+            </div>
+          </div>
+          <div class="process-grid">
+            <article class="process-step">
+              <h3>Review</h3>
+              <p>Identify goals, requirements and risks.</p>
+            </article>
+            <article class="process-step">
+              <h3>Scope</h3>
+              <p>Agree on deliverables, an estimate, a maximum number of hours and a schedule.</p>
+            </article>
+            <article class="process-step">
+              <h3>Build or debug</h3>
+              <p>Implement and test the agreed work.</p>
+            </article>
+            <article class="process-step">
+              <h3>Hand over</h3>
+              <p>Document the work and arrange support if needed.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title" id="contact-title">Discuss your project</h2>
+            <a class="btn btn-secondary" href="#top" data-back-to-galaxy>Back to Galaxy</a>
+          </div>
+
+          <a class="btn btn-primary" href="{{inquiryEmailDraftHref}}">Email me</a>
+          <details class="inquiry-options">
+            <summary>Use secure form</summary>
+            <form class="contact-form" id="contact-form" method="post" action="/api/inquiries" aria-describedby="contact-hint">
+              <label class="contact-field">
+                <span class="contact-field-label">Your email</span>
+                <input type="email" name="email" autocomplete="email" maxlength="254" required />
+              </label>
+              <label class="contact-field">
+                <span class="contact-field-label">Tell me about your project</span>
+                <textarea
+                  id="contact-message"
+                  name="description"
+                  rows="6"
+                  minlength="20"
+                  maxlength="4000"
+                  required
+                  placeholder="What exists, what you need and when you need it"
+                  aria-describedby="contact-hint"
+                ></textarea>
+              </label>
+              <p class="contact-hint" id="contact-hint">
+                Include what you need help with and any relevant deadlines.
+              </p>
+              <div class="contact-actions">
+                <button class="btn btn-primary" type="submit" id="contact-send" disabled>Send inquiry</button>
+              </div>
+              <p id="contact-status" role="status"></p>
+            </form>
+          </details>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="container footer">
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#top">Galaxy</a>
+        <a href="#services">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+        <a href="/" data-galaxy-context-link>Use device theme</a>
+      </nav>
+      <div>&copy; <span id="copyright-year">2026</span> Systems Engineering &middot; Toronto, Canada</div>
+      <a class="back-to-top" id="back-to-top" href="#top" aria-label="Back to top">&uarr;</a>
+    </footer>
+
+    <div class="sys-status" id="sys-status" aria-hidden="true">
+      <span class="sys-status-led"></span>
+      <span>SYS_OK</span>
+      <span class="sys-status-sep">·</span>
+      <span>LOC TORONTO_GTA</span>
+      <span class="sys-status-sep">·</span>
+      <span id="sys-status-time">TS 00:00:00</span>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+    <!-- Dormant quiz markup, retained while the visitor flow is paused. -->
+    <template id="galaxy-quiz-archive">
+      <template id="galaxy-quiz-launcher">
+            <a class="btn btn-primary hero-quiz" href="#project-quiz" data-start-3d>
+              <span class="hero-label-full">3D project quiz ↓</span>
+              <span class="hero-label-short">3D quiz ↓</span>
+            </a>
+            <a class="hero-form-link" href="#fingerprint">
+              <span class="hero-label-full">Use the question form</span>
+              <span class="hero-label-short">Text form</span>
+            </a>
+      </template>
+      <template id="galaxy-quiz-console">
+            <div class="quiz-console" id="quiz-console" hidden>
+              <div class="quiz-console-top">
+                <span class="choice-progress" id="choice-progress" role="status">0 / 5 answered</span>
+                <a class="btn btn-quiet choice-exit" href="#top" data-exit-3d>↑ Back to Galaxy</a>
+              </div>
+              <div class="quiz-console-objects">
+                <div class="quiz-answer-tray">
+                  <p class="quiz-tray-label">Answered</p>
+                  <ol class="quiz-answer-row" id="quiz-answer-row" aria-label="Answers in completion order"></ol>
+                </div>
+                <div class="quiz-question-field" id="quiz-question-field" role="group" aria-label="Open questions"></div>
+                <button class="quiz-core-trigger" id="quiz-core-trigger" type="button"
+                  aria-describedby="quiz-core-status" disabled>
+                  <span class="quiz-core-sphere" aria-hidden="true"></span>
+                  <span class="quiz-object-caption">Core</span>
+                  <span class="quiz-core-action">View recommendation</span>
+                </button>
+              </div>
+              <div class="choice-hud" id="choice-hud" hidden>
+                <div class="choice-hud-main">
+                  <h2 class="choice-question" id="choice-question" tabindex="-1">What would you like to build or improve?</h2>
+                  <button class="btn btn-quiet" type="button" data-close-question aria-label="Close answers">×</button>
+                </div>
+                <div class="choice-options" id="choice-options" role="group" aria-labelledby="choice-question"></div>
+              </div>
+              <p class="sr-only" id="quiz-core-status">Answer all five questions to activate Core.</p>
+            </div>
+      </template>
+      <template id="galaxy-quiz-reveal">
+            <div class="reveal-overlay" id="reveal-overlay" aria-hidden="true">
+              <div class="reveal-card">
+                <span>Your initial project direction</span>
+                <strong id="reveal-archetype">Connected websites &amp; apps</strong>
+                <div class="reveal-score">
+                  <b id="reveal-score">000</b>
+                  <small id="reveal-rank">Scout rank</small>
+                </div>
+              </div>
+            </div>
+      </template>
+      <template id="galaxy-quiz-boundary">
+          <div class="galaxy-quiz-boundary" id="project-quiz" aria-hidden="true"></div>
+      </template>
+      <template id="galaxy-quiz-fallback">
+        <section class="galaxy-quiz-section" id="quiz-answers" aria-label="Project quiz">
+          <div class="container galaxy-quiz-fallback">
+            <a class="btn btn-secondary" href="#fingerprint" data-quiz-text hidden>Open the project questions</a>
+            <a class="btn btn-secondary" href="#services">Explore services</a>
+            <a class="btn btn-quiet" href="/contact/" data-galaxy-context-link>Discuss your project</a>
+          </div>
+        </section>
+      </template>
+      <template id="galaxy-quiz-form">
+            <div class="panel-header">
+              <div>
+                <h2 id="fingerprint-title">Explore your project</h2>
+                <p class="section-copy">Answer five questions for an initial recommendation.</p>
+              </div>
+              <span class="status-pill" id="completion-status" aria-label="Questions answered">0 / 5</span>
+            </div>
+
+            <div class="mission-meter" aria-label="Project mission progress">
+              <div class="mission-meter-top">
+                <span>Mission progress</span>
+                <strong id="mission-rank">Scout</strong>
+              </div>
+              <div class="mission-track" aria-hidden="true">
+                <span id="mission-fill"></span>
+              </div>
+              <div class="mission-meter-meta">
+                <span>Completed <b id="mission-score">000</b>%</span>
+                <span id="mission-combo">0 of 5 answered</span>
+              </div>
+            </div>
+
+            <form class="question-list" id="fingerprint-form">
+              <fieldset class="question">
+                <legend>1. What would you like to build or improve?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q1" value="firmware" /> Website or web app</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="backend" /> Backend, API or dashboard</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="automation" /> Automation for repetitive work</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="hardware" /> Hardware/software debugging</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="ops" /> Monitoring and ongoing support</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="pqc" /> Post-quantum security</label>
+                  <label class="answer-option"><input type="radio" name="q1" value="data" /> Data, logs or reporting</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>2. Which part needs planning or improvement?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q2" value="hardwareFirmware" /> Device signals and software</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="firmwareBackend" /> Interface and backend/API</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="backendOps" /> Backend and ongoing support</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="businessAutomation" /> Manual tasks and automation</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="crossStack" /> Project architecture or a new idea</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="cryptoStack" /> Cryptography and key exchanges</label>
+                  <label class="answer-option"><input type="radio" name="q2" value="dataLayer" /> Data sources, storage and logs</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>3. What is your main priority?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q3" value="users" /> Reaching or supporting more users</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="devices" /> Connecting more devices or locations</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="manual" /> Reducing manual work</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="integrations" /> Connecting apps, APIs or devices</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="incidents" /> Investigating bugs or device faults</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="protectTraffic" /> Preparing for post-quantum security</label>
+                  <label class="answer-option"><input type="radio" name="q3" value="dataQuality" /> Improving data quality and visibility</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>4. What needs more clarity before work starts?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q4" value="logs" /> App/device activity and logs</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="person" /> Requirements and team knowledge</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="retry" /> Repeated failures or retries</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="patch" /> Scope of a first version</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="debate" /> Responsibilities and support</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="cryptoInventory" /> Cryptography and vendor dependencies</label>
+                  <label class="answer-option"><input type="radio" name="q4" value="deviceEvidence" /> Device behavior and fault evidence</label>
+                </div>
+              </fieldset>
+
+              <fieldset class="question">
+                <legend>5. What would you like help with first?</legend>
+                <div class="answer-grid">
+                  <label class="answer-option"><input type="radio" name="q5" value="map" /> Scope and project priorities</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="handoff" /> Building an app or customer flow</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="manualOps" /> Automation or a dashboard</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="hardwareCare" /> Hardware/software debugging</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="monitoring" /> Monitoring and ongoing support</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="securityReview" /> Reviewing post-quantum readiness</label>
+                  <label class="answer-option"><input type="radio" name="q5" value="dataPlan" /> Planning data collection or reporting</label>
+                </div>
+              </fieldset>
+            </form>
+      </template>
+      <template id="galaxy-quiz-result-control">
+              <button class="btn btn-primary" type="button" data-scroll-result>
+                View initial recommendation
+              </button>
+      </template>
+      <template id="galaxy-quiz-result">
+      <section class="section" id="result" aria-labelledby="result-title">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title" id="result-title">Project recommendation</h2>
+            </div>
+          </div>
+
+          <div class="result-grid">
+            <article class="result-panel" aria-live="polite">
+              <div class="archetype-name" id="archetype-name">Explore a project direction</div>
+              <p class="result-text" id="archetype-summary">
+                Answer the questions for an initial recommendation, or describe your project directly.
+              </p>
+              <ul class="gap-list" id="gap-list" role="list">
+                <li>Users should understand what to do next in the website or app.</li>
+                <li>The backend should know what happens after a click, form, payment, booking, or device event.</li>
+                <li>The build plan should show UI, API, data, automation, and support together.</li>
+              </ul>
+              <p class="result-text" id="next-action">
+                Suggested next step: review the screens, user actions, APIs, data and support your project needs.
+              </p>
+              <div class="panel-actions">
+                <a class="btn btn-primary" id="planning-inquiry" href="/contact/?service=planning" data-galaxy-context-link>Discuss project planning</a>
+                <button class="btn btn-secondary" type="button" data-download="md">Download summary (.md)</button>
+                <button class="btn btn-secondary" type="button" data-share>Share direction</button>
+                <button class="btn btn-quiet" type="button" data-copy="slack">Copy note</button>
+              </div>
+              <p class="result-text">Project planning is billed at {{hourlyRate}}. {{billingTerms}}</p>
+            </article>
+
+            <aside class="result-panel result-share-panel">
+              <span class="result-kicker">Mission badge</span>
+              <div class="share-badge" id="share-badge" aria-label="Project mission progress badge">
+                <div class="share-badge-ring">
+                  <span id="badge-score">000</span>
+                  <small>progress %</small>
+                </div>
+                <div class="share-badge-copy">
+                  <strong id="badge-rank">Scout rank</strong>
+                  <span id="badge-code">SYS-HANDOFF-000</span>
+                  <p id="badge-line">Explore the services your project needs.</p>
+                </div>
+              </div>
+              <div class="panel-actions badge-actions">
+                <button class="btn btn-secondary" type="button" data-copy="badge">Copy badge</button>
+              </div>
+              <span class="result-kicker note-kicker">Project summary</span>
+              <pre class="slack-box" id="slack-message">Answer the questions to add your project choices to this initial recommendation.</pre>
+            </aside>
+          </div>
+        </div>
+      </section>
+      </template>
+      <template id="galaxy-quiz-achievement">
+    <div class="achievement-toast" id="achievement-toast" role="status" aria-live="polite" aria-atomic="true">
+      <span id="achievement-kicker">Answer added</span>
+      <strong id="achievement-title">1 of 5 questions answered</strong>
+    </div>
+      </template>
+    </template>
+
+    <script>
+      {
+        const legacySections = new Set(["#project-quiz", "#quiz-answers", "#fingerprint", "#result", "#service-preview"]);
+        function restoreServiceDestination() {
+          if (!legacySections.has(location.hash)) return;
+          history.replaceState(history.state, "", "#services");
+          document.getElementById("services").scrollIntoView({ behavior: "instant" });
+        }
+        restoreServiceDestination();
+        window.addEventListener("hashchange", restoreServiceDestination);
+
+        const params = new URLSearchParams(location.search);
+        const layout = params.get("layout") === "planets" ? "planets" : "atom";
+        const focus = params.get("focus");
+        const light = document.documentElement.dataset.galaxyTheme === "light";
+        const serviceLinks = document.querySelectorAll("a[data-galaxy-service-link]");
+        const hasFocus = Array.from(serviceLinks).some((link) => link.dataset.galaxyServiceLink === focus);
+        for (const link of document.querySelectorAll("a[data-galaxy-service-link], a[data-galaxy-context-link]")) {
+          const destination = new URL(link.href);
+          destination.searchParams.set("from", "galaxy");
+          destination.searchParams.set("layout", layout);
+          if (light && destination.pathname !== "/" && destination.pathname !== "/explore.html") {
+            destination.searchParams.set("theme", "light");
+          }
+          if (hasFocus && link.hasAttribute("data-galaxy-context-link")) {
+            destination.searchParams.set("focus", focus);
+          }
+          link.setAttribute("href", destination.pathname + destination.search);
+        }
+      }
+      document.addEventListener("error", function (event) {
+        if (event.target.id !== "galaxy-entry") return;
+        const hero = document.getElementById("top");
+        hero.classList.replace("is-loading", "webgl-failed");
+        document.getElementById("galaxy-loading").hidden = true;
+      }, true);
+    </script>
+    <script id="galaxy-entry" type="module" src="./src/galaxy/js/main.js?v=wow60&amp;rev=core-plasma6"></script>
+  </body>
+</html>
