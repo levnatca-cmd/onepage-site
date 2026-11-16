@@ -169,9 +169,9 @@ Set `QA_BASE_URL`, `QA_RUNTIME`, or `QA_CHROME` to use a different preview, runt
 
 Run `npm run build:pages` to export the public site into a fresh folder under `artifacts/build/`. To name the folder yourself, pass a new path such as `npm run build:pages -- artifacts/build/pages`. The local preview also serves the DeepBook mirror and review prototypes.
 
-The GitHub Pages workflow runs on manual dispatch and deploys the public bundle when run from `main`. The first release using the new folder structure requires **Settings → Pages → Build and deployment → Source → GitHub Actions** in the GitHub repository. [Pages workflow](.github/workflows/pages.yml)
+GitHub Pages serves the public site at `https://levnat.ca/`. Before merging the reorganized site into `main`, switch the repository's **Settings → Pages → Build and deployment → Source** to **GitHub Actions** and keep `levnat.ca` as the custom domain. The workflow verifies the domain before publishing, then deploys on pushes to `main`. It can also be run manually from `main`. [Pages workflow](.github/workflows/pages.yml)
 
-The protected inquiry API uses a separate Node.js intake process behind NGINX. Static hosting serves the pages. The protected HTTPS server also accepts and stores inquiries. [PQC staging and deployment](deploy/pqc/README.md)
+Visitors on GitHub Pages can send inquiries by email. The secure form is available on the protected HTTPS deployment, where a Node.js intake process behind NGINX accepts and stores inquiries. [PQC staging and deployment](deploy/pqc/README.md)
 
 The `deploy/starworld/` checkout has its own Git repository and hosting configuration, separate from the LEVNAT build.
 

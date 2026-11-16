@@ -9,6 +9,6 @@ mkdirSync(buildDirectory, { recursive: true });
 const output = destination ? resolve(destination) : mkdtempSync(join(buildDirectory, "pages-"));
 if (destination) mkdirSync(output);
 
-buildPublicSite(output);
+buildPublicSite(output, { includeSecureInquiry: false });
 writeFileSync(join(output, ".nojekyll"), "");
 console.log(`PAGES_OUTPUT=${output}`);
