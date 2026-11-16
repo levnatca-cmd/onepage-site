@@ -20,6 +20,27 @@ const routes = {
   hardware: "hardware",
   ops: "monitoring",
 };
+const retiredGalaxyOverlay = ".hero-overlay, .rescue-rig, [data-rig-node]";
+
+async function assertNativeGalaxyServices(page) {
+  assert.equal(await page.locator(retiredGalaxyOverlay).count(), 0);
+  const links = page.locator("#services a[data-galaxy-service-link]:visible");
+  const destinations = await links.evaluateAll((anchors) =>
+    anchors
+      .map((link) => [
+        link.dataset.galaxyServiceLink,
+        link.origin === location.origin ? link.pathname : link.href,
+      ])
+      .sort(([first], [second]) => first.localeCompare(second)),
+  );
+  assert.deepEqual(
+    destinations,
+    Object.keys(routes)
+      .sort()
+      .map((id) => [id, `/services/${routes[id]}/`]),
+  );
+  return links;
+}
 
 assert.ok(
   (await fetch(new URL("/explore.html", qaBaseUrl), { signal: AbortSignal.timeout(5000) })).ok,
@@ -726,6 +747,168 @@ test("Galaxy light Home preserves native scroll and recovers interrupted touch r
   }
 });
 
+for (const { path, width, height, reducedMotion } of [
+  { path: "/home/", width: 390, height: 844, reducedMotion: "reduce" },
+  { path: "/explore.html", width: 320, height: 568, reducedMotion: "no-preference" },
+]) {
+  test(`Galaxy idle motion and pause work on a ${width}px phone with ${reducedMotion}`, async () => {
+    const context = await browser.newContext({
+      viewport: { width, height },
+      isMobile: true,
+      hasTouch: true,
+      reducedMotion,
+    });
+    const page = await context.newPage();
+    const motion = page.locator("#galaxy-motion-toggle");
+    const reduced = reducedMotion === "reduce";
+    try {
+      const url = new URL(path, origin);
+      await page.goto(url.href, { waitUntil: "domcontentloaded" });
+      await connectScene(page);
+      await motion.waitFor();
+      assert.equal(await motion.getAttribute("aria-label"), "Pause Galaxy motion");
+      const fits = await motion.evaluate((button) => {
+        const control = button.getBoundingClientRect();
+        const group = button.closest(".galaxy-orbit-controls").getBoundingClientRect();
+        return (
+          control.width >= 43 &&
+          control.height >= 43 &&
+          group.left >= 0 &&
+          group.right <= innerWidth + 1 &&
+          group.top >= 0 &&
+          group.bottom <= innerHeight + 1 &&
+          document.documentElement.scrollWidth <= innerWidth + 1
+        );
+      });
+      assert.ok(fits, "The motion control and its group must fit the phone viewport");
+
+      await page.evaluate(() => {
+        const { galaxy, appState } = window.galaxyTest;
+        window.galaxyMotionTest = {
+          read: () => ({
+            position: galaxy.rescueRigObjects.automation.position.toArray(),
+            coreTime: galaxy.star.material.uniforms.uTime.value,
+            orientation: galaxy.rescueRig.quaternion.toArray(),
+            yaw: galaxy.orbitView.yaw,
+            reduced: appState.reducedMotion,
+          }),
+        };
+      });
+      const read = () => page.evaluate(() => window.galaxyMotionTest.read());
+      const waitForMovement = (previous) =>
+        page.waitForFunction(({ position }) => {
+          const current = window.galaxyMotionTest.read().position;
+          return current.some((value, index) => Math.abs(value - position[index]) > 0.002);
+        }, previous);
+
+      const start = await read();
+      await waitForMovement(start);
+      const moving = await read();
+      assert.equal(moving.reduced, reduced, "Keep the system preference for other effects");
+      if (reduced) assert.equal(moving.coreTime, 0, "Reduced motion should keep Core still");
+      else assert.ok(moving.coreTime > start.coreTime, "The Core animation should advance");
+
+      await motion.evaluate((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            window.galaxyMotionTest.atPause = window.galaxyMotionTest.read();
+          },
+          { capture: true, once: true },
+        );
+      });
+      await motion.tap();
+      assert.equal(await motion.getAttribute("aria-label"), "Resume Galaxy motion");
+      assert.match(await motion.getAttribute("class"), /\bis-paused\b/);
+      const paused = await page.evaluate(() => window.galaxyMotionTest.atPause);
+      const nextDraw = await page.evaluate(async () => {
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        return window.galaxyMotionTest.read();
+      });
+      assert.deepEqual(
+        nextDraw.position,
+        paused.position,
+        "Pausing must hold the current orbit phase",
+      );
+      assert.equal(nextDraw.coreTime, paused.coreTime, "Pausing must hold the current Core phase");
+
+      if (!reduced) {
+        await page.goto(new URL(path + "?sceneTime=1.25", origin).href, {
+          waitUntil: "domcontentloaded",
+        });
+        await connectScene(page);
+        await motion.waitFor();
+        assert.equal(await motion.getAttribute("aria-label"), "Pause Galaxy motion");
+        const phases = await page.evaluate(async () => {
+          const phase = () => window.galaxyTest.galaxy.star.material.uniforms.uTime.value;
+          const before = phase();
+          await new Promise((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(resolve)),
+          );
+          return [before, phase()];
+        });
+        assert.deepEqual(phases, [1.25, 1.25], "A fresh page should still honor fixed debug time");
+        return;
+      }
+
+      const point = await page.locator("#galaxy-canvas").evaluate((canvas) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.round(rect.left + rect.width * 0.24);
+        const y = Math.round((Math.max(rect.top, 96) + Math.min(rect.bottom, innerHeight)) / 2);
+        return document.elementFromPoint(x, y) === canvas ? { x, y } : null;
+      });
+      assert.ok(point, "Manual rotation must start on the visible canvas");
+      const cdp = await context.newCDPSession(page);
+      try {
+        await dragTouch(cdp, point, { dx: 56, dy: 0 });
+      } finally {
+        await cdp.detach();
+      }
+      await page.waitForFunction(({ yaw, orientation }) => {
+        const current = window.galaxyMotionTest.read();
+        return (
+          current.yaw !== yaw && current.orientation.some((value, i) => value !== orientation[i])
+        );
+      }, paused);
+      assert.deepEqual(
+        (await read()).position,
+        paused.position,
+        "Manual rotation keeps the orbit paused",
+      );
+      assert.equal(page.url(), url.href, "Manual rotation must not open a service link");
+
+      await page.waitForTimeout(500);
+      await motion.evaluate((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            const { renderer } = window.galaxyTest.galaxy;
+            const render = renderer.render;
+            renderer.render = function (...args) {
+              renderer.render = render;
+              window.galaxyMotionTest.firstResumed = window.galaxyMotionTest.read();
+              return render.apply(this, args);
+            };
+          },
+          { capture: true, once: true },
+        );
+      });
+      await motion.tap();
+      assert.equal(await motion.getAttribute("aria-label"), "Pause Galaxy motion");
+      const firstResumed = await page.waitForFunction(() => window.galaxyMotionTest.firstResumed);
+      const { position } = await firstResumed.jsonValue();
+      assert.ok(
+        Math.hypot(...position.map((value, index) => value - paused.position[index])) < 0.08,
+        "Resuming must start near the held phase rather than adding the paused time",
+      );
+      await waitForMovement(paused);
+      assert.equal((await read()).coreTime, 0, "Resuming slow orbits must keep Core still");
+    } finally {
+      await context.close();
+    }
+  });
+}
+
 test("Galaxy desktop hologram follows a hovered sphere without intercepting clicks", async () => {
   const context = await browser.newContext({ viewport: { width: 1100, height: 850 } });
   const page = await context.newPage();
@@ -772,7 +955,6 @@ test("Galaxy reload shows loading until the live scene renders", async () => {
   page.setDefaultTimeout(45000);
   const url = new URL("/explore.html?focus=ops&layout=planets", origin);
   const loader = page.locator("#galaxy-loading");
-  const rig = page.locator(".rescue-rig");
   const fallback = page.locator(".galaxy-fallback");
   const mainModule = /\/src\/galaxy\/js\/main\.js(?:\?|$)/;
   let releaseMain;
@@ -798,7 +980,7 @@ test("Galaxy reload shows loading until the live scene renders", async () => {
     await page.waitForFunction(
       () => getComputedStyle(document.querySelector("#galaxy-loading")).opacity > 0,
     );
-    assert.ok(await rig.isHidden(), "The fallback models must stay hidden while WebGL loads");
+    await assertNativeGalaxyServices(page);
     assert.ok(await fallback.isHidden(), "Loading must not look like a WebGL failure");
     await loader.evaluate(async (status) => {
       const entry = document.querySelector('script[src*="/galaxy/js/main.js"]');
@@ -832,15 +1014,14 @@ test("Galaxy reload shows loading until the live scene renders", async () => {
     assert.equal(scene.focus, "ops");
     assert.equal(scene.contextLost, false);
     assert.equal(page.url(), url.href);
-    assert.ok(await rig.isHidden());
+    assert.equal(await page.locator(retiredGalaxyOverlay).count(), 0);
     assert.ok(await fallback.isHidden());
 
     url.searchParams.set("forceFallback", "1");
     await page.goto(url.href, { waitUntil: "domcontentloaded" });
     await fallback.waitFor({ state: "visible" });
     assert.ok(await loader.isHidden(), "A genuine WebGL failure must end loading");
-    const links = page.locator("#services a[data-galaxy-service-link]:visible");
-    assert.equal(await links.count(), Object.keys(routes).length);
+    const links = await assertNativeGalaxyServices(page);
     await Promise.all([
       page.waitForURL((destination) => destination.pathname === "/services/monitoring/"),
       links.filter({ hasText: "Monitoring" }).tap(),
@@ -870,10 +1051,7 @@ test("Galaxy leaves loading when a scene module request fails", async () => {
       await page.goto(url.href, { waitUntil: "domcontentloaded" });
       await page.locator(".galaxy-fallback").waitFor({ state: "visible", timeout: 5000 });
       assert.ok(await page.locator("#galaxy-loading").isHidden());
-      assert.equal(
-        await page.locator("#services [data-galaxy-service-link]:visible").count(),
-        Object.keys(routes).length,
-      );
+      await assertNativeGalaxyServices(page);
     }
     await Promise.all([
       page.waitForURL(
@@ -893,6 +1071,264 @@ test("Galaxy leaves loading when a scene module request fails", async () => {
     await context.close();
   }
 });
+
+test("Galaxy light Home keeps a compact service fallback when startup assets fail", async () => {
+  const context = await browser.newContext({
+    viewport: { width: 320, height: 568 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  page.setDefaultTimeout(15000);
+  const mainModule = /\/src\/galaxy\/js\/main\.js(?:\?|$)/;
+  const hudStyle = /\/styles\/hud\.css(?:\?|$)/;
+  const url = new URL("/home/?layout=planets&focus=pqc", origin);
+  const loader = page.locator("#galaxy-loading");
+  const status = page.locator(".galaxy-hero.webgl-failed .galaxy-fallback");
+  let releaseMain;
+  const holdMain = new Promise((resolve) => {
+    releaseMain = resolve;
+  });
+
+  async function checkCompactFallback() {
+    await status.waitFor({ timeout: 8000 });
+    assert.ok(await loader.isHidden());
+    assert.ok(await page.locator("#galaxy-motion-toggle").isHidden());
+    await assertNativeGalaxyServices(page);
+    const stage = await page.locator(".galaxy-stage").boundingBox();
+    assert.ok(stage && stage.height < 160, "A mobile fallback must not reserve canvas height");
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+  }
+
+  try {
+    await page.route(hudStyle, (route) => route.abort());
+    await page.route(mainModule, async (route) => {
+      await holdMain;
+      await route.fulfill({ status: 503, body: "Unavailable" });
+    });
+    await Promise.all([
+      page.waitForEvent("requestfailed", (request) => hudStyle.test(request.url())),
+      page.waitForRequest(mainModule),
+      page.goto(url.href, { waitUntil: "commit" }),
+    ]);
+    await page.locator(".galaxy-hero.is-loading #galaxy-loading").waitFor();
+    await assertNativeGalaxyServices(page);
+    assert.ok(await page.locator(".galaxy-fallback").isHidden());
+
+    const moduleResponse = page.waitForResponse(mainModule);
+    releaseMain();
+    assert.equal((await moduleResponse).status(), 503);
+    await checkCompactFallback();
+
+    await page.unroute(mainModule);
+    await page.unroute(hudStyle);
+    url.searchParams.set("forceFallback", "1");
+    await page.goto(url.href, { waitUntil: "domcontentloaded" });
+    await checkCompactFallback();
+    await Promise.all([
+      page.waitForURL((destination) => destination.pathname === "/services/post-quantum-security/"),
+      page.locator('#services a[data-galaxy-service-link="pqc"]').tap(),
+    ]);
+    const destination = new URL(page.url());
+    assert.equal(destination.searchParams.get("theme"), "light");
+    assert.equal(destination.searchParams.get("layout"), "planets");
+  } finally {
+    releaseMain();
+    await context.close();
+  }
+});
+
+test("Galaxy retries mobile startup with simpler WebGL2 options", async () => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  try {
+    await page.addInitScript(() => {
+      delete window.WebGLRenderingContext;
+      window.galaxyContextRequests = [];
+      const getContext = HTMLCanvasElement.prototype.getContext;
+      HTMLCanvasElement.prototype.getContext = function (type, attributes) {
+        if (this.id === "galaxy-canvas" && type === "webgl2") {
+          const antialias = attributes?.antialias;
+          const powerPreference = attributes?.powerPreference ?? "default";
+          window.galaxyContextRequests.push({ antialias, powerPreference });
+          if (antialias && powerPreference === "high-performance") return null;
+        }
+        return getContext.call(this, type, attributes);
+      };
+    });
+    await page.goto(new URL("/home/", origin).href, { waitUntil: "domcontentloaded" });
+    await page.locator(".galaxy-hero.webgl-ready").waitFor({ timeout: 15000 });
+    await connectScene(page);
+    await page.locator("#galaxy-loading").waitFor({ state: "hidden" });
+    const scene = await page.evaluate(() => {
+      const { galaxy } = window.galaxyTest;
+      return {
+        hasWebGL1: typeof window.WebGLRenderingContext !== "undefined",
+        requests: window.galaxyContextRequests,
+        draws: galaxy.renderer.info.render.calls,
+        models: Object.entries(galaxy.rescueRigObjects)
+          .filter(([, model]) => galaxy.root.visible && galaxy.rescueRig.visible && model.visible)
+          .map(([id]) => id)
+          .sort(),
+      };
+    });
+    assert.equal(scene.hasWebGL1, false);
+    assert.deepEqual(scene.requests, [
+      { antialias: true, powerPreference: "high-performance" },
+      { antialias: false, powerPreference: "default" },
+    ]);
+    assert.ok(scene.draws > 0);
+    assert.deepEqual(scene.models, [...PLANET_IDS].sort());
+    assert.ok(await page.locator(".galaxy-fallback").isHidden());
+  } finally {
+    await context.close();
+  }
+});
+
+test("Galaxy keeps rendering a visible mobile canvas despite stale observer entries", async () => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  try {
+    await page.addInitScript(() => {
+      const NativeObserver = window.IntersectionObserver;
+      const staleEntry = (target) => ({ target, isIntersecting: false, intersectionRatio: 0 });
+      let staleCanvas;
+      window.IntersectionObserver = class extends NativeObserver {
+        constructor(callback, options) {
+          super((entries, observer) => {
+            callback(
+              entries.map((entry) =>
+                entry.target === staleCanvas ? staleEntry(entry.target) : entry,
+              ),
+              observer,
+            );
+          }, options);
+          this.notify = callback;
+        }
+
+        observe(target) {
+          super.observe(target);
+          if (target.id === "galaxy-canvas") {
+            window.reportStaleGalaxyIntersection = () => {
+              staleCanvas = target;
+              this.notify([staleEntry(target)], this);
+            };
+          }
+        }
+      };
+    });
+    await page.goto(new URL("/home/", origin).href, { waitUntil: "domcontentloaded" });
+    await connectScene(page);
+    await page.locator("#galaxy-loading").waitFor({ state: "hidden" });
+
+    const frame = () => page.evaluate(() => window.galaxyTest.galaxy.renderer.info.render.frame);
+    const waitForMoreFrames = (before) =>
+      page.waitForFunction(
+        (prior) => window.galaxyTest.galaxy.renderer.info.render.frame > prior + 1,
+        before,
+        { timeout: 8000 },
+      );
+    await page.evaluate(() => window.reportStaleGalaxyIntersection());
+    const beforeResize = await frame();
+    await page.setViewportSize({ width: 390, height: 820 });
+    await page.locator("#galaxy-canvas").tap({ position: { x: 40, y: 150 } });
+    await waitForMoreFrames(beforeResize);
+
+    await page
+      .locator("#contact")
+      .evaluate((section) => section.scrollIntoView({ block: "start", behavior: "instant" }));
+    await page.waitForFunction(
+      () => document.getElementById("galaxy-canvas").getBoundingClientRect().bottom <= 0,
+    );
+    const [beforePause, afterPause] = await page.evaluate(async () => {
+      const { renderer } = window.galaxyTest.galaxy;
+      const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+      for (let i = 0; i < 3; i += 1) await nextFrame();
+      const before = renderer.info.render.frame;
+      for (let i = 0; i < 5; i += 1) await nextFrame();
+      return [before, renderer.info.render.frame];
+    });
+    assert.equal(afterPause, beforePause, "Keep rendering paused while the scene is offscreen");
+
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await waitForMoreFrames(afterPause);
+    assert.ok(await page.locator(".galaxy-fallback").isHidden());
+  } finally {
+    await context.close();
+  }
+});
+
+for (const firstFrame of [true, false]) {
+  test(`Galaxy falls back when rendering fails ${firstFrame ? "on the first frame" : "after a good frame"}`, async () => {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+    });
+    const page = await context.newPage();
+    try {
+      const message = "Synthetic Galaxy render failure";
+      await page.addInitScript(
+        ({ firstFrame, message }) => {
+          window.galaxyFailureTest = {
+            attempts: 0,
+            unavailable: 0,
+            fail() {
+              this.attempts += 1;
+              throw new Error(message);
+            },
+          };
+          window.addEventListener(
+            "galaxy:unavailable",
+            () => window.galaxyFailureTest.unavailable++,
+            true,
+          );
+          if (firstFrame) {
+            WebGL2RenderingContext.prototype.drawElements = () => window.galaxyFailureTest.fail();
+          }
+        },
+        { firstFrame, message },
+      );
+      await page.goto(new URL("/explore.html", origin).href, { waitUntil: "domcontentloaded" });
+      const loader = page.locator("#galaxy-loading");
+      if (!firstFrame) {
+        await connectScene(page);
+        await loader.waitFor({ state: "hidden" });
+        await page.evaluate(() => {
+          window.galaxyTest.galaxy.renderer.render = () => window.galaxyFailureTest.fail();
+        });
+      }
+
+      await page.locator(".galaxy-hero.webgl-failed .galaxy-fallback").waitFor({ timeout: 8000 });
+      assert.ok(await loader.isHidden());
+      assert.ok(await page.locator("#galaxy-orbit-controls").isHidden());
+      const failure = await page.evaluate(async () => {
+        for (let i = 0; i < 4; i += 1) {
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+        }
+        const { attempts, unavailable } = window.galaxyFailureTest;
+        const error = window.__galaxyFrameError;
+        return { attempts, unavailable, message: error?.message ?? error };
+      });
+      assert.deepEqual(failure, { attempts: 1, unavailable: 1, message });
+      await assertNativeGalaxyServices(page);
+      await Promise.all([
+        page.waitForURL((url) => url.pathname === "/services/monitoring/"),
+        page.locator('#services [data-galaxy-service-link="ops"]').tap(),
+      ]);
+    } finally {
+      await context.close();
+    }
+  });
+}
 
 async function rememberOverviewSpheres(page) {
   await page.evaluate(() => {
@@ -1274,7 +1710,8 @@ test("Galaxy contact returns to the live scene on a narrow phone", async () => {
     assert.equal(new URL(page.url()).search, contactUrl.search);
     assert.equal(await page.evaluate(() => performance.timeOrigin), timeOrigin);
     assert.ok(await page.locator('#galaxy-layout input[value="atom"]').isChecked());
-    assert.equal(await page.locator('[data-planet="pqc"]').getAttribute("aria-pressed"), "true");
+    await connectScene(page);
+    assert.equal(await page.evaluate(() => window.galaxyTest.appState.selectedPlanet), "pqc");
     assert.equal(await page.locator(retiredQuizControls).count(), 0);
     const contact = page
       .locator(".hero-actions")
@@ -1319,10 +1756,7 @@ for (const javaScriptEnabled of [true, false]) {
         });
         assert.equal(await page.locator(retiredQuizControls).count(), 0);
         assert.equal(await page.locator("section#service-preview").count(), 0);
-        assert.equal(
-          await page.locator("#services [data-galaxy-service-link]:visible").count(),
-          PLANET_IDS.length,
-        );
+        await assertNativeGalaxyServices(page);
         assert.equal(await page.locator(`#services > #${fragment}`).count(), 1);
       }
       const historyBefore = await page.evaluate(() => history.length);

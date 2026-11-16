@@ -776,106 +776,6 @@ function checkCacheBusters(indexSource) {
     );
 }
 
-function htmlLineNumber(source, offset) {
-  return countNewlines(source, 0, offset) + 1;
-}
-
-function findHtmlTagEnd(source, start) {
-  let quote = null;
-  for (let index = start + 1; index < source.length; index += 1) {
-    const char = source[index];
-    if (quote) {
-      if (char === quote && source[index - 1] !== "\\") quote = null;
-    } else if (char === "'" || char === '"') {
-      quote = char;
-    } else if (char === ">") {
-      return index;
-    }
-  }
-  return source.length - 1;
-}
-
-function classNamesFromTag(tag) {
-  const quoted = tag.match(/\bclass\s*=\s*(["'])([\s\S]*?)\1/i);
-  const unquoted = quoted ? null : tag.match(/\bclass\s*=\s*([^\s>]+)/i);
-  const value = quoted ? quoted[2] : unquoted ? unquoted[1] : "";
-  return value.split(/\s+/).filter(Boolean);
-}
-
-function checkRigLabelNesting(indexSource) {
-  if (!indexSource) {
-    report(false, "rig label nesting", "cannot inspect index.html");
-    return;
-  }
-
-  const stack = [];
-  const nestedLines = [];
-  let labelCount = 0;
-  let index = 0;
-  const voidElements = new Set([
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "link",
-    "meta",
-    "param",
-    "source",
-    "track",
-    "wbr",
-  ]);
-
-  while (index < indexSource.length) {
-    const start = indexSource.indexOf("<", index);
-    if (start === -1) break;
-    if (indexSource.startsWith("<!--", start)) {
-      const close = indexSource.indexOf("-->", start + 4);
-      index = close === -1 ? indexSource.length : close + 3;
-      continue;
-    }
-    const end = findHtmlTagEnd(indexSource, start);
-    const tag = indexSource.slice(start, end + 1);
-    index = end + 1;
-    if (/^<!|^<\?/.test(tag)) continue;
-
-    const closing = /^<\//.test(tag);
-    const nameMatch = tag.match(/^<\/?\s*([A-Za-z][\w:-]*)/);
-    if (!nameMatch) continue;
-    const name = nameMatch[1].toLowerCase();
-
-    if (closing) {
-      const matchingIndex = stack.map((entry) => entry.name).lastIndexOf(name);
-      if (matchingIndex !== -1) stack.splice(matchingIndex);
-      continue;
-    }
-
-    const classes = classNamesFromTag(tag);
-    const isRigLabel = classes.some(
-      (className) => className === "rig-label" || /^rig(?:-[a-z0-9]+)*-label$/i.test(className),
-    );
-    if (isRigLabel) {
-      labelCount += 1;
-      if (stack.some((entry) => entry.classes.includes("rig-spin")))
-        nestedLines.push(htmlLineNumber(indexSource, start));
-    }
-
-    if (!/\/\s*>$/.test(tag) && !voidElements.has(name)) stack.push({ name, classes });
-  }
-
-  if (!labelCount) report(false, "rig label nesting", "no rig label elements found in index.html");
-  else if (nestedLines.length)
-    report(
-      false,
-      "rig label nesting",
-      `labels inside .rig-spin at index.html lines [${nestedLines.join(", ")}]`,
-    );
-  else report(true, "rig label nesting", `${labelCount} rig labels are outside .rig-spin`);
-}
-
 function stripCssComments(source) {
   return source.replace(/\/\*[\s\S]*?\*\//g, (comment) => comment.replace(/[^\n]/g, " "));
 }
@@ -989,8 +889,8 @@ function checkReducedMotion(indexSource) {
   }
 
   const coverage = new Map([
-    [".rig-spin", []],
-    [".rig-shell", []],
+    [".hero-atmosphere", []],
+    [".brand-mark", []],
   ]);
   for (const cssSource of cssSources) {
     for (const block of reducedMotionBlocks(cssSource.source)) {
@@ -1007,7 +907,12 @@ function checkReducedMotion(indexSource) {
   if (missing.length) issues.push(`no prefers-reduced-motion rule for [${missing.join(", ")}]`);
   if (unreadable.length) issues.push(`unreadable stylesheets [${unreadable.join(", ")}]`);
   if (issues.length) report(false, "reduced motion", issues.join("; "));
-  else report(true, "reduced motion", ".rig-spin and .rig-shell have active stylesheet coverage");
+  else
+    report(
+      true,
+      "reduced motion",
+      "Galaxy atmosphere and brand mark have active stylesheet coverage",
+    );
 }
 
 function checkSharedServiceSphereCover() {
@@ -1307,7 +1212,7 @@ function checkHardwareFeedthrough() {
   );
 }
 
-function checkPqcModel(indexSource) {
+function checkPqcModel() {
   const missing = [];
   const { color } = PLANETS.pqc;
   const { root } = buildSystemModel("pqc", color, { THREE });
@@ -1371,7 +1276,6 @@ function checkPqcModel(indexSource) {
   ) {
     missing.push("static before/after view");
   }
-  if (!/data-planet="pqc"/.test(indexSource || "")) missing.push("layer control");
   report(
     !missing.length,
     "PQC bridge",
@@ -1515,6 +1419,19 @@ function checkRuntimeSafetyContracts(indexSource) {
   ) {
     missing.push("quiz absent from live DOM");
   }
+  const retiredStageClasses = ["hero-overlay", "rescue-rig", "rig-node"];
+  if (
+    nodes.some((node) => {
+      const attributes = attrs(node);
+      const classes = (attributes.class ?? "").split(/\s+/);
+      return (
+        Object.hasOwn(attributes, "data-rig-node") ||
+        retiredStageClasses.some((name) => classes.includes(name))
+      );
+    })
+  ) {
+    missing.push("legacy CSS scene absent from live DOM");
+  }
   for (const id of ["quiz-console", "choice-options", "fingerprint-form"]) {
     if (!archiveNodes(archive).some((node) => attrs(node).id === id))
       missing.push("archived " + id);
@@ -1524,7 +1441,7 @@ function checkRuntimeSafetyContracts(indexSource) {
     report(
       true,
       "runtime safety",
-      "context recovery, seven native service links in both layouts, and inactive quiz",
+      "context recovery, seven native service links in both layouts, and retired scene absent",
     );
 }
 
@@ -1651,7 +1568,6 @@ function main() {
     );
   const indexSource = indexFile.ok ? indexFile.source : null;
   checkCacheBusters(indexSource);
-  checkRigLabelNesting(indexSource);
   checkReducedMotion(indexSource);
   checkSharedServiceSphereCover();
   checkServiceSpatialGrid();
@@ -1659,7 +1575,7 @@ function main() {
   checkCoreObject();
   checkReviewParts();
   checkHardwareFeedthrough();
-  checkPqcModel(indexSource);
+  checkPqcModel();
   checkQuizServiceCoverage();
   checkRuntimeSafetyContracts(indexSource);
 }

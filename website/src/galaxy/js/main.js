@@ -1,7 +1,6 @@
 // Entry point: bootstraps app, then wires the back-to-top and native share controls.
 
-import { appState } from "./state.js?v=wow60";
-import { bindGalaxyServiceLinks, initGalaxyScene, refreshGalaxyState } from "./galaxy.js?v=wow60&rev=touch-orbit1";
+import { bindGalaxyServiceLinks, initGalaxyScene, refreshGalaxyState, showGalaxyFallback } from "./galaxy.js?v=wow60&rev=galaxy-motion1";
 import {
   updateCopyrightYear,
   bindControls,
@@ -10,12 +9,10 @@ import {
   bindQuizNavigation,
   renderResult,
   updateCompletion,
-  updateVectorReadout,
-  updatePlanetInspector,
   updateScaleReadout,
   updateChoiceHud,
   getProjectShareData
-} from "./ui.js?v=wow60&rev=touch-orbit1";
+} from "./ui.js?v=wow60&rev=galaxy-motion1";
 
 function initApp() {
   updateCopyrightYear();
@@ -28,15 +25,7 @@ function initApp() {
       message: error && error.message ? error.message : String(error),
       stack: error && error.stack ? error.stack : ""
     };
-    const hero = document.querySelector(".galaxy-hero");
-    const loading = document.getElementById("galaxy-loading");
-    if (hero) {
-      hero.classList.remove("is-loading", "webgl-ready", "is-3d-mode", "is-launching");
-      hero.classList.add("webgl-failed");
-    }
-    appState.webglReady = false;
-    appState.threeDMode = false;
-    if (loading) loading.hidden = true;
+    showGalaxyFallback();
   }
   bindControls();
   bindGalaxyServiceLinks();
@@ -47,8 +36,6 @@ function initApp() {
     updateCompletion();
     updateChoiceHud();
   }
-  updateVectorReadout(appState.selectedPlanet);
-  updatePlanetInspector(appState.selectedPlanet);
   updateScaleReadout();
 }
 
@@ -118,33 +105,7 @@ function startSysClock() {
   window.setInterval(tick, 1000);
 }
 
-function startTelemetryTicker() {
-  const orbit = document.getElementById("readout-orbit");
-  const plane = document.getElementById("readout-plane");
-  if (!orbit && !plane) return;
-  window.setInterval(function () {
-    if (appState.reducedMotion) return;
-    if (orbit) {
-      const match = orbit.textContent.match(/^([\d.]+)\s*AU$/);
-      if (match) {
-        const base = parseFloat(match[1]);
-        const jitter = (Math.random() - 0.5) * 0.06;
-        orbit.textContent = (base + jitter).toFixed(2) + " AU";
-      }
-    }
-    if (plane) {
-      const match = plane.textContent.match(/^([-\d.]+)\s*RAD$/i);
-      if (match) {
-        const base = parseFloat(match[1]);
-        const jitter = (Math.random() - 0.5) * 0.012;
-        plane.textContent = (base + jitter).toFixed(2).toUpperCase() + " RAD";
-      }
-    }
-  }, 720);
-}
-
 initApp();
 bindBackToTop();
 bindShareButton();
 startSysClock();
-startTelemetryTicker();

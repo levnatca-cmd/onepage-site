@@ -36,7 +36,7 @@ import {
 } from "./scene/service-spatial-grid.js?v=wow60";
 import { buildSystemModel as buildSemanticSystemModel } from "./scene/system-models/index.js?v=wow60";
 import { updatePqcSignal } from "./scene/system-models/pqc.js?v=wow60";
-import { focusPlanet } from "./ui.js?v=wow60&rev=touch-orbit1";
+import { focusPlanet } from "./ui.js?v=wow60&rev=galaxy-motion1";
 
 const LIGHT_GALAXY = document.documentElement.dataset.galaxyTheme === "light";
 const SCENE_DEBUG = createSceneDebugConfig();
@@ -74,8 +74,8 @@ const formationSlots = new Map();
 let formationFlight = null;
 let formationOrbit = null;
 let formationBurst = null;
-let orbitPausedAt = 0;
-let orbitPauseTotal = 0;
+let overviewElapsed = 0;
+let overviewMotionPaused = false;
 let quizCenterService = PLANET_IDS[0];
 let quizRingServices = [];
 const formationPosition = new THREE.Vector3();
@@ -197,11 +197,8 @@ function installSceneDebugApi() {
         minimumSeparation: getServiceGridMinimumSeparation(
           galaxy.rescueRigGrid,
           PLANET_IDS,
-          Number.isFinite(SCENE_DEBUG.fixedElapsed) ? SCENE_DEBUG.fixedElapsed : galaxy.clock.elapsedTime,
-          {
-            reducedMotion: appState.reducedMotion,
-            scale: galaxy.rescueRigGrid.scale
-          }
+          getOverviewElapsed(),
+          { scale: galaxy.rescueRigGrid.scale }
         )
       } : null;
       return {
@@ -245,7 +242,8 @@ function installSceneDebugApi() {
       SCENE_DEBUG.fixedElapsed = Number.isFinite(elapsed) ? Math.max(0, elapsed) : null;
     },
     setReducedMotion: function (value) {
-      appState.reducedMotion = Boolean(value);
+      SCENE_DEBUG.forceReducedMotion = Boolean(value);
+      appState.reducedMotion = SCENE_DEBUG.forceReducedMotion;
     },
     setPresentationVisible: function (id, value) {
       const object = galaxy.rescueRigObjects[id];
@@ -267,10 +265,19 @@ export function initGalaxyScene() {
   const hero = document.querySelector(".galaxy-hero");
   const loading = document.getElementById("galaxy-loading");
 
-  if (!canvas || !window.WebGLRenderingContext || SCENE_DEBUG.forceFallback) {
-    hero?.classList.remove("is-loading");
-    hero?.classList.add("webgl-failed");
-    if (loading) loading.hidden = true;
+  if (!canvas || SCENE_DEBUG.forceFallback) {
+    showGalaxyFallback();
+    installSceneDebugApi();
+    return;
+  }
+
+  const context = canvas.getContext("webgl2", {
+    alpha: true,
+    antialias: true,
+    powerPreference: "high-performance"
+  }) ?? canvas.getContext("webgl2", { alpha: true, antialias: false });
+  if (!context) {
+    showGalaxyFallback();
     installSceneDebugApi();
     return;
   }
@@ -281,17 +288,12 @@ export function initGalaxyScene() {
   galaxy.camera.position.set(0.8, 7.4, 12.2);
   galaxy.camera.lookAt(0, 0, 0);
 
-  galaxy.renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-    powerPreference: "high-performance"
-  });
+  galaxy.renderer = new THREE.WebGLRenderer({ canvas, context });
   galaxy.renderer.setClearColor(0x080a0f, 0);
   galaxy.renderer.outputColorSpace = THREE.SRGBColorSpace;
   galaxy.renderer.toneMapping = THREE.ACESFilmicToneMapping;
   galaxy.renderer.toneMappingExposure = 1.48;
-  bindWebGLContextLifecycle(canvas, hero, loading);
+  bindWebGLContextLifecycle(canvas);
 
   galaxy.root = new THREE.Group();
   galaxy.root.rotation.x = -0.32;
@@ -346,20 +348,33 @@ export function initGalaxyScene() {
   scheduleIdleGeometry();
 }
 
-function bindWebGLContextLifecycle(canvas, hero, loading) {
+export function showGalaxyFallback() {
+  const hero = document.querySelector(".galaxy-hero");
+  const loading = document.getElementById("galaxy-loading");
+  const canvas = document.getElementById("galaxy-canvas");
+  if (hero?.classList.contains("webgl-failed")) return;
+
+  appState.webglReady = false;
+  appState.threeDMode = false;
+  appState.serviceRowMode = false;
+  formationFlight = null;
+  formationOrbit = null;
+  updateSceneActivity();
+  clearSphereDive();
+  hideObjectHologram();
+  hero?.classList.remove(
+    "webgl-ready", "is-loading", "is-3d-mode", "is-service-row", "is-service-row-transitioning",
+    "is-quiz-transitioning", "is-launching", "is-diving"
+  );
+  hero?.classList.add("webgl-failed");
+  if (loading) loading.hidden = true;
+  canvas?.dispatchEvent(new Event("galaxy:unavailable"));
+}
+
+function bindWebGLContextLifecycle(canvas) {
   canvas.addEventListener("webglcontextlost", function (event) {
     event.preventDefault();
-    if (formationOrbit) finishFormationFlight("exit");
-    appState.webglReady = false;
-    updateSceneActivity();
-    appState.threeDMode = false;
-    appState.serviceRowMode = false;
-    canvas.classList.remove("is-targeting");
-    if (hero) {
-      hero.classList.remove("webgl-ready", "is-loading", "is-3d-mode", "is-service-row", "is-launching");
-      hero.classList.add("webgl-failed");
-    }
-    if (loading) loading.hidden = true;
+    showGalaxyFallback();
   });
 
   canvas.addEventListener("webglcontextrestored", function () {
@@ -367,39 +382,72 @@ function bindWebGLContextLifecycle(canvas, hero, loading) {
   });
 }
 
+function updateSceneViewport(canvas) {
+  const bounds = canvas.getBoundingClientRect();
+  const viewport = window.visualViewport;
+  const hasVisualViewport = viewport?.width > 0 && viewport?.height > 0;
+  const left = hasVisualViewport ? viewport.offsetLeft : 0;
+  const top = hasVisualViewport ? viewport.offsetTop : 0;
+  const width = hasVisualViewport ? viewport.width : window.innerWidth;
+  const height = hasVisualViewport ? viewport.height : window.innerHeight;
+  sceneInViewport = bounds.width > 0 && bounds.height > 0 &&
+    bounds.bottom > top && bounds.top < top + height &&
+    bounds.right > left && bounds.left < left + width;
+  updateSceneActivity();
+}
+
 function bindSceneActivity(canvas) {
-  function updateViewport() {
-    const bounds = canvas.getBoundingClientRect();
-    sceneInViewport = bounds.bottom > 0 && bounds.top < window.innerHeight &&
-      bounds.right > 0 && bounds.left < window.innerWidth;
-    updateSceneActivity();
+  let viewportFrame = null;
+
+  function scheduleViewportCheck() {
+    if (viewportFrame !== null || document.hidden || !scenePageActive || !appState.webglReady) return;
+    viewportFrame = requestAnimationFrame(function () {
+      viewportFrame = null;
+      updateSceneViewport(canvas);
+    });
   }
 
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) {
-      sceneInViewport = entries[0].isIntersecting;
-      updateSceneActivity();
-    }).observe(canvas);
-  } else {
-    window.addEventListener("scroll", updateViewport, { passive: true });
-    window.addEventListener("resize", updateViewport);
+  function cancelViewportCheck() {
+    if (viewportFrame === null) return;
+    cancelAnimationFrame(viewportFrame);
+    viewportFrame = null;
   }
+
+  // Observer entries can lag behind mobile browser chrome and sticky positioning.
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(scheduleViewportCheck).observe(canvas);
+  }
+  window.addEventListener("scroll", scheduleViewportCheck, { passive: true });
+  window.addEventListener("resize", scheduleViewportCheck);
+  window.visualViewport?.addEventListener("scroll", scheduleViewportCheck, { passive: true });
+  window.visualViewport?.addEventListener("resize", scheduleViewportCheck);
 
   if ("ResizeObserver" in window) {
-    const observer = new ResizeObserver(resizeGalaxy);
+    const observer = new ResizeObserver(function () {
+      scheduleViewportCheck();
+      resizeGalaxy();
+    });
     observer.observe(canvas);
   }
 
-  document.addEventListener("visibilitychange", updateSceneActivity);
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) {
+      cancelViewportCheck();
+      updateSceneActivity();
+    } else {
+      updateSceneViewport(canvas);
+    }
+  });
   window.addEventListener("pagehide", function () {
     scenePageActive = false;
+    cancelViewportCheck();
     updateSceneActivity();
   });
   window.addEventListener("pageshow", function () {
     scenePageActive = true;
-    updateViewport();
+    updateSceneViewport(canvas);
   });
-  updateViewport();
+  updateSceneViewport(canvas);
 }
 
 function updateSceneActivity() {
@@ -1158,10 +1206,19 @@ function bindCanvasInteraction(canvas) {
   const toggle = document.getElementById("galaxy-orbit-toggle");
   const done = document.getElementById("galaxy-orbit-done");
   const reset = document.getElementById("galaxy-orbit-reset");
+  const motionToggle = document.getElementById("galaxy-motion-toggle");
   let gesture = null;
   let suppressClick = false;
   let touchActivation = false;
   let touchOrbit = false;
+
+  motionToggle?.addEventListener("click", function () {
+    overviewMotionPaused = !overviewMotionPaused;
+    const label = overviewMotionPaused ? "Resume Galaxy motion" : "Pause Galaxy motion";
+    motionToggle.classList.toggle("is-paused", overviewMotionPaused);
+    motionToggle.setAttribute("aria-label", label);
+    motionToggle.title = label;
+  });
 
   function canRotateOverview() {
     return appState.webglReady && !appState.threeDMode && !appState.serviceRowMode &&
@@ -1175,6 +1232,7 @@ function bindCanvasInteraction(canvas) {
       view.yaw = THREE.MathUtils.euclideanModulo(view.yaw + Math.PI, Math.PI * 2) - Math.PI;
     }
     view.pitch = THREE.MathUtils.clamp(view.pitch + pitch, -ORBIT_VIEW_LIMIT.pitch, ORBIT_VIEW_LIMIT.pitch);
+    if (sceneAnimationFrame === null) updateSceneViewport(canvas);
   }
 
   function resetView() {
@@ -1193,6 +1251,7 @@ function bindCanvasInteraction(canvas) {
     if (done) done.hidden = !enabled;
     if (transferFocus && canRotateOverview()) (enabled ? done : toggle)?.focus({ preventScroll: true });
     if (gesture?.touch) cancelGesture(gesture.id);
+    if (enabled && sceneAnimationFrame === null) updateSceneViewport(canvas);
   }
 
   function clearHover() {
@@ -1309,7 +1368,7 @@ function bindCanvasInteraction(canvas) {
   canvas.addEventListener("lostpointercapture", function (event) {
     if (gesture?.mode === "drag") cancelGesture(event.pointerId);
   });
-  canvas.addEventListener("webglcontextlost", exitOrbitInteraction);
+  canvas.addEventListener("galaxy:unavailable", exitOrbitInteraction);
   window.addEventListener("pagehide", exitOrbitInteraction);
   document.addEventListener("visibilitychange", function () {
     if (document.hidden) exitOrbitInteraction();
@@ -1556,7 +1615,6 @@ function startGalaxyFormation(mode, direction) {
       quizCenterService = appState.selectedPlanet;
       quizRingServices = PLANET_IDS.filter((id) => id !== quizCenterService);
     }
-    orbitPausedAt = galaxy.clock.elapsedTime;
     formationOrbit = {
       mode,
       focus: appState.selectedPlanet,
@@ -1638,7 +1696,6 @@ function finishFormationFlight(direction) {
   }
   galaxy.answerDeck.visible = direction === "enter" && mode === "service-row";
   if (direction === "exit") {
-    orbitPauseTotal += Math.max(0, galaxy.clock.elapsedTime - orbitPausedAt);
     const focus = formationOrbit.focus;
     formationOrbit = null;
     focusPlanet(focus);
@@ -1700,15 +1757,39 @@ function animateGalaxy() {
     updateSceneActivity();
     return;
   }
-  sceneAnimationFrame = requestAnimationFrame(animateGalaxy);
+  try {
+    drawGalaxyFrame();
+  } catch (error) {
+    if (!galaxy.renderer?.getContext().isContextLost()) {
+      window.__galaxyFrameError = { message: error?.message ?? String(error) };
+    }
+    showGalaxyFallback();
+    return;
+  }
+  if (sceneAnimationFrame === null && appState.webglReady) {
+    sceneAnimationFrame = requestAnimationFrame(animateGalaxy);
+  }
+}
+
+function getOverviewElapsed() {
+  if (SCENE_DEBUG.forceReducedMotion) return 0;
+  if (Number.isFinite(SCENE_DEBUG.fixedElapsed)) {
+    return appState.reducedMotion ? 0 : SCENE_DEBUG.fixedElapsed;
+  }
+  return overviewElapsed;
+}
+
+function drawGalaxyFrame() {
   const clockDelta = Math.min(galaxy.clock.getDelta(), 0.05);
   if (!galaxy.renderer || !galaxy.scene || !galaxy.camera || !appState.webglReady) return;
   const fixedTime = Number.isFinite(SCENE_DEBUG.fixedElapsed);
-  const delta = fixedTime ? 0 : clockDelta;
+  const advanceMotion = !fixedTime && !overviewMotionPaused && !formationOrbit && !SCENE_DEBUG.forceReducedMotion;
+  // Keep a slow orbit while honoring reduced motion for camera moves and visual effects.
+  if (advanceMotion) overviewElapsed += clockDelta * (appState.reducedMotion ? 0.45 : 1);
   const elapsed = fixedTime ? SCENE_DEBUG.fixedElapsed : galaxy.clock.elapsedTime;
-  const motionDelta = appState.reducedMotion ? 0 : delta;
-  const motionElapsed = appState.reducedMotion ? 0 : elapsed;
-  const orbitElapsed = fixedTime || appState.reducedMotion ? motionElapsed : Math.max(0, motionElapsed - orbitPauseTotal);
+  const orbitElapsed = getOverviewElapsed();
+  const motionDelta = advanceMotion && !appState.reducedMotion ? clockDelta : 0;
+  const motionElapsed = appState.reducedMotion ? 0 : orbitElapsed;
   const visual = appState.galaxyState || refreshGalaxyState();
 
   galaxy.root.visible = formationFlight
@@ -1719,20 +1800,20 @@ function animateGalaxy() {
     if (appState.reducedMotion) galaxy.root.rotation.y = 0;
     else galaxy.root.rotation.y += motionDelta * (0.045 + visual.pressure * 0.035);
 
-    updatePlanets(elapsed, motionDelta, visual);
-    updateVectorField(orbitElapsed, visual);
-    updateAnomalies(orbitElapsed, motionDelta, visual);
-    updateEnergyEffects(orbitElapsed, motionDelta, visual);
+    updatePlanets(elapsed, orbitElapsed, motionDelta, visual);
+    updateVectorField(motionElapsed, visual);
+    updateAnomalies(motionElapsed, motionDelta, visual);
+    updateEnergyEffects(motionElapsed, motionDelta, visual);
   }
 
   if (!sphereDive) updateGalaxyCamera(elapsed, visual);
 
   if (!formationOrbit) {
     updateRescueRig(orbitElapsed, motionDelta, visual);
-    updateBridges(orbitElapsed, visual);
-    updateAutomationDebris(orbitElapsed, visual);
-    updateHandoffAnomaly(orbitElapsed, motionDelta, visual);
-    updateInteractionLayer(orbitElapsed, motionDelta, visual);
+    updateBridges(motionElapsed, visual);
+    updateAutomationDebris(motionElapsed, visual);
+    updateHandoffAnomaly(motionElapsed, motionDelta, visual);
+    updateInteractionLayer(motionElapsed, motionDelta, visual);
   }
 
   if (appState.reducedMotion) galaxy.star.rotation.set(0, 0, 0);
@@ -1740,11 +1821,11 @@ function animateGalaxy() {
     galaxy.star.rotation.y += motionDelta * 0.09;
     galaxy.star.rotation.x += motionDelta * 0.04;
   }
-  updateCoreObject(galaxy.star, elapsed, appState.reducedMotion);
+  updateCoreObject(galaxy.star, motionElapsed, appState.reducedMotion);
 
   if (sphereDive) {
     updateSphereDive(sphereDive, galaxy.camera, galaxy.renderer.domElement);
-    renderGalaxyFrame();
+    galaxy.renderer.render(galaxy.scene, galaxy.camera);
     return;
   }
 
@@ -1756,7 +1837,7 @@ function animateGalaxy() {
   if (formationFlight) {
     updateFormationFlight();
   }
-  renderGalaxyFrame();
+  galaxy.renderer.render(galaxy.scene, galaxy.camera);
   updateObjectHologram();
 }
 
@@ -1834,15 +1915,6 @@ function updateGalaxyCamera(elapsed, visual) {
   }
 }
 
-function renderGalaxyFrame() {
-  try {
-    galaxy.renderer.render(galaxy.scene, galaxy.camera);
-  } catch (error) {
-    // WebGL can invalidate shader queries before the canvas loss handler runs.
-    if (!galaxy.renderer.getContext().isContextLost()) throw error;
-  }
-}
-
 function updateVectorField(elapsed, visual) {
   if (!galaxy.vectorField) return;
   const position = galaxy.vectorField.geometry.getAttribute("position");
@@ -1895,7 +1967,7 @@ export function refreshGalaxyState() {
   return appState.galaxyState;
 }
 
-function updatePlanets(elapsed, delta, visual) {
+function updatePlanets(elapsed, orbitElapsed, delta, visual) {
   PLANET_IDS.forEach(function (id) {
     const config = PLANETS[id];
     const planet = galaxy.planets[id];
@@ -1909,7 +1981,6 @@ function updatePlanets(elapsed, delta, visual) {
     if (visual.pressure > 0.6 && id === "data") inclination -= 0.18;
     if (visual.pressure > 0.4 && id === "automation") inclination += 0.2;
 
-    const orbitElapsed = appState.reducedMotion ? 0 : elapsed;
     const angle = config.angle + orbitElapsed * config.speed * (1 + visual.pressure * 0.36);
     const y = Math.sin(angle) * radius * Math.sin(inclination) * 0.32;
     const x = Math.cos(angle) * radius;
@@ -1929,7 +2000,7 @@ function updatePlanets(elapsed, delta, visual) {
       planet.scale.lerp(galaxy.scratch.scale, 0.08);
       updateSpherePresentation(planet.userData.presentation, {
         delta,
-        elapsed,
+        elapsed: orbitElapsed,
         selected,
         hovered,
         reducedMotion: appState.reducedMotion,
@@ -2105,10 +2176,11 @@ function updateInteractionLayer(elapsed, delta, visual) {
   focusBeam.material.color.setHex(color);
 }
 
-function updateRescueRig(elapsed, delta, visual) {
+function updateRescueRig(orbitElapsed, delta, visual) {
   if (!galaxy.rescueRig) return;
   const compact = window.innerWidth < 760;
   const motionFactor = appState.reducedMotion ? 0 : 1;
+  const elapsed = orbitElapsed * motionFactor;
   const activeFocus = appState.hoveredPlanet || appState.selectedPlanet || ARCHETYPES[appState.archetype].focus;
   const completeBoost = visual.completeness;
   const threeDModeDimming = appState.threeDMode ? 0.26 : 1;
@@ -2150,12 +2222,9 @@ function updateRescueRig(elapsed, delta, visual) {
     sampleServiceGridPosition(
       galaxy.rescueRigGrid,
       id,
-      elapsed,
+      orbitElapsed,
       object.position,
-      {
-        reducedMotion: appState.reducedMotion,
-        scale: gridScale
-      }
+      { scale: gridScale }
     );
     if (!sphereDive) {
       // Measure depth from Core toward the camera in unscaled orbit units.
@@ -2227,10 +2296,11 @@ function updateRescueRig(elapsed, delta, visual) {
     });
   });
 
-  updateRescueRigCables(elapsed, visual, activeFocus, threeDModeDimming, motionFactor);
+  updateRescueRigCables(orbitElapsed, visual, activeFocus, threeDModeDimming, motionFactor);
 }
 
-function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motionFactor) {
+function updateRescueRigCables(orbitElapsed, visual, activeFocus, opacityScale, motionFactor) {
+  const elapsed = orbitElapsed * motionFactor;
   const coreRadius = galaxy.star.geometry.parameters.radius * galaxy.star.scale.x / galaxy.rescueRig.scale.x;
   const scratch = galaxy.scratch;
   const showCoreFlows = galaxy.layout === "planets";
@@ -2262,9 +2332,8 @@ function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motio
     sampleServiceGridTangent(
       galaxy.rescueRigGrid,
       serviceId,
-      elapsed,
-      scratch.orbitTangent,
-      { reducedMotion: appState.reducedMotion }
+      orbitElapsed,
+      scratch.orbitTangent
     );
     control.addScaledVector(scratch.orbitTangent, bend * 1.12);
     bendConnectionAroundPlanets(start, end, control, cable.userData.innerPlanets, scratch.orbitTangent);

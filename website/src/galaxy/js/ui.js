@@ -18,13 +18,12 @@ import {
   resizeGalaxy,
   refreshGalaxyState,
   runWhatIfSimulation,
-  runMicroPulse,
   syncGalaxyNavigationLinks,
   startGalaxyServiceRowTransition,
   isGalaxyServiceRowTransitioning,
   startGalaxyQuizTransition,
   isGalaxyQuizTransitioning
-} from "./galaxy.js?v=wow60&rev=touch-orbit1";
+} from "./galaxy.js?v=wow60&rev=galaxy-motion1";
 
 let reviewing3DAnswer = false;
 let questionHologramOpen = false;
@@ -44,15 +43,6 @@ export function updateCopyrightYear() {
 
 export function bindControls() {
   if (document.getElementById("quiz-console")) bindQuizControls();
-
-  document.querySelectorAll("[data-planet]").forEach(function (button) {
-    button.addEventListener("mouseenter", function () {
-      focusPlanet(button.dataset.planet);
-    });
-    button.addEventListener("click", function () {
-      focusPlanet(button.dataset.planet);
-    });
-  });
 
   const fingerprintForm = document.getElementById("fingerprint-form");
   if (fingerprintForm) {
@@ -81,13 +71,6 @@ export function bindControls() {
       runScenario(button.dataset.scenario);
     });
   });
-
-  const stressButton = document.querySelector("[data-stress-selected]");
-  if (stressButton) {
-    stressButton.addEventListener("click", function () {
-      stressSelectedLayer();
-    });
-  }
 
   const scaleSlider = document.getElementById("scale-slider");
   if (scaleSlider) {
@@ -128,7 +111,6 @@ export function bindControls() {
     });
   }
 
-  syncRescueRigFocus(appState.selectedPlanet);
   bindContactForm();
 }
 
@@ -298,9 +280,7 @@ export function bindGalaxyServiceRow() {
     scheduleRead();
   });
   hero.addEventListener("galaxy:sphere-dive-end", scheduleRead);
-  canvas.addEventListener("webglcontextlost", function () {
-    appState.serviceRowMode = false;
-    hero.classList.remove("is-service-row", "is-service-row-transitioning");
+  canvas.addEventListener("galaxy:unavailable", function () {
     updateControls();
     fallBackToCatalog();
   });
@@ -429,7 +409,7 @@ export function bindQuizNavigation() {
     focusQuizEntry();
     scheduleBoundaryRead();
   });
-  canvas.addEventListener("webglcontextlost", updateAvailability);
+  canvas.addEventListener("galaxy:unavailable", updateAvailability);
   window.addEventListener("scroll", scheduleBoundaryRead, { passive: true });
   window.addEventListener("resize", scheduleBoundaryRead);
   window.addEventListener("pageshow", scheduleBoundaryRead);
@@ -765,54 +745,12 @@ function updateChoiceOptions(container, question) {
 export function focusPlanet(planetId, options = {}) {
   appState.selectedPlanet = planetId;
   syncGalaxyNavigationLinks();
-  syncRescueRigFocus(planetId);
-  document.querySelectorAll("[data-planet]").forEach(function (button) {
-    const isActive = button.dataset.planet === planetId;
-    button.classList.toggle("is-active", isActive);
-    button.setAttribute("aria-pressed", isActive ? "true" : "false");
-  });
   const planet = PLANETS[planetId];
   const insight = document.getElementById("live-insight");
   if (planet && insight) {
     const source = options.fromCanvas ? "3D object" : "Layer";
     insight.textContent = source + " focus: " + planet.label + ". Meaning: " + planet.role + ". Watch this layer pull the system into shape.";
   }
-  updateVectorReadout(planetId);
-  updatePlanetInspector(planetId);
-}
-
-function syncRescueRigFocus(planetId) {
-  const rig = document.querySelector(".rescue-rig");
-  if (rig) rig.dataset.activeLayer = planetId;
-  document.querySelectorAll("[data-rig-node]").forEach(function (node) {
-    node.classList.toggle("is-active", node.dataset.rigNode === planetId);
-  });
-}
-
-export function updateVectorReadout(planetId) {
-  const planet = PLANETS[planetId];
-  if (!planet) return;
-  const focusEl = document.getElementById("readout-focus");
-  const orbitEl = document.getElementById("readout-orbit");
-  const planeEl = document.getElementById("readout-plane");
-  if (focusEl) focusEl.textContent = planet.label;
-  if (orbitEl) orbitEl.textContent = planet.radius.toFixed(2) + " AU";
-  if (planeEl) planeEl.textContent = planet.inclination.toFixed(2).toUpperCase() + " RAD";
-}
-
-export function updatePlanetInspector(planetId) {
-  const planet = PLANETS[planetId];
-  if (!planet) return;
-  const title = document.getElementById("inspector-title");
-  const role = document.getElementById("inspector-role");
-  const links = document.getElementById("inspector-links");
-  const risk = document.getElementById("inspector-risk");
-  const copy = document.getElementById("inspector-copy");
-  if (title) title.textContent = planet.label;
-  if (role) role.textContent = planet.role;
-  if (links) links.textContent = planet.links;
-  if (risk) risk.textContent = planet.risk;
-  if (copy) copy.textContent = planet.copy;
 }
 
 export function updateScaleReadout() {
@@ -843,20 +781,6 @@ function runScenario(scenarioId) {
   if (insight) insight.textContent = scenario.copy;
   renderResult();
   runWhatIfSimulation(scenario.simulation);
-}
-
-function stressSelectedLayer() {
-  const planet = appState.selectedPlanet || "firmware";
-  const scenarioByPlanet = {
-    firmware: "firmwareFail",
-    backend: "apiLatency",
-    automation: "manualWorkflow",
-    data: "manualWorkflow",
-    hardware: "manualWorkflow",
-    ops: "noMonitoring"
-  };
-  runScenario(scenarioByPlanet[planet] || "apiLatency");
-  runMicroPulse(planet);
 }
 
 function cancelCinematicReveal() {

@@ -103,7 +103,7 @@
     <link rel="stylesheet" href="./src/galaxy/styles/layout.css?v=wow60" />
     <link rel="stylesheet" href="./src/galaxy/styles/header.css?v=wow60&amp;rev=typography1" />
     <link rel="stylesheet" href="./src/galaxy/styles/buttons.css?v=wow60&amp;rev=typography1" />
-    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow60&amp;rev=touch-orbit1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow60&amp;rev=galaxy-motion1" />
     <link rel="stylesheet" href="./src/galaxy/styles/sphere-dive.css?v=wow60" />
     <link rel="stylesheet" href="./src/galaxy/styles/object-hologram.css?v=wow60&amp;rev=typography1" />
     <link rel="stylesheet" href="./src/galaxy/styles/hud.css?v=wow60&amp;rev=typography1" />
@@ -111,7 +111,7 @@
     <link rel="stylesheet" href="./src/galaxy/styles/result.css?v=wow60&amp;rev=typography1" />
     <link rel="stylesheet" href="./src/galaxy/styles/sections.css?v=wow60&amp;rev=contact2" />
     <link rel="stylesheet" href="./src/galaxy/styles/utility.css?v=wow60&amp;rev=typography1" />
-    <link rel="stylesheet" href="./src/galaxy/styles/responsive.css?v=wow60&amp;rev=hourly-pricing1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/responsive.css?v=wow60&amp;rev=service-fallback1" />
     <script type="module" src="/src/shared/site-menu.js?v=wow60"></script>
     <noscript>
       <style>
@@ -219,6 +219,8 @@
                 aria-controls="galaxy-canvas" aria-pressed="false">Rotate in 3D</button>
               <button id="galaxy-orbit-done" type="button" aria-describedby="galaxy-orbit-drag-hint" hidden>Done</button>
               <button id="galaxy-orbit-reset" type="button">Reset view</button>
+              <button class="galaxy-motion-toggle" id="galaxy-motion-toggle" type="button"
+                aria-controls="galaxy-canvas" aria-label="Pause Galaxy motion" title="Pause Galaxy motion"></button>
             </div>
             <div class="hero-atmosphere" aria-hidden="true">
               <span class="atmosphere-aurora atmosphere-aurora-a"></span>
@@ -226,158 +228,6 @@
               <span class="atmosphere-grid"></span>
             </div>
             <div class="galaxy-loading" id="galaxy-loading" role="status" aria-live="polite">Loading 3D scene</div>
-            <div class="hero-overlay">
-              <div class="launch-sequence" aria-hidden="true">
-                <span class="launch-ring launch-ring-a"></span>
-                <span class="launch-ring launch-ring-b"></span>
-                <span class="launch-beam launch-beam-a"></span>
-                <span class="launch-beam launch-beam-b"></span>
-                <span class="launch-token launch-token-a">SYSTEM LOCK</span>
-                <span class="launch-token launch-token-b">ROUTE MAP</span>
-                <span class="launch-token launch-token-c">LIVE DEBUG</span>
-              </div>
-
-              <div class="rescue-rig" aria-hidden="true">
-                <div class="rig-stage">
-                  <span class="rig-glow rig-glow-a"></span>
-                  <span class="rig-glow rig-glow-b"></span>
-                  <span class="rig-shockwave rig-shockwave-a"></span>
-                  <span class="rig-shockwave rig-shockwave-b"></span>
-                  <span class="rig-orbit rig-orbit-a"></span>
-                  <span class="rig-orbit rig-orbit-b"></span>
-                  <span class="rig-orbit rig-orbit-c"></span>
-                  <svg class="rig-spokes" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-                    <defs>
-                      <g id="rig-spokes-compact">
-                        <path d="M45 34 Q34 30 21 32" pathLength="100" />
-                        <path d="M45 34 Q46 20 53 3" pathLength="100" />
-                        <path d="M45 34 Q64 27 85 29" pathLength="100" />
-                        <path d="M45 34 Q68 47 82 72" pathLength="100" />
-                        <path d="M45 34 Q53 53 51 70" pathLength="100" />
-                        <path d="M45 34 Q26 47 16 72" pathLength="100" />
-                      </g>
-                      <g id="rig-spokes-wide">
-                        <path d="M46 37 Q31 29 11 28" pathLength="100" />
-                        <path d="M46 37 Q43 20 46 2" pathLength="100" />
-                        <path d="M46 37 Q66 27 92 27" pathLength="100" />
-                        <path d="M46 37 Q72 48 88 79" pathLength="100" />
-                        <path d="M46 37 Q55 63 52 83" pathLength="100" />
-                        <path d="M46 37 Q23 53 10 79" pathLength="100" />
-                      </g>
-                    </defs>
-                    <g class="rig-spokes-layout--compact">
-                      <use href="#rig-spokes-compact" />
-                      <use class="rig-spokes-pulse" href="#rig-spokes-compact" />
-                    </g>
-                    <g class="rig-spokes-layout--wide">
-                      <use href="#rig-spokes-wide" />
-                      <use class="rig-spokes-pulse" href="#rig-spokes-wide" />
-                    </g>
-                  </svg>
-                  <div class="rig-core">
-                    <span class="rig-ring rig-ring-a"></span>
-                    <span class="rig-ring rig-ring-b"></span>
-                    <span class="rig-ring rig-ring-c"></span>
-                    <span class="rig-core-cube"></span>
-                  </div>
-                  <div class="rig-node rig-node-web" data-rig-node="firmware">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">WEB / APP</span>
-                    <span class="rig-spin">
-                      <span class="rig-screen"><i></i><i></i><i></i></span>
-                    </span>
-                  </div>
-                  <div class="rig-node rig-node-api" data-rig-node="backend">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">BACKEND / API</span>
-                    <span class="rig-spin">
-                      <span class="rig-stack"><i></i><i></i><i></i></span>
-                    </span>
-                  </div>
-                  <div class="rig-node rig-node-auto" data-rig-node="automation">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">AUTOMATION</span>
-                    <span class="rig-spin">
-                      <span class="rig-gear"><i></i></span>
-                    </span>
-                  </div>
-                  <div class="rig-node rig-node-logs" data-rig-node="data">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">DATA / LOGS</span>
-                    <span class="rig-spin">
-                      <span class="rig-terminal"><i></i><i></i><i></i></span>
-                    </span>
-                  </div>
-                  <div class="rig-node rig-node-hardware" data-rig-node="hardware">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">HARDWARE</span>
-                    <span class="rig-spin">
-                      <span class="rig-board"><i></i></span>
-                    </span>
-                  </div>
-                  <div class="rig-node rig-node-live" data-rig-node="ops">
-                    <span class="rig-node-top" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-left" aria-hidden="true"></span>
-                    <span class="rig-node-side rig-node-side-right" aria-hidden="true"></span>
-                    <span class="rig-shell" aria-hidden="true"></span>
-                    <span class="rig-node-label">MONITORING</span>
-                    <span class="rig-spin">
-                      <span class="rig-radar"><i></i></span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="vector-hud hud-panel" aria-label="Map focus">
-                <span>Looking at <b id="readout-focus">Website / app</b></span>
-                <span>Orbit <b id="readout-orbit">4.10 AU</b></span>
-                <span>Plane <b id="readout-plane">0.22 RAD</b></span>
-              </div>
-
-              <div class="planet-inspector hud-panel" id="planet-inspector">
-                <div class="inspector-topline">
-                  <strong id="inspector-title">Website / app</strong>
-                  <span class="status-pill" id="inspector-risk">first touch</span>
-                </div>
-                <div class="inspector-meta">
-                  <span>Means <b id="inspector-role">interface people use</b></span>
-                  <span>Connects <b id="inspector-links">Backend/API, Monitoring</b></span>
-                </div>
-                <p class="inspector-copy" id="inspector-copy">
-                  This is the website, app, portal, landing page, or dashboard surface people see and use first.
-                </p>
-                <div class="inspector-actions">
-                  <button class="btn btn-secondary" type="button" data-stress-selected>
-                    Animate this layer
-                  </button>
-                </div>
-              </div>
-
-              <div class="layer-strip hud-panel" aria-label="Preview a layer">
-                <button class="layer-button is-active" type="button" data-planet="firmware" aria-pressed="true">Website/App</button>
-                <button class="layer-button" type="button" data-planet="backend" aria-pressed="false">Backend/API</button>
-                <button class="layer-button" type="button" data-planet="automation" aria-pressed="false">Automation</button>
-                <button class="layer-button" type="button" data-planet="data" aria-pressed="false">Data/Logs</button>
-                <button class="layer-button" type="button" data-planet="hardware" aria-pressed="false">Hardware</button>
-                <button class="layer-button" type="button" data-planet="ops" aria-pressed="false">Monitoring</button>
-                <button class="layer-button" type="button" data-planet="pqc" aria-pressed="false">Security/PQC</button>
-              </div>
-            </div>
             <div class="galaxy-fallback" role="status" aria-live="polite">
               <p>3D is unavailable. Open a service below.</p>
             </div>
@@ -789,6 +639,6 @@
         document.getElementById("galaxy-loading").hidden = true;
       }, true);
     </script>
-    <script id="galaxy-entry" type="module" src="./src/galaxy/js/main.js?v=wow60&amp;rev=touch-orbit1"></script>
+    <script id="galaxy-entry" type="module" src="./src/galaxy/js/main.js?v=wow60&amp;rev=galaxy-motion1"></script>
   </body>
 </html>

@@ -312,13 +312,6 @@
     margin-top: -48px;
   }
 
-  .galaxy-hero.webgl-failed .galaxy-fallback {
-    position: relative;
-    inset: auto;
-    width: calc(100% - 28px);
-    margin: 0 auto 24px;
-  }
-
   .layer-strip {
     width: min(362px, calc(100vw - 28px));
     max-width: min(362px, calc(100vw - 28px));
@@ -426,14 +419,6 @@
   .achievement-toast {
     top: auto;
     bottom: 18px;
-  }
-
-  .galaxy-hero.webgl-failed .galaxy-fallback {
-    right: 14px;
-    bottom: 14px;
-    width: calc(100% - 28px);
-    max-height: 220px;
-    overflow: auto;
   }
 }
 
