@@ -36,7 +36,7 @@ import {
 } from "./scene/service-spatial-grid.js?v=wow60";
 import { buildSystemModel as buildSemanticSystemModel } from "./scene/system-models/index.js?v=wow60";
 import { updatePqcSignal } from "./scene/system-models/pqc.js?v=wow60";
-import { focusPlanet } from "./ui.js?v=wow60&rev=core-plasma6";
+import { focusPlanet } from "./ui.js?v=wow60&rev=touch-orbit1";
 
 const LIGHT_GALAXY = document.documentElement.dataset.galaxyTheme === "light";
 const SCENE_DEBUG = createSceneDebugConfig();
@@ -44,6 +44,7 @@ const ORBIT_VIEW_LIMIT = { pitch: 1.22 };
 const SERVICE_DEPTH_RADIUS = { base: 0.65, gain: 0.06, min: 0.46, max: 0.79 };
 const serviceViewDirection = new THREE.Vector3();
 const overviewCanvasSize = new THREE.Vector2();
+const resizeCanvasSize = new THREE.Vector2();
 const overviewFitNormal = new THREE.Vector3();
 let sphereDive = null;
 let objectHologram = null;
@@ -286,7 +287,6 @@ export function initGalaxyScene() {
     alpha: true,
     powerPreference: "high-performance"
   });
-  galaxy.renderer.setPixelRatio(getRenderPixelRatio());
   galaxy.renderer.setClearColor(0x080a0f, 0);
   galaxy.renderer.outputColorSpace = THREE.SRGBColorSpace;
   galaxy.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -480,10 +480,7 @@ function getStarCount() {
   return 1200;
 }
 
-function getRenderPixelRatio() {
-  const canvas = galaxy.renderer ? galaxy.renderer.domElement : document.getElementById("galaxy-canvas");
-  const width = canvas ? canvas.clientWidth || window.innerWidth : window.innerWidth;
-  const height = canvas ? canvas.clientHeight || window.innerHeight : window.innerHeight;
+function getRenderPixelRatio(width, height) {
   const nativeRatio = window.devicePixelRatio || 1;
   const trueMobile = window.innerWidth < QUALITY_CONFIG.trueMobileWidth;
   const compact = window.innerWidth < 760;
@@ -498,7 +495,7 @@ function getRenderPixelRatio() {
       ? QUALITY_CONFIG.compactPixelRatioCap
       : QUALITY_CONFIG.desktopPixelRatioCap;
   const targetRatio = targetWidth / Math.max(width, 1);
-  const maxCanvasSide = galaxy.renderer ? galaxy.renderer.capabilities.maxTextureSize : 8192;
+  const maxCanvasSide = galaxy.renderer.capabilities.maxTextureSize;
   const sizeCap = maxCanvasSide / Math.max(width, height, 1);
   return Math.min(cap, sizeCap, Math.max(nativeRatio, targetRatio));
 }
@@ -1014,11 +1011,10 @@ export function resizeGalaxy() {
   const height = canvas.clientHeight || window.innerHeight;
   galaxy.camera.aspect = width / Math.max(height, 1);
   galaxy.camera.updateProjectionMatrix();
-  const size = galaxy.renderer.getSize(new THREE.Vector2());
-  const pixelRatio = getRenderPixelRatio();
+  const size = galaxy.renderer.getSize(resizeCanvasSize);
+  const pixelRatio = getRenderPixelRatio(width, height);
   if (size.x !== width || size.y !== height || galaxy.renderer.getPixelRatio() !== pixelRatio) {
-    galaxy.renderer.setPixelRatio(pixelRatio);
-    galaxy.renderer.setSize(width, height, false);
+    galaxy.renderer.setDrawingBufferSize(width, height, pixelRatio);
   }
   applyHeroGalaxyComposition();
 }
@@ -1189,15 +1185,14 @@ function bindCanvasInteraction(canvas) {
 
   function setTouchOrbit(enabled) {
     if (touchOrbit === enabled) return;
+    const transferFocus = document.activeElement === (enabled ? toggle : done);
     touchOrbit = enabled;
     canvas.classList.toggle("is-touch-orbiting", enabled);
+    controls?.classList.toggle("is-touch-orbiting", enabled);
     toggle?.setAttribute("aria-pressed", String(enabled));
-    if (done) {
-      const returnFocus = !enabled && done === document.activeElement;
-      done.hidden = !enabled;
-      if (returnFocus && canRotateOverview()) toggle?.focus({ preventScroll: true });
-    }
-    if (gesture?.touch) endGesture(gesture.id);
+    if (done) done.hidden = !enabled;
+    if (transferFocus && canRotateOverview()) (enabled ? done : toggle)?.focus({ preventScroll: true });
+    if (gesture?.touch) cancelGesture(gesture.id);
   }
 
   function clearHover() {
@@ -1212,15 +1207,35 @@ function bindCanvasInteraction(canvas) {
     if (gesture?.id !== pointerId) return;
     gesture = null;
     canvas.classList.remove("is-orbit-dragging");
-    if (canvas.hasPointerCapture(pointerId)) canvas.releasePointerCapture(pointerId);
+    if (canvas.hasPointerCapture?.(pointerId)) canvas.releasePointerCapture(pointerId);
+  }
+
+  function cancelGesture(pointerId) {
+    if (gesture?.id !== pointerId) return;
+    suppressClick = true;
+    touchActivation = false;
+    endGesture(pointerId);
+    clearHover();
+  }
+
+  function exitOrbitInteraction() {
+    if (gesture) cancelGesture(gesture.id);
+    else clearHover();
+    setTouchOrbit(false);
   }
 
   canvas.addEventListener("pointerdown", function (event) {
-    if (gesture || !event.isPrimary || event.button !== 0) return;
-    touchActivation = event.pointerType === "touch";
+    const touch = event.pointerType === "touch";
+    if (!event.isPrimary) {
+      if (touch && gesture?.touch) cancelGesture(gesture.id);
+      return;
+    }
+    if (event.button !== 0 || (gesture && gesture.touch !== touch)) return;
+    // A browser navigation gesture can interrupt the preceding touch without a final event.
+    if (gesture) endGesture(gesture.id);
+    touchActivation = touch;
     suppressClick = false;
     if (!canRotateOverview()) return;
-    const touch = event.pointerType === "touch";
     gesture = {
       id: event.pointerId,
       x: event.clientX,
@@ -1232,12 +1247,11 @@ function bindCanvasInteraction(canvas) {
   });
 
   canvas.addEventListener("pointermove", function (event) {
-    if (!canRotateOverview()) return;
+    if (!canRotateOverview()) {
+      cancelGesture(event.pointerId);
+      return;
+    }
     if (gesture?.id === event.pointerId) {
-      if (!canRotateOverview()) {
-        endGesture(event.pointerId);
-        return;
-      }
       if (gesture.mode === "scroll") return;
       const dx = event.clientX - gesture.x;
       const dy = event.clientY - gesture.y;
@@ -1246,12 +1260,17 @@ function bindCanvasInteraction(canvas) {
         if (Math.hypot(dx, dy) < threshold) return;
         suppressClick = true;
         clearHover();
-        if (!gesture.twoAxes && Math.abs(dy) >= Math.abs(dx)) {
+        if (!gesture.twoAxes && Math.abs(dx) <= Math.abs(dy) * 1.15) {
           gesture.mode = "scroll";
           return;
         }
         gesture.mode = "drag";
-        canvas.setPointerCapture(event.pointerId);
+        try {
+          canvas.setPointerCapture?.(event.pointerId);
+        } catch {
+          // A pending touch can be reclaimed by the browser while starting a drag.
+          // End and cancel are also observed outside the canvas.
+        }
         canvas.classList.add("is-orbit-dragging");
       }
       const sensitivity = gesture.touch ? 0.009 : 0.006;
@@ -1280,25 +1299,20 @@ function bindCanvasInteraction(canvas) {
   });
 
   canvas.addEventListener("pointerleave", function (event) {
-    if (gesture?.mode === "drag" || !event.isPrimary || event.pointerType === "touch") return;
+    if (!event.isPrimary || event.pointerType === "touch" || canvas.hasPointerCapture?.(event.pointerId)) return;
     endGesture(event.pointerId);
     clearHover();
   });
 
-  for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) {
-    canvas.addEventListener(type, function (event) {
-      if (event.type === "pointercancel") {
-        touchActivation = false;
-        clearHover();
-      }
-      endGesture(event.pointerId);
-    });
-  }
-
-  canvas.addEventListener("webglcontextlost", function () {
-    if (gesture) endGesture(gesture.id);
-    setTouchOrbit(false);
-    clearHover();
+  window.addEventListener("pointerup", (event) => endGesture(event.pointerId));
+  window.addEventListener("pointercancel", (event) => cancelGesture(event.pointerId));
+  canvas.addEventListener("lostpointercapture", function (event) {
+    if (gesture?.mode === "drag") cancelGesture(event.pointerId);
+  });
+  canvas.addEventListener("webglcontextlost", exitOrbitInteraction);
+  window.addEventListener("pagehide", exitOrbitInteraction);
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) exitOrbitInteraction();
   });
 
   canvas.addEventListener("click", function (event) {
@@ -1332,10 +1346,17 @@ function bindCanvasInteraction(canvas) {
   });
 
   document.addEventListener("pointerdown", function (event) {
-    if (event.target !== canvas) hideObjectHologram();
+    if (event.target === canvas) return;
+    hideObjectHologram();
+    if (touchOrbit && !controls?.contains(event.target)) exitOrbitInteraction();
   });
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") hideObjectHologram();
+    if (event.key !== "Escape") return;
+    hideObjectHologram();
+    if (!event.defaultPrevented && touchOrbit) {
+      setTouchOrbit(false);
+      event.preventDefault();
+    }
   });
   window.addEventListener("pageshow", hideObjectHologram);
 
@@ -1351,7 +1372,7 @@ function bindCanvasInteraction(canvas) {
   const hero = canvas.closest(".galaxy-hero");
   if (hero) {
     new MutationObserver(function () {
-      if (!canRotateOverview()) setTouchOrbit(false);
+      if (!canRotateOverview() && (touchOrbit || gesture)) exitOrbitInteraction();
     }).observe(hero, { attributes: true, attributeFilter: ["class"] });
   }
 
@@ -2218,9 +2239,16 @@ function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motio
     cable.visible = showCoreFlows;
     const serviceId = cable.userData.serviceId;
     const service = galaxy.rescueRigObjects[serviceId];
+    const pqcModel = serviceId === "pqc" ? service.userData.semanticModel : null;
+    // The packet inside the PQC model stays active when its external cable is hidden.
+    const packetHead = pqcModel ? updatePqcSignal(pqcModel, elapsed, appState.reducedMotion) : undefined;
+    const active = serviceId === activeFocus;
+    const targetOpacity = (active ? 0.96 : 0.79 + visual.completeness * 0.12) * opacityScale;
+    cable.userData.opacity += (targetOpacity - cable.userData.opacity) * 0.08;
+    if (!showCoreFlows && !SCENE_DEBUG.enabled) return;
+
     const direction = scratch.portDirection.copy(service.position).normalize();
     const corePort = scratch.beamStart.copy(direction).multiplyScalar(coreRadius * 0.98);
-    const pqcModel = serviceId === "pqc" ? service.userData.semanticModel : null;
     const presentation = service.userData.presentation;
     const outlet = pqcModel?.userData.pqc.outlet ?? presentation.feedthroughs[0]?.outlet;
     const servicePort = outlet
@@ -2228,7 +2256,6 @@ function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motio
       : scratch.beamEnd.copy(service.position).addScaledVector(direction, -presentation.radius * service.scale.x);
     const start = pqcModel ? servicePort : corePort;
     const end = pqcModel ? corePort : servicePort;
-    const active = serviceId === activeFocus;
     const bend = Math.min(start.distanceTo(end) * 0.24, 0.38);
     const control = scratch.beamMiddle.copy(start).lerp(end, 0.5);
     control.z += bend * (0.85 + Math.sin(elapsed * 1.2 + index) * 0.17 * motionFactor);
@@ -2241,11 +2268,8 @@ function updateRescueRigCables(elapsed, visual, activeFocus, opacityScale, motio
     );
     control.addScaledVector(scratch.orbitTangent, bend * 1.12);
     bendConnectionAroundPlanets(start, end, control, cable.userData.innerPlanets, scratch.orbitTangent);
-    const targetOpacity = (active ? 0.96 : 0.79 + visual.completeness * 0.12) * opacityScale;
-    cable.userData.opacity += (targetOpacity - cable.userData.opacity) * 0.08;
     const tint = PLANETS[serviceId].color;
     const flowTime = elapsed + index * 0.19;
-    const packetHead = pqcModel ? updatePqcSignal(pqcModel, elapsed, appState.reducedMotion) : undefined;
     updateConnectionTube(cable, start, end, control, tint, cable.userData.opacity, flowTime, packetHead, appState.reducedMotion);
   });
 }

@@ -102,7 +102,7 @@
     <link rel="stylesheet" href="./src/galaxy/styles/layout.css?v=wow60" />
     <link rel="stylesheet" href="./src/galaxy/styles/header.css?v=wow60&amp;rev=typography1" />
     <link rel="stylesheet" href="./src/galaxy/styles/buttons.css?v=wow60&amp;rev=typography1" />
-    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow60&amp;rev=typography1" />
+    <link rel="stylesheet" href="./src/galaxy/styles/hero.css?v=wow60&amp;rev=touch-orbit1" />
     <link rel="stylesheet" href="./src/galaxy/styles/sphere-dive.css?v=wow60" />
     <link rel="stylesheet" href="./src/galaxy/styles/object-hologram.css?v=wow60&amp;rev=typography1" />
     <link rel="stylesheet" href="./src/galaxy/styles/hud.css?v=wow60&amp;rev=typography1" />
@@ -212,9 +212,11 @@
               aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home Escape">
               <span class="galaxy-orbit-mouse" aria-hidden="true">Drag to rotate</span>
               <span class="galaxy-orbit-keys" id="galaxy-orbit-keys">Arrow keys rotate · Home resets · Esc exits touch rotation</span>
+              <span class="galaxy-orbit-touch-idle">Swipe sideways</span>
+              <span class="galaxy-orbit-touch-active" id="galaxy-orbit-drag-hint">Drag in any direction</span>
               <button class="galaxy-orbit-toggle" id="galaxy-orbit-toggle" type="button"
                 aria-controls="galaxy-canvas" aria-pressed="false">Rotate in 3D</button>
-              <button id="galaxy-orbit-done" type="button" hidden>Done</button>
+              <button id="galaxy-orbit-done" type="button" aria-describedby="galaxy-orbit-drag-hint" hidden>Done</button>
               <button id="galaxy-orbit-reset" type="button">Reset view</button>
             </div>
             <div class="hero-atmosphere" aria-hidden="true">
@@ -786,6 +788,6 @@
         document.getElementById("galaxy-loading").hidden = true;
       }, true);
     </script>
-    <script id="galaxy-entry" type="module" src="./src/galaxy/js/main.js?v=wow60&amp;rev=core-plasma6"></script>
+    <script id="galaxy-entry" type="module" src="./src/galaxy/js/main.js?v=wow60&amp;rev=touch-orbit1"></script>
   </body>
 </html>

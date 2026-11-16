@@ -1,7 +1,7 @@
 // Entry point: bootstraps app, then wires the back-to-top and native share controls.
 
 import { appState } from "./state.js?v=wow60";
-import { bindGalaxyServiceLinks, initGalaxyScene, refreshGalaxyState } from "./galaxy.js?v=wow60&rev=core-plasma6";
+import { bindGalaxyServiceLinks, initGalaxyScene, refreshGalaxyState } from "./galaxy.js?v=wow60&rev=touch-orbit1";
 import {
   updateCopyrightYear,
   bindControls,
@@ -15,7 +15,7 @@ import {
   updateScaleReadout,
   updateChoiceHud,
   getProjectShareData
-} from "./ui.js?v=wow60&rev=core-plasma6";
+} from "./ui.js?v=wow60&rev=touch-orbit1";
 
 function initApp() {
   updateCopyrightYear();

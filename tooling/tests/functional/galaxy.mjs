@@ -408,6 +408,21 @@ async function inspectSphere(page, point, id) {
   );
 }
 
+async function dragTouch(cdp, { x, y }, { dx, dy }, beforeRelease) {
+  await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
+  try {
+    for (let step = 1; step <= 4; step += 1) {
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: x + (dx * step) / 4, y: y + (dy * step) / 4 }],
+      });
+    }
+    await beforeRelease?.();
+  } finally {
+    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+  }
+}
+
 async function checkTouchInspection(page) {
   const backend = await spherePoint(page, "backend");
   await inspectSphere(page, backend, "backend");
@@ -417,21 +432,14 @@ async function checkTouchInspection(page) {
   const before = await sampleScene(page);
   const cdp = await page.context().newCDPSession(page);
   try {
-    const { x, y } = automation;
-    const step = x < page.viewportSize().width / 2 ? 15 : -15;
-    await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] });
-    for (let i = 1; i <= 4; i += 1) {
-      await cdp.send("Input.dispatchTouchEvent", {
-        type: "touchMove",
-        touchPoints: [{ x: x + step * i, y }],
-      });
-    }
-    await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    const dx = automation.x < page.viewportSize().width / 2 ? 60 : -60;
+    await dragTouch(cdp, automation, { dx, dy: 0 });
   } finally {
     await cdp.detach();
   }
   const after = await sampleScene(page);
   assert.notEqual(after.orbit.yaw, before.orbit.yaw, "Dragging the scene must still rotate it");
+  assert.equal(after.orbit.pitch, before.orbit.pitch, "Default touch rotation is horizontal");
   assert.equal(new URL(page.url()).pathname, "/explore.html");
   assert.equal(await page.locator(".galaxy-dive").count(), 0, "Dragging is not a second tap");
   await page.locator("#galaxy-orbit-reset").tap();
@@ -619,6 +627,104 @@ for (const width of [320, 390]) {
     }
   });
 }
+
+test("Galaxy light Home preserves native scroll and recovers interrupted touch rotation", async () => {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await context.newPage();
+  const canvas = page.locator("#galaxy-canvas");
+  const toggle = page.locator("#galaxy-orbit-toggle");
+  const done = page.locator("#galaxy-orbit-done");
+  const idleHint = page.locator(".galaxy-orbit-touch-idle");
+  const activeHint = page.locator(".galaxy-orbit-touch-active");
+  const cdp = await context.newCDPSession(page);
+
+  async function canvasTouchPoint() {
+    const point = await canvas.evaluate((item) => {
+      const box = item.getBoundingClientRect();
+      const x = Math.round(box.left + box.width * 0.24);
+      const y = Math.round((Math.max(box.top, 96) + Math.min(box.bottom, innerHeight)) / 2);
+      return document.elementFromPoint(x, y) === item ? { x, y } : null;
+    });
+    assert.ok(point, "The gesture must start on the exposed canvas");
+    return point;
+  }
+
+  const touchState = () =>
+    page.evaluate(() => ({ orbit: { ...window.galaxyTest.galaxy.orbitView }, scrollY }));
+  const touchAction = () => canvas.evaluate((item) => getComputedStyle(item).touchAction);
+
+  async function swipeUpOnCanvas() {
+    assert.match(await touchAction(), /^pan-y(?: pinch-zoom)?$/);
+    const before = await touchState();
+    await swipeGalaxy(page, await canvasTouchPoint(), 56);
+    await page.waitForFunction((previousY) => scrollY > previousY + 1, before.scrollY);
+    assert.deepEqual((await touchState()).orbit, before.orbit, "Vertical swipes should scroll");
+  }
+
+  try {
+    const url = new URL("/home/?layout=atom&sceneTime=1.25", origin);
+    await page.goto(url.href, { waitUntil: "domcontentloaded" });
+    await connectScene(page);
+    await toggle.waitFor();
+    assert.ok(await idleHint.isVisible());
+    assert.ok(await activeHint.isHidden());
+    await swipeUpOnCanvas();
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await toggle.waitFor();
+
+    await toggle.tap();
+    assert.equal(await toggle.getAttribute("aria-pressed"), "true");
+    assert.ok(await done.isVisible());
+    assert.ok(await activeHint.isVisible());
+    assert.ok(await idleHint.isHidden());
+    assert.equal(await touchAction(), "none");
+    const before = await touchState();
+    await dragTouch(cdp, await canvasTouchPoint(), { dx: 48, dy: -64 });
+    const after = await touchState();
+    assert.ok(after.orbit.yaw > before.orbit.yaw && after.orbit.pitch < before.orbit.pitch);
+    assert.equal(after.scrollY, before.scrollY, "Explicit rotation should keep the page still");
+
+    await done.tap();
+    assert.equal(await toggle.getAttribute("aria-pressed"), "false");
+    assert.ok(await done.isHidden());
+    assert.ok(await idleHint.isVisible());
+    await swipeUpOnCanvas();
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+
+    await toggle.tap();
+    const interrupted = await canvasTouchPoint();
+    await dragTouch(cdp, interrupted, { dx: 48, dy: -44 }, async () => {
+      await page.evaluate(() => {
+        window.dispatchEvent(new PageTransitionEvent("pagehide", { persisted: true }));
+        window.dispatchEvent(new PageTransitionEvent("pageshow", { persisted: true }));
+      });
+      assert.equal(await toggle.getAttribute("aria-pressed"), "false");
+      assert.ok(await done.isHidden());
+      assert.match(await touchAction(), /^pan-y(?: pinch-zoom)?$/);
+      const orbit = (await touchState()).orbit;
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: interrupted.x + 64, y: interrupted.y - 60 }],
+      });
+      assert.deepEqual((await touchState()).orbit, orbit, "The held gesture was canceled");
+    });
+
+    const resumed = await touchState();
+    await dragTouch(cdp, await canvasTouchPoint(), { dx: 48, dy: 0 });
+    const recovered = await touchState();
+    assert.ok(recovered.orbit.yaw > resumed.orbit.yaw, "The next gesture should still rotate");
+    assert.equal(recovered.orbit.pitch, resumed.orbit.pitch);
+    assert.equal(page.url(), url.href, "A drag should not follow a service link");
+    assert.equal(await page.locator(".galaxy-dive").count(), 0);
+  } finally {
+    await cdp.detach();
+    await context.close();
+  }
+});
 
 test("Galaxy desktop hologram follows a hovered sphere without intercepting clicks", async () => {
   const context = await browser.newContext({ viewport: { width: 1100, height: 850 } });
@@ -991,6 +1097,10 @@ for (const { path, layout, width, height, mobile } of [
           }
           await formation.waitFor();
           await page.locator(".galaxy-service-row").waitFor();
+          assert.ok(
+            await page.locator("#galaxy-orbit-controls").isHidden(),
+            "The service row must not show unavailable rotation controls",
+          );
           await assertServiceRow(page, layout);
         };
         await enterRow();
@@ -999,6 +1109,7 @@ for (const { path, layout, width, height, mobile } of [
           await scrollGalaxy(page, mobile, -150);
         }
         await overview.waitFor();
+        await page.locator("#galaxy-orbit-controls").waitFor({ state: "visible" });
         assert.ok((await page.evaluate(() => scrollY)) <= 1, "Scrolling up must return to Galaxy");
         assert.equal(await page.locator(retiredQuizControls).count(), 0);
         assert.equal(await page.locator("section#service-preview").count(), 0);
