@@ -1,0 +1,1232 @@
+{
+  "interactions": [
+    {
+      "test": "menu-tab-reachable",
+      "data": {
+        "focus": "hamb-button",
+        "outline": "solid"
+      }
+    },
+    {
+      "test": "menu-modal-trap-14-tabs",
+      "passed": true,
+      "samples": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "test": "menu-escape",
+      "data": {
+        "backgroundInert": false,
+        "expanded": "false",
+        "focus": "hamb-button",
+        "modal": false
+      }
+    },
+    {
+      "test": "menu-space",
+      "data": {
+        "backgroundInert": true,
+        "expanded": "true"
+      }
+    },
+    {
+      "test": "menu-breakpoint-close",
+      "data": {
+        "expanded": "false",
+        "focus": "navbar-logo w-nav-brand",
+        "modal": false
+      }
+    },
+    {
+      "test": "builder-keyboard-then-mouse",
+      "data": [
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "What it is"
+        },
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "How it works"
+        },
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "What makes it special"
+        }
+      ]
+    },
+    {
+      "test": "builder-space-escape",
+      "data": [
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "What it is"
+        },
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "How it works"
+        },
+        {
+          "active": false,
+          "expanded": "false",
+          "height": 0,
+          "hidden": true,
+          "text": "What makes it special"
+        }
+      ]
+    },
+    {
+      "test": "desktop-disabled-resource-escape",
+      "data": {
+        "disabled": "true",
+        "expanded": "true",
+        "height": 252.296875,
+        "hidden": false
+      }
+    },
+    {
+      "test": "builder-tabs-arrow",
+      "data": [
+        {
+          "selected": "false",
+          "text": "Spot"
+        },
+        {
+          "selected": "true",
+          "text": "Margin"
+        },
+        {
+          "selected": "false",
+          "text": "Predict"
+        }
+      ]
+    },
+    {
+      "test": "builder-mobile-resources-and-docs",
+      "data": {
+        "docs": "https://docs.sui.io/onchain-finance/deepbookv3/deepbook",
+        "ownedByWebflow": 0,
+        "sdk": "true"
+      }
+    },
+    {
+      "test": "trader-lending-keyboard",
+      "data": {
+        "pressed": "true",
+        "visible": 5
+      }
+    },
+    {
+      "test": "trader-all-keyboard",
+      "data": {
+        "predictions": true,
+        "visible": 13
+      }
+    },
+    {
+      "test": "points-wallet-tab",
+      "data": {
+        "id": "connectWallet",
+        "live": "polite",
+        "status": "status",
+        "tag": "BUTTON"
+      }
+    },
+    {
+      "test": "points-faq-space",
+      "data": "true"
+    },
+    {
+      "test": "points-mobile-swiper-drag",
+      "data": {
+        "firstX": -309.1302490234375,
+        "track": "cursor: grab; transition-duration: 300ms; transform: translate3d(-339.048px, 0px, 0px);"
+      }
+    },
+    {
+      "test": "points-desktop-after-drag",
+      "data": {
+        "cards": [
+          256,
+          256,
+          256
+        ],
+        "track": null
+      }
+    },
+    {
+      "test": "points-mobile-reinitialized",
+      "data": {
+        "cards": [
+          331.046875,
+          331.046875,
+          331.046875
+        ],
+        "class": "global-projects_grid-wrapper swiper-initialized swiper-horizontal"
+      }
+    }
+  ],
+  "resizeEvidence": [
+    {
+      "test": "builder-fresh390",
+      "data": {
+        "cards": [
+          {
+            "inline": "width: 331.048px; margin-right: 8px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 331.046875
+          },
+          {
+            "inline": "width: 331.048px; margin-right: 8px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 331.046875
+          },
+          {
+            "inline": "width: 331.048px; margin-right: 8px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 331.046875
+          }
+        ],
+        "headings": [
+          {
+            "children": 3,
+            "height": 137.25,
+            "text": "Why builders choose DeepBook"
+          },
+          {
+            "children": 1,
+            "height": 45.75,
+            "text": "Spot"
+          },
+          {
+            "children": 2,
+            "height": 83.1875,
+            "text": "This is where it gets interesting."
+          },
+          {
+            "children": 2,
+            "height": 91.5,
+            "text": "Already powering Sui Finance"
+          },
+          {
+            "children": 3,
+            "height": 124.78125,
+            "text": "Everything you need to start building"
+          }
+        ],
+        "overflow": 0,
+        "width": 390
+      }
+    },
+    {
+      "test": "builder-resized1024",
+      "data": {
+        "cards": [
+          {
+            "inline": null,
+            "width": 256
+          },
+          {
+            "inline": null,
+            "width": 256
+          },
+          {
+            "inline": null,
+            "width": 256
+          }
+        ],
+        "headings": [
+          {
+            "children": 0,
+            "height": 75.09375,
+            "text": "Why builders choose DeepBook"
+          },
+          {
+            "children": 0,
+            "height": 37.546875,
+            "text": "Spot"
+          },
+          {
+            "children": 0,
+            "height": 96.71875,
+            "text": "This is where it gets interesting."
+          },
+          {
+            "children": 2,
+            "height": 75.09375,
+            "text": "Already powering Sui Finance"
+          },
+          {
+            "children": 2,
+            "height": 96.71875,
+            "text": "Everything you need to start building"
+          }
+        ],
+        "overflow": 0,
+        "width": 1024
+      }
+    },
+    {
+      "test": "builder-fresh1024",
+      "data": {
+        "cards": [
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          }
+        ],
+        "headings": [
+          {
+            "children": 2,
+            "height": 75.09375,
+            "text": "Why builders choose DeepBook"
+          },
+          {
+            "children": 1,
+            "height": 37.546875,
+            "text": "Spot"
+          },
+          {
+            "children": 2,
+            "height": 96.71875,
+            "text": "This is where it gets interesting."
+          },
+          {
+            "children": 2,
+            "height": 75.09375,
+            "text": "Already powering Sui Finance"
+          },
+          {
+            "children": 2,
+            "height": 96.71875,
+            "text": "Everything you need to start building"
+          }
+        ],
+        "overflow": 0,
+        "width": 1024
+      }
+    },
+    {
+      "test": "builder-return390",
+      "data": {
+        "cards": [
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          }
+        ],
+        "headings": [
+          {
+            "children": 0,
+            "height": 137.25,
+            "text": "Why builders choose DeepBook"
+          },
+          {
+            "children": 0,
+            "height": 45.75,
+            "text": "Spot"
+          },
+          {
+            "children": 0,
+            "height": 83.1875,
+            "text": "This is where it gets interesting."
+          },
+          {
+            "children": 2,
+            "height": 91.5,
+            "text": "Already powering Sui Finance"
+          },
+          {
+            "children": 3,
+            "height": 124.78125,
+            "text": "Everything you need to start building"
+          }
+        ],
+        "overflow": 0,
+        "width": 390
+      }
+    },
+    {
+      "test": "points-resized1024",
+      "data": {
+        "cards": [
+          {
+            "inline": null,
+            "width": 256
+          },
+          {
+            "inline": null,
+            "width": 256
+          },
+          {
+            "inline": null,
+            "width": 256
+          }
+        ],
+        "headings": [
+          {
+            "children": 0,
+            "height": 37.546875,
+            "text": "Built to reward real usage"
+          },
+          {
+            "children": 0,
+            "height": 64,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 0,
+            "height": 0,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 1,
+            "height": 48.359375,
+            "text": "How to earn points"
+          },
+          {
+            "children": 2,
+            "height": 75.09375,
+            "text": "Participating Ecosystem Projects"
+          },
+          {
+            "children": 1,
+            "height": 37.546875,
+            "text": "FAQs"
+          }
+        ],
+        "overflow": 0,
+        "width": 1024
+      }
+    },
+    {
+      "test": "points-fresh1024",
+      "data": {
+        "cards": [
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+            "width": 256
+          }
+        ],
+        "headings": [
+          {
+            "children": 1,
+            "height": 37.546875,
+            "text": "Built to reward real usage"
+          },
+          {
+            "children": 1,
+            "height": 64,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 1,
+            "height": 0,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 1,
+            "height": 48.359375,
+            "text": "How to earn points"
+          },
+          {
+            "children": 2,
+            "height": 75.09375,
+            "text": "Participating Ecosystem Projects"
+          },
+          {
+            "children": 1,
+            "height": 37.546875,
+            "text": "FAQs"
+          }
+        ],
+        "overflow": 0,
+        "width": 1024
+      }
+    },
+    {
+      "test": "points-return390",
+      "data": {
+        "cards": [
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          },
+          {
+            "inline": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; width: 331.048px; margin-right: 8px;",
+            "width": 331.046875
+          }
+        ],
+        "headings": [
+          {
+            "children": 0,
+            "height": 91.5,
+            "text": "Built to reward real usage"
+          },
+          {
+            "children": 0,
+            "height": 83.1875,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 0,
+            "height": 0,
+            "text": "View Your Balance"
+          },
+          {
+            "children": 0,
+            "height": 41.59375,
+            "text": "How to earn points"
+          },
+          {
+            "children": 3,
+            "height": 137.25,
+            "text": "Participating Ecosystem Projects"
+          },
+          {
+            "children": 1,
+            "height": 45.75,
+            "text": "FAQs"
+          }
+        ],
+        "overflow": 0,
+        "width": 390
+      }
+    },
+    {
+      "test": "banner547",
+      "data": {
+        "links": [
+          {
+            "height": 11.9375,
+            "hidden": null,
+            "inert": false,
+            "space": "nowrap",
+            "tabindex": null,
+            "width": 194.453125
+          },
+          {
+            "height": 11.9375,
+            "hidden": "true",
+            "inert": true,
+            "space": "nowrap",
+            "tabindex": "-1",
+            "width": 194.453125
+          },
+          {
+            "height": 11.9375,
+            "hidden": "true",
+            "inert": true,
+            "space": "nowrap",
+            "tabindex": "-1",
+            "width": 194.453125
+          },
+          {
+            "height": 11.9375,
+            "hidden": "true",
+            "inert": true,
+            "space": "nowrap",
+            "tabindex": "-1",
+            "width": 194.45309448242188
+          }
+        ]
+      }
+    },
+    {
+      "test": "banner-dismiss-persist-resize",
+      "data": {
+        "display": "none",
+        "focus": "A",
+        "focusClass": "navbar-logo w-nav-brand",
+        "hidden": true,
+        "logo": "navbar-logo w-nav-brand"
+      }
+    }
+  ],
+  "matrix": [
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 131.875,
+          "text": "Where Sui Finance Starts",
+          "width": 285.875
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 94.21875,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 285.875
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 94.21875,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 266.078125
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 60.078125,
+          "text": "Introducing DEEP",
+          "width": 231.28125
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 131.875,
+          "text": "DeepBook Points Program",
+          "width": 239.140625
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 34.140625,
+          "text": "Privacy Policy",
+          "width": 228.296875
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 34.140625,
+          "text": "Terms of Use",
+          "width": 210.421875
+        }
+      ],
+      "overflow": 0,
+      "width": 320
+    },
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 160.734375,
+          "text": "Where Sui Finance Starts",
+          "width": 348.40625
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 114.796875,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 348.40625
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 114.796875,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 324.328125
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 73.203125,
+          "text": "Introducing DEEP",
+          "width": 281.875
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 160.734375,
+          "text": "DeepBook Points Program",
+          "width": 291.5
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 41.59375,
+          "text": "Privacy Policy",
+          "width": 278.265625
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 41.59375,
+          "text": "Terms of Use",
+          "width": 256.46875
+        }
+      ],
+      "overflow": 0,
+      "width": 390
+    },
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 98.015625,
+          "text": "Where Sui Finance Starts",
+          "width": 497.265625
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 84.015625,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 469
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 131.75,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 364.953125
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 36.28125,
+          "text": "Introducing DEEP",
+          "width": 402.171875
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 98.015625,
+          "text": "DeepBook Points Program",
+          "width": 443.59375
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 47.734375,
+          "text": "Privacy Policy",
+          "width": 319.265625
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 47.734375,
+          "text": "Terms of Use",
+          "width": 294.265625
+        }
+      ],
+      "overflow": 0,
+      "width": 547
+    },
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 103.71875,
+          "text": "Where Sui Finance Starts",
+          "width": 460.421875
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 90.75,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 506.625
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 90.75,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 731.1875
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 39.1875,
+          "text": "Introducing DEEP",
+          "width": 434.453125
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 103.71875,
+          "text": "DeepBook Points Program",
+          "width": 672.28125
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 58.9375,
+          "text": "Privacy Policy",
+          "width": 394.1875
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 58.9375,
+          "text": "Terms of Use",
+          "width": 363.3125
+        }
+      ],
+      "overflow": 0,
+      "width": 768
+    },
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 43.78125,
+          "text": "Where Sui Finance Starts",
+          "width": 700.140625
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 112.640625,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 628.875
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 112.640625,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 728.171875
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 55.125,
+          "text": "Introducing DEEP",
+          "width": 611.140625
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 43.78125,
+          "text": "DeepBook Points Program",
+          "width": 725.53125
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 45.515625,
+          "text": "Privacy Policy",
+          "width": 304.421875
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 45.515625,
+          "text": "Terms of Use",
+          "width": 280.578125
+        }
+      ],
+      "overflow": 0,
+      "width": 1024
+    },
+    {
+      "route": "home",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 54.71875,
+          "text": "Where Sui Finance Starts",
+          "width": 875.171875
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "builder-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 140.796875,
+          "text": "Three primitives. Infinite combinations.",
+          "width": 786.09375
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "trader-hub",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 140.796875,
+          "text": "Every market. One ecosystem. Only on Sui.",
+          "width": 910.21875
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "deep-token",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 68.90625,
+          "text": "Introducing DEEP",
+          "width": 763.90625
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "points",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 54.71875,
+          "text": "DeepBook Points Program",
+          "width": 906.921875
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "privacy-policy",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 56.890625,
+          "text": "Privacy Policy",
+          "width": 380.46875
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    },
+    {
+      "route": "terms-of-use",
+      "brokenImages": [],
+      "controlsReady": true,
+      "fonts": "loaded",
+      "h1": [
+        {
+          "height": 56.890625,
+          "text": "Terms of Use",
+          "width": 350.671875
+        }
+      ],
+      "overflow": 0,
+      "width": 1280
+    }
+  ],
+  "console": []
+}

@@ -1,0 +1,14 @@
+{
+  "date": "2026-11-07",
+  "automatedTests": { "total": 74, "passed": 74, "failed": 0, "skipped": 0 },
+  "browser": { "pages": 7, "widths": [320, 390, 547, 768, 1024, 1280], "height": 844, "cases": 42, "issues": [], "observedWarningErrorLogs": [] },
+  "static": { "pages": 7, "originalAssets": 98, "localFiles": 107, "errors": [] },
+  "http": { "routesAndResources": 107, "getAndHeadRequests": 214, "failures": [] },
+  "generation": { "stableOutputFiles": 107, "unchangedSourceFiles": 54, "drift": [], "modifiedSources": [], "excluded": ["timestamped manifest metadata"] },
+  "whitespace": { "customCode": "passed", "wholeMirror": "inherited whitespace in preserved source markup and vendor scripts; not reformatted" },
+  "canvas": [
+    { "viewport": 1280, "frames": ["home-canvas-1280-a.jpg", "home-canvas-1280-b.jpg"], "region": "x0..1280, y120..250", "nonblankPixels": 9701, "changedPixels": 7374, "totalPixels": 166400, "passed": true },
+    { "viewport": 390, "frames": ["home-canvas-390-b.jpg", "home-canvas-390-c.jpg"], "region": "x0..390, y120..250", "nonblankPixels": 2100, "changedPixels": 2788, "totalPixels": 50700, "passed": true }
+  ],
+  "deferred": ["live wallet and external backend", "Safari and Firefox", "screen readers", "rendered reduced-motion and large-text preference checks", "other original decorative effects"]
+}

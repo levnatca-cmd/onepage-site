@@ -1,0 +1,24 @@
+# System files and dependencies
+.DS_Store
+node_modules/
+
+# Build output and local reports
+/artifacts/build/
+/artifacts/qa/
+/deploy/starworld/dist/
+*.log
+
+# Local settings and secrets
+/.aws/
+/.claude/settings.local.json
+/.codex/
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local keys and certificate bundles for the protected deployment
+/deploy/pqc/**/*.key
+/deploy/pqc/**/*.pem
+/deploy/pqc/**/*.p12
+/deploy/pqc/**/*.pfx

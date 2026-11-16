@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/assets/fonts/manrope.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Oxanium";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/assets/fonts/oxanium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Share Tech Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/share-tech-mono.woff2") format("woff2");
+}
+
+:root {
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", Helvetica, sans-serif;
+  --font-heading: "Oxanium", system-ui, sans-serif;
+  --font-status: "Share Tech Mono", "Courier New", monospace;
+}

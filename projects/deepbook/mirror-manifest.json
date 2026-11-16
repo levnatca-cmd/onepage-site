@@ -1,0 +1,646 @@
+{
+  "source": "https://deepbook-v2-wip.webflow.io",
+  "reference": "https://www.awwwards.com/sites/deepbook",
+  "capturedAt": "2026-11-07T23:02:54.116Z",
+  "pages": [
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/",
+      "file": "index.html",
+      "rawFile": "source/pages/home.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/privacy-policy",
+      "file": "privacy-policy/index.html",
+      "rawFile": "source/pages/privacy-policy.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/deep-token",
+      "file": "deep-token/index.html",
+      "rawFile": "source/pages/deep-token.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/trader-hub",
+      "file": "trader-hub/index.html",
+      "rawFile": "source/pages/trader-hub.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/terms-of-use",
+      "file": "terms-of-use/index.html",
+      "rawFile": "source/pages/terms-of-use.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/builder-hub",
+      "file": "builder-hub/index.html",
+      "rawFile": "source/pages/builder-hub.html"
+    },
+    {
+      "url": "https://deepbook-v2-wip.webflow.io/points",
+      "file": "points/index.html",
+      "rawFile": "source/pages/points.html"
+    }
+  ],
+  "assets": [
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6159b5a15c5bd2e86ecb_home.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6159b5a15c5bd2e86ecb_home.png",
+      "state": "done",
+      "bytes": 43406
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/css/deepbook-v2-wip.webflow.shared.57c88baf1.css",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/css/deepbook-v2-wip.webflow.shared.57c88baf1.css",
+      "state": "done",
+      "bytes": 169450
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6078237f4be533742492_deep-favi.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6078237f4be533742492_deep-favi.png",
+      "state": "done",
+      "bytes": 615
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc607773ce88ab641c606c_deep-favi.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc607773ce88ab641c606c_deep-favi.png",
+      "state": "done",
+      "bytes": 742
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6077dee74f5635554eb5_deep-favi.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc6077dee74f5635554eb5_deep-favi.png",
+      "state": "done",
+      "bytes": 2885
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc60779c7d623c38eccc64_deep-favi.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc60779c7d623c38eccc64_deep-favi.png",
+      "state": "done",
+      "bytes": 3092
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc607767da3e9e24f2db4c_deep-favi.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc607767da3e9e24f2db4c_deep-favi.png",
+      "state": "done",
+      "bytes": 16022
+    },
+    {
+      "url": "https://unpkg.com/lenis@1.3.23/dist/lenis.css",
+      "file": "assets/unpkg.com/lenis@1.3.23/dist/lenis.css",
+      "state": "done",
+      "bytes": 513
+    },
+    {
+      "url": "https://slater.app/19933/59953.js",
+      "file": "assets/slater.app/19933/59953.js",
+      "state": "done",
+      "bytes": 50797
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f41d214a51f042f69e_Sui%20-%20DeepBook%20Web%20-%20Building%20On%20DeepBook.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f41d214a51f042f69e_Sui - DeepBook Web - Building On DeepBook.json",
+      "state": "done",
+      "bytes": 54019
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f36084c2d0e9ab49a345c9_Sui%20-%20DeepBook%20Web%20-%20Traders%20lottie.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f36084c2d0e9ab49a345c9_Sui - DeepBook Web - Traders lottie.json",
+      "state": "done",
+      "bytes": 21728
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9bf4c1dc918c655ffe5fe_Sui%20-%20DeepBook%20Web%20-%20Battle-tested%20Security%20-%20Lottie%20-%20V01.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9bf4c1dc918c655ffe5fe_Sui - DeepBook Web - Battle-tested Security - Lottie - V01.json",
+      "state": "done",
+      "bytes": 189701
+    },
+    {
+      "url": "https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=69e7b04d09112b265e2d47d1",
+      "file": "assets/d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8-ca5f1a71a3.js",
+      "state": "done",
+      "bytes": 89476
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.36b8fb49256177c8.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.36b8fb49256177c8.js",
+      "state": "done",
+      "bytes": 41429
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.c42549641b7d4501.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.c42549641b7d4501.js",
+      "state": "done",
+      "bytes": 304844
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.d3ccbb73ca719876.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.d3ccbb73ca719876.js",
+      "state": "done",
+      "bytes": 155211
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.1480913c3571b049.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.schunk.1480913c3571b049.js",
+      "state": "done",
+      "bytes": 17229
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.e0930218.75a3d6b9ceba026d.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.e0930218.75a3d6b9ceba026d.js",
+      "state": "done",
+      "bytes": 1872
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/gsap.min.js",
+      "state": "done",
+      "bytes": 72927
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/ScrollTrigger.min.js",
+      "state": "done",
+      "bytes": 44575
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/CustomEase.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/CustomEase.min.js",
+      "state": "done",
+      "bytes": 7143
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/SplitText.min.js",
+      "state": "done",
+      "bytes": 7732
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/MorphSVGPlugin.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/MorphSVGPlugin.min.js",
+      "state": "done",
+      "bytes": 21195
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/DrawSVGPlugin.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/DrawSVGPlugin.min.js",
+      "state": "done",
+      "bytes": 4351
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/Draggable.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/Draggable.min.js",
+      "state": "done",
+      "bytes": 35762
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/gsap/3.15.0/InertiaPlugin.min.js",
+      "file": "assets/cdn.prod.website-files.com/gsap/3.15.0/InertiaPlugin.min.js",
+      "state": "done",
+      "bytes": 7335
+    },
+    {
+      "url": "https://unpkg.com/lenis@1.3.23/dist/lenis.min.js",
+      "file": "assets/unpkg.com/lenis@1.3.23/dist/lenis.min.js",
+      "state": "done",
+      "bytes": 17722
+    },
+    {
+      "url": "https://slater.app/19933.js",
+      "file": "assets/slater.app/19933.js",
+      "state": "done",
+      "bytes": 650
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.5a7b2a95.1036c6e0ccdf09dc.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.5a7b2a95.1036c6e0ccdf09dc.js",
+      "state": "done",
+      "bytes": 1837
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61597a37af64ebbabff0_deep-token.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61597a37af64ebbabff0_deep-token.png",
+      "state": "done",
+      "bytes": 34379
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fb48505d632efede05de45_deep-token-hero.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fb48505d632efede05de45_deep-token-hero.svg",
+      "state": "done",
+      "bytes": 10478
+    },
+    {
+      "url": "https://slater.app/19933/60558.js",
+      "file": "assets/slater.app/19933/60558.js",
+      "state": "done",
+      "bytes": 10956
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61593b9a6f7ded6c8795_trader-hub.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61593b9a6f7ded6c8795_trader-hub.png",
+      "state": "done",
+      "bytes": 54838
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4b804359cb954281c_Deepbook%20Web%20-%20Margin.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4b804359cb954281c_Deepbook Web - Margin.json",
+      "state": "done",
+      "bytes": 54099
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f420c796b67baf80cf_Deepbook%20Web%20-%20Spot.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f420c796b67baf80cf_Deepbook Web - Spot.json",
+      "state": "done",
+      "bytes": 31153
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f3f615d9ffa3a24289_Deepbook%20Web%20-%20Predict.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f3f615d9ffa3a24289_Deepbook Web - Predict.json",
+      "state": "done",
+      "bytes": 33901
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4147766ca08938d09_Sui%20-%20DeepBook%20Web%20-%20Deeper%20Markets%2C%20Better%20Prices.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4147766ca08938d09_Sui - DeepBook Web - Deeper Markets, Better Prices.json",
+      "state": "done",
+      "bytes": 24655
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4895ddf4c19807198_Sui%20-%20DeepBook%20Web%20-%20Transparent%20Execution.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f4895ddf4c19807198_Sui - DeepBook Web - Transparent Execution.json",
+      "state": "done",
+      "bytes": 24810
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f36084e84fff3bc17cae09_Sui%20-%20DeepBook%20Web%20-%20Your%20Keys%2C%20Your%20Funds.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f36084e84fff3bc17cae09_Sui - DeepBook Web - Your Keys, Your Funds.json",
+      "state": "done",
+      "bytes": 29788
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f360841670e4b02ff8c93c_Sui%20-%20DeepBook%20Web%20-%20Speed%20That%20Matters.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f360841670e4b02ff8c93c_Sui - DeepBook Web - Speed That Matters.json",
+      "state": "done",
+      "bytes": 19640
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9bf4c4fb1ef440c9e06e6_Sui%20-%20DeepBook%20Web%20-%20Choose%20Where%20To%20Trade.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9bf4c4fb1ef440c9e06e6_Sui - DeepBook Web - Choose Where To Trade.json",
+      "state": "done",
+      "bytes": 53274
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69eb49b24378fafff5bc29dd_margintrade-logo.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69eb49b24378fafff5bc29dd_margintrade-logo.png",
+      "state": "done",
+      "bytes": 404
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22fbc8b04795c9df0734_deeptrade-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22fbc8b04795c9df0734_deeptrade-logo-in.svg",
+      "state": "done",
+      "bytes": 1464
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b2330f28978179c65b27c_abyss-logo-in.png",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b2330f28978179c65b27c_abyss-logo-in.png",
+      "state": "done",
+      "bytes": 1595
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b237b8c2685cd4915edd7_aftermath-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b237b8c2685cd4915edd7_aftermath-logo-in.svg",
+      "state": "done",
+      "bytes": 53128
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b23ae5ef494ff0cd87397_alpha-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b23ae5ef494ff0cd87397_alpha-logo-in.svg",
+      "state": "done",
+      "bytes": 2060
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22d5e219ff3f14022ca3_bluefin-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22d5e219ff3f14022ca3_bluefin-logo-in.svg",
+      "state": "done",
+      "bytes": 1884
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a155f976803ae58849c6add_Group%202147270703.png",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a155f976803ae58849c6add_Group 2147270703.png",
+      "state": "done",
+      "bytes": 2707
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22edd4c2ac593c16f8dc_flowx-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b22edd4c2ac593c16f8dc_flowx-logo-in.svg",
+      "state": "done",
+      "bytes": 2978
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7c012491092eeb8b6029_Group%202147270703.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7c012491092eeb8b6029_Group 2147270703.svg",
+      "state": "done",
+      "bytes": 651
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b2365e9b56934e315360b_lotus-logo-in.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0b2365e9b56934e315360b_lotus-logo-in.svg",
+      "state": "done",
+      "bytes": 1252
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7be421f9b957074739fd_Group%202147270704.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7be421f9b957074739fd_Group 2147270704.svg",
+      "state": "done",
+      "bytes": 266
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7bee9856244c5d280ab7_Group%202147270705.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7bee9856244c5d280ab7_Group 2147270705.svg",
+      "state": "done",
+      "bytes": 9190
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7c0ae9890d5426dcf80f_69845fc23884e3fcca5c0f2f_steamm%201.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7c0ae9890d5426dcf80f_69845fc23884e3fcca5c0f2f_steamm 1.svg",
+      "state": "done",
+      "bytes": 201086
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7be76118a3b3e31dcc57_Mask%20group.svg",
+      "file": "assets/cdn.prod.website-files.com/6a0b15b536d36e3bb0db6e80/6a0d7be76118a3b3e31dcc57_Mask group.svg",
+      "state": "done",
+      "bytes": 1455
+    },
+    {
+      "url": "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js",
+      "file": "assets/cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js",
+      "state": "done",
+      "bytes": 35476
+    },
+    {
+      "url": "https://slater.app/19933/60353.js",
+      "file": "assets/slater.app/19933/60353.js",
+      "state": "done",
+      "bytes": 7713
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61591e9ddac8b809a656_builder-hub.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61591e9ddac8b809a656_builder-hub.png",
+      "state": "done",
+      "bytes": 43559
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f416f3813cfdca3c1f_Sui%20-%20DeepBook%20Web%20-%20Deep%20Liquidity.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f416f3813cfdca3c1f_Sui - DeepBook Web - Deep Liquidity.json",
+      "state": "done",
+      "bytes": 29093
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f33ee27a12db399dac_Sui%20-%20DeepBook%20Web%20-%20Native%20Composability.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f33ee27a12db399dac_Sui - DeepBook Web - Native Composability.json",
+      "state": "done",
+      "bytes": 40207
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f3926e264842d737ed_Sui%20-%20DeepBook%20Web%20-%20Lightning%20Settlement.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f867f3926e264842d737ed_Sui - DeepBook Web - Lightning Settlement.json",
+      "state": "done",
+      "bytes": 40307
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a710fede6673964890a5_Sui%20-%20DeepBook%20Web%20-%20Leveraged%20Trading%20-%20V03.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a710fede6673964890a5_Sui - DeepBook Web - Leveraged Trading - V03.json",
+      "state": "done",
+      "bytes": 46543
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70fb70c13d3915ab47a_Sui%20-%20DeepBook%20Web%20-%20Prediction%20markets%20-%20V02.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70fb70c13d3915ab47a_Sui - DeepBook Web - Prediction markets - V02.json",
+      "state": "done",
+      "bytes": 37594
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70f788636fc2fca257d_Sui%20-%20DeepBook%20Web%20-%20Structured%20Products%20-%20V02.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70f788636fc2fca257d_Sui - DeepBook Web - Structured Products - V02.json",
+      "state": "done",
+      "bytes": 36048
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70fb4ec9046934c3c74_Sui%20-%20DeepBook%20Web%20-%20Full-Stack%20Finance.json",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f8a70fb4ec9046934c3c74_Sui - DeepBook Web - Full-Stack Finance.json",
+      "state": "done",
+      "bytes": 43512
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c1cc8c923ca1e71a0bb6_abyss-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c1cc8c923ca1e71a0bb6_abyss-logo.svg",
+      "state": "done",
+      "bytes": 23795
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbb85a204b4ac74a252e68_Group%202147270742.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbb85a204b4ac74a252e68_Group 2147270742.svg",
+      "state": "done",
+      "bytes": 8404
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbbaa651588b9f53e29fbb_mmt.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbbaa651588b9f53e29fbb_mmt.svg",
+      "state": "done",
+      "bytes": 601
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbba13101ad93ddba27691_STEAMM.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fbba13101ad93ddba27691_STEAMM.svg",
+      "state": "done",
+      "bytes": 1037
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c3317f2f9b813a63a604_scallop-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c3317f2f9b813a63a604_scallop-logo.svg",
+      "state": "done",
+      "bytes": 44036
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c18e2b07611f783b938d_turbos-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c18e2b07611f783b938d_turbos-logo.svg",
+      "state": "done",
+      "bytes": 6750
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c4ae894ff39ea7b6b7da_7k-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c4ae894ff39ea7b6b7da_7k-logo.svg",
+      "state": "done",
+      "bytes": 13058
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.6d3149b8.55acc07a84b6834a.js",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/js/webflow.6d3149b8.55acc07a84b6834a.js",
+      "state": "done",
+      "bytes": 10124
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js",
+      "file": "assets/cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js",
+      "state": "done",
+      "bytes": 154597
+    },
+    {
+      "url": "https://slater.app/19933/60445.js",
+      "file": "assets/slater.app/19933/60445.js",
+      "state": "done",
+      "bytes": 26387
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61599794e2e7ea08c9f0_points.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fc61599794e2e7ea08c9f0_points.png",
+      "state": "done",
+      "bytes": 50737
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917edd9_logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917edd9_logo.svg",
+      "state": "done",
+      "bytes": 3540
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917eddc_leaeudnurfv.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917eddc_leaeudnurfv.svg",
+      "state": "done",
+      "bytes": 61129
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c46850ed2152ec38f076_alphalend-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c46850ed2152ec38f076_alphalend-logo.svg",
+      "state": "done",
+      "bytes": 17265
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c4c4b584b0e17d71e757_Surflux-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c4c4b584b0e17d71e757_Surflux-logo.svg",
+      "state": "done",
+      "bytes": 88835
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c2eb336bc20c9000f038_suillend-logo.svg",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f9c2eb336bc20c9000f038_suillend-logo.svg",
+      "state": "done",
+      "bytes": 38192
+    },
+    {
+      "url": "https://slater.app/19933/60565.js",
+      "file": "assets/slater.app/19933/60565.js",
+      "state": "done",
+      "bytes": 2211
+    },
+    {
+      "url": "https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap",
+      "file": "assets/fonts.googleapis.com/css-83555b6a55.css",
+      "state": "done",
+      "bytes": 1160
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e7baf539420328eaf41307_TWKEverett-Medium.woff2",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e7baf539420328eaf41307_TWKEverett-Medium.woff2",
+      "state": "done",
+      "bytes": 58356
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9de7b2088dcee56f177c7_TWKEverettMono-Light.woff2",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9de7b2088dcee56f177c7_TWKEverettMono-Light.woff2",
+      "state": "done",
+      "bytes": 38148
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9de8a05e13cb352c89839_TWKEverettMono-Regular.woff2",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9de8a05e13cb352c89839_TWKEverettMono-Regular.woff2",
+      "state": "done",
+      "bytes": 37396
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9e4752767151acf363fa8_TWKEverettMono-Book.woff2",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69e9e4752767151acf363fa8_TWKEverettMono-Book.woff2",
+      "state": "done",
+      "bytes": 38004
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f5e9ba715525ce31798abd_TWKEverett-Regular.woff2",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69f5e9ba715525ce31798abd_TWKEverett-Regular.woff2",
+      "state": "done",
+      "bytes": 51944
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917ede0_onchain%20bg.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917ede0_onchain bg.png",
+      "state": "done",
+      "bytes": 555644
+    },
+    {
+      "url": "https://cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917edda_bg.png",
+      "file": "assets/cdn.prod.website-files.com/69e7b04d09112b265e2d47d1/69fcc9caca0eaa97b917edda_bg.png",
+      "state": "done",
+      "bytes": 198215
+    },
+    {
+      "url": "https://d3e54v103j8qbb.cloudfront.net/img/webflow-badge-icon-d2.89e12c322e.svg",
+      "file": "assets/d3e54v103j8qbb.cloudfront.net/img/webflow-badge-icon-d2.89e12c322e.svg",
+      "state": "done",
+      "bytes": 421
+    },
+    {
+      "url": "https://d3e54v103j8qbb.cloudfront.net/img/webflow-badge-text-d2.c82cec3b78.svg",
+      "file": "assets/d3e54v103j8qbb.cloudfront.net/img/webflow-badge-text-d2.c82cec3b78.svg",
+      "state": "done",
+      "bytes": 9912
+    },
+    {
+      "url": "https://slater.app/19933/59952.js",
+      "file": "assets/slater.app/19933/59952.js",
+      "state": "done",
+      "bytes": 25916
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfAZ9hjQ.ttf",
+      "file": "assets/fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuOKfAZ9hjQ.ttf",
+      "state": "done",
+      "bytes": 66868
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.ttf",
+      "file": "assets/fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hjQ.ttf",
+      "state": "done",
+      "bytes": 66592
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fAZ9hjQ.ttf",
+      "file": "assets/fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fAZ9hjQ.ttf",
+      "state": "done",
+      "bytes": 66692
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYAZ9hjQ.ttf",
+      "file": "assets/fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYAZ9hjQ.ttf",
+      "state": "done",
+      "bytes": 66808
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYAZ9hjQ.ttf",
+      "file": "assets/fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuFuYAZ9hjQ.ttf",
+      "state": "done",
+      "bytes": 66788
+    }
+  ],
+  "failures": [],
+  "localEnhancements": [
+    "local/controls.css",
+    "local/controls.js"
+  ],
+  "htmlMode": "Original source with targeted URL/head edits; no HTML reserialization",
+  "adjustments": [
+    "Original root-relative page routes and local asset URLs",
+    "Removed analytics and Google verification",
+    "Self-hosted Inter font CSS instead of remote WebFont loader",
+    "Local snapshots marked noindex,nofollow",
+    "Set snapshot Webflow domain to deepbook.local to preserve the original badge-free rendering",
+    "Local QA fixes: accessible controls, synchronized disclosure states, Docs URL, resize and Points recovery"
+  ]
+}

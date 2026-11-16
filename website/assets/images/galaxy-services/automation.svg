@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" aria-hidden="true">
+  <defs>
+    <radialGradient id="aura">
+      <stop stop-color="#d87926" stop-opacity=".26"/>
+      <stop offset=".58" stop-color="#a65c16" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#a65c16" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="track" x1="116" y1="350" x2="843" y2="208" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c67a39"/>
+      <stop offset=".29" stop-color="#ffe0a6"/>
+      <stop offset=".55" stop-color="#ff9d47"/>
+      <stop offset=".81" stop-color="#ffce8b"/>
+      <stop offset="1" stop-color="#fff5d8"/>
+    </linearGradient>
+    <linearGradient id="checkpoint" x2=".86" y2="1">
+      <stop stop-color="#8c4619"/>
+      <stop offset=".52" stop-color="#49271f"/>
+      <stop offset="1" stop-color="#261c24"/>
+    </linearGradient>
+    <radialGradient id="hot">
+      <stop stop-color="#fff4d9" stop-opacity=".83"/>
+      <stop offset=".42" stop-color="#ffad64" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#fb8629" stop-opacity="0"/>
+    </radialGradient>
+    <path id="main-route" pathLength="1000" d="M116 332h125c50 0 60-109 129-109h109c52 0 62 104 125 104 65 0 77-117 150-117h89"/>
+    <g id="gate">
+      <circle r="51" fill="url(#hot)" opacity=".59"/>
+      <circle r="35" fill="none" stroke="#ffc282" stroke-opacity=".38" stroke-width="2" stroke-dasharray="4 8"/>
+      <path d="M0-27 27 0 0 27-27 0Z" fill="url(#checkpoint)" stroke="#ffce8c" stroke-width="3"/>
+      <path d="M0-19 19 0 0 19-19 0Z" fill="#ffa455" fill-opacity=".18" stroke="#ffb36c" stroke-opacity=".56" stroke-width="2"/>
+    </g>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        .flow { animation: workflow 5.6s linear infinite; }
+        @keyframes workflow {
+          0% { stroke-dashoffset: 110; opacity: 0; }
+          13%, 86% { opacity: 1; }
+          100% { stroke-dashoffset: -890; opacity: 0; }
+        }
+      }
+    </style>
+  </defs>
+  <ellipse cx="487" cy="278" rx="420" ry="218" fill="url(#aura)"/>
+  <g fill="none" stroke="#e49658">
+    <ellipse cx="480" cy="388" rx="384" ry="88" opacity=".18" stroke-width="2"/>
+    <ellipse cx="480" cy="388" rx="326" ry="67" opacity=".11" stroke-width="2" stroke-dasharray="3 12"/>
+    <path d="M172 408h616M259 443h442M412 468h137M152 272v36m0 48v24m645-232v41m0 45v46" opacity=".18" stroke-width="2"/>
+    <path d="M244 376v39m126-132v142m234-43v59m150-172v125" opacity=".24" stroke-width="2" stroke-dasharray="4 7"/>
+    <path d="M108 304v-12h12m720-115h12v12M107 361v13h13m718-138h13v-12" opacity=".55" stroke-width="2.5"/>
+  </g>
+  <path d="M241 332c96 0 139 85 226 85 68 0 105-41 137-90m-125-104c58-86 138-84 186-39 27 24 56 27 89 26"
+    fill="none" stroke="#b56937" stroke-width="11" stroke-opacity=".22" stroke-linecap="round"/>
+  <path d="M241 332c96 0 139 85 226 85 68 0 105-41 137-90m-125-104c58-86 138-84 186-39 27 24 56 27 89 26"
+    fill="none" stroke="#ffb575" stroke-width="2.5" stroke-opacity=".6" stroke-dasharray="8 8"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#main-route" stroke="#ff9d48" stroke-width="35" opacity=".13"/>
+    <use href="#main-route" stroke="url(#track)" stroke-width="20" opacity=".37"/>
+    <use href="#main-route" stroke="url(#track)" stroke-width="8"/>
+    <use href="#main-route" stroke="#fff1c8" stroke-width="3" opacity=".85"/>
+    <use href="#main-route" class="flow" stroke="#fff7dd" stroke-width="11" stroke-dasharray="78 922" stroke-dashoffset="-423" opacity=".8"/>
+  </g>
+  <g fill="#ffce8e" fill-opacity=".75" stroke="#ffe8bc" stroke-width="1">
+    <path d="m300 295 13-15-17 5Z"/>
+    <path d="m423 217 13 6-13 6Z"/>
+    <path d="m545 274 9 16-16-9Z"/>
+    <path d="m684 270 14-14-5 18Z"/>
+    <path d="m805 204 13 6-13 6Z"/>
+  </g>
+  <use href="#gate" x="241" y="332"/>
+  <use href="#gate" x="370" y="223"/>
+  <use href="#gate" x="604" y="327"/>
+  <use href="#gate" x="754" y="210"/>
+  <g fill="none" stroke="#fff2d3" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m233 332 6 6 11-13m112-102 6 6 11-13m217 111 6 6 11-13m133-110 6 6 11-13"/>
+    <circle cx="116" cy="332" r="11" fill="#463023"/>
+    <path d="m839 202 8 8-8 8"/>
+  </g>
+  <g fill="#ffca8a">
+    <circle cx="116" cy="332" r="4"/>
+    <circle cx="467" cy="417" r="5"/>
+    <circle cx="629" cy="160" r="4"/>
+    <circle cx="843" cy="210" r="4"/>
+  </g>
+</svg>

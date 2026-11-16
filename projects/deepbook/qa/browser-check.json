@@ -1,0 +1,122 @@
+{
+  "routes": [
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Where Sui Finance Starts",
+      "localScripts": 17,
+      "overflow": 0,
+      "path": "/deepbook/index.html",
+      "title": "DeepBook on Sui | Fully On-Chain Order Book for DeFi",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Three primitives. Infinite combinations.",
+      "localScripts": 18,
+      "overflow": 0,
+      "path": "/deepbook/builder-hub/index.html",
+      "title": "Build on DeepBook | Composable Financial Primitives on Sui",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Every market. One ecosystem. Only on Sui.",
+      "localScripts": 18,
+      "overflow": 0,
+      "path": "/deepbook/trader-hub/index.html",
+      "title": "Trade on DeepBook Ecosystem | Spot, Margin, and Prediction Markets on Sui",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Introducing DEEP",
+      "localScripts": 15,
+      "overflow": 0,
+      "path": "/deepbook/deep-token/index.html",
+      "title": "DeepBook on Sui | Introduce DEEP",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "DeepBook Points Program",
+      "localScripts": 16,
+      "overflow": 0,
+      "path": "/deepbook/points/index.html",
+      "title": "DeepBook Points Program",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Privacy Policy",
+      "localScripts": 14,
+      "overflow": 0,
+      "path": "/deepbook/privacy-policy/index.html",
+      "title": "Privacy Policy",
+      "width": 1280
+    },
+    {
+      "badge": false,
+      "brokenImages": [],
+      "fonts": "loaded",
+      "heading": "Terms of Use",
+      "localScripts": 14,
+      "overflow": 0,
+      "path": "/deepbook/terms-of-use/index.html",
+      "title": "Terms of Use",
+      "width": 1280
+    }
+  ],
+  "interactions": {
+    "builderMarginTab": true,
+    "mobileMenuOpened": true,
+    "builderPredictTab": true,
+    "builderLoadedLotties": 4
+  },
+  "mobile": {
+    "brokenImages": [],
+    "height": 844,
+    "menuClosed": true,
+    "overflow": 0,
+    "width": 390
+  },
+  "mobileRoutes": [
+    {
+      "brokenImages": [],
+      "overflow": 0,
+      "path": "/deepbook/builder-hub/index.html",
+      "width": 390
+    },
+    {
+      "brokenImages": [],
+      "overflow": 0,
+      "path": "/deepbook/trader-hub/index.html",
+      "width": 390
+    },
+    {
+      "brokenImages": [],
+      "overflow": 0,
+      "path": "/deepbook/deep-token/index.html",
+      "width": 390
+    },
+    {
+      "brokenImages": [],
+      "overflow": 0,
+      "path": "/deepbook/points/index.html",
+      "width": 390
+    }
+  ],
+  "consoleErrors": [],
+  "checkedAt": "2026-11-07T02:45:19.292Z"
+}

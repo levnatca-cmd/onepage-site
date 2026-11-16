@@ -1,0 +1,1407 @@
+{
+  "base": "http://127.0.0.1:4180",
+  "desktop": [
+    {
+      "brokenImages": [],
+      "canvasCount": 1,
+      "fonts": "loaded",
+      "headings": [
+        "Where Sui Finance Starts"
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 0,
+      "path": "/",
+      "title": "DeepBook on Sui | Fully On-Chain Order Book for DeFi",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 1,
+      "fonts": "loaded",
+      "headings": [
+        "Three primitives. Infinite combinations."
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 4,
+      "path": "/builder-hub",
+      "title": "Build on DeepBook | Composable Financial Primitives on Sui",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 0,
+      "fonts": "loaded",
+      "headings": [
+        "Every market. One ecosystem. Only on Sui."
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 3,
+      "path": "/trader-hub",
+      "title": "Trade on DeepBook Ecosystem | Spot, Margin, and Prediction Markets on Sui",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 0,
+      "fonts": "loaded",
+      "headings": [
+        "Introducing DEEP"
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 0,
+      "path": "/deep-token",
+      "title": "DeepBook on Sui | Introduce DEEP",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 0,
+      "fonts": "loaded",
+      "headings": [
+        "DeepBook Points Program"
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 0,
+      "path": "/points",
+      "title": "DeepBook Points Program",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 0,
+      "fonts": "loaded",
+      "headings": [
+        "Privacy Policy"
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 0,
+      "path": "/privacy-policy",
+      "title": "Privacy Policy",
+      "viewport": [
+        1280,
+        720
+      ]
+    },
+    {
+      "brokenImages": [],
+      "canvasCount": 0,
+      "fonts": "loaded",
+      "headings": [
+        "Terms of Use"
+      ],
+      "horizontalOverflow": 0,
+      "lottieSvgCount": 0,
+      "path": "/terms-of-use",
+      "title": "Terms of Use",
+      "viewport": [
+        1280,
+        720
+      ]
+    }
+  ],
+  "responsive": [
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 274,
+          "scroll": 277,
+          "tag": "H2",
+          "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack."
+        },
+        {
+          "client": 263,
+          "scroll": 267,
+          "tag": "H2",
+          "text": "Battle-Tested Security"
+        }
+      ],
+      "path": "/",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 286,
+          "scroll": 289,
+          "tag": "H2",
+          "text": "Why builders choose DeepBook"
+        },
+        {
+          "client": 259,
+          "scroll": 262,
+          "tag": "H2",
+          "text": "Spot"
+        },
+        {
+          "client": 240,
+          "scroll": 243,
+          "tag": "H2",
+          "text": "This is where it gets interesting."
+        },
+        {
+          "client": 286,
+          "scroll": 289,
+          "tag": "H2",
+          "text": "Already powering Sui Finance"
+        },
+        {
+          "client": 224,
+          "scroll": 227,
+          "tag": "H2",
+          "text": "Everything you need to start building"
+        }
+      ],
+      "path": "/builder-hub",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 283,
+          "scroll": 286,
+          "tag": "H2",
+          "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else."
+        },
+        {
+          "client": 283,
+          "scroll": 287,
+          "tag": "H2",
+          "text": "Choose where to trade"
+        },
+        {
+          "client": 202,
+          "scroll": 205,
+          "tag": "H2",
+          "text": "Where to trade on DeepBook"
+        }
+      ],
+      "path": "/trader-hub",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 217,
+          "scroll": 220,
+          "tag": "H2",
+          "text": "DEEP’s Utility"
+        },
+        {
+          "client": 286,
+          "scroll": 289,
+          "tag": "H2",
+          "text": "Token Distribution and Release Schedule"
+        },
+        {
+          "client": 270,
+          "scroll": 274,
+          "tag": "H2",
+          "text": "The DEEP tokens are split into three buckets:"
+        },
+        {
+          "client": 236,
+          "scroll": 239,
+          "tag": "H2",
+          "text": "DEEP will be distributed over the next 7 years"
+        }
+      ],
+      "path": "/deep-token",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 233,
+          "scroll": 236,
+          "tag": "H2",
+          "text": "Built to reward real usage"
+        },
+        {
+          "client": 281,
+          "scroll": 285,
+          "tag": "H2",
+          "text": "How to earn points"
+        },
+        {
+          "client": 286,
+          "scroll": 289,
+          "tag": "H2",
+          "text": "Participating Ecosystem Projects"
+        }
+      ],
+      "path": "/points",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/privacy-policy",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/terms-of-use",
+      "viewport": [
+        320,
+        568
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 155,
+          "scroll": 158,
+          "tag": "H2",
+          "text": "Builders"
+        },
+        {
+          "client": 142,
+          "scroll": 145,
+          "tag": "H2",
+          "text": "Traders"
+        },
+        {
+          "client": 333,
+          "scroll": 339,
+          "tag": "H2",
+          "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack."
+        },
+        {
+          "client": 321,
+          "scroll": 327,
+          "tag": "H2",
+          "text": "Battle-Tested Security"
+        }
+      ],
+      "path": "/",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 348,
+          "scroll": 354,
+          "tag": "H2",
+          "text": "Why builders choose DeepBook"
+        },
+        {
+          "client": 315,
+          "scroll": 320,
+          "tag": "H2",
+          "text": "Spot"
+        },
+        {
+          "client": 293,
+          "scroll": 297,
+          "tag": "H2",
+          "text": "This is where it gets interesting."
+        },
+        {
+          "client": 348,
+          "scroll": 354,
+          "tag": "H2",
+          "text": "Already powering Sui Finance"
+        },
+        {
+          "client": 273,
+          "scroll": 277,
+          "tag": "H2",
+          "text": "Everything you need to start building"
+        }
+      ],
+      "path": "/builder-hub",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 345,
+          "scroll": 350,
+          "tag": "H2",
+          "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else."
+        },
+        {
+          "client": 345,
+          "scroll": 352,
+          "tag": "H2",
+          "text": "Choose where to trade"
+        },
+        {
+          "client": 247,
+          "scroll": 251,
+          "tag": "H2",
+          "text": "Where to trade on DeepBook"
+        }
+      ],
+      "path": "/trader-hub",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 264,
+          "scroll": 269,
+          "tag": "H2",
+          "text": "DEEP’s Utility"
+        },
+        {
+          "client": 348,
+          "scroll": 354,
+          "tag": "H2",
+          "text": "Token Distribution and Release Schedule"
+        },
+        {
+          "client": 329,
+          "scroll": 335,
+          "tag": "H2",
+          "text": "The DEEP tokens are split into three buckets:"
+        },
+        {
+          "client": 287,
+          "scroll": 292,
+          "tag": "H2",
+          "text": "DEEP will be distributed over the next 7 years"
+        }
+      ],
+      "path": "/deep-token",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 284,
+          "scroll": 288,
+          "tag": "H2",
+          "text": "Built to reward real usage"
+        },
+        {
+          "client": 190,
+          "scroll": 193,
+          "tag": "H2",
+          "text": "View Your Balance"
+        },
+        {
+          "client": 343,
+          "scroll": 348,
+          "tag": "H2",
+          "text": "How to earn points"
+        },
+        {
+          "client": 348,
+          "scroll": 354,
+          "tag": "H2",
+          "text": "Participating Ecosystem Projects"
+        }
+      ],
+      "path": "/points",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/privacy-policy",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/terms-of-use",
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 183,
+          "scroll": 186,
+          "tag": "H2",
+          "text": "Builders"
+        },
+        {
+          "client": 168,
+          "scroll": 171,
+          "tag": "H2",
+          "text": "Traders"
+        },
+        {
+          "client": 499,
+          "scroll": 507,
+          "tag": "H2",
+          "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack."
+        },
+        {
+          "client": 307,
+          "scroll": 312,
+          "tag": "H2",
+          "text": "Battle-Tested Security"
+        },
+        {
+          "client": 264,
+          "scroll": 269,
+          "tag": "H2",
+          "text": "Where Sui Finance Starts"
+        }
+      ],
+      "path": "/",
+      "viewport": [
+        547,
+        853
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 507,
+          "scroll": 516,
+          "tag": "H2",
+          "text": "Why builders choose DeepBook"
+        },
+        {
+          "client": 448,
+          "scroll": 456,
+          "tag": "H2",
+          "text": "Spot"
+        },
+        {
+          "client": 341,
+          "scroll": 346,
+          "tag": "H2",
+          "text": "This is where it gets interesting."
+        },
+        {
+          "client": 418,
+          "scroll": 425,
+          "tag": "H2",
+          "text": "Already powering Sui Finance"
+        },
+        {
+          "client": 487,
+          "scroll": 495,
+          "tag": "H2",
+          "text": "Everything you need to start building"
+        }
+      ],
+      "path": "/builder-hub",
+      "viewport": [
+        547,
+        853
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 169,
+          "scroll": 172,
+          "tag": "H2",
+          "text": "Builders"
+        },
+        {
+          "client": 155,
+          "scroll": 158,
+          "tag": "H2",
+          "text": "Traders"
+        },
+        {
+          "client": 604,
+          "scroll": 614,
+          "tag": "H2",
+          "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack."
+        },
+        {
+          "client": 331,
+          "scroll": 338,
+          "tag": "H2",
+          "text": "Battle-Tested Security"
+        },
+        {
+          "client": 448,
+          "scroll": 457,
+          "tag": "H2",
+          "text": "Where Sui Finance Starts"
+        }
+      ],
+      "path": "/",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 709,
+          "scroll": 721,
+          "tag": "H2",
+          "text": "Why builders choose DeepBook"
+        },
+        {
+          "client": 654,
+          "scroll": 665,
+          "tag": "H2",
+          "text": "Spot"
+        },
+        {
+          "client": 537,
+          "scroll": 549,
+          "tag": "H2",
+          "text": "This is where it gets interesting."
+        },
+        {
+          "client": 387,
+          "scroll": 393,
+          "tag": "H2",
+          "text": "Already powering Sui Finance"
+        },
+        {
+          "client": 562,
+          "scroll": 575,
+          "tag": "H2",
+          "text": "Everything you need to start building"
+        }
+      ],
+      "path": "/builder-hub",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 2,
+      "overflowingText": [
+        {
+          "client": 627,
+          "scroll": 637,
+          "tag": "H2",
+          "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else."
+        },
+        {
+          "client": 216,
+          "scroll": 221,
+          "tag": "H2",
+          "text": "Choose where to trade"
+        },
+        {
+          "client": 486,
+          "scroll": 497,
+          "tag": "H2",
+          "text": "Where to trade on DeepBook"
+        }
+      ],
+      "path": "/trader-hub",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 2,
+      "overflowingText": [
+        {
+          "client": 281,
+          "scroll": 286,
+          "tag": "H2",
+          "text": "DEEP’s Utility"
+        },
+        {
+          "client": 325,
+          "scroll": 330,
+          "tag": "H2",
+          "text": "Token Distribution and Release Schedule"
+        },
+        {
+          "client": 698,
+          "scroll": 715,
+          "tag": "H2",
+          "text": "The DEEP tokens are split into three buckets:"
+        },
+        {
+          "client": 653,
+          "scroll": 669,
+          "tag": "H2",
+          "text": "DEEP will be distributed over the next 7 years"
+        }
+      ],
+      "path": "/deep-token",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 523,
+          "scroll": 532,
+          "tag": "H2",
+          "text": "Built to reward real usage"
+        },
+        {
+          "client": 702,
+          "scroll": 725,
+          "tag": "H2",
+          "text": "View Your Balance"
+        },
+        {
+          "client": 516,
+          "scroll": 528,
+          "tag": "H2",
+          "text": "How to earn points"
+        },
+        {
+          "client": 709,
+          "scroll": 721,
+          "tag": "H2",
+          "text": "Participating Ecosystem Projects"
+        }
+      ],
+      "path": "/points",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 394,
+          "scroll": 398,
+          "tag": "H1",
+          "text": "Privacy Policy"
+        }
+      ],
+      "path": "/privacy-policy",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 363,
+          "scroll": 368,
+          "tag": "H1",
+          "text": "Terms of Use"
+        }
+      ],
+      "path": "/terms-of-use",
+      "viewport": [
+        768,
+        1024
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 467,
+          "scroll": 472,
+          "tag": "H2",
+          "text": "The teams below skipped the hard parts and launched on DeepBook’s financial stack."
+        },
+        {
+          "client": 370,
+          "scroll": 378,
+          "tag": "H2",
+          "text": "Battle-Tested Security"
+        },
+        {
+          "client": 500,
+          "scroll": 511,
+          "tag": "H2",
+          "text": "Where Sui Finance Starts"
+        }
+      ],
+      "path": "/",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 471,
+          "scroll": 477,
+          "tag": "H2",
+          "text": "Why builders choose DeepBook"
+        },
+        {
+          "client": 531,
+          "scroll": 537,
+          "tag": "H2",
+          "text": "Spot"
+        },
+        {
+          "client": 414,
+          "scroll": 422,
+          "tag": "H2",
+          "text": "This is where it gets interesting."
+        },
+        {
+          "client": 299,
+          "scroll": 302,
+          "tag": "H2",
+          "text": "Already powering Sui Finance"
+        },
+        {
+          "client": 434,
+          "scroll": 442,
+          "tag": "H2",
+          "text": "Everything you need to start building"
+        }
+      ],
+      "path": "/builder-hub",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 452,
+          "scroll": 458,
+          "tag": "H2",
+          "text": "Spot. Margin. Predictions. And combinations you won't find anywhere else."
+        },
+        {
+          "client": 398,
+          "scroll": 407,
+          "tag": "H2",
+          "text": "Choose where to trade"
+        },
+        {
+          "client": 573,
+          "scroll": 589,
+          "tag": "H2",
+          "text": "Where to trade on DeepBook"
+        }
+      ],
+      "path": "/trader-hub",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 217,
+          "scroll": 220,
+          "tag": "H2",
+          "text": "DEEP’s Utility"
+        },
+        {
+          "client": 391,
+          "scroll": 396,
+          "tag": "H2",
+          "text": "Token Distribution and Release Schedule"
+        },
+        {
+          "client": 539,
+          "scroll": 549,
+          "tag": "H2",
+          "text": "The DEEP tokens are split into three buckets:"
+        },
+        {
+          "client": 505,
+          "scroll": 514,
+          "tag": "H2",
+          "text": "DEEP will be distributed over the next 7 years"
+        }
+      ],
+      "path": "/deep-token",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [
+        {
+          "client": 404,
+          "scroll": 409,
+          "tag": "H2",
+          "text": "Built to reward real usage"
+        },
+        {
+          "client": 542,
+          "scroll": 556,
+          "tag": "H2",
+          "text": "View Your Balance"
+        },
+        {
+          "client": 399,
+          "scroll": 406,
+          "tag": "H2",
+          "text": "How to earn points"
+        },
+        {
+          "client": 391,
+          "scroll": 396,
+          "tag": "H2",
+          "text": "Participating Ecosystem Projects"
+        }
+      ],
+      "path": "/points",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/privacy-policy",
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    {
+      "brokenImages": [],
+      "fonts": "loaded",
+      "horizontalOverflow": 0,
+      "overflowingText": [],
+      "path": "/terms-of-use",
+      "viewport": [
+        1024,
+        768
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "focused": "Margin",
+      "selected": "Margin",
+      "test": "Builder tabs ArrowRight"
+    },
+    {
+      "display": "block",
+      "expanded": "true",
+      "height": 0,
+      "test": "Builder accordion Enter",
+      "text": "Borrowers post collateral and draw from DeepBook's shared liquidity pool. Positions open, execute, and close atomically; no offchain sequencer, no separate margin engine."
+    },
+    {
+      "expanded": "false",
+      "test": "Builder accordion Escape"
+    },
+    {
+      "activeId": "",
+      "activeTag": "A",
+      "activeText": "Start Building",
+      "test": "Tab after mobile Docs"
+    },
+    {
+      "activeTag": "BODY",
+      "menuOpen": true,
+      "test": "Mobile menu Escape"
+    },
+    {
+      "allVisibleCards": 13,
+      "lendingVisibleCards": 5,
+      "test": "Trader filters Lending then All"
+    },
+    {
+      "content": "To reward early users who actively use onchain products across the DeepBook ecosystem.",
+      "contentHeight": 98,
+      "itemClass": "w-layout-vflex po-faq_dd-wrapper is-init is-open",
+      "test": "Points FAQ mouse open"
+    }
+  ],
+  "findings": [
+    {
+      "id": "UX-ACCORDION",
+      "origin": "inherited",
+      "severity": "P1",
+      "repro": "Margin > How it works: Enter changes aria-expanded but content remains height0; original Escape changes aria false while content stays visible.",
+      "localFreshMouseHeight": 75.921875,
+      "originalMouseHeight": 75.921875
+    },
+    {
+      "id": "UX-WALLET-KEYBOARD",
+      "origin": "inherited",
+      "severity": "P1",
+      "description": "Visible Connect Wallet is an anchor with no href, role or tabindex."
+    }
+  ],
+  "resize": {
+    "mobile": {
+      "cards": [],
+      "headings": [
+        {
+          "height": 137,
+          "lines": 3,
+          "text": "Why builders choose DeepBook",
+          "width": 348
+        },
+        {
+          "height": 46,
+          "lines": 1,
+          "text": "Spot",
+          "width": 315
+        },
+        {
+          "height": 83,
+          "lines": 2,
+          "text": "This is where it gets interesting.",
+          "width": 293
+        },
+        {
+          "height": 92,
+          "lines": 2,
+          "text": "Already powering Sui Finance",
+          "width": 348
+        },
+        {
+          "height": 125,
+          "lines": 3,
+          "text": "Everything you need to start building",
+          "width": 273
+        }
+      ],
+      "mobileDocs": [
+        {
+          "height": 50.703125,
+          "href": "",
+          "target": "_blank",
+          "text": "Explore Docs",
+          "width": 137.609375
+        }
+      ],
+      "slider": [
+        {
+          "class": "global-projects_grid-wrapper swiper-initialized swiper-horizontal",
+          "style": null,
+          "width": 348.40625
+        }
+      ],
+      "viewport": [
+        390,
+        844
+      ]
+    },
+    "resized": {
+      "cards": [],
+      "headings": [
+        {
+          "height": 113,
+          "lines": 3,
+          "text": "Why builders choose DeepBook",
+          "width": 471
+        },
+        {
+          "height": 38,
+          "lines": 1,
+          "text": "Spot",
+          "width": 531
+        },
+        {
+          "height": 97,
+          "lines": 2,
+          "text": "This is where it gets interesting.",
+          "width": 340
+        },
+        {
+          "height": 75,
+          "lines": 2,
+          "text": "Already powering Sui Finance",
+          "width": 299
+        },
+        {
+          "height": 145,
+          "lines": 3,
+          "text": "Everything you need to start building",
+          "width": 317
+        }
+      ],
+      "mobileDocs": [
+        {
+          "height": 0,
+          "href": "",
+          "target": "_blank",
+          "text": "Explore Docs",
+          "width": 0
+        }
+      ],
+      "slider": [
+        {
+          "class": "global-projects_grid-wrapper swiper-initialized swiper-horizontal",
+          "style": null,
+          "width": 796.4375
+        }
+      ],
+      "viewport": [
+        1024,
+        768
+      ]
+    },
+    "fresh": {
+      "cards": [],
+      "headings": [
+        {
+          "height": 75,
+          "lines": 2,
+          "text": "Why builders choose DeepBook",
+          "width": 471
+        },
+        {
+          "height": 38,
+          "lines": 1,
+          "text": "Spot",
+          "width": 531
+        },
+        {
+          "height": 97,
+          "lines": 2,
+          "text": "This is where it gets interesting.",
+          "width": 414
+        },
+        {
+          "height": 75,
+          "lines": 2,
+          "text": "Already powering Sui Finance",
+          "width": 299
+        },
+        {
+          "height": 97,
+          "lines": 2,
+          "text": "Everything you need to start building",
+          "width": 434
+        }
+      ],
+      "mobileDocs": [
+        {
+          "height": 0,
+          "href": "",
+          "target": "_blank",
+          "text": "ExploreDocs",
+          "width": 0
+        }
+      ],
+      "slider": [
+        {
+          "class": "global-projects_grid-wrapper",
+          "style": null,
+          "width": 796.4375
+        }
+      ],
+      "viewport": [
+        1024,
+        768
+      ]
+    }
+  },
+  "carouselResize": {
+    "fresh": {
+      "cards": [
+        {
+          "left": 113.78125,
+          "style": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+          "width": 256
+        },
+        {
+          "left": 384,
+          "style": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+          "width": 256
+        },
+        {
+          "left": 654.21875,
+          "style": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+          "width": 256
+        },
+        {
+          "left": 113.78125,
+          "style": "translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0;",
+          "width": 256
+        }
+      ],
+      "sliderClass": "global-projects_grid-wrapper",
+      "track": [
+        {
+          "display": "grid",
+          "style": null,
+          "width": 796.4375
+        }
+      ],
+      "width": 1024
+    },
+    "mobile": {
+      "cards": [
+        {
+          "left": 20.796875,
+          "style": "width: 331.048px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 331.046875
+        },
+        {
+          "left": 369.84375,
+          "style": "width: 331.048px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 331.046875
+        },
+        {
+          "left": 718.890625,
+          "style": "width: 331.048px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 331.046875
+        },
+        {
+          "left": 1067.9375,
+          "style": "width: 331.048px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 331.046875
+        }
+      ],
+      "sliderClass": "global-projects_grid-wrapper swiper-initialized swiper-horizontal",
+      "track": [
+        {
+          "display": "flex",
+          "style": "cursor: grab;",
+          "width": 348.40625
+        }
+      ],
+      "width": 390
+    },
+    "resized": {
+      "cards": [
+        {
+          "left": 113.78125,
+          "style": "width: 341.565px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 341.5625
+        },
+        {
+          "left": 477.5625,
+          "style": "width: 341.565px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 341.5625
+        },
+        {
+          "left": 841.34375,
+          "style": "width: 341.565px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 341.5625
+        },
+        {
+          "left": 113.78125,
+          "style": "width: 341.565px; translate: none; rotate: none; scale: none; will-change: opacity, transform; transform: translate(0px, 24px); opacity: 0; margin-right: 8px;",
+          "width": 341.5625
+        }
+      ],
+      "sliderClass": "global-projects_grid-wrapper swiper-initialized swiper-horizontal",
+      "track": [
+        {
+          "display": "grid",
+          "style": "",
+          "width": 796.4375
+        }
+      ],
+      "width": 1024
+    }
+  },
+  "header547": {
+    "original": {
+      "links": [
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        }
+      ],
+      "nav": {
+        "height": 55.671875,
+        "top": 67.625
+      },
+      "viewport": [
+        547,
+        853
+      ]
+    },
+    "local": {
+      "links": [
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96876525878906
+        },
+        {
+          "height": 23.875,
+          "lineHeight": "11.9345px",
+          "whiteSpace": "normal",
+          "width": 114.96875
+        }
+      ],
+      "nav": {
+        "height": 55.671875,
+        "top": 67.625
+      },
+      "viewport": [
+        547,
+        853
+      ]
+    }
+  },
+  "consoleErrors": [],
+  "checkedAt": "2026-11-07T21:49:57.526Z"
+}

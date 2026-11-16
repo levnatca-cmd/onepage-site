@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" aria-hidden="true">
+  <defs>
+    <radialGradient id="aura">
+      <stop stop-color="#bb487b" stop-opacity=".25"/>
+      <stop offset="1" stop-color="#bb487b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x2=".4" y2="1">
+      <stop stop-color="#56284b" stop-opacity=".7"/>
+      <stop offset=".62" stop-color="#4b2443" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#a84673" stop-opacity=".61"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="165" x2="795" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a45785"/>
+      <stop offset=".48" stop-color="#ffc0d9"/>
+      <stop offset="1" stop-color="#c36796"/>
+    </linearGradient>
+    <linearGradient id="record" x1="0" y1="188" x2="0" y2="393" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff4f6"/>
+      <stop offset=".35" stop-color="#ffaacb"/>
+      <stop offset="1" stop-color="#f574a7" stop-opacity=".25"/>
+    </linearGradient>
+    <radialGradient id="beacon">
+      <stop stop-color="#fff0f5" stop-opacity=".8"/>
+      <stop offset=".32" stop-color="#ffb5d2" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#f474a9" stop-opacity="0"/>
+    </radialGradient>
+    <g id="sheet">
+      <path d="m166 174 314 100 314-100v11L480 285 166 185Z" fill="#78325f" fill-opacity=".67"/>
+      <path d="m166 174 314-91 314 91-314 100Z" fill="url(#glass)" stroke="url(#rim)" stroke-width="3.1" stroke-linejoin="round"/>
+      <path d="M166 175l314 99 314-99" fill="none" stroke="url(#rim)" stroke-width="7" stroke-opacity=".23" stroke-linejoin="round"/>
+      <g fill="none" stroke="#e89bbc" stroke-width="2" stroke-opacity=".44" stroke-linecap="round">
+        <path d="m249 176 225 70m-167-87 226 69m-167-87 228 68m-167-87 228 68m-169-86 220 65"/>
+        <path d="m288 188 53-15m-1 31 52-15m10 35 55-16m-1 33 54-16m42-45 66-20" opacity=".43"/>
+      </g>
+      <g fill="#f6b4d4" fill-opacity=".76">
+        <circle cx="281" cy="186" r="4"/>
+        <circle cx="341" cy="169" r="4"/>
+        <circle cx="442" cy="183" r="4"/>
+        <circle cx="493" cy="215" r="4"/>
+        <circle cx="566" cy="159" r="4"/>
+        <circle cx="632" cy="165" r="4"/>
+        <circle cx="667" cy="159" r="4"/>
+      </g>
+    </g>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        .record-glow { animation: record 4.4s ease-in-out infinite; }
+        @keyframes record {
+          0%, 100% { opacity: .62; }
+          50% { opacity: 1; }
+        }
+      }
+    </style>
+  </defs>
+  <ellipse cx="485" cy="293" rx="424" ry="215" fill="url(#aura)"/>
+  <g fill="none" stroke="#cf729e" opacity=".24" stroke-width="2">
+    <ellipse cx="480" cy="410" rx="396" ry="78"/>
+    <ellipse cx="480" cy="410" rx="358" ry="60" stroke-dasharray="3 9"/>
+    <path d="M120 230v116m720-116v116M109 238v-19h19m704 0h19v19M109 337v19h19m704 0h19v-19"/>
+  </g>
+  <use href="#sheet" y="189" opacity=".75"/>
+  <use href="#sheet" y="140" opacity=".83"/>
+  <use href="#sheet" y="91" opacity=".87"/>
+  <use href="#sheet" y="42" opacity=".93"/>
+  <use href="#sheet"/>
+  <g fill="none" stroke="#ffafd0" stroke-width="2" stroke-opacity=".28" stroke-dasharray="4 8">
+    <path d="M203 187v177m550-177v177M375 233v177m253-188v177M480 276v177"/>
+    <path d="M336 145v82m343-85v146"/>
+  </g>
+  <path d="M424 181 477 197 529 182 582 198 634 183" fill="none" stroke="#fca8ce" stroke-width="17" stroke-opacity=".19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M424 181 477 197 529 182 582 198 634 183" fill="none" stroke="#ffd2e3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M529 182v189" stroke="url(#record)" stroke-width="15" stroke-opacity=".21"/>
+  <path d="M529 182v189" stroke="url(#record)" stroke-width="3.5" stroke-dasharray="16 4"/>
+  <g class="record-glow">
+    <circle cx="529" cy="182" r="54" fill="url(#beacon)"/>
+    <circle cx="529" cy="182" r="22" fill="none" stroke="#ffd5e8" stroke-opacity=".7" stroke-width="2.5" stroke-dasharray="5 6"/>
+    <path d="m529 169 13 13-13 13-13-13Z" fill="#ffe6f1" stroke="#fff4f9" stroke-width="2"/>
+  </g>
+  <g fill="#ffc8df" stroke="#5a2948" stroke-width="2">
+    <circle cx="424" cy="181" r="5"/>
+    <circle cx="477" cy="197" r="5"/>
+    <circle cx="582" cy="198" r="5"/>
+    <circle cx="634" cy="183" r="5"/>
+    <circle cx="529" cy="231" r="7"/>
+    <circle cx="529" cy="280" r="7"/>
+    <circle cx="529" cy="329" r="7"/>
+    <circle cx="529" cy="371" r="6"/>
+  </g>
+</svg>

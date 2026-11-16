@@ -1,0 +1,76 @@
+/* The WebGL camera provides the motion; the overlay only shades the passage. */
+.galaxy-dive {
+  --dive-progress: 0;
+  --dive-accent: #70e7ff;
+  --dive-blackout: clamp(0%, calc((var(--dive-progress) - 0.84) * 625%), 100%);
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--dive-landing, #06090e) var(--dive-blackout), transparent);
+}
+
+.galaxy-dive[hidden] {
+  display: none;
+}
+
+.galaxy-dive::before,
+.galaxy-dive::after {
+  content: "";
+  position: absolute;
+}
+
+.galaxy-dive::before {
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 20%, rgb(6 9 14 / 0.26) 61%, #06090e 100%);
+  opacity: clamp(0, calc((var(--dive-progress) - 0.19) * 1.15), 0.80);
+}
+
+.galaxy-dive::after {
+  inset: 0 auto auto 0;
+  width: 120px;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle closest-side,
+    transparent 75%,
+    color-mix(in srgb, var(--dive-accent), transparent 86%) 88%,
+    color-mix(in srgb, var(--dive-accent), transparent 39%) 95%,
+    transparent 100%
+  );
+  transform:
+    translate3d(var(--dive-x, 50vw), var(--dive-y, 50vh), 0)
+    translate(-50%, -50%)
+    scale(var(--dive-size, calc(0.65 + var(--dive-progress) * 2.45)));
+  opacity: clamp(0, min(calc((var(--dive-progress) - 0.30) * 4), calc((0.79 - var(--dive-progress)) * 4)), 0.52);
+}
+
+/* A class set in the service page head covers its first paint, then clears on its own. */
+html.galaxy-arriving::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 45%, #0a1b24, #06090e 63%);
+  animation: galaxy-arrival-reveal 420ms cubic-bezier(0.22, 0.7, 0.36, 1) both;
+}
+
+@keyframes galaxy-arrival-reveal {
+  0%,
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galaxy-dive,
+  html.galaxy-arriving::before {
+    display: none;
+  }
+}

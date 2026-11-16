@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Galaxy model review</title>
+    <style>
+      :root { color-scheme: dark; font: 16px/1.4 system-ui, sans-serif; background: #090e13; color: #edf5fa; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      header { border-bottom: 1px solid #273742; }
+      main, .bar { max-width: 1200px; margin: auto; padding: 18px 24px; }
+      .bar, .controls, label { display: flex; gap: 12px; align-items: center; }
+      .bar { justify-content: space-between; flex-wrap: wrap; }
+      .controls [hidden] { display: none; }
+      h1 { margin: 0; font-size: 20px; }
+      select { min-width: 0; min-height: 44px; max-width: 100%; padding: 0 12px; font: inherit; background: #14202a; color: inherit; border: 1px solid #415765; border-radius: 4px; }
+      .controls label { max-width: 100%; }
+      .scene-link { color: #80e4db; padding: 10px 0; font-size: 14px; }
+      label { color: #c3d2db; font-size: 14px; }
+      input { accent-color: #80e4db; }
+      input[type="range"] { width: 84px; }
+      :focus-visible { outline: 2px solid #80e4db; outline-offset: 3px; }
+      .comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      figure { margin: 0; min-width: 0; }
+      figcaption { margin-bottom: 8px; font-size: 14px; color: #c3d2db; }
+      .frame { display: grid; place-items: center; position: relative; width: 100%; aspect-ratio: 1; background: #071218; border: 1px solid #273742; border-radius: 6px; overflow: hidden; }
+      canvas, img { display: block; width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+      canvas[hidden] { display: none; }
+      #render-status { margin: 16px; text-align: center; }
+      @media (max-width: 660px) {
+        main, .bar { padding: 14px; }
+        .comparison { grid-template-columns: 1fr; }
+        .controls { width: 100%; flex-wrap: wrap; }
+        .comparison[data-mode="part"] #live-figure { order: -1; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="bar">
+        <h1>Galaxy model review</h1>
+        <div class="controls">
+          <label>Model <select id="service"></select></label>
+          <label>Part <select id="part"></select></label>
+          <label>Angle <input id="angle" type="range" min="-180" max="180" value="0" /></label>
+          <label><input id="animate" type="checkbox" /> Animate</label>
+          <label id="signals-control" hidden><input id="signals" type="checkbox" /> Signals</label>
+          <a class="scene-link" href="../../explore.html">Full Galaxy</a>
+        </div>
+      </div>
+    </header>
+    <main class="comparison">
+      <figure>
+        <figcaption>Full sphere reference</figcaption>
+        <div class="frame"><img id="reference" alt="" decoding="async" /></div>
+      </figure>
+      <figure id="live-figure">
+        <figcaption id="live-caption">Live Three.js model</figcaption>
+        <div class="frame" id="render-frame">
+          <canvas id="preview" aria-label="Live service model"></canvas>
+          <p id="render-status" role="status" hidden></p>
+        </div>
+      </figure>
+    </main>
+    <script type="module" src="./review.js?v=wow60&rev=core-plasma6"></script>
+  </body>
+</html>

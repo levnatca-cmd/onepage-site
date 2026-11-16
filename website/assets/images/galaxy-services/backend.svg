@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" fill="none">
+  <defs>
+    <linearGradient id="front" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#48649e" stop-opacity=".59"/>
+      <stop offset=".4" stop-color="#182b55" stop-opacity=".74"/>
+      <stop offset=".72" stop-color="#172446" stop-opacity=".81"/>
+      <stop offset="1" stop-color="#354973" stop-opacity=".66"/>
+    </linearGradient>
+    <linearGradient id="side" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5f60a0" stop-opacity=".57"/>
+      <stop offset=".28" stop-color="#263b65" stop-opacity=".81"/>
+      <stop offset=".73" stop-color="#162749" stop-opacity=".74"/>
+      <stop offset="1" stop-color="#4a639b" stop-opacity=".53"/>
+    </linearGradient>
+    <linearGradient id="roof" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#bddfff" stop-opacity=".67"/>
+      <stop offset=".43" stop-color="#737fc8" stop-opacity=".44"/>
+      <stop offset="1" stop-color="#263c6a" stop-opacity=".8"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#d7f2ff"/>
+      <stop offset=".28" stop-color="#9bc5ff"/>
+      <stop offset=".65" stop-color="#556fa7"/>
+      <stop offset="1" stop-color="#c7baff"/>
+    </linearGradient>
+    <linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#b2b4ff" stop-opacity=".56"/>
+      <stop offset=".24" stop-color="#586bad" stop-opacity=".43"/>
+      <stop offset=".65" stop-color="#22345f" stop-opacity=".73"/>
+      <stop offset="1" stop-color="#71c6ee" stop-opacity=".57"/>
+    </linearGradient>
+    <linearGradient id="port" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f3e5ff"/>
+      <stop offset=".2" stop-color="#a5b7ff"/>
+      <stop offset=".54" stop-color="#506fa6"/>
+      <stop offset=".75" stop-color="#95c7ff"/>
+      <stop offset="1" stop-color="#c5adf9"/>
+    </linearGradient>
+    <radialGradient id="blue-halo">
+      <stop stop-color="#94cfff" stop-opacity=".68"/>
+      <stop offset="1" stop-color="#669cff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet-halo">
+      <stop stop-color="#d1b4ff" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#a277ff" stop-opacity="0"/>
+    </radialGradient>
+    <g id="data-card">
+      <path d="M0 0l42 14v86L0 86Z" fill="url(#blade)" stroke="url(#rim)" stroke-width="1.55"/>
+      <path d="M42 14l5-3v86l-5 3Z" fill="#6483b7" fill-opacity=".57" stroke="#a1c8ff" stroke-opacity=".57"/>
+      <path d="M0 0l5-3 42 14-5 3Z" fill="#a7b5ef" fill-opacity=".62"/>
+      <path d="M7 16l20 7m-20 1 13 4m-13 7 22 7m-22 6 16 5M7 73l27 9" stroke="#a8beec" stroke-width="1.45" stroke-linecap="round" opacity=".72"/>
+      <path d="M1 86l40 13M42 15v46" stroke="#9de5ff" stroke-width="1.75" opacity=".82"/>
+      <circle cx="35" cy="24" r="2.15" fill="#f4dbff"/>
+    </g>
+    <g id="blue-photon">
+      <circle r="12" fill="url(#blue-halo)"/>
+      <path d="M-8 0H7" stroke="#9adcff" stroke-opacity=".82" stroke-width="2" stroke-linecap="round"/>
+      <circle r="2.5" fill="#effcff"/>
+    </g>
+    <g id="violet-photon">
+      <circle r="12" fill="url(#violet-halo)"/>
+      <path d="M-7 0H8" stroke="#d1b8ff" stroke-opacity=".8" stroke-width="2" stroke-linecap="round"/>
+      <circle r="2.5" fill="#fff0ff"/>
+    </g>
+    <g id="gateway">
+      <ellipse cx="-6" cy="0" rx="25" ry="54" fill="#22375c" fill-opacity=".53" stroke="#87a7db" stroke-width="1.3"/>
+      <ellipse rx="26" ry="55" fill="#132642" fill-opacity=".65" stroke="url(#port)" stroke-width="2.9"/>
+      <ellipse cx="2" rx="21" ry="48" stroke="#93aafa" stroke-width="2.6" opacity=".54"/>
+      <ellipse cx="4" rx="18" ry="43" stroke="url(#port)" stroke-width="2.1"/>
+      <path d="M-14-42c8-14 19-15 26-1M-16 43c8 12 20 13 30-4" stroke="#e5e7ff" stroke-width="2.1" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <style>
+    @media (prefers-reduced-motion: no-preference) {
+      .request { animation: request-path 5.6s linear infinite; }
+      .response { animation: response-path 6.3s linear infinite; }
+      .request-late { animation-delay: -2.9s; }
+      .response-late { animation-delay: -3.6s; }
+    }
+    @keyframes request-path {
+      0% { transform: translate(-37px, 1px); opacity: 0; }
+      14% { opacity: 1; }
+      49% { transform: translate(20px, -1px); }
+      86% { opacity: 1; }
+      100% { transform: translate(80px, 8px); opacity: 0; }
+    }
+    @keyframes response-path {
+      0% { transform: translate(44px, -2px); opacity: 0; }
+      14% { opacity: 1; }
+      50% { transform: translate(-16px, 5px); }
+      86% { opacity: 1; }
+      100% { transform: translate(-75px, 2px); opacity: 0; }
+    }
+  </style>
+
+  <g stroke="#8ba6dc" stroke-width="1" opacity=".19">
+    <path d="M75 415l467 76 314-122M138 394l471 75m-416-93 473 72m-416-92 466 70m-410-90 463 69m-409-89 457 69"/>
+    <path d="M121 423l306-121m-228 134 308-120m-225 135 309-122m-223 135 310-123m-225 138 310-125"/>
+  </g>
+  <path d="M108 289c48-60 105-68 158-32s110 67 163 34m112-42c76-51 127-72 181-42s90 36 136-5M109 314c62 32 112 11 156-11s97-37 155-27m124 18c59 34 123 42 182 1s94-41 128-18" stroke="#9bb9fb" stroke-width="1.15" opacity=".24"/>
+  <path d="M142 262c44-34 75-27 106-22m497 58c36-16 63-26 100-23" stroke="#c6a9fd" stroke-opacity=".23" stroke-dasharray="2 6"/>
+  <g fill="#b9d4ff">
+    <circle cx="148" cy="256" r="2.5"/><circle cx="745" cy="219" r="2.2"/><circle cx="791" cy="277" r="2.4"/>
+    <circle cx="191" cy="320" r="2.3" opacity=".74"/><circle cx="818" cy="282" r="1.7" opacity=".7"/>
+  </g>
+
+  <g stroke="url(#rim)" stroke-linejoin="round">
+    <path d="M185 143l116 38v242l-116-37Z" fill="url(#front)" stroke-width="2.5"/>
+    <path d="M301 181l122-52v242l-122 52Z" fill="url(#side)" stroke-width="2.5"/>
+    <path d="M185 143l121-49 117 35-122 52Z" fill="url(#roof)" stroke-width="2.5"/>
+    <path d="M185 143l116 38 122-52M185 386l116 37 122-52" stroke="#c0d4ff" stroke-width="1.8" opacity=".71"/>
+    <path d="M211 153l121-49m-83 62 119-51m-84 62 121-52M228 126l117 37m-77-53 118 37" stroke="#a1b8ef" stroke-width="1" opacity=".47"/>
+    <path d="M197 151v228l104 33 111-45V144M211 160v204m71-178v213m39-221v225" stroke="#8aa3d6" stroke-width="1" opacity=".32"/>
+  </g>
+  <path d="M206 198v151q0 17 15 22l62 20m-70-189v-19l61 19v161" stroke="#9bcbff" stroke-width="1.3" stroke-opacity=".53"/>
+  <path d="M318 208l80-34v58m-80 152 80-34v-56m-67-89v180" stroke="#a6b9fa" stroke-opacity=".37" stroke-width="1.2"/>
+  <g>
+    <use href="#data-card" transform="translate(244 191)"/>
+    <use href="#data-card" transform="translate(228 202)"/>
+    <use href="#data-card" transform="translate(211 213)"/>
+    <use href="#data-card" transform="translate(243 296) scale(.94 .73)"/>
+    <use href="#data-card" transform="translate(228 307) scale(.94 .73)"/>
+    <use href="#data-card" transform="translate(212 318) scale(.94 .73)"/>
+  </g>
+  <g stroke="#a7c5fc" stroke-width="1.25" opacity=".51">
+    <path d="M337 218l36-14m-36 31 26-10m-25 29 30-12m-30 70 34-14m-34 32 42-18m-42 35 29-12"/>
+    <circle cx="399" cy="182" r="2.6" fill="#e2e1ff"/><circle cx="399" cy="344" r="2.6" fill="#b8eaff"/>
+  </g>
+  <ellipse cx="299" cy="421" rx="53" ry="25" fill="url(#blue-halo)" opacity=".58"/>
+  <circle cx="185" cy="143" r="23" fill="url(#blue-halo)" opacity=".66"/>
+  <circle cx="301" cy="181" r="22" fill="url(#violet-halo)" opacity=".6"/>
+
+  <g stroke="url(#rim)" stroke-linejoin="round">
+    <path d="M550 178l111 38v210l-111-39Z" fill="url(#front)" stroke-width="2.5"/>
+    <path d="M661 216l114-47v211l-114 46Z" fill="url(#side)" stroke-width="2.5"/>
+    <path d="M550 178l119-50 106 41-114 47Z" fill="url(#roof)" stroke-width="2.5"/>
+    <path d="M550 178l111 38 114-47m-225 218 111 39 114-46" stroke="#c0d4ff" stroke-width="1.8" opacity=".71"/>
+    <path d="M576 188l119-50m-82 64 116-52m-83 62 114-49m-173-2 110 40m-73-56 110 41" stroke="#a1b8ef" stroke-width="1" opacity=".47"/>
+    <path d="M562 186v193l99 35 101-42V183m-172 14v183m51-167v186" stroke="#8aa3d6" stroke-width="1" opacity=".33"/>
+  </g>
+  <path d="M592 229l41 14v138l-42-15m90-135 72-29v147l-72 28V231Z" stroke="#9bcbff" stroke-width="1.2" stroke-opacity=".5"/>
+  <g>
+    <use href="#data-card" transform="translate(608 231) scale(.81 .89)"/>
+    <use href="#data-card" transform="translate(593 243) scale(.81 .89)"/>
+    <use href="#data-card" transform="translate(578 255) scale(.81 .89)"/>
+    <use href="#data-card" transform="matrix(-.8 .01 .015 .73 749 244)"/>
+    <use href="#data-card" transform="matrix(-.8 .01 .015 .73 729 253)"/>
+    <use href="#data-card" transform="matrix(-.8 .01 .015 .73 709 262)"/>
+  </g>
+  <path d="M687 337l52-21m-52 31 52-21m-52 31 32-13" stroke="#a1baf0" stroke-width="1.4" stroke-opacity=".57"/>
+  <circle cx="660" cy="215" r="23" fill="url(#violet-halo)" opacity=".68"/>
+  <ellipse cx="664" cy="423" rx="56" ry="28" fill="url(#violet-halo)" opacity=".57"/>
+
+  <!-- The request and response lanes stay almost dark between moving photons. -->
+  <path d="M423 245c40-9 79-3 119 8m-119 29c42 14 80 5 119-5" stroke="#b1bfff" stroke-opacity=".19" stroke-width="7"/>
+  <path d="M423 245c40-9 79-3 119 8m-119 29c42 14 80 5 119-5" stroke="#b1bfff" stroke-opacity=".49" stroke-width="1.15"/>
+  <path d="M423 263l119 3" stroke="#9ab2ee" stroke-width=".8" opacity=".29" stroke-dasharray="2 5"/>
+  <use href="#gateway" transform="translate(416 264) rotate(7)"/>
+  <use href="#gateway" transform="translate(547 267) rotate(7) scale(.92)"/>
+  <circle cx="422" cy="224" r="22" fill="url(#blue-halo)" opacity=".49"/>
+  <circle cx="552" cy="308" r="23" fill="url(#violet-halo)" opacity=".51"/>
+
+  <g transform="translate(461 244)"><g class="request"><use href="#violet-photon"/></g></g>
+  <g transform="translate(461 244)"><g class="request request-late" transform="translate(46 0)"><use href="#violet-photon"/></g></g>
+  <g transform="translate(498 279)"><g class="response"><use href="#blue-photon"/></g></g>
+  <g transform="translate(498 279)"><g class="response response-late" transform="translate(-44 7)"><use href="#blue-photon"/></g></g>
+</svg>

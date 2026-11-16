@@ -1,0 +1,9 @@
+.git/
+node_modules/
+vendor/
+artifacts/
+deploy/
+website/pages/
+website/src/galaxy/
+website/prototypes/
+tooling/tests/fixtures/

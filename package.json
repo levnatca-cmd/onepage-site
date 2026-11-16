@@ -1,0 +1,39 @@
+{
+  "name": "systems-engineering-websites",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LEVNAT multi-page development website and Galaxy explorer.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node tooling/scripts/build-studio.mjs",
+    "build:studio": "node tooling/scripts/build-studio.mjs",
+    "build:pqc": "node tooling/scripts/build-pqc.mjs",
+    "build:pages": "node tooling/scripts/build-pages.mjs",
+    "test": "node tooling/tests/run.mjs",
+    "test:galaxy": "node tooling/tests/verification/galaxy.mjs",
+    "test:galaxy:browser": "node --test tooling/tests/functional/galaxy.mjs",
+    "test:content": "node tooling/tests/verification/content.mjs",
+    "test:content:browser": "node tooling/tests/functional/content.mjs",
+    "test:start": "node --test tooling/tests/unit/start.test.mjs",
+    "test:studio": "node tooling/tests/verification/studio.mjs",
+    "test:studio:browser": "node tooling/tests/functional/studio.mjs",
+    "test:pqc": "node --test tooling/tests/unit/inquiries.test.mjs",
+    "test:system": "node tooling/tests/unit/system-lab.mjs",
+    "test:system:browser": "node tooling/tests/functional/system-lab.mjs",
+    "test:deepbook": "node --test projects/deepbook/tests/deepbook-motion.test.mjs projects/deepbook/tests/deepbook-points.test.mjs projects/deepbook/tests/deepbook-runtime-controls.test.mjs projects/deepbook/tests/deepbook-controls.test.mjs",
+    "qa:deepbook": "node projects/deepbook/tests/deepbook-static.mjs",
+    "qa:uiux": "node tooling/tests/verification/uiux.mjs",
+    "dev": "node tooling/scripts/serve.mjs",
+    "dev:pqc": "node deploy/pqc/serve.mjs --local",
+    "format": "prettier --write website/src/studio tooling README.md docs .prettierrc.json package.json",
+    "format:check": "prettier --check website/src/studio tooling README.md docs .prettierrc.json package.json"
+  },
+  "devDependencies": {
+    "lucide": "^1.69.0",
+    "parse5": "^8.1.0",
+    "prettier": "3.9.10"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "count": 5,
+  "images": [
+    {
+      "id": "A",
+      "file": "A.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1787157,
+      "sha256": "cc5b6ff6316ec10f906998ca72ce93364d516b2b8e7497cc61f572953a578296"
+    },
+    {
+      "id": "B",
+      "file": "B.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1663534,
+      "sha256": "57de9a252ebd9a4c208fb0f80857b5a2a16a5a66a5794f4e31854ea70fd47507"
+    },
+    {
+      "id": "C",
+      "file": "C.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1393767,
+      "sha256": "d9575bc811f9665d18987965163b269be64a6f13825cae11b7efe8f773a0d95c"
+    },
+    {
+      "id": "D",
+      "file": "D.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1712628,
+      "sha256": "491fb0d32c3be4a0559b1c63d8dd276f3288dfab660e57398d0869f529ab06ca"
+    },
+    {
+      "id": "E",
+      "file": "E.png",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 1433606,
+      "sha256": "942792d48153bb3bffcca243e22f05cbd8b2e147a9c39f4005d0f17080dff924"
+    }
+  ],
+  "generation_mode": "built-in image_gen",
+  "review": "Each image was visually reviewed for readable shared content, distinct direction, complete framing and absence of invented client proof."
+}

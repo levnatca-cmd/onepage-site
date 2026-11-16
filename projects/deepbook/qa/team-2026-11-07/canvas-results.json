@@ -1,0 +1,34 @@
+{
+  "desktop": {
+    "frame": {
+      "width": 1280,
+      "height": 250
+    },
+    "analyzedRegion": {
+      "x": 0,
+      "y": 120,
+      "width": 1280,
+      "height": 130
+    },
+    "note": "Exclude fixed navigation and marquee; analyze the visible hero background only.",
+    "visiblePixels": 8687,
+    "changedPixels": 6951,
+    "passed": true
+  },
+  "mobile": {
+    "frame": {
+      "width": 390,
+      "height": 160
+    },
+    "analyzedRegion": {
+      "x": 0,
+      "y": 110,
+      "width": 390,
+      "height": 50
+    },
+    "note": "Exclude fixed navigation and marquee; analyze the visible hero background only.",
+    "visiblePixels": 940,
+    "changedPixels": 711,
+    "passed": true
+  }
+}
